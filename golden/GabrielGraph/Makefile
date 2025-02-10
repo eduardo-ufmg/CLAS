@@ -8,7 +8,7 @@ CXXFLAGS = -Wall -Wextra
 TARGET = MultiVariableGabrielGraph_golden
 
 # Source files
-SRCS = MultiVariableGabrielGraph_golden.cpp
+SRCS = MultiVariableGabrielGraph_golden.cpp gabrielGraph.cpp squaredDistance.cpp
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)
