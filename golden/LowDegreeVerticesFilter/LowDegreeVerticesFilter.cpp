@@ -95,6 +95,162 @@ int reindexVertices(vector<int> &newIndex, const vector<bool> &keep, const size_
   return newCounter;
 }
 
+int readVertices(vector< vector<double> > &vertices, const string &features_file_name_with_path) {
+  ifstream fin(features_file_name_with_path);
+  if (!fin) {
+    cerr << "Error: Cannot open vertices file: " << features_file_name_with_path << endl;
+    return 1;
+  }
+
+  string line;
+  while(getline(fin, line)) {
+
+    if(line.empty()) {
+      continue;
+    }
+
+    vector<double> coords;
+    stringstream ss(line);
+    string token;
+
+    while(getline(ss, token, ',')) {
+      token = trim(token);
+
+      if (!token.empty()) {
+        coords.push_back(stod(token));
+      }
+    }
+
+    vertices.push_back(coords);
+  }
+
+  return 0;
+}
+
+int readTargets(vector<int> &targets, const string &targets_file_name_with_path) {
+  ifstream fin(targets_file_name_with_path);
+  if (!fin) {
+    cerr << "Error: Cannot open targets file: " << targets_file_name_with_path << endl;
+    return 1;
+  }
+
+  string line;
+  while(getline(fin, line)) {
+    line = trim(line);
+
+    if(line.empty()) {
+      continue;
+    }
+
+    targets.push_back(stoi(line));
+  }
+
+  return 0;
+}
+
+int readEdges(vector< pair<int,int> > &edges, const string &edges_file_name_with_path) {
+  ifstream fin(edges_file_name_with_path);
+  if (!fin) {
+    cerr << "Error: Cannot open edges file: " << edges_file_name_with_path << endl;
+    return 1;
+  }
+
+  string line;
+  while(getline(fin, line)) {
+
+    if(line.empty()) {
+      continue;
+    }
+
+    stringstream ss(line);
+    string token;
+    int a, b;
+
+    if(getline(ss, token, ',')) {
+      token = trim(token);
+      a = stoi(token);
+    } else {
+      continue;
+    }
+
+    if(getline(ss, token, ',')) {
+      token = trim(token);
+      b = stoi(token);
+    } else {
+      continue;
+    }
+
+    edges.push_back(make_pair(a, b));
+  }
+
+  return 0;
+}
+
+int writeFilteredVertices(const vector< vector<double> > &vertices, const vector<bool> &keep, const string &filtered_features_file_name_with_path) {
+  ofstream fout(filtered_features_file_name_with_path);
+  if (!fout) {
+    cerr << "Error: Cannot open output vertices file for writing." << endl;
+    return 1;
+  }
+
+  for (size_t i = 0; i < vertices.size(); ++i) {
+    if (!keep[i]) {
+      continue;
+    }
+
+    // Write coordinates as comma–separated values.
+    for (size_t j = 0; j < vertices[i].size(); ++j) {
+      fout << vertices[i][j];
+      if (j < vertices[i].size()-1) {
+        fout << ", ";
+      }
+    }
+
+    fout << "\n";
+  }
+
+  fout.close();
+  return 0;
+}
+
+int writeFilteredTargets(const vector<int> &targets, const vector<bool> &keep, const string &filtered_targets_file_name_with_path) {
+  ofstream fout(filtered_targets_file_name_with_path);
+  if (!fout) {
+    cerr << "Error: Cannot open output targets file for writing." << endl;
+    return 1;
+  }
+
+  for (size_t i = 0; i < targets.size(); ++i) {
+    if (!keep[i]) {
+      continue;
+    }
+
+    fout << targets[i] << "\n";
+  }
+
+  fout.close();
+  return 0;
+}
+
+int writeFilteredEdges(const vector< pair<int,int> > &edges, const vector<bool> &keep, const vector<int> &newIndex, const string &filtered_edges_file_name_with_path) {
+  ofstream fout(filtered_edges_file_name_with_path);
+  if (!fout) {
+    cerr << "Error: Cannot open output edges file for writing." << endl;
+    return 1;
+  }
+
+  for (auto &e : edges) {
+    int a = e.first;
+    int b = e.second;
+    if (keep[a] && keep[b]) {
+      fout << newIndex[a] << ", " << newIndex[b] << "\n";
+    }
+  }
+
+  fout.close();
+  return 0;
+}
+
 int main(int argc, char* argv[])
 {
   if(argc < 4) {
@@ -110,39 +266,12 @@ int main(int argc, char* argv[])
   // 1. Read vertices.csv
   // -------------------------------
   vector< vector<double> > vertices;
-  {
-    ifstream fin(features_file_name_with_path);
-    if (!fin) {
-      cerr << "Error: Cannot open vertices file: " << features_file_name_with_path << endl;
-      return 1;
-    }
-
-    string line;
-    while(getline(fin, line)) {
-
-      if(line.empty()) {
-        continue;
-      }
-
-      vector<double> coords;
-      stringstream ss(line);
-      string token;
-
-      while(getline(ss, token, ',')) {
-        token = trim(token);
-
-        if (!token.empty()) {
-          coords.push_back(stod(token));
-        }
-      }
-
-      vertices.push_back(coords);
-    }
-
+  if (readVertices(vertices, features_file_name_with_path) != 0) {
+    return 1;
   }
 
   size_t numVertices = vertices.size();
-  if(numVertices == 0) {
+  if (numVertices == 0) {
     cerr << "Error: No vertices were read." << endl;
     return 1;
   }
@@ -151,28 +280,13 @@ int main(int argc, char* argv[])
   // 2. Read targets.csv
   // -------------------------------
   vector<int> targets;
-  {
-    ifstream fin(targets_file_name_with_path);
-    if (!fin) {
-      cerr << "Error: Cannot open targets file: " << targets_file_name_with_path << endl;
-      return 1;
-    }
-
-    string line;
-    while(getline(fin, line)) {
-      line = trim(line);
-
-      if(line.empty()) {
-        continue;
-      }
-
-      targets.push_back(stoi(line));
-    }
+  if (readTargets(targets, targets_file_name_with_path) != 0) {
+    return 1;
   }
 
   if(targets.size() != numVertices) {
     cerr << "Error: Number of targets (" << targets.size() 
-       << ") does not match number of vertices (" << numVertices << ")." << endl;
+      << ") does not match number of vertices (" << numVertices << ")." << endl;
     return 1;
   }
 
@@ -180,40 +294,8 @@ int main(int argc, char* argv[])
   // 3. Read edges.csv
   // -------------------------------
   vector< pair<int,int> > edges;
-  {
-    ifstream fin(edges_file_name_with_path);
-    if (!fin) {
-      cerr << "Error: Cannot open edges file: " << edges_file_name_with_path << endl;
-      return 1;
-    }
-
-    string line;
-    while(getline(fin, line)) {
-
-      if(line.empty()) {
-        continue;
-      }
-
-      stringstream ss(line);
-      string token;
-      int a, b;
-
-      if(getline(ss, token, ',')) {
-        token = trim(token);
-        a = stoi(token);
-      } else {
-        continue;
-      }
-
-      if(getline(ss, token, ',')) {
-        token = trim(token);
-        b = stoi(token);
-      } else {
-        continue;
-      }
-
-      edges.push_back(make_pair(a, b));
-    }
+  if (readEdges(edges, edges_file_name_with_path) != 0) {
+    return 1;
   }
 
   // -------------------------------
@@ -258,56 +340,22 @@ int main(int argc, char* argv[])
   string filtered_features_file_name_with_path = outputPathFromInputPath(features_file_name_with_path);
   string filtered_targets_file_name_with_path = outputPathFromInputPath(targets_file_name_with_path);
 
-  ofstream foutVertices(filtered_features_file_name_with_path);
-  ofstream foutTargets(filtered_targets_file_name_with_path);
-  if (!foutVertices || !foutTargets) {
-    cerr << "Error: Cannot open output vertices/targets file(s) for writing." << endl;
+  if (writeFilteredVertices(vertices, keep, filtered_features_file_name_with_path) != 0) {
     return 1;
   }
-  // For each kept vertex, write its coordinates and target.
-  for (size_t i = 0; i < numVertices; ++i) {
-    if (!keep[i]) {
-      continue;
-    }
 
-    // Write coordinates as comma–separated values.
-    for (size_t j = 0; j < vertices[i].size(); ++j) {
-      foutVertices << vertices[i][j];
-      if (j < vertices[i].size()-1) {
-        foutVertices << ", ";
-      }
-    }
-
-    foutVertices << "\n";
-    // Write target.
-    foutTargets << targets[i] << "\n";
+  if (writeFilteredTargets(targets, keep, filtered_targets_file_name_with_path) != 0) {
+    return 1;
   }
-
-  foutVertices.close();
-  foutTargets.close();
 
   // -------------------------------
   // 10. Write the filtered edges file
   // -------------------------------
-  // Only write an edge if both endpoints are kept; update the vertex indices.
-
   string filtered_edges_file_name_with_path = outputPathFromInputPath(edges_file_name_with_path);
 
-  ofstream foutEdges(filtered_edges_file_name_with_path);
-  if (!foutEdges) {
-    cerr << "Error: Cannot open output edges file for writing." << endl;
+  if (writeFilteredEdges(edges, keep, newIndex, filtered_edges_file_name_with_path) != 0) {
     return 1;
   }
-
-  for (auto &e : edges) {
-    int a = e.first;
-    int b = e.second;
-    if (keep[a] && keep[b]) {
-      foutEdges << newIndex[a] << ", " << newIndex[b] << "\n";
-    }
-  }
-  
-  foutEdges.close();
 
   cout << "Filtering complete. Files written:\n"
      << "  " << filtered_features_file_name_with_path << "\n"
