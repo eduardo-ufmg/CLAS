@@ -1,4 +1,5 @@
 #include"squaredDistance.hpp"
+
 #include <vector>
 #include <cmath>
 

@@ -5,10 +5,10 @@ CXX = g++
 CXXFLAGS = -Wall -Wextra
 
 # Target executable
-TARGET = LowDegreeVerticesFilter
+TARGET = lowDegreeVerticesFilter
 
 # Source files
-SRCS = LowDegreeVerticesFilter.cpp
+SRCS = lowDegreeVerticesFilter.cpp readFiles.cpp stringHelpers.cpp filter.cpp writeFiles.cpp
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)

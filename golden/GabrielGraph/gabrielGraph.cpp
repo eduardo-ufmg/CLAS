@@ -1,4 +1,5 @@
 #include "gabrielGraph.hpp"
+
 #include <cmath>
 #include <vector>
 
