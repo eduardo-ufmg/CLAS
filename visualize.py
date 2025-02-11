@@ -15,6 +15,8 @@ Example:
     python3 visualize.py 2 3 100
 """
 
+# TODO: allow to change the relative position between clusters
+
 import os
 import sys
 import argparse
