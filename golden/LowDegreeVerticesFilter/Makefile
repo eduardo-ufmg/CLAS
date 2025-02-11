@@ -31,9 +31,9 @@ clean:
 # Run the target executable
 
 run_iris:
-	./$(TARGET) ../../data/iris/iris-features.csv ../../data/iris/iris-targets.csv ../GabrielGraph/output/iris-features_edges.csv
+	./$(TARGET) ../../data/iris/iris-features.csv ../../data/iris/iris-targets.csv ../GabrielGraph/output/iris-edges.csv
 
 run_ilpd:
-	./$(TARGET) ../../data/ilpd/ILPD-features.csv ../../data/ilpd/ILPD-targets.csv ../GabrielGraph/output/ILPD-features_edges.csv
+	./$(TARGET) ../../data/ilpd/ILPD-features.csv ../../data/ilpd/ILPD-targets.csv ../GabrielGraph/output/ILPD-edges.csv
 
 .PHONY: all clean run_iris run_ilpd

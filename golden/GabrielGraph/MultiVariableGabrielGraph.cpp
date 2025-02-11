@@ -83,7 +83,7 @@ int main(int argc, char* argv[])
   gabrielGraph(edges, points);
 
   filename_without_slashes = input_filename.substr(input_filename.find_last_of("/\\") + 1);
-  output_filename = "./output/" + filename_without_slashes.substr(0, filename_without_slashes.find_last_of('.')) + "_edges.csv";
+  output_filename = "./output/" + filename_without_slashes.substr(0, filename_without_slashes.find_last_of('-')) + "-edges.csv";
   outfile.open(output_filename);
 
   if (!outfile.is_open()){

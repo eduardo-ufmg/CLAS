@@ -4,8 +4,8 @@
 #include <vector>
 #include <string>
 #include <map>
-#include <algorithm>  // for std::remove
-#include <cstdlib>    // for std::exit
+#include <algorithm>
+#include <cstdlib>
 
 using namespace std;
 
@@ -15,6 +15,12 @@ std::string trim(const std::string &s) {
     if(start == string::npos) return "";
     size_t end = s.find_last_not_of(" \t");
     return s.substr(start, end - start + 1);
+}
+
+std::string outputPathFromInputPath(const std::string &input_path) {
+    string input_file_without_path = input_path.substr(input_path.find_last_of("/\\") + 1);
+    string filtered_file_name = input_file_without_path.substr(0, input_file_without_path.find_last_of(".")) + "_filtered.csv";
+    return "./output/" + filtered_file_name;
 }
 
 int main(int argc, char* argv[])
@@ -206,14 +212,8 @@ int main(int argc, char* argv[])
     // 9. Write the filtered vertices and targets files
     // -------------------------------
 
-    string features_file_name_without_path = features_file_name_with_path.substr(features_file_name_with_path.find_last_of("/\\") + 1);
-    string targets_file_name_without_path = targets_file_name_with_path.substr(targets_file_name_with_path.find_last_of("/\\") + 1);
-
-    string filtered_features_file_name = features_file_name_without_path.substr(0, features_file_name_without_path.find_last_of(".")) + "_filtered.csv";
-    string filtered_targets_file_name = targets_file_name_without_path.substr(0, targets_file_name_without_path.find_last_of(".")) + "_filtered.csv";
-
-    string filtered_features_file_name_with_path = "./output/" + filtered_features_file_name;
-    string filtered_targets_file_name_with_path = "./output/" + filtered_targets_file_name;
+    string filtered_features_file_name_with_path = outputPathFromInputPath(features_file_name_with_path);
+    string filtered_targets_file_name_with_path = outputPathFromInputPath(targets_file_name_with_path);
 
     ofstream foutVertices(filtered_features_file_name_with_path);
     ofstream foutTargets(filtered_targets_file_name_with_path);
@@ -243,9 +243,7 @@ int main(int argc, char* argv[])
     // -------------------------------
     // Only write an edge if both endpoints are kept; update the vertex indices.
 
-    string edges_file_name_without_path = edges_file_name_with_path.substr(edges_file_name_with_path.find_last_of("/\\") + 1);
-    string filtered_edges_file_name = edges_file_name_without_path.substr(0, edges_file_name_without_path.find_last_of(".")) + "_filtered.csv";
-    string filtered_edges_file_name_with_path = "./output/" + filtered_edges_file_name;
+    string filtered_edges_file_name_with_path = outputPathFromInputPath(edges_file_name_with_path);
 
     ofstream foutEdges(filtered_edges_file_name_with_path);
     if (!foutEdges) {
@@ -262,9 +260,9 @@ int main(int argc, char* argv[])
     foutEdges.close();
 
     cout << "Filtering complete. Files written:\n"
-         << "  " << filtered_features_file_name << "\n"
-         << "  " << filtered_targets_file_name << "\n"
-         << "  " << filtered_edges_file_name << "\n";
+         << "  " << filtered_features_file_name_with_path << "\n"
+         << "  " << filtered_targets_file_name_with_path << "\n"
+         << "  " << filtered_edges_file_name_with_path << "\n";
 
     return 0;
 }

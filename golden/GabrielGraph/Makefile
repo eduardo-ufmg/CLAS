@@ -5,10 +5,10 @@ CXX = g++
 CXXFLAGS = -Wall -Wextra
 
 # Target executable
-TARGET = MultiVariableGabrielGraph_golden
+TARGET = MultiVariableGabrielGraph
 
 # Source files
-SRCS = MultiVariableGabrielGraph_golden.cpp gabrielGraph.cpp squaredDistance.cpp
+SRCS = MultiVariableGabrielGraph.cpp gabrielGraph.cpp squaredDistance.cpp
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)
