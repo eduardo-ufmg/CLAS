@@ -8,27 +8,20 @@ using namespace std;
 
 void gabrielGraph(vector<pair<size_t, size_t>>& edges, vector<vector<double>> points)
 {
-  size_t num_points;
-  size_t num_coords;
+  size_t num_points = points.size();
+  size_t num_coords = points[0].size();
 
-  vector<double> midpoint;
-
-  num_points = points.size();
-  num_coords = points[0].size();
+  vector<double> midpoint(num_coords);
 
   edges.clear();
-  midpoint.resize(num_coords);
 
   for (size_t i = 0; i < num_points; i++) {
     for (size_t j = i + 1; j < num_points; j++) {
-      bool isGabrielEdge;
-      double radius_sq;
-      
       computeMidpoint(midpoint, points[i], points[j], num_coords);
 
-      radius_sq = squaredDistance(points[i], midpoint);
+      double radius_sq = squaredDistance(points[i], midpoint);
       
-      isGabrielEdge = true;
+      bool isGabrielEdge = true;
 
       checkGabrielEdge(isGabrielEdge, points, midpoint, radius_sq, num_points, i, j);
 
@@ -54,9 +47,7 @@ void checkGabrielEdge(bool& isGabrielEdge, const vector<vector<double>>& points,
 
   for (size_t i = 0; i < num_points; i++) {
     if (i != vertex1 && i != vertex2) {
-      double dist_sq;
-      
-      dist_sq = squaredDistance(points[i], midpoint);
+      double dist_sq = squaredDistance(points[i], midpoint);
 
       if (dist_sq < radius_sq) {
         isGabrielEdge = false;
