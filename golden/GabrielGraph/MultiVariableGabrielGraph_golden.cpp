@@ -90,9 +90,11 @@ int main(int argc, char* argv[])
     cerr << "Error: Could not open output file " << output_filename << endl;
     return 1;
   }
+
   for (const auto& edge : edges) {
     outfile << edge.first << "," << edge.second << "\n";
   }
+  
   outfile.close();
 
   cout << "Gabriel Graph computed. Number of edges: " << edges.size() << endl;

@@ -5,10 +5,10 @@ CXX = g++
 CXXFLAGS = -Wall -Wextra
 
 # Target executable
-TARGET = MultiVariableGabrielGraph_golden
+TARGET = LowDegreeVerticesFilter
 
 # Source files
-SRCS = MultiVariableGabrielGraph_golden.cpp gabrielGraph.cpp squaredDistance.cpp
+SRCS = LowDegreeVerticesFilter.cpp
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)
@@ -30,10 +30,10 @@ clean:
 
 # Run the target executable
 
-run_iris: $(TARGET)
-	./$(TARGET) ../../data/iris/iris-features.csv
+run_iris:
+	./$(TARGET) ../../data/iris/iris-features.csv ../../data/iris/iris-targets.csv ../GabrielGraph/output/iris-features_edges.csv
 
-run_ilpd: $(TARGET)
-	./$(TARGET) ../../data/ilpd/ILPD-features.csv
+run_ilpd:
+	./$(TARGET) ../../data/ilpd/ILPD-features.csv ../../data/ilpd/ILPD-targets.csv ../GabrielGraph/output/ILPD-features_edges.csv
 
 .PHONY: all clean run_iris run_ilpd
