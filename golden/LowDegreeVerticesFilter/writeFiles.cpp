@@ -5,69 +5,47 @@
 #include <vector>
 #include <string>
 
+#include "graphTypes.hpp"
+
 using namespace std;
 
-int writeFilteredVertices(const vector< vector<double> > &vertices, const vector<bool> &keep, const string &filtered_features_file_name_with_path) {
-  ofstream fout(filtered_features_file_name_with_path);
-  if (!fout) {
-    cerr << "Error: Cannot open output vertices file for writing." << endl;
+/*
+
+  output format:
+
+  vertex0_id, |, feature0_0, feature0_1, ..., feature0_n, |, cluster0_id, |, adjacent_vertex0_0, adjacent_vertex0_1, ..., adjacent_vertex0_m
+  vertex1_id, |, feature1_0, feature1_1, ..., feature1_n, |, cluster1_id, |, adjacent_vertex1_0, adjacent_vertex1_1, ..., adjacent_vertex1_m
+  ...
+  vertexk_id, |, featurek_0, featurek_1, ..., featurek_n, |, clusterk_id, |, adjacent_vertexk_0, adjacent_vertexk_1, ..., adjacent_vertexk_m
+
+*/
+
+int writeGraphToFile(const std::vector<Cluster>& clusters, const std::string& file_name_with_path)
+{
+  ofstream file(file_name_with_path.c_str());
+  if (!file.is_open()) {
+    cerr << "Error: Could not open file " << file_name_with_path << " for writing." << endl;
     return 1;
   }
 
-  for (size_t i = 0; i < vertices.size(); ++i) {
-    if (!keep[i]) {
-      continue;
-    }
-
-    // Write coordinates as comma–separated values.
-    for (size_t j = 0; j < vertices[i].size(); ++j) {
-      fout << vertices[i][j];
-      if (j < vertices[i].size()-1) {
-        fout << ", ";
+  for (auto cluster : clusters) {
+    for (auto vertex : cluster.vertices) {
+      file << vertex.id;
+      file << ",\t|";
+      for (auto feature : vertex.features) {
+        file << ", " << feature;
       }
-    }
-
-    fout << "\n";
-  }
-
-  fout.close();
-  return 0;
-}
-
-int writeFilteredTargets(const vector<int> &targets, const vector<bool> &keep, const string &filtered_targets_file_name_with_path) {
-  ofstream fout(filtered_targets_file_name_with_path);
-  if (!fout) {
-    cerr << "Error: Cannot open output targets file for writing." << endl;
-    return 1;
-  }
-
-  for (size_t i = 0; i < targets.size(); ++i) {
-    if (!keep[i]) {
-      continue;
-    }
-
-    fout << targets[i] << "\n";
-  }
-
-  fout.close();
-  return 0;
-}
-
-int writeFilteredEdges(const vector< pair<int,int> > &edges, const vector<bool> &keep, const vector<int> &newIndex, const string &filtered_edges_file_name_with_path) {
-  ofstream fout(filtered_edges_file_name_with_path);
-  if (!fout) {
-    cerr << "Error: Cannot open output edges file for writing." << endl;
-    return 1;
-  }
-
-  for (auto &e : edges) {
-    int a = e.first;
-    int b = e.second;
-    if (keep[a] && keep[b]) {
-      fout << newIndex[a] << ", " << newIndex[b] << "\n";
+      file << ",\t|";
+      file << ", " << cluster.id;
+      file << ",\t|";
+      for (auto adjacent_vertex : vertex.adjacents) {
+        file << ", " << adjacent_vertex;
+      }
+      file << endl;
     }
   }
 
-  fout.close();
+  file.close();
+
   return 0;
 }

@@ -72,6 +72,7 @@ where Q_class is the set of q(x_i) for all vertices in the same class as x_i
 
 consider the following files from the current dir (./):
 
+```
 .
 ├── data
 │   ├── ilpd
@@ -89,13 +90,10 @@ consider the following files from the current dir (./):
 │   ├── LowDegreeVerticesFilter
 │   │   ├── lowDegreeVerticesFilter
 │   │   ├── output
-│   │   │   ├── ILPD-edges_filtered.csv
-│   │   │   ├── ILPD-features_filtered.csv
-│   │   │   ├── ILPD-targets_filtered.csv
-│   │   │   ├── iris-edges_filtered.csv
-│   │   │   ├── iris-features_filtered.csv
-│   │   │   └── iris-targets_filtered.csv
+│   │   │   ├── ILPD-graph-filtered.csv
+│   │   │   ├── ILPD-graph-filtered.csv
 └── visualize.py
+```
 
 `features`:
 ```
@@ -105,6 +103,8 @@ coord10, coord11, ..., coord1n
 coordm0, coordm1, ..., coordmn
 ```
 
+each `coordmi` is a float that represents the i-th dimension of the vertex `m`. each line of `features.csv` is a vertex in the graph.
+
 `targets`:
 ```
 target0
@@ -113,6 +113,8 @@ target1
 targetm
 ```
 
+each `targeti` is an integer that represents the class of the vertex `i`. each line of `targets.csv` is the class of the corresponding vertex in `features.csv`.
+
 `edges`:
 ```
 vertex_a, vertex_b
@@ -120,7 +122,19 @@ vertex_c, vertex_d
 ...
 ```
 
-none of those have headers or row names, but their content data is consistent. vertex_n is an integer which value is the line in features.csv that contains the coordinates of this vertex. The coordinates are separated by commas. each line of features.csv is a vertex in the graph. each line of targets.csv is the class of the corresponding vertex in features.csv. edges.csv contains the edges of the graph, where each line is an edge that connects two features. lines are 0-indexed.
+each line of `edges.csv` is an edge that connects two vertices. `vertex_k` is the 0-based line number of the vertex in `features.csv`.
+
+`graph`:
+```
+vertex0_id, |, feature0_0, feature0_1, ..., feature0_n, |, cluster0_id, |, adjacent_vertex0_0, adjacent_vertex0_1, ..., adjacent_vertex0_m
+vertex1_id, |, feature1_0, feature1_1, ..., feature1_n, |, cluster1_id, |, adjacent_vertex1_0, adjacent_vertex1_1, ..., adjacent_vertex1_m
+...
+vertexk_id, |, featurek_0, featurek_1, ..., featurek_n, |, clusterk_id, |, adjacent_vertexk_0, adjacent_vertexk_1, ..., adjacent_vertexk_m
+```
+
+`vertexV_id` is an integer that identifies the vertex in the graph. each `featureV_i` is the i-dimension coordinate of the vertex V. `clusterV_id` is the class of the vertex V. `adjacent_vertexV_j` is the id of the vertex that is adjacent to vertex V.
+
+none of those have headers or row names, but their content data is consistent.
 
 as an example, suppose
 
@@ -147,10 +161,18 @@ as an example, suppose
 2, 3
 ```
 
-this means that the graph has 4 vertices and 3 edges, where the first edge connects vertex 0 to vertex 1, the second edge connects vertex 1 to vertex 3 and the third edge connects vertex 2 to vertex 3. the class of vertex 0 is 0, the class of vertex 1 is 1, the class of vertex 2 is 0 and the class of vertex 3 is 1.
+`graph.csv`:
+```
+0, |, 0.1, 1.0, 3.2, 9.1, |, 0, |, 1, 3
+1, |, 0.2, 1.1, 3.3, 9.2, |, 1, |, 0, 3
+2, |, 0.3, 1.2, 3.4, 9.3, |, 0, |, 3
+3, |, 0.4, 1.3, 3.5, 9.4, |, 1, |, 0, 1, 2
+```
+
+this means that the graph has 4 vertices and 2 clusters, where the first cluster has 2 vertices and the second cluster has 2 vertices. the first vertex has coordinates (0.1, 1.0, 3.2, 9.1) and is adjacent to the second and fourth vertices. the second vertex has coordinates (0.2, 1.1, 3.3, 9.2) and is adjacent to the first and fourth vertices. the third vertex has coordinates (0.3, 1.2, 3.4, 9.3) and is adjacent to the fourth vertex. the fourth vertex has coordinates (0.4, 1.3, 3.5, 9.4) and is adjacent to the first, second and third vertices.
 
 write a python3 code to:
-- receive, upon call, number of dimensions (2 or 3), number of classes and number of vertices
+- receive, upon call, number of dimensions (2 or 3), number of classes, number of vertices and spread factor
 - generates synthetic n-dimensional data to meet the requested number of classes
 - save this data on a new directory under `data`
 - display the data
@@ -162,26 +184,9 @@ write a python3 code to:
 the naming and structure format must be kept
 
 `multiVariableGabrielGraph` usage: `multiVariableGabrielGraph <path_to_features_csv>`
+`multiVariableGabrielGraph` output: `./golden/GabrielGraph/output/<dataname>-edges.csv`
+
 `lowDegreeVerticesFilter` usage: `lowDegreeVerticesFilter <path_to_features_csv> <path_to_targets_csv> <path_to_edges_csv>`
+`lowDegreeVerticesFilter` output: `./golden/LowDegreeVerticesFilter/output/<dataname>-graph-filtered.csv`
 
 ----------------------------------------------------------------------------------------
-
-this filter is used in the preparation step for a classifier training algorithm. before the filter is applied, the data-set Gabriel Graph is computed, creating the edges. after the filter, the support edges (edges that connect two vertices from different classes) needs to be found so the separation hyperplanes can be computed using it. however, the current filter consistently removes all the support edges. i need you to improve the current filter implementation so it don't remove useful support edges. some support edges are, indeed, from noisy vertices, but some are from clean data and need to be kept. the solution is not to handle corner cases separately nor to force some edges to be kept, but to relax the filter in such a way that more data is kept. id rather this change to be made under mathematical reason, not simply and arbitrary coefficient. however, if no other suitable way is found, a coefficient is acceptable. below is a snipped from the reference paper
-
-```
-The Gabriel graph of a set of points consists of a graph whose set of vertices V and edges E must conform with the definition expressed by
-`(pi , pj) ∈ E ↔ D²(pi , pj) ≤ [D²(pi , z) + D²(pj , z)] ∀z ∈ V, pi , pj != z`,
-where points (pi , pj) constitute an edge if, and only if, no other point is contained within the hypersphere of diameter D(pi , pj ), the distance between points pi and pj.
-
-The graph G = {V, E} of a training data set T = {(xi , yi)|i = 1, . . . , N}, where yi ∈ {+1, −1} and xi ∈ Rn also has a set of support edges SE, which represents all the edges of E that have a pair of vertices (xi , xj) that belong to opposite classes. If there is no overlap among patterns, it is possible to state that the vertices of SE are located in the separation margin between classes. Thus, the hyperplane Hl which passes through the midpoint of a pair of vertices xi and xj belonging to SE, refers to the maximal margin classifier in relation to the two support vertices.
-
-If there is overlap between classes, a filtering technique based on low degree vertices should eliminate noisy patterns. This filter is defined by
-`q(xi) = Ĝr(xi) / Gr(xi), Ĝr(xi) = {∀xj ∈ Gr(xi)|yj = yi}`,
-where Gr(xi) represents the degree of vertex xi and Ĝr(xi) the degree of xi minus the number of vertices of the opposite class.
-
-All vertices of G that have q(xi) smaller than threshold t+ and t- for classes +1 and −1 respectively, are removed. In CHIP-clas filtering is only performed if q(x) > 0, ∀x ∈ T. t+ and t− are defined as the average of the quality measures Q+ and Q− within classes +1 and −1, obtained from q(xi) values grouped by class
-`t+ = sum(q(xi) ∈ in Q+) / |Q+|, t- = sum(q(xi) ∈ in Q-) / |Q-|`.
-After filtering step, SE can be determined and a classifier will be generated represented by the hyperplane Hi that passes through the midpoint of such vertices.
-```
-
-the article defines the filter only for two classes sets, but i don't think the fact we generalized it to more classes is the problem. please check it. also, we don't seem to only perform the filtering if q(x) > 0, ∀x ∈ T, but i also don't know if that is the problem. please verify it too.

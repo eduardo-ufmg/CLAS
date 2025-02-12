@@ -4,11 +4,14 @@ CXX = g++
 # Compiler flags
 CXXFLAGS = -Wall -Wextra
 
+# Debugging flags
+DEBUGFLAGS = -g
+
 # Target executable
 TARGET = lowDegreeVerticesFilter
 
 # Source files
-SRCS = lowDegreeVerticesFilter.cpp readFiles.cpp stringHelpers.cpp filter.cpp writeFiles.cpp
+SRCS = lowDegreeVerticesFilter.cpp graphTypes.cpp stringHelpers.cpp readFiles.cpp buildGraph.cpp filter.cpp writeFiles.cpp
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)
@@ -23,6 +26,10 @@ $(TARGET): $(OBJS)
 # Compile source files into object files
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Debugging target
+debug: CXXFLAGS += $(DEBUGFLAGS)
+debug: $(TARGET)
 
 # Clean up build files
 clean:

@@ -3,74 +3,96 @@
 #include <vector>
 #include <map>
 #include <cmath>
+#include <set>
+#include <algorithm>
+
+#include "graphTypes.hpp"
 
 using namespace std;
 
-void buildGraph(vector< vector<int> > &adj, const vector< pair<int,int> > &edges, const size_t numVertices) {
-  for(auto &e : edges) {
-    int a = e.first, b = e.second;
-    if(a >= 0 && a < static_cast<int>(numVertices) &&
-       b >= 0 && b < static_cast<int>(numVertices)) {
-      adj[a].push_back(b);
-      adj[b].push_back(a);
+unsigned countAdjacentsInSameCluster(const vector<ID_t>& adjacents, const vector<Vertex>& vertices);
+
+void computeVerticesAndClusterQuality(vector<Cluster>& clusters)
+{
+  for (auto& cluster : clusters) {
+    cluster.Q.sum_q = 0;
+    cluster.Q.magnitude = 0;
+
+    for (auto& vertex : cluster.vertices) {
+      unsigned vertex_degree = vertex.adjacents.size();
+      unsigned vertex_same_cluster_degree = countAdjacentsInSameCluster(vertex.adjacents, cluster.vertices);
+
+      vertex.q = static_cast<double>(vertex_same_cluster_degree) / static_cast<double>(vertex_degree);
+
+      cluster.Q.sum_q += vertex.q;
+      cluster.Q.magnitude += 1;
     }
+
+    cluster.averageQuality = cluster.Q.sum_q / cluster.Q.magnitude;
   }
 }
 
-void computeQ(vector<double> &q, const vector< vector<int> > &adj, const vector<int> &targets, const size_t numVertices) {
-  for (size_t i = 0; i < numVertices; ++i) {
-    int degree = adj[i].size();
+void computeClusterDeviation(vector<Cluster>& clusters)
+{
+  for (auto& cluster : clusters) {
+    cluster.stdDeviation = 0;
 
-    if(degree == 0) {
-      q[i] = 0.0;
-      continue;
+    for (auto& vertex : cluster.vertices) {
+      cluster.stdDeviation += pow(vertex.q - cluster.averageQuality, 2);
     }
 
-    int sameClassCount = 0;
-    for (int nb : adj[i]) {
-      if (targets[nb] == targets[i]) {
-        sameClassCount++;
+    cluster.stdDeviation = sqrt(cluster.stdDeviation / cluster.Q.magnitude);
+  }
+}
+
+void computeClusterTresholds(vector<Cluster>& clusters, double deviation_factor)
+{
+  for (auto& cluster : clusters) {
+    cluster.treshold = cluster.averageQuality - deviation_factor * cluster.stdDeviation;
+  }
+}
+
+void filterVertices(vector<Cluster>& clusters)
+{
+  vector<ID_t> removedVertices;
+
+  for (auto& cluster : clusters) {
+    for (auto vertex_it = cluster.vertices.begin(); vertex_it != cluster.vertices.end(); ) {
+      if (vertex_it->q < cluster.treshold) {
+        removedVertices.push_back(vertex_it->id);
+        vertex_it = cluster.vertices.erase(vertex_it);
+      } else {
+        vertex_it ++;
       }
     }
-
-    q[i] = static_cast<double>(sameClassCount) / degree;
   }
-}
 
-void computeClassStats(map<int, pair<double, int>> &classStats, const vector<int> &targets, const vector<double> &q, const size_t numVertices) {
-  for (size_t i = 0; i < numVertices; ++i) {
-    int cls = targets[i];
-    classStats[cls].first += q[i];
-    classStats[cls].second += 1;
-  }
-}
-
-void computeThresholds(map<int, double> &threshold, const map<int, pair<double, int>> &classStats) {
-  for (auto &kv : classStats) {
-    int cls = kv.first;
-    double sum_q = kv.second.first;
-    int count = kv.second.second;
-    threshold[cls] = sum_q / count;
-  }
-}
-
-void filterVertices(vector<bool> &keep, const vector<double> &q, const map<int, double> &threshold, const vector<int> &targets, const size_t numVertices) {
-  for (size_t i = 0; i < numVertices; ++i) {
-    int cls = targets[i];
-    if (q[i] >= threshold.at(cls)) {
-      keep[i] = true;
-    }
-    // else: vertex is filtered (removed)
-  }
-}
-
-int reindexVertices(vector<int> &newIndex, const vector<bool> &keep, const size_t numVertices) {
-  int newCounter = 0;
-  for (size_t i = 0; i < numVertices; ++i) {
-    if (keep[i]) {
-      newIndex[i] = newCounter;
-      newCounter++;
+  for (auto& cluster : clusters) {
+    for (auto& vertex : cluster.vertices) {
+      for (auto& adjacent : vertex.adjacents) {
+        for (auto& removedVertex : removedVertices) {
+          if (adjacent == removedVertex) {
+            vertex.adjacents.erase(find(vertex.adjacents.begin(), vertex.adjacents.end(), adjacent));
+            break;
+          }
+        }
+      }
     }
   }
-  return newCounter;
+}
+
+unsigned countAdjacentsInSameCluster(const vector<ID_t>& adjacents, const vector<Vertex>& vertices)
+{
+  unsigned count = 0;
+
+  for (auto& adjacent : adjacents) {
+    for (auto& vertex : vertices) {
+      if (vertex.id == adjacent) {
+        count++;
+        break;
+      }
+    }
+  }
+  
+  return count;
 }

@@ -1,0 +1,53 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug lowDegreeVerticesFilter (run_iris)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/golden/LowDegreeVerticesFilter/lowDegreeVerticesFilter",
+      "args": [
+        "${workspaceFolder}/data/iris/iris-features.csv",
+        "${workspaceFolder}/data/iris/iris-targets.csv",
+        "${workspaceFolder}/golden/GabrielGraph/output/iris-edges.csv"
+      ],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "build"
+    },
+    {
+      "name": "Debug lowDegreeVerticesFilter (run_ilpd)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/golden/LowDegreeVerticesFilter/lowDegreeVerticesFilter",
+      "args": [
+        "${workspaceFolder}/data/ilpd/ILPD-features.csv",
+        "${workspaceFolder}/data/ilpd/ILPD-targets.csv",
+        "${workspaceFolder}/golden/GabrielGraph/output/ILPD-edges.csv"
+      ],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "build"
+    }
+  ]
+}
