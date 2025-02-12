@@ -9,13 +9,11 @@ It then plots:
   (3) the graph filtered by the Low Degree Vertices Filter.
   
 Usage:
-    python3 visualize.py <dimensions:2_or_3> <num_classes> <num_vertices>
+    python3 visualize.py <dimensions:2_or_3> <num_classes> <num_vertices> <spread>
 
 Example:
-    python3 visualize.py 2 3 100
+    python3 visualize.py 2 3 100 0.5
 """
-
-# TODO: allow to change the relative position between clusters
 
 import os
 import sys

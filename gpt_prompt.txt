@@ -1,0 +1,187 @@
+write a C++ code that receives three files:
+
+`vertices.csv`:
+```
+coord00, coord01, ..., coord0n
+coord10, coord11, ..., coord1n
+...
+coordm0, coordm1, ..., coordmn
+```
+
+`targets.csv`:
+```
+target0
+target1
+...
+targetm
+```
+
+`edges.csv`:
+```
+vertex_a, vertex_b
+vertex_c, vertex_d
+...
+```
+
+none of those have headers or row names, but their content data is consistent. `vertex_n` is an integer which value is the line in `vertices.csv` that contains the coordinates of this vertex. The coordinates are separated by commas. each line of `vertices.csv` is a vertex in the graph. each line of `targets.csv` is the class of the corresponding vertex in `vertices.csv`. `edges.csv` contains the edges of the graph, where each line is an edge that connects two vertices. lines are 0-indexed.
+
+as an example, supose
+
+`vertices.csv`:
+```
+0.1, 1.0, 3.2, 9.1
+0.2, 1.1, 3.3, 9.2
+0.3, 1.2, 3.4, 9.3
+0.4, 1.3, 3.5, 9.4
+```
+
+`targets.csv`:
+```
+0
+1
+0
+1
+```
+
+`edges.csv`:
+```
+0, 1
+1, 3
+2, 3
+```
+
+this means that the graph has 4 vertices and 3 edges, where the first edge connects vertex 0 to vertex 1, the second edge connects vertex 1 to vertex 3 and the third edge connects vertex 2 to vertex 3. the class of vertex 0 is 0, the class of vertex 1 is 1, the class of vertex 2 is 0 and the class of vertex 3 is 1.
+
+this code needs to use vertex degree-based filtering technique to produce new files in which outliers are removed
+
+This filter is defined by Ĝr(x_i) = {for_all(x_j) contained in Gr(x_i) | y_j = y_i}
+
+where Gr(x_i) is the degree of vertex x_i and Ĝr(x_i) is the degree of vertex x_i minus the number of vertices that are not in the same class as x_i
+
+all vertices of G that have q(x_i) smaller than the class threshold are removed from the graph, where
+
+q(x_i) = Ĝr(x_i) / Gr(x_i)
+
+and the class threshold, t_class, is the average of q(x_i) for all vertices in the same class as x_i
+
+t_class = sum(q(x_i) contained in Q_class) / |Q_class|
+
+where Q_class is the set of q(x_i) for all vertices in the same class as x_i
+
+----------------------------------------------------------------------------------------
+
+consider the following files from the current dir (./):
+
+.
+├── data
+│   ├── ilpd
+│   │   ├── ILPD-features.csv
+│   │   └── ILPD-targets.csv
+│   └── iris
+│       ├── iris-features.csv
+│       └── iris-targets.csv
+├── golden
+│   ├── GabrielGraph
+│   │   ├── multiVariableGabrielGraph
+│   │   ├── output
+│   │   │   ├── ILPD-edges.csv
+│   │   │   └── iris-edges.csv
+│   ├── LowDegreeVerticesFilter
+│   │   ├── lowDegreeVerticesFilter
+│   │   ├── output
+│   │   │   ├── ILPD-edges_filtered.csv
+│   │   │   ├── ILPD-features_filtered.csv
+│   │   │   ├── ILPD-targets_filtered.csv
+│   │   │   ├── iris-edges_filtered.csv
+│   │   │   ├── iris-features_filtered.csv
+│   │   │   └── iris-targets_filtered.csv
+└── visualize.py
+
+`features`:
+```
+coord00, coord01, ..., coord0n
+coord10, coord11, ..., coord1n
+...
+coordm0, coordm1, ..., coordmn
+```
+
+`targets`:
+```
+target0
+target1
+...
+targetm
+```
+
+`edges`:
+```
+vertex_a, vertex_b
+vertex_c, vertex_d
+...
+```
+
+none of those have headers or row names, but their content data is consistent. vertex_n is an integer which value is the line in features.csv that contains the coordinates of this vertex. The coordinates are separated by commas. each line of features.csv is a vertex in the graph. each line of targets.csv is the class of the corresponding vertex in features.csv. edges.csv contains the edges of the graph, where each line is an edge that connects two features. lines are 0-indexed.
+
+as an example, suppose
+
+`features.csv`:
+```
+0.1, 1.0, 3.2, 9.1
+0.2, 1.1, 3.3, 9.2
+0.3, 1.2, 3.4, 9.3
+0.4, 1.3, 3.5, 9.4
+```
+
+`targets.csv`:
+```
+0
+1
+0
+1
+```
+
+`edges.csv`:
+```
+0, 1
+1, 3
+2, 3
+```
+
+this means that the graph has 4 vertices and 3 edges, where the first edge connects vertex 0 to vertex 1, the second edge connects vertex 1 to vertex 3 and the third edge connects vertex 2 to vertex 3. the class of vertex 0 is 0, the class of vertex 1 is 1, the class of vertex 2 is 0 and the class of vertex 3 is 1.
+
+write a python3 code to:
+- receive, upon call, number of dimensions (2 or 3), number of classes and number of vertices
+- generates synthetic n-dimensional data to meet the requested number of classes
+- save this data on a new directory under `data`
+- display the data
+- run the Gabriel Graph program over the data
+- display the constructed graph
+- run the Low Degree Vertices Filter over the data
+- display the filtered graph
+
+the naming and structure format must be kept
+
+`multiVariableGabrielGraph` usage: `multiVariableGabrielGraph <path_to_features_csv>`
+`lowDegreeVerticesFilter` usage: `lowDegreeVerticesFilter <path_to_features_csv> <path_to_targets_csv> <path_to_edges_csv>`
+
+----------------------------------------------------------------------------------------
+
+this filter is used in the preparation step for a classifier training algorithm. before the filter is applied, the data-set Gabriel Graph is computed, creating the edges. after the filter, the support edges (edges that connect two vertices from different classes) needs to be found so the separation hyperplanes can be computed using it. however, the current filter consistently removes all the support edges. i need you to improve the current filter implementation so it don't remove useful support edges. some support edges are, indeed, from noisy vertices, but some are from clean data and need to be kept. the solution is not to handle corner cases separately nor to force some edges to be kept, but to relax the filter in such a way that more data is kept. id rather this change to be made under mathematical reason, not simply and arbitrary coefficient. however, if no other suitable way is found, a coefficient is acceptable. below is a snipped from the reference paper
+
+```
+The Gabriel graph of a set of points consists of a graph whose set of vertices V and edges E must conform with the definition expressed by
+`(pi , pj) ∈ E ↔ D²(pi , pj) ≤ [D²(pi , z) + D²(pj , z)] ∀z ∈ V, pi , pj != z`,
+where points (pi , pj) constitute an edge if, and only if, no other point is contained within the hypersphere of diameter D(pi , pj ), the distance between points pi and pj.
+
+The graph G = {V, E} of a training data set T = {(xi , yi)|i = 1, . . . , N}, where yi ∈ {+1, −1} and xi ∈ Rn also has a set of support edges SE, which represents all the edges of E that have a pair of vertices (xi , xj) that belong to opposite classes. If there is no overlap among patterns, it is possible to state that the vertices of SE are located in the separation margin between classes. Thus, the hyperplane Hl which passes through the midpoint of a pair of vertices xi and xj belonging to SE, refers to the maximal margin classifier in relation to the two support vertices.
+
+If there is overlap between classes, a filtering technique based on low degree vertices should eliminate noisy patterns. This filter is defined by
+`q(xi) = Ĝr(xi) / Gr(xi), Ĝr(xi) = {∀xj ∈ Gr(xi)|yj = yi}`,
+where Gr(xi) represents the degree of vertex xi and Ĝr(xi) the degree of xi minus the number of vertices of the opposite class.
+
+All vertices of G that have q(xi) smaller than threshold t+ and t- for classes +1 and −1 respectively, are removed. In CHIP-clas filtering is only performed if q(x) > 0, ∀x ∈ T. t+ and t− are defined as the average of the quality measures Q+ and Q− within classes +1 and −1, obtained from q(xi) values grouped by class
+`t+ = sum(q(xi) ∈ in Q+) / |Q+|, t- = sum(q(xi) ∈ in Q-) / |Q-|`.
+After filtering step, SE can be determined and a classifier will be generated represented by the hyperplane Hi that passes through the midpoint of such vertices.
+```
+
+the article defines the filter only for two classes sets, but i don't think the fact we generalized it to more classes is the problem. please check it. also, we don't seem to only perform the filtering if q(x) > 0, ∀x ∈ T, but i also don't know if that is the problem. please verify it too.
