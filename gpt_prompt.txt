@@ -70,59 +70,36 @@ where Q_class is the set of q(x_i) for all vertices in the same class as x_i
 
 ----------------------------------------------------------------------------------------
 
-consider the following files from the current dir (./):
+consider the following files from the current dir {workspaece}:
 
 ```
 .
 ├── data
 │   ├── ilpd
-│   │   ├── ILPD-features.csv
-│   │   └── ILPD-targets.csv
+│   │   ├── ILPD.csv
 │   └── iris
-│       ├── iris-features.csv
-│       └── iris-targets.csv
+│       ├── iris.csv
 ├── golden
 │   ├── GabrielGraph
 │   │   ├── multiVariableGabrielGraph
 │   │   ├── output
-│   │   │   ├── ILPD-edges.csv
-│   │   │   └── iris-edges.csv
+│   │   │   ├── ILPD.csv
+│   │   │   └── iris.csv
 │   ├── LowDegreeVerticesFilter
 │   │   ├── lowDegreeVerticesFilter
 │   │   ├── output
-│   │   │   ├── ILPD-graph-filtered.csv
-│   │   │   ├── ILPD-graph-filtered.csv
+│   │   │   ├── ILPD-filtered.csv
+│   │   │   ├── ILPD-filtered.csv
 └── visualize.py
 ```
 
-`features`:
+`data`:
 ```
-coord00, coord01, ..., coord0n
-coord10, coord11, ..., coord1n
+feature0_0, feature0_1, ..., feature0_n, class0
+feature1_0, feature1_1, ..., feature1_n, class1
 ...
-coordm0, coordm1, ..., coordmn
+featurem_0, featurem_1, ..., featurem_n, classm
 ```
-
-each `coordmi` is a float that represents the i-th dimension of the vertex `m`. each line of `features.csv` is a vertex in the graph.
-
-`targets`:
-```
-target0
-target1
-...
-targetm
-```
-
-each `targeti` is an integer that represents the class of the vertex `i`. each line of `targets.csv` is the class of the corresponding vertex in `features.csv`.
-
-`edges`:
-```
-vertex_a, vertex_b
-vertex_c, vertex_d
-...
-```
-
-each line of `edges.csv` is an edge that connects two vertices. `vertex_k` is the 0-based line number of the vertex in `features.csv`.
 
 `graph`:
 ```
@@ -137,28 +114,14 @@ vertexk_id, |, featurek_0, featurek_1, ..., featurek_n, |, clusterk_id, |, adjac
 none of those have headers or row names, but their content data is consistent.
 
 as an example, suppose
-
-`features.csv`:
-```
-0.1, 1.0, 3.2, 9.1
-0.2, 1.1, 3.3, 9.2
-0.3, 1.2, 3.4, 9.3
-0.4, 1.3, 3.5, 9.4
 ```
 
-`targets.csv`:
+`data.csv`:
 ```
-0
-1
-0
-1
-```
-
-`edges.csv`:
-```
-0, 1
-1, 3
-2, 3
+0.1, 1.0, 3.2, 9.1, 0
+0.2, 1.1, 3.3, 9.2, 1
+0.3, 1.2, 3.4, 9.3, 0
+0.4, 1.3, 3.5, 9.4, 1
 ```
 
 `graph.csv`:
@@ -183,10 +146,10 @@ write a python3 code to:
 
 the naming and structure format must be kept
 
-`multiVariableGabrielGraph` usage: `multiVariableGabrielGraph <path_to_features_csv>`
-`multiVariableGabrielGraph` output: `./golden/GabrielGraph/output/<dataname>-edges.csv`
+`multiVariableGabrielGraph` usage: `multiVariableGabrielGraph <path_to_data_csv>`
+`multiVariableGabrielGraph` output: `{workspaece}/golden/GabrielGraph/output/<graphname>.csv`
 
-`lowDegreeVerticesFilter` usage: `lowDegreeVerticesFilter <path_to_features_csv> <path_to_targets_csv> <path_to_edges_csv>`
-`lowDegreeVerticesFilter` output: `./golden/LowDegreeVerticesFilter/output/<dataname>-graph-filtered.csv`
+`lowDegreeVerticesFilter` usage: `lowDegreeVerticesFilter <path_to_graph_csv>`
+`lowDegreeVerticesFilter` output: `{workspaece}/golden/LowDegreeVerticesFilter/output/<graphname>-filtered.csv`
 
 ----------------------------------------------------------------------------------------

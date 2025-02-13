@@ -6,9 +6,6 @@
 
 #include "graphTypes.hpp"
 
-void computeVerticesAndClusterQuality(std::vector<Cluster>& clusters);
-void computeClusterDeviation(std::vector<Cluster>& clusters);
-void computeClusterTresholds(std::vector<Cluster>& clusters, double deviation_factor);
-void filterVertices(std::vector<Cluster>& clusters);
+void compute
 
 #endif // FILTER_HPP

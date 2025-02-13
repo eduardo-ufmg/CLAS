@@ -40,4 +40,11 @@ public:
 using ClassType = std::variant<unsigned, std::string>;
 typedef std::map<ClassType, Cluster> ClusterMap;
 
+template<typename... Ts>
+std::enable_if_t<(sizeof...(Ts) > 0), std::ostream&>
+operator<<(std::ostream& os, const std::variant<Ts...>& var) {
+  std::visit([&os](const auto& value) { os << value; }, var);
+  return os;
+}
+
 #endif

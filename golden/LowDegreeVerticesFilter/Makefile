@@ -11,7 +11,10 @@ DEBUGFLAGS = -g
 TARGET = lowDegreeVerticesFilter
 
 # Source files
-SRCS = lowDegreeVerticesFilter.cpp graphTypes.cpp stringHelpers.cpp readFiles.cpp buildGraph.cpp filter.cpp writeFiles.cpp
+SRCS = lowDegreeVerticesFilter.cpp ../Common/graphTypes.cpp ../Common/stringHelpers.cpp ../Common/writeFiles.cpp readFiles.cpp
+
+# Include directories
+INCS = -I../Common
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)
@@ -21,11 +24,11 @@ all: $(TARGET)
 
 # Link the target executable
 $(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^
 
 # Compile source files into object files
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(INCS) -c $< -o $@
 
 # Debugging target
 debug: CXXFLAGS += $(DEBUGFLAGS)
@@ -38,9 +41,9 @@ clean:
 # Run the target executable
 
 run_iris:
-	./$(TARGET) ../../data/iris/iris-features.csv ../../data/iris/iris-targets.csv ../GabrielGraph/output/iris-edges.csv
+	./$(TARGET) ../GabrielGraph/output/iris.csv
 
 run_ilpd:
-	./$(TARGET) ../../data/ilpd/ILPD-features.csv ../../data/ilpd/ILPD-targets.csv ../GabrielGraph/output/ILPD-edges.csv
+	./$(TARGET) ../GabrielGraph/output/ilpd.csv
 
 .PHONY: all clean run_iris run_ilpd

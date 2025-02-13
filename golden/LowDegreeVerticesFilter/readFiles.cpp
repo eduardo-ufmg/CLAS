@@ -5,98 +5,135 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <algorithm>
 
+#include "graphTypes.hpp"
 #include "stringHelpers.hpp"
 
 using namespace std;
 
-int readVertices(vector< vector<double> > &vertices, const string &features_file_name_with_path) {
-  ifstream fin(features_file_name_with_path);
-  if (!fin) {
-    cerr << "Error: Cannot open vertices file: " << features_file_name_with_path << endl;
+int readGraph(ClusterMap& clusters, const std::string& input_file_name_with_path)
+{
+  ifstream input_file(input_file_name_with_path.c_str());
+
+  if (!input_file.is_open()) {
+    cerr << "Error: could not open file " << input_file_name_with_path << endl;
     return 1;
   }
-
+  
   string line;
-  while(getline(fin, line)) {
-
-    if(line.empty()) {
+  // Process each line of the file.
+  while(getline(input_file, line)) {
+    // Skip empty lines.
+    if (line.empty()) {
       continue;
     }
+    
+    // Split the line using the literal delimiter ", |, "
+    // Expected parts:
+    //   0: vertex id
+    //   1: features (comma-separated list)
+    //   2: cluster id
+    //   3: adjacent vertices (comma-separated list)
+    vector<string> parts = split(line, ", |, ");
 
-    vector<double> coords;
-    stringstream ss(line);
-    string token;
+    if (parts.size() != 4) {
+      cerr << "Warning: unexpected format in line: " << line << endl;
+      continue;
+    }
+    
+    // --- Parse Vertex ID ---
+    string vertexIdStr = trim(parts[0]);
+    VertexID_t vertexId;
 
-    while(getline(ss, token, ',')) {
-      token = trim(token);
+    try {
+      vertexId = static_cast<VertexID_t>(stoul(vertexIdStr));
+    } catch (const std::exception& e) {
+      cerr << "Error converting vertex id '" << vertexIdStr << "' to unsigned: " << e.what() << endl;
+      return 1;
+    }
+    
+    // --- Parse Features ---
+    string featuresStr = trim(parts[1]);
+    vector<string> featureTokens = split(featuresStr, ",");
+    vector<double> features;
 
-      if (!token.empty()) {
-        coords.push_back(stod(token));
+    for (const auto& token : featureTokens) {
+      string trimmedToken = trim(token);
+
+      if (!trimmedToken.empty()) {
+        try {
+          features.push_back(stod(trimmedToken));
+        } catch (const std::exception& e) {
+          cerr << "Error converting feature '" << trimmedToken << "' to double in line: " << line << endl;
+          return 1;
+        }
       }
+
     }
+    
+    // --- Parse Cluster ID ---
+    string clusterIdStr = trim(parts[2]);
+    // Determine whether to treat the cluster id as an unsigned or string.
+    bool isClusterIdUnsigned = !clusterIdStr.empty() && all_of(clusterIdStr.begin(), clusterIdStr.end(), ::isdigit);
 
-    vertices.push_back(coords);
-  }
+    ClassType clusterKey;
 
-  return 0;
-}
-
-int readTargets(vector<int> &targets, const string &targets_file_name_with_path) {
-  ifstream fin(targets_file_name_with_path);
-  if (!fin) {
-    cerr << "Error: Cannot open targets file: " << targets_file_name_with_path << endl;
-    return 1;
-  }
-
-  string line;
-  while(getline(fin, line)) {
-    line = trim(line);
-
-    if(line.empty()) {
-      continue;
-    }
-
-    targets.push_back(stoi(line));
-  }
-
-  return 0;
-}
-
-int readEdges(vector< pair<int,int> > &edges, const string &edges_file_name_with_path) {
-  ifstream fin(edges_file_name_with_path);
-  if (!fin) {
-    cerr << "Error: Cannot open edges file: " << edges_file_name_with_path << endl;
-    return 1;
-  }
-
-  string line;
-  while(getline(fin, line)) {
-
-    if(line.empty()) {
-      continue;
-    }
-
-    stringstream ss(line);
-    string token;
-    int a, b;
-
-    if(getline(ss, token, ',')) {
-      token = trim(token);
-      a = stoi(token);
+    if (isClusterIdUnsigned) {
+      try {
+        clusterKey = static_cast<unsigned>(stoul(clusterIdStr));
+      } catch (const std::exception& e) {
+        cerr << "Error converting cluster id '" << clusterIdStr << "' to unsigned in line: " << line << endl;
+        return 1;
+      }
     } else {
-      continue;
+      clusterKey = clusterIdStr;
     }
+    
+    // --- Parse Adjacent Vertices ---
+    string adjacentsStr = trim(parts[3]);
+    vector<VertexID_t> adjacents;
 
-    if(getline(ss, token, ',')) {
-      token = trim(token);
-      b = stoi(token);
+    if (!adjacentsStr.empty()) {
+      vector<string> adjacentTokens = split(adjacentsStr, ",");
+
+      for (const auto& token : adjacentTokens) {
+        string trimmedToken = trim(token);
+
+        if (!trimmedToken.empty()) {
+          try {
+            VertexID_t adjId = static_cast<VertexID_t>(stoul(trimmedToken));
+            adjacents.push_back(adjId);
+          } catch (const std::exception& e) {
+            cerr << "Error converting adjacent vertex id '" << trimmedToken << "' in line: " << line << endl;
+            return 1;
+          }
+        }
+
+      }
+
+    }
+    
+    // --- Create and Insert Vertex ---
+    Vertex vertex;
+    vertex.id = vertexId;
+    vertex.features = features;
+    vertex.adjacents = adjacents;
+    vertex.q = 0.0;  // q is not computed here.
+    
+    // Insert the vertex into the appropriate cluster.
+    auto it = clusters.find(clusterKey);
+
+    if (it == clusters.end()) {
+      Cluster newCluster;
+      newCluster.vertices.push_back(vertex);
+      clusters.insert({clusterKey, newCluster});
     } else {
-      continue;
+      it->second.vertices.push_back(vertex);
     }
-
-    edges.push_back(make_pair(a, b));
+    
   }
-
+  
+  input_file.close();
   return 0;
 }
