@@ -8,7 +8,10 @@ CXXFLAGS = -Wall -Wextra
 TARGET = multiVariableGabrielGraph
 
 # Source files
-SRCS = multiVariableGabrielGraph.cpp gabrielGraph.cpp squaredDistance.cpp
+SRCS = multiVariableGabrielGraph.cpp ../Common/graphTypes.cpp ../Common/stringHelpers.cpp readGraph.cpp gabrielGraph.cpp ../Common/writeFiles.cpp
+
+# Include directories
+INCS = -I../Common
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)
@@ -18,11 +21,11 @@ all: $(TARGET)
 
 # Link the target executable
 $(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^
 
 # Compile source files into object files
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(INCS) -c $< -o $@
 
 # Clean up build files
 clean:
@@ -31,9 +34,9 @@ clean:
 # Run the target executable
 
 run_iris: $(TARGET)
-	./$(TARGET) ../../data/iris/iris-features.csv
+	./$(TARGET) ../../data/iris/iris.csv
 
 run_ilpd: $(TARGET)
-	./$(TARGET) ../../data/ilpd/ILPD-features.csv
+	./$(TARGET) ../../data/ilpd/ilpd.csv
 
 .PHONY: all clean run_iris run_ilpd

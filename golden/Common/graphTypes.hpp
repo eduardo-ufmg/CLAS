@@ -2,16 +2,18 @@
 #define GRAPH_TYPES_HPP
 
 #include <vector>
+#include <string>
 #include <map>
+#include <variant>
 
-typedef unsigned ID_t;
+typedef unsigned VertexID_t;
 
 class Vertex
 {
 public:
   std::vector<double> features;
-  std::vector<ID_t> adjacents;
-  ID_t id;
+  std::vector<VertexID_t> adjacents;
+  VertexID_t id;
   double q;
 
   bool operator<(const Vertex& other) const;
@@ -33,7 +35,9 @@ public:
   double treshold;
   double averageQuality;
   double stdDeviation;
-  ID_t id;
 };
+
+using ClassType = std::variant<unsigned, std::string>;
+typedef std::map<ClassType, Cluster> ClusterMap;
 
 #endif

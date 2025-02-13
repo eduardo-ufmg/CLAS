@@ -3,59 +3,75 @@
 #include <cmath>
 #include <vector>
 
-#include "squaredDistance.hpp"
+#include "graphTypes.hpp"
 
 using namespace std;
 
-void gabrielGraph(vector<pair<size_t, size_t>>& edges, vector<vector<double>> points)
+double squaredDistance(const std::vector<double>& a, const std::vector<double>& b);
+
+void gabrielGraph(ClusterMap& clusters)
 {
-  size_t num_points = points.size();
-  size_t num_coords = points[0].size();
+  // Collect all vertices from all clusters.
+  std::vector<Vertex*> allVertices;
 
-  vector<double> midpoint(num_coords);
+  for (auto& clusterPair : clusters) {
+    Cluster& cluster = clusterPair.second;
 
-  edges.clear();
-
-  for (size_t i = 0; i < num_points; i++) {
-    for (size_t j = i + 1; j < num_points; j++) {
-      computeMidpoint(midpoint, points[i], points[j], num_coords);
-
-      double radius_sq = squaredDistance(points[i], midpoint);
-      
-      bool isGabrielEdge = true;
-
-      checkGabrielEdge(isGabrielEdge, points, midpoint, radius_sq, num_points, i, j);
-
-      if (isGabrielEdge) {
-        edges.push_back({i, j});
-      }
-
+    for (auto& vertex : cluster.vertices) {
+      allVertices.push_back(&vertex);
     }
-  }
 
-}
-
-void computeMidpoint(vector<double>& midpoint, const vector<double>& a, const vector<double>& b, const size_t& num_coords)
-{
-  for (size_t i = 0; i < num_coords; i++) {
-    midpoint[i] = (a[i] + b[i]) / 2;
-  }
-}
-
-void checkGabrielEdge(bool& isGabrielEdge, const vector<vector<double>>& points, const vector<double>& midpoint, const double& radius_sq,
-                      const size_t& num_points, const size_t& vertex1, const size_t& vertex2)
-{
-
-  for (size_t i = 0; i < num_points; i++) {
-    if (i != vertex1 && i != vertex2) {
-      double dist_sq = squaredDistance(points[i], midpoint);
-
-      if (dist_sq < radius_sq) {
-        isGabrielEdge = false;
-        break;
-      }
-
-    }
   }
   
+  size_t N = allVertices.size();
+
+  // For each unordered pair of vertices (pi, pj)
+  for (size_t i = 0; i < N; ++i) {
+    Vertex* pi = allVertices[i];
+
+    for (size_t j = i + 1; j < N; ++j) {
+      Vertex* pj = allVertices[j];
+      double d2 = squaredDistance(pi->features, pj->features);
+      bool validEdge = true;
+
+      // Check the Gabriel condition against every other vertex z.
+      for (size_t k = 0; k < N; ++k) {
+        if (k == i || k == j) {
+          continue;
+        }
+
+        Vertex* pk = allVertices[k];
+        
+        // If for any other vertex the sum of squared distances is less than d2,
+        // then the sphere with (pi, pj) as diameter contains pk.
+        if (squaredDistance(pi->features, pk->features) + 
+          squaredDistance(pj->features, pk->features) < d2) {
+          validEdge = false;
+          break;
+        }
+
+      }
+
+      // If the edge passes the test, add each vertex to the other's adjacency list.
+      if (validEdge) {
+        pi->adjacents.push_back(pj->id);
+        pj->adjacents.push_back(pi->id);
+      }
+
+    }
+
+  }
+}
+
+double squaredDistance(const std::vector<double>& a, const std::vector<double>& b)
+{
+  double sum = 0.0;
+  size_t n = a.size();
+
+  for (size_t i = 0; i < n; ++i) {
+    double diff = a[i] - b[i];
+    sum += diff * diff;
+  }
+
+  return sum;
 }

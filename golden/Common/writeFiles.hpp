@@ -20,6 +20,6 @@
 
 */
 
-int writeGraphToFile(const std::vector<Cluster>& clusters, const std::string& file_name_with_path);
+int writeGraphToFile(const ClusterMap& clusters, const std::string& file_name_with_path);
 
 #endif // WRITEFILES_H

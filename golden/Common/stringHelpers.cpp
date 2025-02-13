@@ -1,6 +1,8 @@
 #include "stringHelpers.hpp"
 
 #include <string>
+#include <vector>
+#include <sstream>
 
 using namespace std;
 
@@ -15,8 +17,17 @@ string trim(const string &s) {
   return s.substr(start, end - start + 1);
 }
 
+vector<string> split(const string &s, char delimiter) {
+  vector<string> tokens;
+  string token;
+  istringstream tokenStream(s);
+  while(getline(tokenStream, token, delimiter)) {
+    tokens.push_back(token);
+  }
+  return tokens;
+}
+
 string outputPathFromInputPath(const string &input_path) {
   string input_file_without_path = input_path.substr(input_path.find_last_of("/\\") + 1);
-  string filtered_file_name = input_file_without_path.substr(0, input_file_without_path.find_last_of(".")) + "_filtered.csv";
-  return "./output/" + filtered_file_name;
+  return "./output/" + input_file_without_path;
 }
