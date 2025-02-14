@@ -39,13 +39,15 @@ int main(int argc, char* argv[])
     return 1;
   }
 
-  printClusterInfo(clusters);
+  printClusterVertexQuantity(clusters);
 
   printAdjacencyLists(clusters, 4, 4);
 
   filterVertices(clusters, deviationFactor);
 
-  printClusterInfo(clusters);
+  printClusterStatistics(clusters);
+
+  printClusterVertexQuantity(clusters);
 
   printAdjacencyLists(clusters, 4, 4);
 

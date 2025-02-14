@@ -19,6 +19,25 @@ void filterVertices(ClusterMap& clusters, double deviationFactor)
       continue;
     }
 
+    for (auto& vertex : cluster.vertices) {
+      unsigned degree = vertex.adjacents.size();
+      unsigned sameClusterDegree = 0;
+
+      if (degree == 0) {
+        vertex.q = 0.0;
+        continue;
+      }
+
+      for (const auto& adjacent : vertex.adjacents) {
+        if (std::find(cluster.vertices.begin(), cluster.vertices.end(), *adjacent) != cluster.vertices.end()) {
+          sameClusterDegree ++;
+        }
+      }
+
+      vertex.q = static_cast<double>(sameClusterDegree) / degree;
+
+    }
+
     // Recompute quality metrics for the cluster.
     cluster.Q.magnitude = cluster.vertices.size();
 

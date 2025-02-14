@@ -18,6 +18,7 @@ public:
 
   bool operator<(const Vertex& other) const;
   bool operator==(const Vertex& other) const;
+  bool operator!=(const Vertex& other) const;
 };
 
 class QualityMeasure
