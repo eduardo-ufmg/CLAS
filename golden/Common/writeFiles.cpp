@@ -38,19 +38,6 @@ int writeGraphToFile(const ClusterMap& clusters, const std::string& file_name_wi
     const ClassType& clusterKey = clusterPair.first;
     const Cluster& cluster = clusterPair.second;
     
-    // Convert the cluster key (ClassType) to a string.
-    string clusterKeyStr;
-
-    std::visit([&clusterKeyStr](auto&& arg) {
-
-      if constexpr(std::is_same_v<std::decay_t<decltype(arg)>, unsigned>) {
-        clusterKeyStr = to_string(arg);
-      } else {
-        clusterKeyStr = arg;
-      }
-      
-    }, clusterKey);
-    
     // Iterate over each vertex in the cluster.
     for (const Vertex& vertex : cluster.vertices) {
       // Write vertex id.
@@ -68,7 +55,7 @@ int writeGraphToFile(const ClusterMap& clusters, const std::string& file_name_wi
       }
       
       // Write cluster id.
-      outfile << ", |, " << clusterKeyStr << ", |, ";
+      outfile << ", |, " << clusterKey << ", |, ";
       
       // Write adjacent vertices.
       bool firstAdjacent = true;
@@ -77,7 +64,7 @@ int writeGraphToFile(const ClusterMap& clusters, const std::string& file_name_wi
           outfile << ", ";
         }
         
-        outfile << adj;
+        outfile << adj->id;
         firstAdjacent = false;
       }
       

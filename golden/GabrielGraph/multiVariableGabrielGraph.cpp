@@ -9,6 +9,7 @@
 
 #include "graphTypes.hpp"
 #include "stringHelpers.hpp"
+#include "printLoadedData.hpp"
 #include "readGraph.hpp"
 #include "gabrielGraph.hpp"
 #include "writeFiles.hpp"
@@ -30,53 +31,11 @@ int main(int argc, char* argv[])
     return 1;
   }
 
-  cout << "Read " << clusters.size() << " clusters." << endl;
+  printClusterInfo(clusters);
   
-  for (const auto& clusterPair : clusters) {
-    const ClassType& clusterKey = clusterPair.first;
-    const Cluster& cluster = clusterPair.second;
-    
-    string clusterKeyStr;
-
-    std::visit([&clusterKeyStr](auto&& arg) {
-
-      if constexpr(std::is_same_v<std::decay_t<decltype(arg)>, unsigned>) {
-        clusterKeyStr = to_string(arg);
-      } else {
-        clusterKeyStr = arg;
-      }
-      
-    }, clusterKey);
-    
-    cout << "Cluster " << clusterKeyStr << " has " << cluster.vertices.size() << " vertices." << endl;
-  }
-
   gabrielGraph(clusters);
 
-  cout << "Some adjacency lists:" << endl;
-
-  int clusterCount = 0;
-  for (const auto& clusterPair : clusters) {
-    if (clusterCount >= 4) break;
-    
-    const Cluster& cluster = clusterPair.second;
-    int vertexCount = 0;
-    
-    for (const auto& vertex : cluster.vertices) {
-      if (vertexCount >= 4) break;
-      
-      cout << "Vertex " << vertex.id << ": ";
-      
-      for (const auto& neighbor : vertex.adjacents) {
-        cout << neighbor << " ";
-      }
-      cout << endl;
-      
-      vertexCount++;
-    }
-    
-    clusterCount++;
-  }
+  printAdjacencyLists(clusters, 4, 4);
 
   string output_filename_with_path = outputPathFromInputPath(input_filename_with_path);
 

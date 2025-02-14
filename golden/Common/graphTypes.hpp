@@ -12,7 +12,7 @@ class Vertex
 {
 public:
   std::vector<double> features;
-  std::vector<VertexID_t> adjacents;
+  std::vector<Vertex*> adjacents;
   VertexID_t id;
   double q;
 
@@ -32,7 +32,7 @@ class Cluster
 public:
   std::vector<Vertex> vertices;
   QualityMeasure Q;
-  double treshold;
+  double threshold;
   double averageQuality;
   double stdDeviation;
 };

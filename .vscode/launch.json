@@ -7,11 +7,9 @@
       "request": "launch",
       "program": "${workspaceFolder}/golden/LowDegreeVerticesFilter/lowDegreeVerticesFilter",
       "args": [
-        "${workspaceFolder}/data/iris/iris-features.csv",
-        "${workspaceFolder}/data/iris/iris-targets.csv",
-        "${workspaceFolder}/golden/GabrielGraph/output/iris-edges.csv"
+        "${workspaceFolder}/golden/GabrielGraph/output/iris.csv",
       ],
-      "stopAtEntry": false,
+      "stopAtEntry": true,
       "cwd": "${workspaceFolder}",
       "environment": [],
       "externalConsole": false,
@@ -31,11 +29,9 @@
       "request": "launch",
       "program": "${workspaceFolder}/golden/LowDegreeVerticesFilter/lowDegreeVerticesFilter",
       "args": [
-        "${workspaceFolder}/data/ilpd/ILPD-features.csv",
-        "${workspaceFolder}/data/ilpd/ILPD-targets.csv",
-        "${workspaceFolder}/golden/GabrielGraph/output/ILPD-edges.csv"
+        "${workspaceFolder}/golden/GabrielGraph/output/ilpd.csv",
       ],
-      "stopAtEntry": false,
+      "stopAtEntry": true,
       "cwd": "${workspaceFolder}",
       "environment": [],
       "externalConsole": false,

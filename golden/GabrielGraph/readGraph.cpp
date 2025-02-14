@@ -80,6 +80,8 @@ int readGraph(ClusterMap& clusters, const std::string& input_filename_with_path)
     // vertex.adjacents remains empty.
 
     // Insert the vertex into the corresponding Cluster based on the class ID.
+    ClassType key;
+
     if (useUnsigned) {
       unsigned classID = 0;
 
@@ -90,22 +92,19 @@ int readGraph(ClusterMap& clusters, const std::string& input_filename_with_path)
         return -1;
       }
 
-      ClassType key = classID;
-      if (clusters.find(key) == clusters.end()) {
-        clusters[key] = Cluster();  // New cluster; other fields remain uncomputed.
-      }
+      key = classID;
 
-      clusters[key].vertices.push_back(vertex);
-      
     } else {
 
-      ClassType key = classToken;
-      if (clusters.find(key) == clusters.end()) {
-        clusters[key] = Cluster();
-      }
-      clusters[key].vertices.push_back(vertex);
+      key = classToken;
 
     }
+
+    if (clusters.find(key) == clusters.end()) {
+      clusters[key] = Cluster();  // New cluster; other fields remain uncomputed.
+    }
+
+    clusters[key].vertices.push_back(vertex);
 
     ++lineNo;
   }

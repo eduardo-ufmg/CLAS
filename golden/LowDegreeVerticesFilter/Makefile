@@ -11,7 +11,7 @@ DEBUGFLAGS = -g
 TARGET = lowDegreeVerticesFilter
 
 # Source files
-SRCS = lowDegreeVerticesFilter.cpp ../Common/graphTypes.cpp ../Common/stringHelpers.cpp ../Common/writeFiles.cpp readFiles.cpp
+SRCS = lowDegreeVerticesFilter.cpp ../Common/graphTypes.cpp ../Common/stringHelpers.cpp ../Common/writeFiles.cpp ../Common/printLoadedData.cpp readGraph.cpp filter.cpp
 
 # Include directories
 INCS = -I../Common

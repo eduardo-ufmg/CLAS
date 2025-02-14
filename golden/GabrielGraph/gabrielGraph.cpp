@@ -54,8 +54,8 @@ void gabrielGraph(ClusterMap& clusters)
 
       // If the edge passes the test, add each vertex to the other's adjacency list.
       if (validEdge) {
-        pi->adjacents.push_back(pj->id);
-        pj->adjacents.push_back(pi->id);
+        pi->adjacents.push_back(pj);
+        pj->adjacents.push_back(pi);
       }
 
     }

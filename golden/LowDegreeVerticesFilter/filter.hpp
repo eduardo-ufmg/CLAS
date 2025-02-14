@@ -6,6 +6,6 @@
 
 #include "graphTypes.hpp"
 
-void compute
+void filterVertices(ClusterMap& clusters, double deviationFactor);
 
 #endif // FILTER_HPP

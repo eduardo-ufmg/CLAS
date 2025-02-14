@@ -1,5 +1,5 @@
-#ifndef READFILES_HPP
-#define READFILES_HPP
+#ifndef readGraph_HPP
+#define readGraph_HPP
 
 #include <vector>
 #include <string>
@@ -8,4 +8,4 @@
 
 int readGraph(ClusterMap& clusters, const std::string& input_file_name_with_path);
 
-#endif // READFILES_HPP
+#endif // readGraph_HPP

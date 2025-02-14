@@ -9,7 +9,8 @@
 
 #include "graphTypes.hpp"
 #include "stringHelpers.hpp"
-#include "readFiles.hpp"
+#include "printLoadedData.hpp"
+#include "readGraph.hpp"
 #include "filter.hpp"
 #include "writeFiles.hpp"
 
@@ -38,11 +39,15 @@ int main(int argc, char* argv[])
     return 1;
   }
 
-  cout << "There are " << clusters.size() << " clusters." << endl;
+  printClusterInfo(clusters);
 
-  for (ClusterMap::iterator it = clusters.begin(); it != clusters.end(); ++it) {
-    cout << "Cluster " << it->first << " has " << it->second.vertices.size() << " vertices." << endl;
-  }
+  printAdjacencyLists(clusters, 4, 4);
+
+  filterVertices(clusters, deviationFactor);
+
+  printClusterInfo(clusters);
+
+  printAdjacencyLists(clusters, 4, 4);
 
   return 0;
 }
