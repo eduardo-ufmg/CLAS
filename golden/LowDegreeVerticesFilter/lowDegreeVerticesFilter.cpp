@@ -41,15 +41,15 @@ int main(int argc, char* argv[])
 
   printClusterVertexQuantity(clusters);
 
-  printAdjacencyLists(clusters, 4, 4);
-
   filterVertices(clusters, deviationFactor);
 
   printClusterStatistics(clusters);
 
-  printClusterVertexQuantity(clusters);
+  string aux_out_fn = outputPathFromInputPath(input_file_name_with_path);
+  string output_file_name_with_path = aux_out_fn.substr(0, aux_out_fn.find_last_of('.')) + "-filtered.csv";
 
-  printAdjacencyLists(clusters, 4, 4);
+  if (writeGraphToFile(clusters, output_file_name_with_path) != 0) {
+    return 1;
+  }
 
-  return 0;
 }

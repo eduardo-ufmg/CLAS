@@ -20,21 +20,21 @@ void filterVertices(ClusterMap& clusters, double deviationFactor)
     }
 
     for (auto& vertex : cluster.vertices) {
-      unsigned degree = vertex.adjacents.size();
+      unsigned degree = vertex.second->adjacents.size();
       unsigned sameClusterDegree = 0;
 
       if (degree == 0) {
-        vertex.q = 0.0;
+        vertex.second->q = 0.0;
         continue;
       }
 
-      for (const auto& adjacent : vertex.adjacents) {
-        if (std::find(cluster.vertices.begin(), cluster.vertices.end(), *adjacent) != cluster.vertices.end()) {
-          sameClusterDegree ++;
+      for (const auto& adjacent : vertex.second->adjacents) {
+        if (cluster.vertices.find(adjacent) != cluster.vertices.end()) {
+          sameClusterDegree++;
         }
       }
 
-      vertex.q = static_cast<double>(sameClusterDegree) / degree;
+      vertex.second->q = static_cast<double>(sameClusterDegree) / degree;
 
     }
 
@@ -47,8 +47,8 @@ void filterVertices(ClusterMap& clusters, double deviationFactor)
 
     double sumSquaredDiff = 0.0;
 
-    for (const Vertex& v : cluster.vertices) {
-      double diff = v.q - cluster.averageQuality;
+    for (const auto& v : cluster.vertices) {
+      double diff = v.second->q - cluster.averageQuality;
       sumSquaredDiff += diff * diff;
     }
 
@@ -62,4 +62,3 @@ void filterVertices(ClusterMap& clusters, double deviationFactor)
 
   }
 }
-

@@ -12,14 +12,11 @@ class Vertex
 {
 public:
   std::vector<double> features;
-  std::vector<Vertex*> adjacents;
-  VertexID_t id;
+  std::vector<VertexID_t> adjacents;
   double q;
-
-  bool operator<(const Vertex& other) const;
-  bool operator==(const Vertex& other) const;
-  bool operator!=(const Vertex& other) const;
 };
+
+typedef std::map<VertexID_t, Vertex*> VertexMap;
 
 class QualityMeasure
 {
@@ -31,7 +28,7 @@ public:
 class Cluster
 {
 public:
-  std::vector<Vertex> vertices;
+  VertexMap vertices;
   QualityMeasure Q;
   double threshold;
   double averageQuality;

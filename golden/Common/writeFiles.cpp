@@ -39,13 +39,13 @@ int writeGraphToFile(const ClusterMap& clusters, const std::string& file_name_wi
     const Cluster& cluster = clusterPair.second;
     
     // Iterate over each vertex in the cluster.
-    for (const Vertex& vertex : cluster.vertices) {
+    for (const auto& [vertexID, vertexptr] : cluster.vertices) {
       // Write vertex id.
-      outfile << vertex.id << ", |, ";
+      outfile << vertexID << ", |, ";
       
       // Write features separated by comma.
       bool firstFeature = true;
-      for (const double& f : vertex.features) {
+      for (const double& f : vertexptr->features) {
         if (!firstFeature) {
           outfile << ", ";
         }
@@ -59,12 +59,12 @@ int writeGraphToFile(const ClusterMap& clusters, const std::string& file_name_wi
       
       // Write adjacent vertices.
       bool firstAdjacent = true;
-      for (const auto& adj : vertex.adjacents) {
+      for (const auto& adj : vertexptr->adjacents) {
         if (!firstAdjacent) {
           outfile << ", ";
         }
         
-        outfile << adj->id;
+        outfile << adj;
         firstAdjacent = false;
       }
       

@@ -74,10 +74,9 @@ int readGraph(ClusterMap& clusters, const std::string& input_filename_with_path)
 
     // Create a new Vertex.
     Vertex vertex;
-    vertex.id = lineNo;
+    VertexID_t vertexID = lineNo;
+
     vertex.features = features;
-    vertex.q = 0.0;  // Not computed here.
-    // vertex.adjacents remains empty.
 
     // Insert the vertex into the corresponding Cluster based on the class ID.
     ClassType key;
@@ -104,7 +103,7 @@ int readGraph(ClusterMap& clusters, const std::string& input_filename_with_path)
       clusters[key] = Cluster();  // New cluster; other fields remain uncomputed.
     }
 
-    clusters[key].vertices.push_back(vertex);
+    clusters[key].vertices[vertexID] = &vertex;
 
     ++lineNo;
   }

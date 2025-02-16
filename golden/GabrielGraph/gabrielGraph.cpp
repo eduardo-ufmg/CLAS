@@ -12,13 +12,13 @@ double squaredDistance(const std::vector<double>& a, const std::vector<double>& 
 void gabrielGraph(ClusterMap& clusters)
 {
   // Collect all vertices from all clusters.
-  std::vector<Vertex*> allVertices;
+  VertexMap allVertices;
 
-  for (auto& clusterPair : clusters) {
-    Cluster& cluster = clusterPair.second;
+  for (auto& cluster : clusters) {
+    Cluster& c = cluster.second;
 
-    for (auto& vertex : cluster.vertices) {
-      allVertices.push_back(&vertex);
+    for (auto& vertex : c.vertices) {
+      allVertices[vertex.first] = vertex.second;
     }
 
   }
@@ -27,11 +27,12 @@ void gabrielGraph(ClusterMap& clusters)
 
   // For each unordered pair of vertices (pi, pj)
   for (size_t i = 0; i < N; ++i) {
-    Vertex* pi = allVertices[i];
+    pair<VertexID_t, Vertex*> pi = *next(allVertices.begin(), i);
 
     for (size_t j = i + 1; j < N; ++j) {
-      Vertex* pj = allVertices[j];
-      double d2 = squaredDistance(pi->features, pj->features);
+      pair<VertexID_t, Vertex*> pj = *next(allVertices.begin(), j);
+
+      double d2 = squaredDistance(pi.second->features, pj.second->features);
       bool validEdge = true;
 
       // Check the Gabriel condition against every other vertex z.
@@ -44,8 +45,8 @@ void gabrielGraph(ClusterMap& clusters)
         
         // If for any other vertex the sum of squared distances is less than d2,
         // then the sphere with (pi, pj) as diameter contains pk.
-        if (squaredDistance(pi->features, pk->features) + 
-          squaredDistance(pj->features, pk->features) < d2) {
+        if (squaredDistance(pi.second->features, pk->features) + 
+          squaredDistance(pj.second->features, pk->features) < d2) {
           validEdge = false;
           break;
         }
@@ -54,8 +55,8 @@ void gabrielGraph(ClusterMap& clusters)
 
       // If the edge passes the test, add each vertex to the other's adjacency list.
       if (validEdge) {
-        pi->adjacents.push_back(pj);
-        pj->adjacents.push_back(pi);
+        pi.second->adjacents.push_back(pj.first);
+        pj.second->adjacents.push_back(pi.first);
       }
 
     }

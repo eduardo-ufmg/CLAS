@@ -4,11 +4,14 @@ CXX = g++
 # Compiler flags
 CXXFLAGS = -Wall -Wextra
 
+# Debugging flags
+DEBUGFLAGS = -g
+
 # Target executable
 TARGET = multiVariableGabrielGraph
 
 # Source files
-SRCS = multiVariableGabrielGraph.cpp ../Common/graphTypes.cpp ../Common/stringHelpers.cpp ../Common/writeFiles.cpp ../Common/printLoadedData.cpp readGraph.cpp gabrielGraph.cpp
+SRCS = multiVariableGabrielGraph.cpp ../Common/stringHelpers.cpp ../Common/writeFiles.cpp ../Common/printLoadedData.cpp readGraph.cpp gabrielGraph.cpp
 
 # Include directories
 INCS = -I../Common
@@ -27,6 +30,9 @@ $(TARGET): $(OBJS)
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) $(INCS) -c $< -o $@
 
+debug: CXXFLAGS += $(DEBUGFLAGS)
+debug: $(TARGET)
+
 # Clean up build files
 clean:
 	rm -f $(TARGET) $(OBJS)
@@ -38,5 +44,8 @@ run_iris: $(TARGET)
 
 run_ilpd: $(TARGET)
 	./$(TARGET) ../../data/ilpd/ilpd.csv
+
+run_synthetic: $(TARGET)
+	./$(TARGET) ../../data/synthetic/synthetic.csv
 
 .PHONY: all clean run_iris run_ilpd

@@ -11,7 +11,7 @@ DEBUGFLAGS = -g
 TARGET = lowDegreeVerticesFilter
 
 # Source files
-SRCS = lowDegreeVerticesFilter.cpp ../Common/graphTypes.cpp ../Common/stringHelpers.cpp ../Common/writeFiles.cpp ../Common/printLoadedData.cpp readGraph.cpp filter.cpp
+SRCS = lowDegreeVerticesFilter.cpp ../Common/stringHelpers.cpp ../Common/writeFiles.cpp ../Common/printLoadedData.cpp readGraph.cpp filter.cpp
 
 # Include directories
 INCS = -I../Common
@@ -45,5 +45,8 @@ run_iris:
 
 run_ilpd:
 	./$(TARGET) ../GabrielGraph/output/ilpd.csv
+
+run_synthetic:
+	./$(TARGET) ../GabrielGraph/output/synthetic.csv
 
 .PHONY: all clean run_iris run_ilpd

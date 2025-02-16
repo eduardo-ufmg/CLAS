@@ -35,8 +35,6 @@ int main(int argc, char* argv[])
   
   gabrielGraph(clusters);
 
-  printAdjacencyLists(clusters, 4, 4);
-
   string output_filename_with_path = outputPathFromInputPath(input_filename_with_path);
 
   if (writeGraphToFile(clusters, output_filename_with_path) != 0) {
