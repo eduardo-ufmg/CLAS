@@ -166,7 +166,7 @@ def main():
     parser.add_argument("--num_vertices", type=int, help="Total number of vertices", default=100, nargs="?")
     parser.add_argument("--spread_factor", type=float, help="Spread factor for the clusters", default=0.5, nargs="?")
     parser.add_argument("--deviation_factor", type=float, help="Deviation factor for the threshold", default=1, nargs="?")
-    parser.add_argument("--seed", type=int, help="Random seed for data generation", default=42, nargs="?")
+    parser.add_argument("--seed", type=int, help="Random seed for data generation", default=None, nargs="?")
     parser.add_argument("--filter", dest="should_filter", action="store_true", help="Apply Low Degree Filter")
     parser.add_argument("--no-filter", dest="should_filter", action="store_false", help="Skip Low Degree Filter")
     parser.set_defaults(should_filter=True)
