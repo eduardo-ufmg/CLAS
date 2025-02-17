@@ -157,12 +157,15 @@ def run_command(cmd_args, cwd):
 
 def main():
     parser = argparse.ArgumentParser(description="Generate synthetic data, run Gabriel Graph and Low Degree Filter, and plot results.")
-    parser.add_argument("dimensions", type=int, choices=[2, 3], help="Number of dimensions (2 or 3)")
-    parser.add_argument("num_classes", type=int, help="Number of classes")
-    parser.add_argument("num_vertices", type=int, help="Total number of vertices")
-    parser.add_argument("spread_factor", type=float, help="Spread factor for the clusters")
-    parser.add_argument("deviation_factor", type=float, help="Deviation factor for the threshold")
-    parser.add_argument("seed", type=int, help="Random seed for data generation")
+    parser.add_argument("--dimensions", type=int, choices=[2, 3], help="Number of dimensions (2 or 3)")
+    parser.add_argument("--num_classes", type=int, help="Number of classes")
+    parser.add_argument("--num_vertices", type=int, help="Total number of vertices", default=100, nargs="?")
+    parser.add_argument("--spread_factor", type=float, help="Spread factor for the clusters", default=0.5, nargs="?")
+    parser.add_argument("--deviation_factor", type=float, help="Deviation factor for the threshold", default=1, nargs="?")
+    parser.add_argument("--seed", type=int, help="Random seed for data generation", default=42, nargs="?")
+    parser.add_argument("--filter", dest="should_filter", action="store_true", help="Apply Low Degree Filter")
+    parser.add_argument("--no-filter", dest="should_filter", action="store_false", help="Skip Low Degree Filter")
+    parser.set_defaults(should_filter=True)
     args = parser.parse_args()
     
     # Define paths relative to the workspace root (current directory)
@@ -175,14 +178,23 @@ def main():
     data = generate_synthetic_data(args.dimensions, args.num_classes, args.num_vertices, args.spread_factor, args.seed, synthetic_data_file)
 
     # Create one figure with 3 subplots side-by-side.
-    if args.dimensions == 2:
-        fig, axes = plt.subplots(1, 3, figsize=(18, 6))
-    elif args.dimensions == 3:
-        fig = plt.figure(figsize=(18, 6))
-        ax1 = fig.add_subplot(131, projection="3d")
-        ax2 = fig.add_subplot(132, projection="3d")
-        ax3 = fig.add_subplot(133, projection="3d")
-        axes = [ax1, ax2, ax3]
+    if args.should_filter:
+        if args.dimensions == 2:
+            fig, axes = plt.subplots(1, 3, figsize=(18, 6))
+        elif args.dimensions == 3:
+            fig = plt.figure(figsize=(18, 6))
+            ax1 = fig.add_subplot(131, projection="3d")
+            ax2 = fig.add_subplot(132, projection="3d")
+            ax3 = fig.add_subplot(133, projection="3d")
+            axes = [ax1, ax2, ax3]
+    else:
+        if args.dimensions == 2:
+            fig, axes = plt.subplots(1, 2, figsize=(12, 6))
+        elif args.dimensions == 3:
+            fig = plt.figure(figsize=(12, 6))
+            ax1 = fig.add_subplot(121, projection="3d")
+            ax2 = fig.add_subplot(122, projection="3d")
+            axes = [ax1, ax2]
 
     # 2. Plot the synthetic data
     plot_synthetic_data(axes[0], data, args.dimensions, title="Synthetic Data")
@@ -200,19 +212,20 @@ def main():
         graph = parse_graph_file(gabriel_output, args.dimensions)
         plot_graph(axes[1], graph, args.dimensions, title="Gabriel Graph")
     
-    # 5. Run the Low Degree Vertices Filter over the graph
-    lowdegree_exe = os.path.join(".", "lowDegreeVerticesFilter")
-    gabriel_output = os.path.join("..", "GabrielGraph", "output", "synthetic.csv")
-    lowdegree_output = os.path.join("golden", "LowDegreeVerticesFilter", "output", "synthetic-filtered.csv")
-    lowdegree_cwd = os.path.join("golden", "LowDegreeVerticesFilter")
-    run_command([lowdegree_exe, gabriel_output, str(args.deviation_factor)], lowdegree_cwd)
-    
-    # 6. Parse and plot the filtered graph
-    if not os.path.exists(lowdegree_output):
-        print(f"Error: Expected Low Degree Filter output not found at {lowdegree_output}")
-    else:
-        filtered_graph = parse_graph_file(lowdegree_output, args.dimensions)
-        plot_graph(axes[2], filtered_graph, args.dimensions, title="Filtered Graph")
+    if args.should_filter:
+        # 5. Run the Low Degree Vertices Filter over the graph
+        lowdegree_exe = os.path.join(".", "lowDegreeVerticesFilter")
+        gabriel_output = os.path.join("..", "GabrielGraph", "output", "synthetic.csv")
+        lowdegree_output = os.path.join("golden", "LowDegreeVerticesFilter", "output", "synthetic-filtered.csv")
+        lowdegree_cwd = os.path.join("golden", "LowDegreeVerticesFilter")
+        run_command([lowdegree_exe, gabriel_output, str(args.deviation_factor)], lowdegree_cwd)
+        
+        # 6. Parse and plot the filtered graph
+        if not os.path.exists(lowdegree_output):
+            print(f"Error: Expected Low Degree Filter output not found at {lowdegree_output}")
+        else:
+            filtered_graph = parse_graph_file(lowdegree_output, args.dimensions)
+            plot_graph(axes[2], filtered_graph, args.dimensions, title="Filtered Graph")
     
     plt.show()
 
