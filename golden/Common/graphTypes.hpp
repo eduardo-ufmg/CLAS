@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <variant>
+#include <memory>
 
 typedef unsigned VertexID_t;
 
@@ -16,7 +17,7 @@ public:
   double q;
 };
 
-typedef std::map<VertexID_t, Vertex*> VertexMap;
+typedef std::map<VertexID_t, std::shared_ptr<Vertex> > VertexMap;
 
 class QualityMeasure
 {

@@ -50,12 +50,13 @@ int readGraph(ClusterMap& clusters, const std::string& input_filename_with_path)
       if (!classToken.empty() && all_of(classToken.begin(), classToken.end(), ::isdigit)) {
         useUnsigned = true;
       }
-      firstLine = false;
 
+      firstLine = false;
     }
 
     // Convert the coordinate tokens into a vector of doubles.
     vector<double> features;
+
     for (auto& token : tokens) {
       string trimmed = trim(token);
 
@@ -71,12 +72,6 @@ int readGraph(ClusterMap& clusters, const std::string& input_filename_with_path)
       }
 
     }
-
-    // Create a new Vertex.
-    Vertex vertex;
-    VertexID_t vertexID = lineNo;
-
-    vertex.features = features;
 
     // Insert the vertex into the corresponding Cluster based on the class ID.
     ClassType key;
@@ -99,11 +94,13 @@ int readGraph(ClusterMap& clusters, const std::string& input_filename_with_path)
 
     }
 
-    if (clusters.find(key) == clusters.end()) {
-      clusters[key] = Cluster();  // New cluster; other fields remain uncomputed.
-    }
+    clusters.emplace(key, Cluster());
 
-    clusters[key].vertices[vertexID] = &vertex;
+    VertexID_t vertexID = lineNo;
+
+    clusters[key].vertices.emplace(vertexID, make_shared<Vertex>(Vertex()));
+
+    clusters[key].vertices[vertexID]->features = features;
 
     ++lineNo;
   }

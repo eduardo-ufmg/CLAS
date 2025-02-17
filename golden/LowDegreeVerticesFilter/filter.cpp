@@ -6,6 +6,7 @@
 #include <set>
 #include <algorithm>
 #include <numeric>
+#include <iostream>
 
 #include "graphTypes.hpp"
 
@@ -41,7 +42,11 @@ void filterVertices(ClusterMap& clusters, double deviationFactor)
     // Recompute quality metrics for the cluster.
     cluster.Q.magnitude = cluster.vertices.size();
 
-    cluster.Q.sum_q = std::accumulate(cluster.vertices.begin(), cluster.vertices.end(), 0.0, [](double sum, const Vertex& v) { return sum + v.q; });
+    // Compute the sum of q values
+    cluster.Q.sum_q = 0.0;
+    for (const auto& v : cluster.vertices) {
+      cluster.Q.sum_q += v.second->q;
+    }
 
     cluster.averageQuality = cluster.Q.sum_q / cluster.Q.magnitude;
 
@@ -52,13 +57,19 @@ void filterVertices(ClusterMap& clusters, double deviationFactor)
       sumSquaredDiff += diff * diff;
     }
 
-    cluster.stdDeviation = std::sqrt(sumSquaredDiff / cluster.Q.magnitude);
+    cluster.stdDeviation = sqrt(sumSquaredDiff / cluster.Q.magnitude);
 
     // Update the threshold using the deviationFactor.
     cluster.threshold = cluster.averageQuality - deviationFactor * cluster.stdDeviation;
 
     // Remove vertices whose q value is less than the threshold.
-    cluster.vertices.erase(std::remove_if(cluster.vertices.begin(), cluster.vertices.end(), [&cluster](const Vertex& v) { return v.q < cluster.threshold; }), cluster.vertices.end());
+    for (auto it = cluster.vertices.begin(); it != cluster.vertices.end();) {
+      if (it->second->q < cluster.threshold) {
+        it = cluster.vertices.erase(it);
+      } else {
+        ++it;
+      }
+    }
 
   }
 }

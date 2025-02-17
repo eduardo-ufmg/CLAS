@@ -21,9 +21,6 @@ int readGraph(ClusterMap& clusters, const std::string& input_file_name_with_path
     cerr << "Error: could not open file " << input_file_name_with_path << endl;
     return 1;
   }
-
-  // Temporaty map to store adjacent vertices ids
-  unordered_map<VertexID_t, vector<VertexID_t>> tempAdj;
   
   string line;
   // Process each line of the file.
@@ -114,22 +111,14 @@ int readGraph(ClusterMap& clusters, const std::string& input_file_name_with_path
     }
     
     // --- Create and Insert Vertex ---
-    pair<VertexID_t, Vertex> vertex;
 
-    vertex.first = vertexId;
-    vertex.second.features = features;
-    vertex.second.adjacents = adjacents;
-    
     // Insert the vertex into the appropriate cluster.
-    auto it = clusters.find(clusterKey);
+    clusters.emplace(clusterKey, Cluster());
 
-    if (it == clusters.end()) {
-      Cluster newCluster;
-      newCluster.vertices[vertex.first] = &(vertex.second);
-      clusters.insert({clusterKey, newCluster});
-    } else {
-      it->second.vertices[vertex.first] = &(vertex.second);
-    }
+    clusters[clusterKey].vertices.emplace(vertexId, make_shared<Vertex>(Vertex()));
+
+    clusters[clusterKey].vertices[vertexId]->features = features;
+    clusters[clusterKey].vertices[vertexId]->adjacents = adjacents;
 
   }
   

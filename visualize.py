@@ -7,14 +7,14 @@ import matplotlib.pyplot as plt
 
 from mpl_toolkits.mplot3d import Axes3D
 
-def generate_synthetic_data(num_dimensions, num_classes, num_vertices, spread_factor, output_file):
+def generate_synthetic_data(num_dimensions, num_classes, num_vertices, spread_factor, seed, output_file):
     """
     Generate synthetic data in num_dimensions with num_classes clusters.
     Each cluster is a Gaussian with a random center in [0,10]^d.
     The spread_factor is used as the standard deviation.
     Saves the data (features followed by class label) with no header.
     """
-    np.random.seed(42)  # For reproducibility
+    np.random.seed(seed)
     # Determine number of vertices per class
     base = num_vertices // num_classes
     counts = [base] * num_classes
@@ -161,6 +161,8 @@ def main():
     parser.add_argument("num_classes", type=int, help="Number of classes")
     parser.add_argument("num_vertices", type=int, help="Total number of vertices")
     parser.add_argument("spread_factor", type=float, help="Spread factor for the clusters")
+    parser.add_argument("deviation_factor", type=float, help="Deviation factor for the threshold")
+    parser.add_argument("seed", type=int, help="Random seed for data generation")
     args = parser.parse_args()
     
     # Define paths relative to the workspace root (current directory)
@@ -170,7 +172,7 @@ def main():
     programs_synthetic_data_file = os.path.join(programs_synthetic_data_dir, "synthetic.csv")
     
     # 1. Generate synthetic data
-    data = generate_synthetic_data(args.dimensions, args.num_classes, args.num_vertices, args.spread_factor, synthetic_data_file)
+    data = generate_synthetic_data(args.dimensions, args.num_classes, args.num_vertices, args.spread_factor, args.seed, synthetic_data_file)
 
     # Create one figure with 3 subplots side-by-side.
     if args.dimensions == 2:
@@ -203,7 +205,7 @@ def main():
     gabriel_output = os.path.join("..", "GabrielGraph", "output", "synthetic.csv")
     lowdegree_output = os.path.join("golden", "LowDegreeVerticesFilter", "output", "synthetic-filtered.csv")
     lowdegree_cwd = os.path.join("golden", "LowDegreeVerticesFilter")
-    run_command([lowdegree_exe, gabriel_output], lowdegree_cwd)
+    run_command([lowdegree_exe, gabriel_output, str(args.deviation_factor)], lowdegree_cwd)
     
     # 6. Parse and plot the filtered graph
     if not os.path.exists(lowdegree_output):
