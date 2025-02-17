@@ -13,6 +13,17 @@
 
 using namespace std;
 
+/*
+
+  input format:
+
+  vertex0_id, |, feature0_0, feature0_1, ..., feature0_n, |, cluster0_id, |, adjacent_vertex0_0 - isSupportEdge, adjacent_vertex0_1 - isSupportEdge, ..., adjacent_vertex0_m - isSupportEdge
+  vertex1_id, |, feature1_0, feature1_1, ..., feature1_n, |, cluster1_id, |, adjacent_vertex1_0 - isSupportEdge, adjacent_vertex1_1 - isSupportEdge, ..., adjacent_vertex1_m - isSupportEdge
+  ...
+  vertexk_id, |, featurek_0, featurek_1, ..., featurek_n, |, clusterk_id, |, adjacent_vertexk_0 - isSupportEdge, adjacent_vertexk_1 - isSupportEdge, ..., adjacent_vertexk_m - isSupportEdge
+
+*/
+
 int readGraph(ClusterMap& clusters, const std::string& input_file_name_with_path)
 {
   ifstream input_file(input_file_name_with_path.c_str());
@@ -94,16 +105,16 @@ int readGraph(ClusterMap& clusters, const std::string& input_file_name_with_path
     // --- Parse Adjacent Vertices ---
     string adjacentsStr = trim(parts[3]);
     vector<string> adjacentTokens = split(adjacentsStr, ",");
-    vector<VertexID_t> adjacents;
+    vector< pair<VertexID_t, bool> > adjacents;
 
     for (const auto& token : adjacentTokens) {
-      string trimmedToken = trim(token);
+      vector<string> adjParts = split(token, " - ");
 
-      if (!trimmedToken.empty()) {
+      if (!adjParts.empty()) {
         try {
-          adjacents.push_back(static_cast<VertexID_t>(stoul(trimmedToken)));
+          adjacents.push_back({static_cast<VertexID_t>(stoul(trim(adjParts[0]))), static_cast<bool>(stoi(trim(adjParts[1])))});
         } catch (const std::exception& e) {
-          cerr << "Error converting adjacent vertex id '" << trimmedToken << "' to unsigned in line: " << line << endl;
+          cerr << "Error converting adjacent vertex id '" << trim(token) << "' to unsigned in line: " << line << endl;
           return 1;
         }
       }
@@ -115,9 +126,8 @@ int readGraph(ClusterMap& clusters, const std::string& input_file_name_with_path
     // Insert the vertex into the appropriate cluster.
     clusters.emplace(clusterKey, Cluster());
 
-    clusters[clusterKey].vertices.emplace(vertexId, make_shared<Vertex>(Vertex()));
+    clusters[clusterKey].vertices.emplace(vertexId, make_shared<Vertex>(Vertex(features, &clusters[clusterKey])));
 
-    clusters[clusterKey].vertices[vertexId]->features = features;
     clusters[clusterKey].vertices[vertexId]->adjacents = adjacents;
 
   }

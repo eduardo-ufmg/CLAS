@@ -14,8 +14,9 @@ using namespace std;
 
 void filterVertices(ClusterMap& clusters, double deviationFactor)
 {
-  for (auto& [key, cluster] : clusters) {
-    // Avoid division by zero if there are no vertices.
+  for (auto& [_, cluster] : clusters) {
+    (void) _;
+
     if (cluster.vertices.empty()) {
       continue;
     }
@@ -30,7 +31,7 @@ void filterVertices(ClusterMap& clusters, double deviationFactor)
       }
 
       for (const auto& adjacent : vertex.second->adjacents) {
-        if (cluster.vertices.find(adjacent) != cluster.vertices.end()) {
+        if (cluster.vertices.find(adjacent.first) != cluster.vertices.end()) {
           sameClusterDegree++;
         }
       }

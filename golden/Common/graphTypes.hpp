@@ -7,14 +7,20 @@
 #include <variant>
 #include <memory>
 
+class Vertex;
+class Cluster;
+
 typedef unsigned VertexID_t;
 
 class Vertex
 {
 public:
   std::vector<double> features;
-  std::vector<VertexID_t> adjacents;
+  std::vector< std::pair<VertexID_t, bool> > adjacents;
   double q;
+  const Cluster* cluster;
+  Vertex(std::vector<double> features, const Cluster* cluster) : features(features), cluster(cluster) {}
+  Vertex() {}
 };
 
 typedef std::map<VertexID_t, std::shared_ptr<Vertex> > VertexMap;

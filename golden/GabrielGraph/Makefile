@@ -48,4 +48,4 @@ run_ilpd: $(TARGET)
 run_synthetic: $(TARGET)
 	./$(TARGET) ../../data/synthetic/synthetic.csv
 
-.PHONY: all clean run_iris run_ilpd
+.PHONY: all clean run_iris run_ilpd run_synthetic

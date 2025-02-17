@@ -90,7 +90,11 @@ def parse_graph_file(filename, num_dimensions):
             v_id = int(parts[0].replace(",", "").strip())
             features = [float(x.strip()) for x in parts[1].split(",") if x.strip() != ""]
             cluster = float(parts[2].replace(",", "").strip())
-            adjacent = [int(x.strip()) for x in parts[3].split(",") if x.strip() != ""]
+            adjacent = [
+                (int(pair.split('-')[0].strip()), pair.split('-')[1].strip() == "1")
+                for pair in parts[3].split(',')
+                if pair.strip()  # skip empty strings
+            ]
             graph[v_id] = {"coords": np.array(features), "cluster": cluster, "adjacent": adjacent}
     return graph
 
@@ -113,14 +117,14 @@ def plot_graph(ax, graph, num_dimensions, title="Graph"):
         # Draw edges without duplicates, only if both endpoints exist.
         drawn = set()
         for v_id, data in graph.items():
-            for adj in data["adjacent"]:
+            for adj, isSE in data["adjacent"]:
                 if adj not in coords:
                     continue
                 if (adj, v_id) in drawn:
                     continue
                 p1 = coords[v_id]
                 p2 = coords[adj]
-                ax.plot([p1[0], p2[0]], [p1[1], p2[1]], "k-", lw=1)
+                ax.plot([p1[0], p2[0]], [p1[1], p2[1]], "r-" if isSE else "k-", lw=1)
                 drawn.add((v_id, adj))
         ax.set_xlabel("Feature 1")
         ax.set_ylabel("Feature 2")
@@ -132,14 +136,14 @@ def plot_graph(ax, graph, num_dimensions, title="Graph"):
         # Draw edges without duplicates, only if both endpoints exist.
         drawn = set()
         for v_id, data in graph.items():
-            for adj in data["adjacent"]:
+            for adj, isSE in data["adjacent"]:
                 if adj not in coords:
                     continue
                 if (adj, v_id) in drawn:
                     continue
                 p1 = coords[v_id]
                 p2 = coords[adj]
-                ax.plot([p1[0], p2[0]], [p1[1], p2[1]], [p1[2], p2[2]], "k-", lw=1)
+                ax.plot([p1[0], p2[0]], [p1[1], p2[1]], [p1[2], p2[2]], "r-" if isSE else "k-", lw=1)
                 drawn.add((v_id, adj))
         ax.set_xlabel("Feature 1")
         ax.set_ylabel("Feature 2")

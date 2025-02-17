@@ -98,9 +98,7 @@ int readGraph(ClusterMap& clusters, const std::string& input_filename_with_path)
 
     VertexID_t vertexID = lineNo;
 
-    clusters[key].vertices.emplace(vertexID, make_shared<Vertex>(Vertex()));
-
-    clusters[key].vertices[vertexID]->features = features;
+    clusters[key].vertices.emplace(vertexID, make_shared<Vertex>(Vertex(features, &clusters[key])));
 
     ++lineNo;
   }
