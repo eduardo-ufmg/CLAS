@@ -42,7 +42,7 @@ public:
   double stdDeviation;
 };
 
-using ClassType = std::variant<unsigned, std::string>;
+using ClassType = std::variant<int, std::string>;
 typedef std::map<ClassType, Cluster> ClusterMap;
 
 template<typename... Ts>
@@ -51,5 +51,15 @@ operator<<(std::ostream& os, const std::variant<Ts...>& var) {
   std::visit([&os](const auto& value) { os << value; }, var);
   return os;
 }
+
+class Expert
+{
+public:
+  std::pair<VertexID_t, VertexID_t> edge;
+  std::vector<double> weights;
+  double bias;
+  std::vector<double> midpoint_coordinates;
+  unsigned id;
+};
 
 #endif

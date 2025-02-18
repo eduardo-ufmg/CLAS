@@ -24,7 +24,7 @@ int readGraph(ClusterMap& clusters, const std::string& input_filename_with_path)
 
   string line;
   size_t lineNo = 0;
-  bool useUnsigned = false;
+  bool useInt = false;
   bool firstLine = true;
 
   while (getline(file, line)) {
@@ -48,7 +48,7 @@ int readGraph(ClusterMap& clusters, const std::string& input_filename_with_path)
     if (firstLine) {
       // Check if the classToken is composed entirely of digits.
       if (!classToken.empty() && all_of(classToken.begin(), classToken.end(), ::isdigit)) {
-        useUnsigned = true;
+        useInt = true;
       }
 
       firstLine = false;
@@ -76,11 +76,11 @@ int readGraph(ClusterMap& clusters, const std::string& input_filename_with_path)
     // Insert the vertex into the corresponding Cluster based on the class ID.
     ClassType key;
 
-    if (useUnsigned) {
-      unsigned classID = 0;
+    if (useInt) {
+      int classID = 0;
 
       try {
-        classID = stoul(classToken);
+        classID = stoi(classToken);
       } catch (const exception& e) {
         cerr << "Error converting class token '" << classToken << "' to unsigned on line " << lineNo << endl;
         return -1;

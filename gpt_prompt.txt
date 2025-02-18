@@ -1,83 +1,74 @@
-consider the following files from the current dir {workspace_root}:
+consider the following:
+
+---------------------------
+
+The Gabriel graph of a set of points consists of a graph whose set of vertices `V` and edges `E` must conform with the definition expressed by (1), where points `(pi , pj)` constitute an edge if, and only if, no other point is contained within the hypersphere of diameter `D(pi , pj)`, the distance between points `pi` and `pj`
+`(pi , pj) ∈ E ↔ D²(pi , pj) ≤ [D²(pi , z) + D²(pj , z)] ∀z ∈ V, pi, pj != z` (1)
+The graph `G = {V, E}` of a training data set `T = {(xi , yi)|i = 1, . . . , N}`, where `yi ∈ {+1, −1}` and `xi ∈ Rn` also has a set of support edges `SE`, which represents all the edges of `E` that have a pair of vertices `(xi , xj)` that belong to opposite classes.
+
+The final classifier is obtained from a Hierarchical Expert Mixture (HME), in which each hyperplane associated with every `SE` will have a different weight according to the new input pattern `x` to be classified. The HME architecture is represented by a network, where the first layer corresponds to the local experts. Each expert is weighted according to
+`cl(x) = exp( −( max( D(x, pk) ) )² / D(x, pl) ) ∀k = 1, ..., m` (4)
+functions `h1(x), ..., hm(x)` represents the `m` specialist outputs, `pl = (xi + xj)/2` is the midpoint of the support edge formed by the vertices `xi` and `xj` and `D(x, pl)` is the distance between
+sample `x` (to be labeled) and the midpoint `pl`. After calculating the weights by (4) a normalization is imposed, such that sum(cl(x)) = 1. Then, the final result of the classification is obtained by
+`f(x) = sign(sum(hl(x) * cl(x)))`, where `hl = sign((x^T)wl − bl)`, where `wl` is defined as `(xl − xj)`, and the bias term `bl` is defined as `[(1/2)(xl + xj)]wl^T`
+
+---------------------------
+
+The Gabriel Graph computation and support edge extraction are already implemented. Its output is a csv file with the following format:
 
 ```
-.
-├── data
-│   ├── ilpd
-│   │   ├── ilpd.csv
-│   └── iris
-│       ├── iris.csv
-├── dev
-│   ├── GabrielGraph
-│   │   ├── multiVariableGabrielGraph
-│   │   ├── output
-│   │   │   ├── ilpd.csv
-│   │   │   └── iris.csv
-│   ├── LowDegreeVerticesFilter
-│   │   ├── lowDegreeVerticesFilter
-│   │   ├── output
-│   │   │   ├── ilpd-filtered.csv
-│   │   │   ├── iris-filtered.csv
-└── visualize.py
-```
-
-`data`:
-```
-feature0_0, feature0_1, ..., feature0_n, class0
-feature1_0, feature1_1, ..., feature1_n, class1
+vertex0_id, |, feature0_0, feature0_1, ..., feature0_n, |, cluster0_id, |, adjacent_vertex0_0 - isSupportEdge, adjacent_vertex0_1 - isSupportEdge, ..., adjacent_vertex0_m - isSupportEdge
+vertex1_id, |, feature1_0, feature1_1, ..., feature1_n, |, cluster1_id, |, adjacent_vertex1_0 - isSupportEdge, adjacent_vertex1_1 - isSupportEdge, ..., adjacent_vertex1_m - isSupportEdge
 ...
-featurem_0, featurem_1, ..., featurem_n, classm
+vertexk_id, |, featurek_0, featurek_1, ..., featurek_n, |, clusterk_id, |, adjacent_vertexk_0 - isSupportEdge, adjacent_vertexk_1 - isSupportEdge, ..., adjacent_vertexk_m - isSupportEdge
 ```
 
-`graph`:
+the custom types that hold that data are
 ```
-vertex0_id, |, feature0_0, feature0_1, ..., feature0_n, |, cluster0_id, |, adjacent_vertex0_0, adjacent_vertex0_1, ..., adjacent_vertex0_m
-vertex1_id, |, feature1_0, feature1_1, ..., feature1_n, |, cluster1_id, |, adjacent_vertex1_0, adjacent_vertex1_1, ..., adjacent_vertex1_m
-...
-vertexk_id, |, featurek_0, featurek_1, ..., featurek_n, |, clusterk_id, |, adjacent_vertexk_0, adjacent_vertexk_1, ..., adjacent_vertexk_m
+class Vertex;
+class Cluster;
+
+typedef unsigned VertexID_t;
+
+class Vertex
+{
+public:
+  std::vector<double> features;
+  std::vector< std::pair<VertexID_t, bool> > adjacents;
+  double q;
+  const Cluster* cluster;
+  Vertex(std::vector<double> features, const Cluster* cluster) : features(features), cluster(cluster) {}
+  Vertex() {}
+};
+
+typedef std::map<VertexID_t, std::shared_ptr<Vertex> > VertexMap;
+
+class QualityMeasure
+{
+public:
+  double sum_q;
+  double magnitude;
+};
+
+class Cluster
+{
+public:
+  VertexMap vertices;
+  QualityMeasure Q;
+  double threshold;
+  double averageQuality;
+  double stdDeviation;
+};
+
+using ClassType = std::variant<unsigned, std::string>;
+typedef std::map<ClassType, Cluster> ClusterMap;
 ```
 
-`vertexV_id` is an integer that identifies the vertex in the graph. each `featureV_i` is the i-dimension coordinate of the vertex V. `clusterV_id` is the class of the vertex V. `adjacent_vertexV_j` is the id of the vertex that is adjacent to vertex V.
-
-none of those have headers or row names, but their content data is consistent.
-
-as an example, suppose
+the function to read the data is
+```
+int readGraph(ClusterMap& clusters, const std::string& input_file_name_with_path)
 ```
 
-`data.csv`:
-```
-0.1, 1.0, 3.2, 9.1, 0
-0.2, 1.1, 3.3, 9.2, 1
-0.3, 1.2, 3.4, 9.3, 0
-0.4, 1.3, 3.5, 9.4, 1
-```
+it reads the csv file and populates the `clusters` map with the data.
 
-`graph.csv`:
-```
-0, |, 0.1, 1.0, 3.2, 9.1, |, 0, |, 1, 3
-1, |, 0.2, 1.1, 3.3, 9.2, |, 1, |, 0, 3
-2, |, 0.3, 1.2, 3.4, 9.3, |, 0, |, 3
-3, |, 0.4, 1.3, 3.5, 9.4, |, 1, |, 0, 1, 2
-```
-
-this means that the graph has 4 vertices and 2 clusters, where the first cluster has 2 vertices and the second cluster has 2 vertices. the first vertex has coordinates (0.1, 1.0, 3.2, 9.1) and is adjacent to the second and fourth vertices. the second vertex has coordinates (0.2, 1.1, 3.3, 9.2) and is adjacent to the first and fourth vertices. the third vertex has coordinates (0.3, 1.2, 3.4, 9.3) and is adjacent to the fourth vertex. the fourth vertex has coordinates (0.4, 1.3, 3.5, 9.4) and is adjacent to the first, second and third vertices.
-
-write a python3 code to:
-- receive, upon call, number of dimensions (2 or 3), number of classes, number of vertices and spread factor
-- generates synthetic n-dimensional data to meet the requested number of classes
-- save this data on a new directory under `data`
-- plot the data
-- run the Gabriel Graph program over the data
-- plot the constructed graph
-- run the Low Degree Vertices Filter over the data
-- plot the filtered graph
-
-the naming and structure format must be kept
-
-`multiVariableGabrielGraph` usage: `{workspace_root}/dev/GabrielGraph/multiVariableGabrielGraph {workspace_root}/data/synthetic/synthetic.csv`
-`multiVariableGabrielGraph` output: `{workspace_root}/dev/GabrielGraph/output/synthetic.csv`
-
-`lowDegreeVerticesFilter` usage: `{workspace_root}/dev/LowDegreeVerticesFilter/lowDegreeVerticesFilter {workspace_root}/dev/GabrielGraph/output/synthetic.csv`
-`lowDegreeVerticesFilter` output: `{workspace_root}/dev/LowDegreeVerticesFilter/output/synthetic-filtered.csv`
-
-----------------------------------------------------------------------------------------
+write a C++ program that builds the hyperplanes and output them in a format you see fit. new data types and functions may be defined as needed

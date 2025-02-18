@@ -87,13 +87,13 @@ int readGraph(ClusterMap& clusters, const std::string& input_file_name_with_path
     // --- Parse Cluster ID ---
     string clusterIdStr = trim(parts[2]);
     // Determine whether to treat the cluster id as an unsigned or string.
-    bool isClusterIdUnsigned = !clusterIdStr.empty() && all_of(clusterIdStr.begin(), clusterIdStr.end(), ::isdigit);
+    bool isClusterIdInt = !clusterIdStr.empty() && all_of(clusterIdStr.begin(), clusterIdStr.end(), ::isdigit);
 
     ClassType clusterKey;
 
-    if (isClusterIdUnsigned) {
+    if (isClusterIdInt) {
       try {
-        clusterKey = static_cast<unsigned>(stoul(clusterIdStr));
+        clusterKey = static_cast<int>(stoi(clusterIdStr));
       } catch (const std::exception& e) {
         cerr << "Error converting cluster id '" << clusterIdStr << "' to unsigned in line: " << line << endl;
         return 1;

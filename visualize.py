@@ -23,7 +23,7 @@ def generate_synthetic_data(num_dimensions, num_classes, num_vertices, spread_fa
         counts[i] += 1
 
     data_rows = []
-    for cls in range(num_classes):
+    for cls in range(-num_classes // 2, num_classes // 2 + 1, 2):
         # Pick a random center in [0, 10]^d
         center = np.random.uniform(0, 10, num_dimensions)
         # Generate points from a Gaussian distribution
