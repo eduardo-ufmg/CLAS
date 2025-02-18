@@ -5,6 +5,7 @@
 
 #include "graphTypes.hpp"
 
-void computeExperts(std::vector<Expert>& experts, const ClusterMap& clusters);
+SupportEdges getSEs(const ClusterMap& clusters);
+std::vector<Expert> getExperts(const SupportEdges& supportEdges, const ClusterMap& clusters);
 
 #endif // COMPUTEEXPERTS_HPP

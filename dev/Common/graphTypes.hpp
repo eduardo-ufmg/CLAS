@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <set>
 #include <variant>
 #include <memory>
 
@@ -52,13 +53,17 @@ operator<<(std::ostream& os, const std::variant<Ts...>& var) {
   return os;
 }
 
+typedef std::pair<VertexID_t, VertexID_t> Edge;
+typedef std::set<Edge> SupportEdges;
+typedef std::pair<const Vertex*, const Vertex*> EdgeVertices;
+
 class Expert
 {
 public:
-  std::pair<VertexID_t, VertexID_t> edge;
-  std::vector<double> weights;
-  double bias;
+  Edge edge;
+  std::vector<double> differences;
   std::vector<double> midpoint_coordinates;
+  double bias;
   unsigned id;
 };
 

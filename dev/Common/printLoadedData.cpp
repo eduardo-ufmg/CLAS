@@ -55,3 +55,24 @@ void printAdjacencyLists(const ClusterMap& clusters, int maxCluster, int maxVert
     clusterCount++;
   }
 }
+
+void printExpertData(const vector<Expert>& experts)
+{
+  cout << "Expert data:" << endl;
+
+  for (const auto& expert : experts) {
+    cout << "Expert " << expert.id << ":" << endl;
+    cout << "  Edge: (" << expert.edge.first << ", " << expert.edge.second << ")" << endl;
+    cout << "  Differences: ";
+    for (const auto& difference : expert.differences) {
+      cout << difference << " ";
+    }
+    cout << endl;
+    cout << "  Midpoint: ";
+    for (const auto& coordinate : expert.midpoint_coordinates) {
+      cout << coordinate << " ";
+    }
+    cout << endl;
+    cout << "  Bias: " << expert.bias << endl;
+  }
+}
