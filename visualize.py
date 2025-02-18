@@ -113,7 +113,7 @@ def plot_graph(ax, graph, num_dimensions, title="Graph"):
         # Plot vertices
         for v_id, data in graph.items():
             ax.scatter(data["coords"][0], data["coords"][1],
-                       color=cmap(data["cluster"]), s=50)
+                       color=cmap(int(data["cluster"])), s=50)
         # Draw edges without duplicates, only if both endpoints exist.
         drawn = set()
         for v_id, data in graph.items():
@@ -132,7 +132,7 @@ def plot_graph(ax, graph, num_dimensions, title="Graph"):
         # Plot vertices
         for v_id, data in graph.items():
             ax.scatter(data["coords"][0], data["coords"][1], data["coords"][2],
-                       color=cmap(data["cluster"]), s=50)
+                       color=cmap(int(data["cluster"])), s=50)
         # Draw edges without duplicates, only if both endpoints exist.
         drawn = set()
         for v_id, data in graph.items():
