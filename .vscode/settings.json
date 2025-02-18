@@ -63,6 +63,13 @@
     "ranges": "cpp",
     "unordered_set": "cpp",
     "set": "cpp",
-    "span": "cpp"
+    "span": "cpp",
+    "strstream": "cpp",
+    "cfenv": "cpp",
+    "charconv": "cpp",
+    "iomanip": "cpp",
+    "mutex": "cpp",
+    "stdfloat": "cpp",
+    "thread": "cpp"
   }
 }

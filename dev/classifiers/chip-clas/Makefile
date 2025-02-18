@@ -40,12 +40,12 @@ clean:
 # Run the target executable
 
 run_iris: $(TARGET)
-	./$(TARGET) ../../GabrielGraph/output/iris-filtered.csv
+	./$(TARGET) ../../GabrielGraph/output/iris-filtered.csv ../Common/output/iris-filtered.csv ../../../data/iris/to-classify.csv
 
 run_ilpd: $(TARGET)
-	./$(TARGET) ../../GabrielGraph/output/ilpd-filtered.csv
+	./$(TARGET) ../../GabrielGraph/output/ilpd-filtered.csv ../Common/output/ilpd-filtered.csv ../../../data/ilpd/to-classify.csv
 
 run_synthetic: $(TARGET)
-	./$(TARGET) ../../GabrielGraph/output/synthetic-filtered.csv
+	./$(TARGET) ../../GabrielGraph/output/synthetic-filtered.csv ../Common/output/synthetic-filtered.csv ../../../data/synthetic/to-classify.csv
 
 .PHONY: all clean run_iris run_ilpd run_synthetic

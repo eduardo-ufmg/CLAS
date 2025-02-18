@@ -11,7 +11,7 @@
 class Vertex;
 class Cluster;
 
-typedef int VertexID_t;
+using VertexID_t = int;
 
 class Vertex
 {
@@ -24,7 +24,7 @@ public:
   Vertex() {}
 };
 
-typedef std::map<VertexID_t, std::shared_ptr<Vertex> > VertexMap;
+using VertexMap = std::map<VertexID_t, std::shared_ptr<Vertex> >;
 
 class QualityMeasure
 {
@@ -44,7 +44,7 @@ public:
 };
 
 using ClassType = std::variant<int, std::string>;
-typedef std::map<ClassType, Cluster> ClusterMap;
+using ClusterMap = std::map<ClassType, Cluster>;
 
 template<typename... Ts>
 std::enable_if_t<(sizeof...(Ts) > 0), std::ostream&>
@@ -53,9 +53,9 @@ operator<<(std::ostream& os, const std::variant<Ts...>& var) {
   return os;
 }
 
-typedef std::pair<VertexID_t, VertexID_t> Edge;
-typedef std::set<Edge> SupportEdges;
-typedef std::pair<const Vertex*, const Vertex*> EdgeVertices;
+using Edge = std::pair<VertexID_t, VertexID_t>;
+using SupportEdges = std::set<Edge>;
+using EdgeVertices = std::pair<const Vertex*, const Vertex*>;
 
 class Expert
 {

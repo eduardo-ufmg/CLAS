@@ -192,6 +192,11 @@ def main():
   filter_output = filter_output_from_root
   gabriel_over_filtered_input_file = path_from_gabriel_to_root + filter_output_from_root
   gabriel_filtered_output = gabriel_filtered_output_from_root
+  vertices_to_classify_from_root = "data/synthetic/to-classify.csv"
+  hyperplanes_from_root = "dev/classifiers/Common/hyperplanes"
+  hyperplanes_output_from_root = "dev/classifiers/Common/output/synthetic-filtered.csv"
+  chip_clas_from_root = "dev/classifiers/chip-clas/chip-clas"
+  chip_clas_output_from_root = "dev/classifiers/chip-clas/output/synthetic-classified.csv"
   
   # Generate synthetic data
   data = generate_synthetic_data(args.num_vertices, args.spread, synthetic_data_file_from_root, args.seed)

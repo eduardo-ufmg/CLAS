@@ -3,6 +3,8 @@
 #include "graphTypes.hpp"
 #include "readFiles.hpp"
 #include "classify.hpp"
+#include "writeFiles.hpp"
+#include "stringHelpers.hpp"
 
 using namespace std;
 
@@ -38,7 +40,19 @@ int main(int argc, char* argv[])
     return 1;
   }
 
-  classify(clusters, experts, new_vertices);
+  vector< pair<VertexID_t, int> > classifiedVertices;
+
+  classifiedVertices = classify(clusters, experts, new_vertices);
+
+  string aux_out_fn = outputPathFromInputPath(dataset_filename_with_path);
+  string output_file_name_with_path = aux_out_fn.substr(0, aux_out_fn.find_last_of('-')) + "-classified.csv";
+
+  if (writeClassifiedVertices(classifiedVertices, output_file_name_with_path) != 0) {
+    cerr << "Error writing output file" << output_file_name_with_path << endl;
+    return 1;
+  } else {
+    cout << "Classified vertices written to " << output_file_name_with_path << endl;
+  }
 
   return 0;
 }

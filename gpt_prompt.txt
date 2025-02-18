@@ -36,3 +36,131 @@ feature1_0, feature1_1, ..., feature1_n, cluster1_id
 featurek_0, featurek_1, ..., featurek_n, clusterk_id
 ```
 
+consider the following custom types:
+```
+class Vertex;
+class Cluster;
+
+typedef int VertexID_t;
+
+class Vertex
+{
+public:
+  std::vector<double> features;
+  std::vector< std::pair<VertexID_t, bool> > adjacents;
+  double q;
+  const Cluster* cluster;
+  Vertex(std::vector<double> features, const Cluster* cluster) : features(features), cluster(cluster) {}
+  Vertex() {}
+};
+
+typedef std::map<VertexID_t, std::shared_ptr<Vertex> > VertexMap;
+
+class QualityMeasure
+{
+public:
+  double sum_q;
+  double magnitude;
+};
+
+class Cluster
+{
+public:
+  VertexMap vertices;
+  QualityMeasure Q;
+  double threshold;
+  double averageQuality;
+  double stdDeviation;
+};
+
+using ClassType = std::variant<int, std::string>;
+typedef std::map<ClassType, Cluster> ClusterMap;
+
+template<typename... Ts>
+std::enable_if_t<(sizeof...(Ts) > 0), std::ostream&>
+operator<<(std::ostream& os, const std::variant<Ts...>& var) {
+  std::visit([&os](const auto& value) { os << value; }, var);
+  return os;
+}
+
+typedef std::pair<VertexID_t, VertexID_t> Edge;
+typedef std::set<Edge> SupportEdges;
+typedef std::pair<const Vertex*, const Vertex*> EdgeVertices;
+
+class Expert
+{
+public:
+  Edge edge;
+  std::vector<double> differences;
+  std::vector<double> midpoint_coordinates;
+  double bias;
+  unsigned id;
+};
+```
+
+the following functions are already implemented
+`int readGraph(ClusterMap& clusters, const std::string& input_filename_with_path)`, `int readExperts(std::vector<Expert>& experts, const std::string& input_filename_with_path)` and `int readVertices(VertexMap& vertices, const std::string& input_filename_with_path)`. 
+
+consider the following main for the chip-clas classifier program
+```
+#include <iostream>
+
+#include "graphTypes.hpp"
+#include "readFiles.hpp"
+#include "classify.hpp"
+
+using namespace std;
+
+int main(int argc, char* argv[])
+{
+  if (argc < 4) {
+    cerr << "Usage: " << argv[0] << " <dataset> <hyperplanes> <new_vertices>" << endl;
+    return 1;
+  }
+
+  string dataset_filename_with_path = argv[1];
+  string hyperplanes_filename_with_path = argv[2];
+  string new_vertices_filename_with_path = argv[3];
+
+  ClusterMap clusters;
+
+  if (readGraph(clusters, dataset_filename_with_path) != 0) {
+    cerr << "Error reading graph from " << dataset_filename_with_path << endl;
+    return 1;
+  }
+
+  vector<Expert> experts;
+
+  if (readExperts(experts, hyperplanes_filename_with_path) != 0) {
+    cerr << "Error reading hyperplanes from " << hyperplanes_filename_with_path << endl;
+    return 1;
+  }
+
+  VertexMap new_vertices;
+
+  if (readVertices(new_vertices, new_vertices_filename_with_path) != 0) {
+    cerr << "Error reading new vertices from " << new_vertices_filename_with_path << endl;
+    return 1;
+  }
+
+  classify(clusters, experts, new_vertices);
+
+  return 0;
+}
+```
+
+complete the `classify` function
+```
+using namespace std;
+
+void classify(ClusterMap& clusters, const vector<Expert>& experts, VertexMap& vertices)
+{ 
+}
+```
+
+according to the following rules:
+The final classifier is obtained from a Hierarchical Expert Mixture (HME), in which each hyperplane associated with every `SE` will have a different weight according to the new input pattern `x` to be classified. The HME architecture is represented by a network, where the first layer corresponds to the local experts. Each expert is weighted according to
+`cl(x) = exp( −( max( D(x, pk) ) )² / D(x, pl) ) ∀k = 1, ..., m` (4)
+functions `h1(x), ..., hm(x)` represents the `m` specialist outputs, `pl = (xi + xj)/2` is the midpoint of the support edge formed by the vertices `xi` and `xj` and `D(x, pl)` is the distance between
+sample `x` (to be labeled) and the midpoint `pl`. After calculating the weights by (4) a normalization is imposed, such that sum(cl(x)) = 1. Then, the final result of the classification is obtained by
+`f(x) = sign(sum(hl(x) * cl(x)))`, where `hl = sign((x^T)wl − bl)`, where `wl` is the `differences` attribute and `bl` is the bias attribute.

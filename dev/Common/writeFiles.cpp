@@ -24,7 +24,7 @@ using namespace std;
 
 */
 
-int writeGabrielGraphToFile(const ClusterMap& clusters, const std::string& file_name_with_path)
+int writeGabrielGraphToFile(const ClusterMap& clusters, const string& file_name_with_path)
 {
   ofstream outfile(file_name_with_path);
 
@@ -75,7 +75,7 @@ featurek_0, featurek_1, ..., featurek_n, clusterk_id
 
 */
 
-int writeVerticesToFile(const ClusterMap& clusters, const std::string& file_name_with_path)
+int writeVerticesToFile(const ClusterMap& clusters, const string& file_name_with_path)
 {
   ofstream outfile(file_name_with_path);
 
@@ -115,7 +115,7 @@ id1, |, v10, v11, |, diff_coord10, diff_coord11, ..., diff_coord1n, |, midpoint_
 idk, |, vk0, vk1, |, diff_coordk0, diff_coordk1, ..., diff_coordkn, |, midpoint_coordk0, midpoint_coordk1, ..., midpoint_coordkn, |, biask
 
 */
-int writeExpertsToFile(const vector<Expert>& experts, const std::string& file_name_with_path)
+int writeExpertsToFile(const vector<Expert>& experts, const string& file_name_with_path)
 {
   ofstream outfile(file_name_with_path);
 
@@ -124,7 +124,7 @@ int writeExpertsToFile(const vector<Expert>& experts, const std::string& file_na
     return -1;
   }
   
-  for (const Expert& expert : experts) {
+  for (const auto& expert : experts) {
     // Write expert id.
     outfile << expert.id << ", |, ";
     
@@ -151,3 +151,28 @@ int writeExpertsToFile(const vector<Expert>& experts, const std::string& file_na
   return 0;
 }
 
+/*
+  output format:
+
+  id0, class0
+  id1, class1
+  ...
+  idk, classk
+
+*/
+int writeClassifiedVertices(const vector< pair<VertexID_t, int> >& vertices, const string& file_name_with_path)
+{
+  ofstream outfile(file_name_with_path);
+
+  if (!outfile.is_open()) {
+    cerr << "Error: Unable to open file " << file_name_with_path << " for writing." << endl;
+    return -1;
+  }
+
+  for (const auto& [vertex_id, class_id] : vertices) {
+    outfile << vertex_id << ", " << class_id << "\n";
+  }
+
+  outfile.close();
+  return 0;
+}
