@@ -8,10 +8,10 @@ CXXFLAGS = -Wall -Wextra
 DEBUGFLAGS = -g
 
 # Target executable
-TARGET = multiVariableGabrielGraph
+TARGET = gabrielGraph
 
 # Source files
-SRCS = multiVariableGabrielGraph.cpp ../Common/stringHelpers.cpp ../Common/writeFiles.cpp ../Common/printLoadedData.cpp readGraph.cpp gabrielGraph.cpp
+SRCS = gabrielGraph.cpp ../Common/stringHelpers.cpp ../Common/writeFiles.cpp ../Common/printLoadedData.cpp readGraph.cpp computeGabrielGraph.cpp
 
 # Include directories
 INCS = -I../Common

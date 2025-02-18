@@ -11,7 +11,7 @@
 #include "stringHelpers.hpp"
 #include "printLoadedData.hpp"
 #include "readGraph.hpp"
-#include "filter.hpp"
+#include "computeFilter.hpp"
 #include "writeFiles.hpp"
 
 using namespace std;

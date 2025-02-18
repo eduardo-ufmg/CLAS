@@ -8,10 +8,10 @@ CXXFLAGS = -Wall -Wextra
 DEBUGFLAGS = -g
 
 # Target executable
-TARGET = lowDegreeVerticesFilter
+TARGET = filter
 
 # Source files
-SRCS = lowDegreeVerticesFilter.cpp ../Common/stringHelpers.cpp ../Common/writeFiles.cpp ../Common/printLoadedData.cpp ../Common/readGraph.cpp filter.cpp
+SRCS = filter.cpp ../Common/stringHelpers.cpp ../Common/writeFiles.cpp ../Common/printLoadedData.cpp ../Common/readGraph.cpp computeFilter.cpp
 
 # Include directories
 INCS = -I../Common

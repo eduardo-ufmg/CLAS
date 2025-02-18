@@ -1,95 +1,47 @@
-#include "gabrielGraph.hpp"
-
-#include <cmath>
+#include <iostream>
+#include <fstream>
+#include <sstream>
 #include <vector>
-#include <limits>
+#include <string>
+#include <cmath>
+#include <cstdlib>
+#include <variant>
 
 #include "graphTypes.hpp"
+#include "stringHelpers.hpp"
+#include "printLoadedData.hpp"
+#include "readGraph.hpp"
+#include "computeGabrielGraph.hpp"
+#include "writeFiles.hpp"
 
 using namespace std;
 
-double squaredDistance(const std::vector<double>& a, const std::vector<double>& b);
-
-void gabrielGraph(ClusterMap& clusters)
+int main(int argc, char* argv[])
 {
-  // Collect all vertices from all clusters.
-  VertexMap allVertices;
+  if (argc < 2) {
+    cerr << "Usage: " << argv[0] << " <input_csv>" << endl;
+    return 1;
+  }
 
-  for (auto& cluster : clusters) {
-    Cluster& c = cluster.second;
+  string input_filename_with_path = argv[1];
 
-    for (auto& vertex : c.vertices) {
-      allVertices.insert(vertex);
-    }
+  ClusterMap clusters;
 
+  if (readGraph(clusters, input_filename_with_path) != 0) {
+    cerr << "Error reading input file" << input_filename_with_path << endl;
+    return 1;
   }
   
-  size_t N = allVertices.size();
+  computeGabrielGraph(clusters);
 
-  // For each pair of vertices (pi, pj)
-  for (size_t i = 0; i < N; ++i) {
+  string output_filename_with_path = outputPathFromInputPath(input_filename_with_path);
 
-    if (allVertices.find(i) == allVertices.end()) {
-      continue;
-    }
-
-    auto& pi = allVertices[i];
-
-    for (size_t j = i + 1; j < N; ++j) {
-
-      if (allVertices.find(j) == allVertices.end()) {
-        continue;
-      }
-
-      auto& pj = allVertices[j];
-
-      double d2 = squaredDistance(pi->features, pj->features);
-      bool validEdge = true;
-
-      // Check the Gabriel condition against every other vertex z.
-      for (size_t k = 0; k < N; ++k) {
-        if (k == i || k == j) {
-          continue;
-        }
-
-        auto& pk = allVertices[k];
-        
-        // If for any other vertex the sum of squared distances is less than d2,
-        // then the sphere with (pi, pj) as diameter contains pk.
-        if (squaredDistance(pi->features, pk->features) + 
-          squaredDistance(pj->features, pk->features) < d2) {
-          validEdge = false;
-          break;
-        }
-
-      }
-
-      // If the edge passes the test, add each vertex to the other's adjacency list.
-      if (validEdge) {
-        bool isSE = pi->cluster != pj->cluster;
-
-        pi->adjacents.push_back({j, isSE});
-        pj->adjacents.push_back({i, isSE});
-      }
-
-    }
-
-  }
-}
-
-double squaredDistance(const std::vector<double>& a, const std::vector<double>& b)
-{
-  double sum = 0.0;
-  size_t n = a.size();
-
-  if (n != b.size()) {
-   return numeric_limits<double>::infinity();
+  if (writeGabrielGraphToFile(clusters, output_filename_with_path) != 0) {
+    cerr << "Error writing output file" << output_filename_with_path << endl;
+    return 1;
+  }  else {
+    cout << "Gabriel graph written to " << output_filename_with_path << endl;
   }
 
-  for (size_t i = 0; i < n; ++i) {
-    double diff = a[i] - b[i];
-    sum += diff * diff;
-  }
-
-  return sum;
+  return 0;
 }

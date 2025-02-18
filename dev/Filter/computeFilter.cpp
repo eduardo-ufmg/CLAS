@@ -1,4 +1,4 @@
-#include "filter.hpp"
+#include "computeFilter.hpp"
 
 #include <vector>
 #include <map>
