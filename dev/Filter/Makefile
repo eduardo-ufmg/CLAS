@@ -11,7 +11,7 @@ DEBUGFLAGS = -g
 TARGET = filter
 
 # Source files
-SRCS = filter.cpp ../Common/stringHelpers.cpp ../Common/writeFiles.cpp ../Common/printLoadedData.cpp ../Common/readGraph.cpp computeFilter.cpp
+SRCS = filter.cpp ../Common/stringHelpers.cpp ../Common/writeFiles.cpp ../Common/printLoadedData.cpp ../Common/readFiles.cpp computeFilter.cpp
 
 # Include directories
 INCS = -I../Common

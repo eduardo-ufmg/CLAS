@@ -10,7 +10,7 @@
 #include "graphTypes.hpp"
 #include "stringHelpers.hpp"
 #include "printLoadedData.hpp"
-#include "readGraph.hpp"
+#include "readFiles.hpp"
 #include "computeFilter.hpp"
 #include "writeFiles.hpp"
 

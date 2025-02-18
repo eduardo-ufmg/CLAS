@@ -8,13 +8,13 @@ CXXFLAGS = -Wall -Wextra
 DEBUGFLAGS = -g
 
 # Target executable
-TARGET = chip-clas
+TARGET = hyperplanes
 
 # Source files
-SRCS = chip-clas.cpp ../../Common/stringHelpers.cpp ../../Common/writeFiles.cpp ../../Common/printLoadedData.cpp ../../Common/readFiles.cpp
+SRCS = hyperplanes.cpp ../../Common/stringHelpers.cpp ../../Common/writeFiles.cpp ../../Common/printLoadedData.cpp ../../Common/readFiles.cpp computeExperts.cpp
 
 # Include directories
-INCS = -I../../Common -I../Common
+INCS = -I../../Common
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)

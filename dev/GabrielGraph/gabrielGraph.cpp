@@ -10,7 +10,7 @@
 #include "graphTypes.hpp"
 #include "stringHelpers.hpp"
 #include "printLoadedData.hpp"
-#include "readGraph.hpp"
+#include "readFiles.hpp"
 #include "computeGabrielGraph.hpp"
 #include "writeFiles.hpp"
 
@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
 
   ClusterMap clusters;
 
-  if (readGraph(clusters, input_filename_with_path) != 0) {
+  if (readVertices(clusters, input_filename_with_path) != 0) {
     cerr << "Error reading input file" << input_filename_with_path << endl;
     return 1;
   }

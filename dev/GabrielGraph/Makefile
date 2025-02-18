@@ -11,7 +11,7 @@ DEBUGFLAGS = -g
 TARGET = gabrielGraph
 
 # Source files
-SRCS = gabrielGraph.cpp ../Common/stringHelpers.cpp ../Common/writeFiles.cpp ../Common/printLoadedData.cpp readGraph.cpp computeGabrielGraph.cpp
+SRCS = gabrielGraph.cpp ../Common/stringHelpers.cpp ../Common/writeFiles.cpp ../Common/printLoadedData.cpp ../Common/readFiles.cpp computeGabrielGraph.cpp
 
 # Include directories
 INCS = -I../Common
@@ -49,12 +49,12 @@ run_synthetic: $(TARGET)
 	./$(TARGET) ../../data/synthetic/synthetic.csv
 
 run_filtered_iris: $(TARGET)
-	./$(TARGET) ../LowDegreeVerticesFilter/output/iris-filtered.csv
+	./$(TARGET) ../Filter/output/iris-filtered.csv
 
 run_filtered_ilpd: $(TARGET)
-	./$(TARGET) ../LowDegreeVerticesFilter/output/ilpd-filtered.csv
+	./$(TARGET) ../Filter/output/ilpd-filtered.csv
 
 run_filtered_synthetic: $(TARGET)
-	./$(TARGET) ../LowDegreeVerticesFilter/output/synthetic-filtered.csv
+	./$(TARGET) ../Filter/output/synthetic-filtered.csv
 
 .PHONY: all clean run_iris run_ilpd run_synthetic run_filtered_iris run_filtered_ilpd run_filtered_synthetic

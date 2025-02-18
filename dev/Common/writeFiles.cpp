@@ -104,3 +104,50 @@ int writeVerticesToFile(const ClusterMap& clusters, const std::string& file_name
   outfile.close();
   return 0;
 }
+
+/*
+
+output format:
+
+id0, |, v00, v01, |, diff_coord00, diff_coord01, ..., diff_coord0n, |, midpoint_coord00, midpoint_coord01, ..., midpoint_coord0n, |, bias0
+id1, |, v10, v11, |, diff_coord10, diff_coord11, ..., diff_coord1n, |, midpoint_coord10, midpoint_coord11, ..., midpoint_coord1n, |, bias1
+...
+idk, |, vk0, vk1, |, diff_coordk0, diff_coordk1, ..., diff_coordkn, |, midpoint_coordk0, midpoint_coordk1, ..., midpoint_coordkn, |, biask
+
+*/
+int writeExpertsToFile(const vector<Expert>& experts, const std::string& file_name_with_path)
+{
+  ofstream outfile(file_name_with_path);
+
+  if (!outfile.is_open()) {
+    cerr << "Error: Unable to open file " << file_name_with_path << " for writing." << endl;
+    return -1;
+  }
+  
+  for (const Expert& expert : experts) {
+    // Write expert id.
+    outfile << expert.id << ", |, ";
+    
+    // Write edge vertices.
+    outfile << expert.edge.first << ", " << expert.edge.second << ", |";
+    
+    // Write diff_coord.
+    for (const double& diff_coord : expert.differences) {
+      outfile << ", " << diff_coord;
+    }
+
+    outfile << ", |";
+    
+    // Write midpoint_coord.
+    for (const double& midpoint_coord : expert.midpoint_coordinates) {
+      outfile << ", " << midpoint_coord;
+    }
+    
+    // Write bias.
+    outfile << ", |, " << expert.bias << "\n";
+  }
+  
+  outfile.close();
+  return 0;
+}
+
