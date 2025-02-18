@@ -2,6 +2,7 @@
 
 #include "graphTypes.hpp"
 #include "readFiles.hpp"
+#include "classify.hpp"
 
 using namespace std;
 
@@ -30,7 +31,7 @@ int main(int argc, char* argv[])
     return 1;
   }
 
-  vector<Vertex> new_vertices;
+  VertexMap new_vertices;
 
   if (readVertices(new_vertices, new_vertices_filename_with_path) != 0) {
     cerr << "Error reading new vertices from " << new_vertices_filename_with_path << endl;

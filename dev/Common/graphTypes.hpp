@@ -11,7 +11,7 @@
 class Vertex;
 class Cluster;
 
-typedef unsigned VertexID_t;
+typedef int VertexID_t;
 
 class Vertex
 {

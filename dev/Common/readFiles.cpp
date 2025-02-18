@@ -59,7 +59,7 @@ int readGraph(ClusterMap& clusters, const string& input_filename_with_path)
     VertexID_t vertexId;
 
     try {
-      vertexId = static_cast<VertexID_t>(stoul(vertexIdStr));
+      vertexId = static_cast<VertexID_t>(stoi(vertexIdStr));
     } catch (const std::exception& e) {
       cerr << "Error converting vertex id '" << vertexIdStr << "' to unsigned: " << e.what() << endl;
       return 1;
@@ -112,7 +112,7 @@ int readGraph(ClusterMap& clusters, const string& input_filename_with_path)
 
       if (!adjParts.empty()) {
         try {
-          adjacents.push_back({static_cast<VertexID_t>(stoul(trim(adjParts[0]))), static_cast<bool>(stoi(trim(adjParts[1])))});
+          adjacents.push_back({static_cast<VertexID_t>(stoi(trim(adjParts[0]))), static_cast<bool>(stoi(trim(adjParts[1])))});
         } catch (const std::exception& e) {
           cerr << "Error converting adjacent vertex id '" << trim(token) << "' to unsigned in line: " << line << endl;
           return 1;
@@ -271,7 +271,7 @@ int readExperts(vector<Expert>& experts, const string& input_filename_with_path)
 
     vector<string> edge_tokens = split(parts[1], ",");
 
-    expert.edge = Edge(static_cast<VertexID_t>(stoul(trim(edge_tokens[0]))), static_cast<VertexID_t>(stoul(trim(edge_tokens[1]))));
+    expert.edge = Edge(static_cast<VertexID_t>(stoi(trim(edge_tokens[0]))), static_cast<VertexID_t>(stoi(trim(edge_tokens[1]))));
 
     vector<string> differences_tokens = split(parts[2], ",");
 
@@ -304,7 +304,7 @@ int readExperts(vector<Expert>& experts, const string& input_filename_with_path)
   featurek_0, featurek_1, ..., featurek_n
 
 */
-int readVertices(vector<Vertex>& vertices, const string& input_filename_with_path)
+int readVertices(VertexMap& vertices, const string& input_filename_with_path)
 {
   ifstream file(input_filename_with_path);
 
@@ -347,7 +347,7 @@ int readVertices(vector<Vertex>& vertices, const string& input_filename_with_pat
 
     vertex.features = features;
 
-    vertices.push_back(vertex);
+    vertices.emplace(-lineNo, make_shared<Vertex>(vertex));
 
     ++lineNo;
   }
