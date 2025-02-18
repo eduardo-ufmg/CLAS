@@ -5,7 +5,7 @@
       "name": "Debug Gabriel Graph - iris",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/golden/GabrielGraph/multiVariableGabrielGraph",
+      "program": "${workspaceFolder}/dev/GabrielGraph/multiVariableGabrielGraph",
       "args": [
         "${workspaceFolder}/data/iris/iris.csv",
       ],
@@ -27,7 +27,7 @@
       "name": "Debug Gabriel Graph - ilpd",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/golden/GabrielGraph/gabrielGraph",
+      "program": "${workspaceFolder}/dev/GabrielGraph/multiVariableGabrielGraph",
       "args": [
         "${workspaceFolder}/data/ilpd/ilpd.csv",
       ],
@@ -49,7 +49,7 @@
       "name": "Debug Gabriel Graph - synthetic",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/golden/GabrielGraph/gabrielGraph",
+      "program": "${workspaceFolder}/dev/GabrielGraph/multiVariableGabrielGraph",
       "args": [
         "${workspaceFolder}/data/synthetic/synthetic.csv",
       ],
@@ -71,9 +71,9 @@
       "name": "Debug Filter - run_iris",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/golden/LowDegreeVerticesFilter/lowDegreeVerticesFilter",
+      "program": "${workspaceFolder}/dev/LowDegreeVerticesFilter/lowDegreeVerticesFilter",
       "args": [
-        "${workspaceFolder}/golden/GabrielGraph/output/iris.csv",
+        "${workspaceFolder}/dev/GabrielGraph/output/iris.csv",
       ],
       "stopAtEntry": true,
       "cwd": "${workspaceFolder}",
@@ -93,9 +93,9 @@
       "name": "Debug Filter - ilpd",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/golden/LowDegreeVerticesFilter/lowDegreeVerticesFilter",
+      "program": "${workspaceFolder}/dev/LowDegreeVerticesFilter/lowDegreeVerticesFilter",
       "args": [
-        "${workspaceFolder}/golden/GabrielGraph/output/ilpd.csv",
+        "${workspaceFolder}/dev/GabrielGraph/output/ilpd.csv",
       ],
       "stopAtEntry": true,
       "cwd": "${workspaceFolder}",
@@ -115,9 +115,9 @@
       "name": "Debug Filter - synthetic",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/golden/LowDegreeVerticesFilter/lowDegreeVerticesFilter",
+      "program": "${workspaceFolder}/dev/LowDegreeVerticesFilter/lowDegreeVerticesFilter",
       "args": [
-        "${workspaceFolder}/golden/GabrielGraph/output/synthetic.csv",
+        "${workspaceFolder}/dev/GabrielGraph/output/synthetic.csv",
       ],
       "stopAtEntry": true,
       "cwd": "${workspaceFolder}",

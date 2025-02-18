@@ -41,17 +41,11 @@ int writeGraphToFile(const ClusterMap& clusters, const std::string& file_name_wi
     // Iterate over each vertex in the cluster.
     for (const auto& [vertexID, vertexptr] : cluster.vertices) {
       // Write vertex id.
-      outfile << vertexID << ", |, ";
+      outfile << vertexID << ", |";
       
       // Write features separated by comma.
-      bool firstFeature = true;
       for (const double& f : vertexptr->features) {
-        if (!firstFeature) {
-          outfile << ", ";
-        }
-
-        outfile << f;
-        firstFeature = false;
+        outfile << ", " << f;
       }
       
       // Write cluster id.

@@ -6,7 +6,7 @@
       "type": "shell",
       "command": "make clean",
       "options": {
-        "cwd": "${workspaceFolder}/golden/GabrielGraph"
+        "cwd": "${workspaceFolder}/dev/GabrielGraph"
       },
       "problemMatcher": []
     },
@@ -15,7 +15,7 @@
       "type": "shell",
       "command": "make debug",
       "options": {
-        "cwd": "${workspaceFolder}/golden/GabrielGraph"
+        "cwd": "${workspaceFolder}/dev/GabrielGraph"
       },
       "problemMatcher": ["$gcc"]
     },
@@ -36,7 +36,7 @@
       "type": "shell",
       "command": "make clean",
       "options": {
-        "cwd": "${workspaceFolder}/golden/LowDegreeVerticesFilter"
+        "cwd": "${workspaceFolder}/dev/LowDegreeVerticesFilter"
       },
       "problemMatcher": []
     },
@@ -45,7 +45,7 @@
       "type": "shell",
       "command": "make debug",
       "options": {
-        "cwd": "${workspaceFolder}/golden/LowDegreeVerticesFilter"
+        "cwd": "${workspaceFolder}/dev/LowDegreeVerticesFilter"
       },
       "problemMatcher": ["$gcc"]
     },

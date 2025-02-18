@@ -39,7 +39,7 @@ def generate_synthetic_data(num_dimensions, num_classes, num_vertices, spread_fa
     out_dir = os.path.dirname(output_file)
     os.makedirs(out_dir, exist_ok=True)
     # Save to CSV (no header, comma-separated)
-    np.savetxt(output_file, data_array, delimiter=",", fmt="%.6f")
+    np.savetxt(output_file, data_array, delimiter=",", fmt=("%.6f," * num_dimensions + "%d"))
     print(f"Synthetic data saved to {output_file}")
     return data_array
 
@@ -205,8 +205,8 @@ def main():
     
     # 3. Run the Gabriel Graph program over the data
     gabriel_exe = os.path.join(".", "multiVariableGabrielGraph")
-    gabriel_output = os.path.join("golden", "GabrielGraph", "output", "synthetic.csv")
-    gabriel_cwd = os.path.join("golden", "GabrielGraph")
+    gabriel_output = os.path.join("dev", "GabrielGraph", "output", "synthetic.csv")
+    gabriel_cwd = os.path.join("dev", "GabrielGraph")
     run_command([gabriel_exe, programs_synthetic_data_file], gabriel_cwd)
     
     # 4. Parse and plot the constructed graph
@@ -220,8 +220,8 @@ def main():
         # 5. Run the Low Degree Vertices Filter over the graph
         lowdegree_exe = os.path.join(".", "lowDegreeVerticesFilter")
         gabriel_output = os.path.join("..", "GabrielGraph", "output", "synthetic.csv")
-        lowdegree_output = os.path.join("golden", "LowDegreeVerticesFilter", "output", "synthetic-filtered.csv")
-        lowdegree_cwd = os.path.join("golden", "LowDegreeVerticesFilter")
+        lowdegree_output = os.path.join("dev", "LowDegreeVerticesFilter", "output", "synthetic-filtered.csv")
+        lowdegree_cwd = os.path.join("dev", "LowDegreeVerticesFilter")
         run_command([lowdegree_exe, gabriel_output, str(args.deviation_factor)], lowdegree_cwd)
         
         # 6. Parse and plot the filtered graph

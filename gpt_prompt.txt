@@ -7,7 +7,7 @@ consider the following files from the current dir {workspace_root}:
 │   │   ├── ilpd.csv
 │   └── iris
 │       ├── iris.csv
-├── golden
+├── dev
 │   ├── GabrielGraph
 │   │   ├── multiVariableGabrielGraph
 │   │   ├── output
@@ -74,10 +74,10 @@ write a python3 code to:
 
 the naming and structure format must be kept
 
-`multiVariableGabrielGraph` usage: `{workspace_root}/golden/GabrielGraph/multiVariableGabrielGraph {workspace_root}/data/synthetic/synthetic.csv`
-`multiVariableGabrielGraph` output: `{workspace_root}/golden/GabrielGraph/output/synthetic.csv`
+`multiVariableGabrielGraph` usage: `{workspace_root}/dev/GabrielGraph/multiVariableGabrielGraph {workspace_root}/data/synthetic/synthetic.csv`
+`multiVariableGabrielGraph` output: `{workspace_root}/dev/GabrielGraph/output/synthetic.csv`
 
-`lowDegreeVerticesFilter` usage: `{workspace_root}/golden/LowDegreeVerticesFilter/lowDegreeVerticesFilter {workspace_root}/golden/GabrielGraph/output/synthetic.csv`
-`lowDegreeVerticesFilter` output: `{workspace_root}/golden/LowDegreeVerticesFilter/output/synthetic-filtered.csv`
+`lowDegreeVerticesFilter` usage: `{workspace_root}/dev/LowDegreeVerticesFilter/lowDegreeVerticesFilter {workspace_root}/dev/GabrielGraph/output/synthetic.csv`
+`lowDegreeVerticesFilter` output: `{workspace_root}/dev/LowDegreeVerticesFilter/output/synthetic-filtered.csv`
 
 ----------------------------------------------------------------------------------------
