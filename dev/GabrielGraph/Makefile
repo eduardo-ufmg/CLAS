@@ -48,4 +48,13 @@ run_ilpd: $(TARGET)
 run_synthetic: $(TARGET)
 	./$(TARGET) ../../data/synthetic/synthetic.csv
 
-.PHONY: all clean run_iris run_ilpd run_synthetic
+run_filtered_iris: $(TARGET)
+	./$(TARGET) ../LowDegreeVerticesFilter/output/iris-filtered.csv
+
+run_filtered_ilpd: $(TARGET)
+	./$(TARGET) ../LowDegreeVerticesFilter/output/ilpd-filtered.csv
+
+run_filtered_synthetic: $(TARGET)
+	./$(TARGET) ../LowDegreeVerticesFilter/output/synthetic-filtered.csv
+
+.PHONY: all clean run_iris run_ilpd run_synthetic run_filtered_iris run_filtered_ilpd run_filtered_synthetic

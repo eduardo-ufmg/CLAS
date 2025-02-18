@@ -28,19 +28,19 @@ int main(int argc, char* argv[])
   ClusterMap clusters;
 
   if (readGraph(clusters, input_filename_with_path) != 0) {
+    cerr << "Error reading input file" << input_filename_with_path << endl;
     return 1;
   }
-
-  printClusterVertexQuantity(clusters);
   
   gabrielGraph(clusters);
 
-  printAdjacencyLists(clusters, 4, 4);
-
   string output_filename_with_path = outputPathFromInputPath(input_filename_with_path);
 
-  if (writeGraphToFile(clusters, output_filename_with_path) != 0) {
+  if (writeGabrielGraphToFile(clusters, output_filename_with_path) != 0) {
+    cerr << "Error writing output file" << output_filename_with_path << endl;
     return 1;
+  }  else {
+    cout << "Gabriel graph written to " << output_filename_with_path << endl;
   }
 
   return 0;

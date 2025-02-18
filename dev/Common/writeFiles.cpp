@@ -24,7 +24,7 @@ using namespace std;
 
 */
 
-int writeGraphToFile(const ClusterMap& clusters, const std::string& file_name_with_path)
+int writeGabrielGraphToFile(const ClusterMap& clusters, const std::string& file_name_with_path)
 {
   ofstream outfile(file_name_with_path);
 
@@ -57,6 +57,47 @@ int writeGraphToFile(const ClusterMap& clusters, const std::string& file_name_wi
       }
       
       outfile << "\n";
+    }
+  }
+  
+  outfile.close();
+  return 0;
+}
+
+/*
+
+output format:
+
+feature0_0, feature0_1, ..., feature0_n, cluster0_id
+feature1_0, feature1_1, ..., feature1_n, cluster1_id
+...
+featurek_0, featurek_1, ..., featurek_n, clusterk_id
+
+*/
+
+int writeVerticesToFile(const ClusterMap& clusters, const std::string& file_name_with_path)
+{
+  ofstream outfile(file_name_with_path);
+
+  if (!outfile.is_open()) {
+    cerr << "Error: Unable to open file " << file_name_with_path << " for writing." << endl;
+    return -1;
+  }
+  
+  // Iterate over each cluster.
+  for (const auto& clusterPair : clusters) {
+    const ClassType& clusterKey = clusterPair.first;
+    const Cluster& cluster = clusterPair.second;
+    
+    // Iterate over each vertex in the cluster.
+    for (const auto& [vertexID, vertexptr] : cluster.vertices) {
+      // Write features separated by comma.
+      for (const double& f : vertexptr->features) {
+        outfile << f << ", ";
+      }
+      
+      // Write cluster id.
+      outfile << clusterKey << "\n";
     }
   }
   
