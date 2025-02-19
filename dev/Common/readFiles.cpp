@@ -207,7 +207,7 @@ VertexID_t parseVertexID(const string& tokens)
 
 vector<double> parseFeatures(const string& tokens)
 {
-  vector<string> featureTokens = split(tokens, ", ");
+  vector<string> featureTokens = split(tokens, ',');
 
   vector<double> features;
 
@@ -251,7 +251,7 @@ ClassType parseClusterID(const string& tokens)
 
 AdjacencyVector parseAdjacents(const string& tokens)
 {
-  vector<string> adjacentsTokens = split(tokens, ", ");
+  vector<string> adjacentsTokens = split(tokens, ',');
 
   AdjacencyVector adjacents;
 
@@ -320,7 +320,7 @@ unsigned parseExpertid(const string& tokens)
 }
 Edge parseEdge(const string& tokens)
 {
-  vector<string> edgeParts = split(tokens, ", ");
+  vector<string> edgeParts = split(tokens, ',');
 
   if (edgeParts.size() != 2) {
     cerr << "Error: expected 2 parts in edge token '" << tokens << "', but found " << edgeParts.size() << " parts." << endl;
@@ -342,7 +342,7 @@ Edge parseEdge(const string& tokens)
 
 vector<double> parseExpertDifferences(const string& tokens)
 {
-  vector<string> differencesTokens = split(tokens, ", ");
+  vector<string> differencesTokens = split(tokens, ',');
 
   vector<double> differences;
 
@@ -366,7 +366,7 @@ vector<double> parseExpertDifferences(const string& tokens)
 
 vector<double> parseMidpointCoordinates(const string& tokens)
 {
-  vector<string> midpointTokens = split(tokens, ", ");
+  vector<string> midpointTokens = split(tokens, ',');
 
   vector<double> midpointCoordinates;
 
