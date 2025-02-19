@@ -29,8 +29,6 @@ int main(int argc, char* argv[])
 
   vector<Expert> experts = getExperts(se, clusters);
 
-  printExpertData(experts);
-
   string output_filename_with_path = outputPathFromInputPath(input_filename_with_path);
 
   if (writeExpertsToFile(experts, output_filename_with_path) != 0) {

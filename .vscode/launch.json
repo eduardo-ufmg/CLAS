@@ -2,50 +2,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug Gabriel Graph - iris",
-      "type": "cppdbg",
-      "request": "launch",
-      "program": "${workspaceFolder}/dev/GabrielGraph/gabrielGraph",
-      "args": [
-        "${workspaceFolder}/data/iris/iris.csv",
-      ],
-      "stopAtEntry": true,
-      "cwd": "${workspaceFolder}",
-      "environment": [],
-      "externalConsole": false,
-      "MIMode": "gdb",
-      "setupCommands": [
-        {
-          "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
-        }
-      ],
-      "preLaunchTask": "Build Gabriel"
-    },
-    {
-      "name": "Debug Gabriel Graph - ilpd",
-      "type": "cppdbg",
-      "request": "launch",
-      "program": "${workspaceFolder}/dev/GabrielGraph/gabrielGraph",
-      "args": [
-        "${workspaceFolder}/data/ilpd/ilpd.csv",
-      ],
-      "stopAtEntry": true,
-      "cwd": "${workspaceFolder}",
-      "environment": [],
-      "externalConsole": false,
-      "MIMode": "gdb",
-      "setupCommands": [
-        {
-          "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
-        }
-      ],
-      "preLaunchTask": "Build Gabriel"
-    },
-    {
       "name": "Debug Gabriel Graph - synthetic",
       "type": "cppdbg",
       "request": "launch",
@@ -54,7 +10,7 @@
         "${workspaceFolder}/data/synthetic/synthetic.csv",
       ],
       "stopAtEntry": true,
-      "cwd": "${workspaceFolder}",
+      "cwd": "${workspaceFolder}/dev/GabrielGraph",
       "environment": [],
       "externalConsole": false,
       "MIMode": "gdb",
@@ -65,62 +21,18 @@
           "ignoreFailures": true
         }
       ],
-      "preLaunchTask": "Build Filter"
-    },
-    {
-      "name": "Debug Filter - run_iris",
-      "type": "cppdbg",
-      "request": "launch",
-      "program": "${workspaceFolder}/dev/LowDegreeVerticesFilter/filter",
-      "args": [
-        "${workspaceFolder}/dev/GabrielGraph/output/iris.csv",
-      ],
-      "stopAtEntry": true,
-      "cwd": "${workspaceFolder}",
-      "environment": [],
-      "externalConsole": false,
-      "MIMode": "gdb",
-      "setupCommands": [
-        {
-          "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
-        }
-      ],
-      "preLaunchTask": "Build Filter"
-    },
-    {
-      "name": "Debug Filter - ilpd",
-      "type": "cppdbg",
-      "request": "launch",
-      "program": "${workspaceFolder}/dev/LowDegreeVerticesFilter/filter",
-      "args": [
-        "${workspaceFolder}/dev/GabrielGraph/output/ilpd.csv",
-      ],
-      "stopAtEntry": true,
-      "cwd": "${workspaceFolder}",
-      "environment": [],
-      "externalConsole": false,
-      "MIMode": "gdb",
-      "setupCommands": [
-        {
-          "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
-        }
-      ],
-      "preLaunchTask": "Build Filter"
+      "preLaunchTask": "Build Gabriel"
     },
     {
       "name": "Debug Filter - synthetic",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/dev/LowDegreeVerticesFilter/filter",
+      "program": "${workspaceFolder}/dev/Filter/filter",
       "args": [
         "${workspaceFolder}/dev/GabrielGraph/output/synthetic.csv",
       ],
       "stopAtEntry": true,
-      "cwd": "${workspaceFolder}",
+      "cwd": "${workspaceFolder}/dev/Filter",
       "environment": [],
       "externalConsole": false,
       "MIMode": "gdb",
@@ -132,6 +44,52 @@
         }
       ],
       "preLaunchTask": "Build Filter"
+    },
+    {
+      "name": "Debug Hyperplane - synthetic",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/dev/classifiers/Common/hyperplanes",
+      "args": [
+        "${workspaceFolder}/dev/GabrielGraph/output/synthetic-filtered.csv",
+      ],
+      "stopAtEntry": true,
+      "cwd": "${workspaceFolder}/dev/classifiers/Common",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "Build Hyperplane"
+    },
+    {
+      "name": "Debug Chip - synthetic",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/dev/classifiers/chip-clas/chip-clas",
+      "args": [
+        "${workspaceFolder}/dev/GabrielGraph/output/synthetic-filtered.csv",
+        "${workspaceFolder}/dev/classifiers/Common/output/synthetic-filtered.csv",
+        "${workspaceFolder}/data/synthetic/to-classify.csv",
+      ],
+      "stopAtEntry": true,
+      "cwd": "${workspaceFolder}/dev/classifiers/chip-clas",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "Build Chip"
     }
   ]
 }

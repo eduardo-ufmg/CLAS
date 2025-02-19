@@ -61,10 +61,70 @@
       }
     },
     {
+      "label": "Clean Hyperplane",
+      "type": "shell",
+      "command": "make clean",
+      "options": {
+        "cwd": "${workspaceFolder}/dev/classifiers/Common"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Debug Hyperplane",
+      "type": "shell",
+      "command": "make debug",
+      "options": {
+        "cwd": "${workspaceFolder}/dev/classifiers/Common"
+      },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Build Hyperplane",
+      "dependsOn": [
+        "Clean Hyperplane",
+        "Debug Hyperplane"
+      ],
+      "dependsOrder": "sequence",
+      "group": {
+        "kind": "build"
+      }
+    },
+    {
+      "label": "Clean Chip",
+      "type": "shell",
+      "command": "make clean",
+      "options": {
+        "cwd": "${workspaceFolder}/dev/classifiers/chip-clas"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Debug Chip",
+      "type": "shell",
+      "command": "make debug",
+      "options": {
+        "cwd": "${workspaceFolder}/dev/classifiers/chip-clas"
+      },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Build Chip",
+      "dependsOn": [
+        "Clean Chip",
+        "Debug Chip"
+      ],
+      "dependsOrder": "sequence",
+      "group": {
+        "kind": "build"
+      }
+    },
+    {
       "label": "Build All",
       "dependsOn": [
         "Build Gabriel",
-        "Build Filter"
+        "Build Filter",
+        "Build Hyperplane",
+        "Build Chip"
       ],
       "dependsOrder": "sequence",
       "group": {
