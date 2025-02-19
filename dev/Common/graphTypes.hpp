@@ -12,16 +12,16 @@ class Vertex;
 class Cluster;
 
 using VertexID_t = int;
+using AdjacencyVector = std::vector< std::pair<VertexID_t, bool> >;
 
 class Vertex
 {
 public:
   std::vector<double> features;
-  std::vector< std::pair<VertexID_t, bool> > adjacents;
+  AdjacencyVector adjacents;
   double q;
-  const Cluster* cluster;
-  Vertex(std::vector<double> features, const Cluster* cluster) : features(features), cluster(cluster) {}
-  Vertex() {}
+  Cluster* cluster;
+  Vertex(std::vector<double> features = {}, AdjacencyVector adjacents = {}, Cluster* cluster = nullptr);
 };
 
 using VertexMap = std::map<VertexID_t, std::shared_ptr<Vertex> >;
@@ -41,6 +41,8 @@ public:
   double threshold;
   double averageQuality;
   double stdDeviation;
+  size_t addVertex(const VertexID_t vertexid, const std::shared_ptr<Vertex>& vertex);
+  size_t removeVertex(VertexID_t vertexid);
 };
 
 using ClassType = std::variant<int, std::string>;

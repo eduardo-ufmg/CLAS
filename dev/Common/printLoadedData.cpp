@@ -49,10 +49,10 @@ void printAdjacencyLists(const ClusterMap& clusters, int maxCluster, int maxVert
       }
       cout << endl;
       
-      vertexCount++;
+      ++vertexCount;
     }
     
-    clusterCount++;
+    ++clusterCount;
   }
 }
 

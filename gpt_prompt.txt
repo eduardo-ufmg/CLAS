@@ -30,10 +30,10 @@ idk, |, vk0, vk1, |, diff_coordk0, diff_coordk1, ..., diff_coordkn, |, midpoint_
 
 `<vertices_to_classify_file_name>.csv`:
 ```
-feature0_0, feature0_1, ..., feature0_n, cluster0_id
-feature1_0, feature1_1, ..., feature1_n, cluster1_id
+feature0_0, feature0_1, ..., feature0_n
+feature1_0, feature1_1, ..., feature1_n
 ...
-featurek_0, featurek_1, ..., featurek_n, clusterk_id
+featurek_0, featurek_1, ..., featurek_n
 ```
 
 consider the following custom types:
@@ -192,3 +192,113 @@ idk, classk
 the first, to the left, contains only the original dataset
 the second, to the righ, contains the filtered dataset, the classified dataset and a line representing the hyperplane that connects the midlepoint of all the support edges. the classified vertices should be visualy different from the original vertices, but related to it. maybe the same color, but different shape or outline.
 if you think i should give any other information, please ask for it
+----------------------------------------------------------------------------------------------------------------------------
+consider the following datatypes:
+```
+class Vertex;
+class Cluster;
+
+using VertexID_t = int;
+
+class Vertex
+{
+public:
+  std::vector<double> features;
+  std::vector< std::pair<VertexID_t, bool> > adjacents;
+  double q;
+  const Cluster* cluster;
+  Vertex(std::vector<double> features, const Cluster* cluster) : features(features), cluster(cluster) {}
+  Vertex() {}
+};
+
+using VertexMap = std::map<VertexID_t, std::shared_ptr<Vertex> >;
+
+class QualityMeasure
+{
+public:
+  double sum_q;
+  double magnitude;
+};
+
+class Cluster
+{
+public:
+  VertexMap vertices;
+  QualityMeasure Q;
+  double threshold;
+  double averageQuality;
+  double stdDeviation;
+};
+
+using ClassType = std::variant<int, std::string>;
+using ClusterMap = std::map<ClassType, Cluster>;
+
+template<typename... Ts>
+std::enable_if_t<(sizeof...(Ts) > 0), std::ostream&>
+operator<<(std::ostream& os, const std::variant<Ts...>& var) {
+  std::visit([&os](const auto& value) { os << value; }, var);
+  return os;
+}
+
+using Edge = std::pair<VertexID_t, VertexID_t>;
+using SupportEdges = std::set<Edge>;
+using EdgeVertices = std::pair<const Vertex*, const Vertex*>;
+
+class Expert
+{
+public:
+  Edge edge;
+  std::vector<double> differences;
+  std::vector<double> midpoint_coordinates;
+  double bias;
+  unsigned id;
+};
+```
+the following file formats:
+`<graph_file_name>.csv`:
+```
+vertex0_id, |, feature0_0, feature0_1, ..., feature0_n, |, cluster0_id, |, adjacent_vertex0_0 - isSupportEdge, adjacent_vertex0_1 - isSupportEdge, ..., adjacent_vertex0_m - isSupportEdge
+vertex1_id, |, feature1_0, feature1_1, ..., feature1_n, |, cluster1_id, |, adjacent_vertex1_0 - isSupportEdge, adjacent_vertex1_1 - isSupportEdge, ..., adjacent_vertex1_m - isSupportEdge
+...
+vertexk_id, |, featurek_0, featurek_1, ..., featurek_n, |, clusterk_id, |, adjacent_vertexk_0 - isSupportEdge, adjacent_vertexk_1 - isSupportEdge, ..., adjacent_vertexk_m - isSupportEdge
+```
+
+`<hyperplanes_file_name>.csv`:
+```
+id0, |, v00, v01, |, diff_coord00, diff_coord01, ..., diff_coord0n, |, midpoint_coord00, midpoint_coord01, ..., midpoint_coord0n, |, bias0
+id1, |, v10, v11, |, diff_coord10, diff_coord11, ..., diff_coord1n, |, midpoint_coord10, midpoint_coord11, ..., midpoint_coord1n, |, bias1
+...
+idk, |, vk0, vk1, |, diff_coordk0, diff_coordk1, ..., diff_coordkn, |, midpoint_coordk0, midpoint_coordk1, ..., midpoint_coordkn, |, biask
+```
+
+`<vertices_to_classify_file_name>.csv`:
+```
+feature0_0, feature0_1, ..., feature0_n
+feature1_0, feature1_1, ..., feature1_n
+...
+featurek_0, featurek_1, ..., featurek_n
+```
+
+`<classified_vertices_file_name>.csv`:
+```
+id0, class0
+id1, class1
+...
+idk, classk
+```
+
+and the following operations:
+- read from each file to the corresponding datatypes instances
+- organize the training dataset in clusters
+- compute the gabriel graph of the training dataset
+-- the gabriel graph is a graph in which two vertices are connected by an edge if the circle with diameter the distance between the two vertices and center the midpoint of the segment that connects them does not contain any other vertex
+- filter the vertices according to the Low Degree Vertex Removal algorithm
+-- the Low Degree Vertex Removal algorithm removes the vertices with a `same_class_degree / total_degree` ratio lower than its cluster's threshold
+- compute the filtered gabriel graph
+- compute the separation hyperplanes
+-- hyperplanes are given by the equation `h(x) = sign((x^T)w - b)`, where `w`, the `difference` attribute, is the difference between the coordinates of the two vertices that form the support edge, and `b`, the `bias` attribute, is given by `pl * w`, where `pl` is the midpoint of the support edge
+- classify the vertices
+-- Each expert is weighted according to `cl(x) = exp( −( max( D(x, pk) ) )² / D(x, pl) ) ∀k = 1, ..., m`, functions `h1(x), ..., hm(x)` represents the `m` specialist outputs, a normalization is imposed, such that sum(cl(x)) = 1, `f(x) = sign(sum(hl(x) * cl(x)))`
+- each step writes its output to a file
+
+show me idiomatic modern C++ approaches that are consistent with each other for each of the operations

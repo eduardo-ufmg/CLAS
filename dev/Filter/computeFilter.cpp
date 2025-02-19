@@ -32,7 +32,7 @@ void filterVertices(ClusterMap& clusters, double deviationFactor)
 
       for (const auto& adjacent : vertex.second->adjacents) {
         if (cluster.vertices.find(adjacent.first) != cluster.vertices.end()) {
-          sameClusterDegree++;
+          ++sameClusterDegree;
         }
       }
 
