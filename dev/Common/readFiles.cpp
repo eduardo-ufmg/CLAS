@@ -13,7 +13,7 @@
 
 using namespace std;
 
-ifstream openAndCheckFile(const string& input_filename_with_path);
+ifstream openFileRead(const string& input_filename_with_path);
 
 VertexID_t parseVertexID(const string& tokens);
 vector<double> parseFeatures(const string& tokens);
@@ -41,11 +41,11 @@ double parseBias(const string& tokens);
 
 int readGraph(ClusterMap& clusters, const string& input_filename_with_path)
 {
-  ifstream input_file = openAndCheckFile(input_filename_with_path);
+  ifstream infile = openFileRead(input_filename_with_path);
   
   string line;
 
-  while(getline(input_file, line)) {
+  while(getline(infile, line)) {
     // Skip empty lines.
     if (line.empty()) {
       continue;
@@ -64,7 +64,7 @@ int readGraph(ClusterMap& clusters, const string& input_filename_with_path)
     addVertexToCluster(clusters, vertexId, features, clusterKey, adjacents);
   }
   
-  input_file.close();
+  infile.close();
 
   return 0;
 }
@@ -82,12 +82,12 @@ int readGraph(ClusterMap& clusters, const string& input_filename_with_path)
 
 int readVertices(ClusterMap& clusters, const string& input_filename_with_path)
 {
-  ifstream file = openAndCheckFile(input_filename_with_path);
+  ifstream infile = openFileRead(input_filename_with_path);
 
   string line;
   size_t lineNo = 0;
 
-  while (getline(file, line)) {
+  while (getline(infile, line)) {
 
     if (line.empty()) {
       continue;
@@ -120,11 +120,11 @@ int readVertices(ClusterMap& clusters, const string& input_filename_with_path)
 
 int readExperts(vector<Expert>& experts, const string& input_filename_with_path)
 {
-  ifstream input_file = openAndCheckFile(input_filename_with_path);
+  ifstream infile = openFileRead(input_filename_with_path);
 
   string line;
 
-  while (getline(input_file, line)) {
+  while (getline(infile, line)) {
     Expert expert;
     
     vector<string> parts = split(line, ", |,", 5);
@@ -142,7 +142,7 @@ int readExperts(vector<Expert>& experts, const string& input_filename_with_path)
     experts.push_back(expert);
   }
 
-  input_file.close();
+  infile.close();
   return 0;
 }
 
@@ -158,12 +158,12 @@ int readExperts(vector<Expert>& experts, const string& input_filename_with_path)
 */
 int readVertices(VertexMap& vertices, const string& input_filename_with_path)
 {
-  ifstream file = openAndCheckFile(input_filename_with_path);
+  ifstream infile = openFileRead(input_filename_with_path);
 
   string line;
   size_t lineNo = 0;
 
-  while (getline(file, line)) {
+  while (getline(infile, line)) {
 
     if (line.empty()) {
       continue;
@@ -177,16 +177,16 @@ int readVertices(VertexMap& vertices, const string& input_filename_with_path)
   return 0;
 }
 
-ifstream openAndCheckFile(const string& input_filename_with_path)
+ifstream openFileRead(const string& input_filename_with_path)
 {
-  ifstream input_file(input_filename_with_path);
+  ifstream infile(input_filename_with_path);
 
-  if (!input_file.is_open()) {
-    cerr << "Error: could not open file " << input_filename_with_path << endl;
+  if (!infile.is_open()) {
+    cerr << "Error: could not open infile " << input_filename_with_path << endl;
     exit(1);
   }
 
-  return input_file;
+  return infile;
 }
 
 VertexID_t parseVertexID(const string& tokens)

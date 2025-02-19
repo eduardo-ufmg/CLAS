@@ -20,9 +20,9 @@ SupportEdges getSEs(const ClusterMap& clusters)
   SupportEdges supportEdges;
 
   for (const auto& [_, cluster] : clusters) { (void) _;
-    for (const auto& [vertexID, vertex] : cluster.vertices) {
+    for (const auto& [vertexid, vertex] : cluster.vertices) {
       for (const auto& [adjacentID, isSE] : vertex->adjacents) {
-        Edge orderedEdge = make_pair(min(vertexID, adjacentID), max(vertexID, adjacentID));
+        Edge orderedEdge = make_pair(min(vertexid, adjacentID), max(vertexid, adjacentID));
 
         if (isSE && supportEdges.find(orderedEdge) == supportEdges.end()) {
           supportEdges.insert(orderedEdge);

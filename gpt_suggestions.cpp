@@ -455,7 +455,7 @@ void writeClassifiedVertices(const std::vector<std::pair<int, int>>& classified,
 
 int main() {
     // 1. Read from the training graph CSV.
-    auto [vertices, clusters] = loadGraphFile("graph_file_name.csv");
+    auto [vertices, clusters] = loadGraphFile("graph_filename.csv");
     
     // (Optionally, write the loaded graph/clusters to file.)
     
@@ -475,14 +475,14 @@ int main() {
     
     // 6. Compute the separation hyperplanes from the filtered edges.
     auto experts = computeSeparationHyperplanes(filteredEdges, vertices);
-    // (Write experts/hyperplanes to a file, e.g., hyperplanes_file_name.csv.)
+    // (Write experts/hyperplanes to a file, e.g., hyperplanes_filename.csv.)
     
     // 7. Load the vertices to classify.
-    auto testPoints = loadVerticesToClassify("vertices_to_classify_file_name.csv");
+    auto testPoints = loadVerticesToClassify("vertices_to_classify_filename.csv");
     // Classify each point.
     auto classified = classifyVertices(testPoints, experts);
     // Write the classified vertices.
-    writeClassifiedVertices(classified, "classified_vertices_file_name.csv");
+    writeClassifiedVertices(classified, "classified_vertices_filename.csv");
     
     return 0;
 }

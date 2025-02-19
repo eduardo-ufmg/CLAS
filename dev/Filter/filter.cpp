@@ -31,25 +31,25 @@ int main(int argc, char* argv[])
     deviationFactor = atof(argv[2]);
   }
 
-  string input_file_name_with_path = argv[1];
+  string input_filename_with_path = argv[1];
 
   ClusterMap clusters;
 
-  if (readGraph(clusters, input_file_name_with_path) != 0) {
-    cerr << "Error reading input file" << input_file_name_with_path << endl;
+  if (readGraph(clusters, input_filename_with_path) != 0) {
+    cerr << "Error reading input file" << input_filename_with_path << endl;
     return 1;
   }
 
   filterVertices(clusters, deviationFactor);
 
-  string aux_out_fn = outputPathFromInputPath(input_file_name_with_path);
-  string output_file_name_with_path = aux_out_fn.substr(0, aux_out_fn.find_last_of('.')) + "-filtered.csv";
+  string aux_out_fn = outputPathFromInputPath(input_filename_with_path);
+  string output_filename_with_path = aux_out_fn.substr(0, aux_out_fn.find_last_of('.')) + "-filtered.csv";
 
-  if (writeVerticesToFile(clusters, output_file_name_with_path) != 0) {
-    cerr << "Error writing output file" << output_file_name_with_path << endl;
+  if (writeVerticesToFile(clusters, output_filename_with_path) != 0) {
+    cerr << "Error writing output file" << output_filename_with_path << endl;
     return 1;
   } else {
-    cout << "Filtered vertices written to " << output_file_name_with_path << endl;
+    cout << "Filtered vertices written to " << output_filename_with_path << endl;
   }
 
 }

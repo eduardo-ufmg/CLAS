@@ -13,6 +13,8 @@
 
 using namespace std;
 
+ofstream openFileWrite(const string& filename_with_path);
+
 /*
 
   output format:
@@ -24,24 +26,18 @@ using namespace std;
 
 */
 
-int writeGabrielGraphToFile(const ClusterMap& clusters, const string& file_name_with_path)
+int writeGabrielGraphToFile(const ClusterMap& clusters, const string& filename_with_path)
 {
-  ofstream outfile(file_name_with_path);
-
-  if (!outfile.is_open()) {
-    cerr << "Error: Unable to open file " << file_name_with_path << " for writing." << endl;
-    return -1;
-  }
+  ofstream outfile = openFileWrite(filename_with_path);
   
   // Iterate over each cluster.
-  for (const auto& clusterPair : clusters) {
-    const ClassType& clusterKey = clusterPair.first;
-    const Cluster& cluster = clusterPair.second;
+  for (const auto& [clusterid, cluster] : clusters) {
     
     // Iterate over each vertex in the cluster.
-    for (const auto& [vertexID, vertexptr] : cluster.vertices) {
+    for (const auto& [vertexid, vertexptr] : cluster.vertices) {
+
       // Write vertex id.
-      outfile << vertexID << ", |";
+      outfile << vertexid << ", |";
       
       // Write features separated by comma.
       for (const double& f : vertexptr->features) {
@@ -49,11 +45,11 @@ int writeGabrielGraphToFile(const ClusterMap& clusters, const string& file_name_
       }
       
       // Write cluster id.
-      outfile << ", |, " << clusterKey << ", |";
+      outfile << ", |, " << clusterid << ", |";
       
       // Write adjacent vertices.
-      for (const auto& adj : vertexptr->adjacents) {
-        outfile << ", " << adj.first << " - " << adj.second;
+      for (const auto& [adjid, isSE] : vertexptr->adjacents) {
+        outfile << ", " << adjid << " - " << isSE;
       }
       
       outfile << "\n";
@@ -75,29 +71,22 @@ featurek_0, featurek_1, ..., featurek_n, clusterk_id
 
 */
 
-int writeVerticesToFile(const ClusterMap& clusters, const string& file_name_with_path)
+int writeVerticesToFile(const ClusterMap& clusters, const string& filename_with_path)
 {
-  ofstream outfile(file_name_with_path);
-
-  if (!outfile.is_open()) {
-    cerr << "Error: Unable to open file " << file_name_with_path << " for writing." << endl;
-    return -1;
-  }
+  ofstream outfile = openFileWrite(filename_with_path);
   
   // Iterate over each cluster.
-  for (const auto& clusterPair : clusters) {
-    const ClassType& clusterKey = clusterPair.first;
-    const Cluster& cluster = clusterPair.second;
+  for (const auto& [custerid, cluster] : clusters) {
     
     // Iterate over each vertex in the cluster.
-    for (const auto& [vertexID, vertexptr] : cluster.vertices) {
+    for (const auto& [_, vertexptr] : cluster.vertices) { (void) _;
       // Write features separated by comma.
       for (const double& f : vertexptr->features) {
         outfile << f << ", ";
       }
       
       // Write cluster id.
-      outfile << clusterKey << "\n";
+      outfile << custerid << "\n";
     }
   }
   
@@ -115,14 +104,9 @@ id1, |, v10, v11, |, diff_coord10, diff_coord11, ..., diff_coord1n, |, midpoint_
 idk, |, vk0, vk1, |, diff_coordk0, diff_coordk1, ..., diff_coordkn, |, midpoint_coordk0, midpoint_coordk1, ..., midpoint_coordkn, |, biask
 
 */
-int writeExpertsToFile(const vector<Expert>& experts, const string& file_name_with_path)
+int writeExpertsToFile(const vector<Expert>& experts, const string& filename_with_path)
 {
-  ofstream outfile(file_name_with_path);
-
-  if (!outfile.is_open()) {
-    cerr << "Error: Unable to open file " << file_name_with_path << " for writing." << endl;
-    return -1;
-  }
+  ofstream outfile = openFileWrite(filename_with_path);
   
   for (const auto& expert : experts) {
     // Write expert id.
@@ -160,19 +144,26 @@ int writeExpertsToFile(const vector<Expert>& experts, const string& file_name_wi
   idk, classk
 
 */
-int writeClassifiedVertices(const vector< pair<VertexID_t, int> >& vertices, const string& file_name_with_path)
+int writeClassifiedVertices(const vector< pair<VertexID_t, int> >& vertices, const string& filename_with_path)
 {
-  ofstream outfile(file_name_with_path);
+  ofstream outfile = openFileWrite(filename_with_path);
 
-  if (!outfile.is_open()) {
-    cerr << "Error: Unable to open file " << file_name_with_path << " for writing." << endl;
-    return -1;
-  }
-
-  for (const auto& [vertex_id, class_id] : vertices) {
-    outfile << vertex_id << ", " << class_id << "\n";
+  for (const auto& [vertexid, clusterid] : vertices) {
+    outfile << vertexid << ", " << clusterid << "\n";
   }
 
   outfile.close();
   return 0;
+}
+
+ofstream openFileWrite(const string& filename_with_path)
+{
+  ofstream outfile(filename_with_path);
+
+  if (!outfile.is_open()) {
+    cerr << "Error: could not open file " << filename_with_path << " for writing." << endl;
+    exit(1);
+  }
+  
+  return outfile;
 }
