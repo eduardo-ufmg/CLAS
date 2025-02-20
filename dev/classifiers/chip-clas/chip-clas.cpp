@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
     return 1;
   }
 
-  vector< pair<VertexID_t, int> > classifiedVertices;
+  ClassifiedVertices classifiedVertices;
 
   classifiedVertices = classify(clusters, experts, new_vertices);
 

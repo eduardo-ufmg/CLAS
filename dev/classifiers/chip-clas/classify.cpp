@@ -11,9 +11,9 @@ using namespace std;
 
 int sign(double num);
 
-vector< pair<VertexID_t, int> > classify(ClusterMap& clusters, const vector<Expert>& experts, VertexMap& vertices)
+ClassifiedVertices classify(ClusterMap& clusters, const vector<Expert>& experts, VertexMap& vertices)
 {
-  vector< pair<VertexID_t, int> > classifiedVertices;
+  ClassifiedVertices classifiedVertices;
   // Iterate over all new vertices
   for (auto& [vertex_id, vertex_ptr] : vertices) {
     const vector<double>& x = vertex_ptr->features;

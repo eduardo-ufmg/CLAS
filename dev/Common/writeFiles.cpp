@@ -144,7 +144,7 @@ int writeExpertsToFile(const vector<Expert>& experts, const string& filename_wit
   idk, classk
 
 */
-int writeClassifiedVertices(const vector< pair<VertexID_t, int> >& vertices, const string& filename_with_path)
+int writeClassifiedVertices(const ClassifiedVertices& vertices, const string& filename_with_path)
 {
   ofstream outfile = openFileWrite(filename_with_path);
 

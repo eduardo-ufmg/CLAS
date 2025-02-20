@@ -69,4 +69,6 @@ public:
   unsigned id;
 };
 
+using ClassifiedVertices = std::vector< std::pair<VertexID_t, ClassType> >;
+
 #endif
