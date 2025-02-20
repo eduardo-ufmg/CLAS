@@ -3,78 +3,70 @@
 #include <cmath>
 #include <vector>
 #include <limits>
+#include <algorithm>
 
 #include "graphTypes.hpp"
 
 using namespace std;
+using VertexVector = vector< pair<VertexID_t, shared_ptr<Vertex> > >;
 
 double squaredDistance(const std::vector<double>& a, const std::vector<double>& b);
+const VertexVector collectAllVerticesIntoVector(const ClusterMap& clusters);
+
 
 void computeGabrielGraph(ClusterMap& clusters)
 {
   // Collect all vertices from all clusters.
-  VertexMap allVertices;
+  const VertexVector allVertices = collectAllVerticesIntoVector(clusters);
 
-  for (auto& cluster : clusters) {
-    Cluster& c = cluster.second;
+  const size_t verticesQty = allVertices.size();
 
-    for (auto& vertex : c.vertices) {
-      allVertices.insert(vertex);
-    }
+  for (size_t i = 0; i < verticesQty; ++i) {
+    const VertexID_t viid = allVertices[i].first;
+    const shared_ptr<Vertex>& vi = allVertices[i].second;
 
-  }
-  
-  size_t N = allVertices.size();
+    for (size_t j = i + 1; j < verticesQty; ++j) {
+      const VertexID_t vjid = allVertices[j].first;
+      const shared_ptr<Vertex>& vj = allVertices[j].second;
 
-  // For each pair of vertices (pi, pj)
-  for (size_t i = 0; i < N; ++i) {
-
-    if (allVertices.find(i) == allVertices.end()) {
-      continue;
-    }
-
-    auto& pi = allVertices[i];
-
-    for (size_t j = i + 1; j < N; ++j) {
-
-      if (allVertices.find(j) == allVertices.end()) {
+      if (viid == vjid) {
         continue;
       }
 
-      auto& pj = allVertices[j];
+      vector<double> midPoint(vi->features.size());
 
-      double d2 = squaredDistance(pi->features, pj->features);
-      bool validEdge = true;
+      transform(vi->features.begin(), vi->features.end(), vj->features.begin(), midPoint.begin(), [](double a, double b) {
+        return (a + b) / 2.0;
+      });
 
-      // Check the Gabriel condition against every other vertex z.
-      for (size_t k = 0; k < N; ++k) {
-        if (k == i || k == j) {
+      const double sqRadius = squaredDistance(vi->features, midPoint);
+
+      bool isEdge = true;
+
+      for (auto& [vkid, vk] : allVertices) {
+        if (vkid == viid || vkid == vjid) {
           continue;
         }
 
-        auto& pk = allVertices[k];
-        
-        // If for any other vertex the sum of squared distances is less than d2,
-        // then the sphere with (pi, pj) as diameter contains pk.
-        if (squaredDistance(pi->features, pk->features) + 
-          squaredDistance(pj->features, pk->features) < d2) {
-          validEdge = false;
+        const double sqDistance = squaredDistance(vk->features, midPoint);
+
+        if (sqDistance < sqRadius) {
+          isEdge = false;
           break;
         }
 
       }
 
-      // If the edge passes the test, add each vertex to the other's adjacency list.
-      if (validEdge) {
-        bool isSE = pi->cluster != pj->cluster;
+      if (isEdge) {
+        const bool isSE = vi->cluster != vj->cluster;
 
-        pi->adjacents.push_back({j, isSE});
-        pj->adjacents.push_back({i, isSE});
+        vi->adjacents.push_back({vjid, isSE});
+        vj->adjacents.push_back({viid, isSE});
       }
 
     }
-
   }
+
 }
 
 double squaredDistance(const std::vector<double>& a, const std::vector<double>& b)
@@ -92,4 +84,17 @@ double squaredDistance(const std::vector<double>& a, const std::vector<double>& 
   }
 
   return sum;
+}
+
+const VertexVector collectAllVerticesIntoVector(const ClusterMap& clusters)
+{
+  VertexVector allVertices;
+
+  for (const auto& [_, cluster] : clusters) { (void)_;
+    for (const auto& [vertexid, vertex] : cluster.vertices) {
+      allVertices.push_back({vertexid, vertex});
+    }
+  }
+
+  return allVertices;
 }

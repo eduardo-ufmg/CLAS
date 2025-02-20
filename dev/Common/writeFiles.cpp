@@ -79,7 +79,7 @@ int writeVerticesToFile(const ClusterMap& clusters, const string& filename_with_
   for (const auto& [custerid, cluster] : clusters) {
     
     // Iterate over each vertex in the cluster.
-    for (const auto& [_, vertexptr] : cluster.vertices) { (void) _;
+    for (const auto& [_, vertexptr] : cluster.vertices) { (void)_;
       // Write features separated by comma.
       for (const double& f : vertexptr->features) {
         outfile << f << ", ";

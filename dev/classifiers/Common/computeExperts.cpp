@@ -19,7 +19,7 @@ SupportEdges getSEs(const ClusterMap& clusters)
 {
   SupportEdges supportEdges;
 
-  for (const auto& [_, cluster] : clusters) { (void) _;
+  for (const auto& [_, cluster] : clusters) { (void)_;
     for (const auto& [vertexid, vertex] : cluster.vertices) {
       for (const auto& [adjacentID, isSE] : vertex->adjacents) {
         Edge orderedEdge = make_pair(min(vertexid, adjacentID), max(vertexid, adjacentID));
@@ -64,7 +64,7 @@ EdgeVertices getEdgeVertices(const Edge& edge, const ClusterMap& clusters)
   bool foundV0 = false;
   bool foundV1 = false;
 
-  for (const auto& [_, cluster] : clusters) { (void) _;
+  for (const auto& [_, cluster] : clusters) { (void)_;
     if (!foundV0 && cluster.vertices.find(edge.first) != cluster.vertices.end()) {
       v0 = cluster.vertices.at(edge.first).get();
       foundV0 = true;

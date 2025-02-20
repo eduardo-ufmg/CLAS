@@ -15,7 +15,7 @@ using namespace std;
 void filterVertices(ClusterMap& clusters, double deviationFactor)
 {
   for (auto& [_, cluster] : clusters) {
-    (void) _;
+    (void)_;
 
     if (cluster.vertices.empty()) {
       continue;
