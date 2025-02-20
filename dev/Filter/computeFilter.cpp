@@ -3,7 +3,6 @@
 #include <vector>
 #include <map>
 #include <cmath>
-#include <set>
 #include <algorithm>
 #include <numeric>
 #include <iostream>
@@ -12,65 +11,94 @@
 
 using namespace std;
 
+void computeVertexQ(const shared_ptr<Vertex>& vertex, const Cluster& cluster);
+void computeClusterQ(Cluster& cluster);
+void computeClusterStats(Cluster& cluster);
+void computeClusterThreshold(Cluster& cluster, double deviationFactor);
+void filterVertices(Cluster& cluster);
+
 void filterVertices(ClusterMap& clusters, double deviationFactor)
 {
-  for (auto& [_, cluster] : clusters) {
-    (void)_;
+  for (auto& [_, cluster] : clusters) { (void)_;
 
     if (cluster.vertices.empty()) {
       continue;
     }
 
-    for (auto& vertex : cluster.vertices) {
-      unsigned degree = vertex.second->adjacents.size();
-      unsigned sameClusterDegree = 0;
-
-      if (degree == 0) {
-        vertex.second->q = 0.0;
-        continue;
-      }
-
-      for (const auto& adjacent : vertex.second->adjacents) {
-        if (cluster.vertices.find(adjacent.first) != cluster.vertices.end()) {
-          ++sameClusterDegree;
-        }
-      }
-
-      vertex.second->q = static_cast<double>(sameClusterDegree) / degree;
-
+    for (auto& [_, vertex] : cluster.vertices) { (void)_;
+      computeVertexQ(vertex, cluster);
     }
 
-    // Recompute quality metrics for the cluster.
-    cluster.Q.magnitude = cluster.vertices.size();
+    computeClusterQ(cluster);
 
-    // Compute the sum of q values
-    cluster.Q.sum_q = 0.0;
-    for (const auto& v : cluster.vertices) {
-      cluster.Q.sum_q += v.second->q;
-    }
+    computeClusterStats(cluster);
 
-    cluster.averageQuality = cluster.Q.sum_q / cluster.Q.magnitude;
+    computeClusterThreshold(cluster, deviationFactor);
 
-    double sumSquaredDiff = 0.0;
-
-    for (const auto& v : cluster.vertices) {
-      double diff = v.second->q - cluster.averageQuality;
-      sumSquaredDiff += diff * diff;
-    }
-
-    cluster.stdDeviation = sqrt(sumSquaredDiff / cluster.Q.magnitude);
-
-    // Update the threshold using the deviationFactor.
-    cluster.threshold = cluster.averageQuality - deviationFactor * cluster.stdDeviation;
-
-    // Remove vertices whose q value is less than the threshold.
-    for (auto it = cluster.vertices.begin(); it != cluster.vertices.end();) {
-      if (it->second->q < cluster.threshold) {
-        it = cluster.vertices.erase(it);
-      } else {
-        ++it;
-      }
-    }
+    filterVertices(cluster);
 
   }
+}
+
+void computeVertexQ(const shared_ptr<Vertex>& vertex, const Cluster& cluster)
+{
+  unsigned degree = vertex->adjacents.size();
+  unsigned sameClusterDegree = 0;
+
+  if (degree == 0) {
+    vertex->q = 0.0;
+    return;
+  }
+
+  sameClusterDegree = count_if(vertex->adjacents.begin(), vertex->adjacents.end(),
+  [&cluster](const auto& adjacent) {
+    return cluster.vertices.find(adjacent.first) != cluster.vertices.end();
+  });
+
+  vertex->q = static_cast<double>(sameClusterDegree) / degree;
+}
+
+void computeClusterQ(Cluster& cluster)
+{
+  cluster.Q.magnitude = cluster.vertices.size();
+
+  cluster.Q.sum_q = accumulate(cluster.vertices.begin(), cluster.vertices.end(), 0.0,
+  [](double sum, const auto& pair) {
+    return sum + pair.second->q;
+  });
+  
+}
+
+void computeClusterStats(Cluster& cluster)
+{
+  if (cluster.Q.magnitude == 0) {
+    cluster.averageQuality = 0.0;
+    cluster.stdDeviation = 0.0;
+    return;
+  }
+
+  cluster.averageQuality = cluster.Q.sum_q / cluster.Q.magnitude;
+
+  double sumSquaredDiff = transform_reduce(
+    cluster.vertices.begin(), cluster.vertices.end(), 0.0,
+    plus<>(),
+    [averageQuality = cluster.averageQuality](const auto& pair) {
+      double diff = pair.second->q - averageQuality;
+      return diff * diff;
+    }
+  );
+
+  cluster.stdDeviation = sqrt(sumSquaredDiff / cluster.Q.magnitude);
+}
+
+void computeClusterThreshold(Cluster& cluster, double deviationFactor)
+{
+  cluster.threshold = cluster.averageQuality - deviationFactor * cluster.stdDeviation;
+}
+
+void filterVertices(Cluster& cluster)
+{
+  erase_if(cluster.vertices, [&cluster](const auto& pair) {
+    return pair.second->q < cluster.threshold;
+  });
 }
