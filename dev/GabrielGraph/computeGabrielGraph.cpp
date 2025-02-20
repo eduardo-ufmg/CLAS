@@ -35,9 +35,11 @@ void computeGabrielGraph(ClusterMap& clusters)
 
       vector<double> midPoint(vi->features.size());
 
-      transform(vi->features.begin(), vi->features.end(), vj->features.begin(), midPoint.begin(), [](double a, double b) {
-        return (a + b) / 2.0;
-      });
+      transform(vi->features.begin(), vi->features.end(),
+        vj->features.begin(), midPoint.begin(),
+        [](double a, double b) {
+          return (a + b) / 2.0;
+        });
 
       const double sqRadius = squaredDistance(vi->features, midPoint);
 
