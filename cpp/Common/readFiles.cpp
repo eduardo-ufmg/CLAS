@@ -15,12 +15,12 @@ using namespace std;
 
 ifstream openFileRead(const string& input_filename_with_path);
 
-VertexID_t parseVertexID(const string& tokens);
+VertexID parseVertexID(const string& tokens);
 vector<double> parseFeatures(const string& tokens);
-ClassType parseClusterID(const string& tokens);
+ClusterID parseClusterID(const string& tokens);
 AdjacencyVector parseAdjacents(const string& tokens);
 
-pair<size_t, size_t> addVertexToCluster(ClusterMap& clusters, const VertexID_t& vertexId, const vector<double>& features, const ClassType& clusterKey, const AdjacencyVector& adjacents);
+pair<size_t, size_t> addVertexToCluster(ClusterMap& clusters, const VertexID& vertexId, const vector<double>& features, const ClusterID& clusterKey, const AdjacencyVector& adjacents);
 
 unsigned parseExpertid(const string& tokens);
 Edge parseEdge(const string& tokens);
@@ -53,11 +53,11 @@ int readGraph(ClusterMap& clusters, const string& input_filename_with_path)
     
     vector<string> parts = split(line, ", |,", 4);
     
-    VertexID_t vertexId = parseVertexID(parts[0]);
+    VertexID vertexId = parseVertexID(parts[0]);
 
     vector<double> features = parseFeatures(parts[1]);
     
-    ClassType clusterKey = parseClusterID(parts[2]);
+    ClusterID clusterKey = parseClusterID(parts[2]);
     
     AdjacencyVector adjacents = parseAdjacents(parts[3]);
     
@@ -95,7 +95,7 @@ int readVertices(ClusterMap& clusters, const string& input_filename_with_path)
 
     vector<string> tokens = split(line, ',', DIRECTION::BACKWARD, 1);
 
-    ClassType clusterid = parseClusterID(tokens.back());
+    ClusterID clusterid = parseClusterID(tokens.back());
 
     vector<double> features = parseFeatures(tokens.front());
 
@@ -189,11 +189,11 @@ ifstream openFileRead(const string& input_filename_with_path)
   return infile;
 }
 
-VertexID_t parseVertexID(const string& tokens)
+VertexID parseVertexID(const string& tokens)
 {
   string vertexIdStr = trim(tokens);
 
-  VertexID_t vertexId;
+  VertexID vertexId;
 
   try {
     vertexId = stoi(vertexIdStr);
@@ -229,11 +229,11 @@ vector<double> parseFeatures(const string& tokens)
   return features;
 }
 
-ClassType parseClusterID(const string& tokens)
+ClusterID parseClusterID(const string& tokens)
 {
   string clusteridstr = trim(tokens);
 
-  ClassType clusterid;
+  ClusterID clusterid;
 
   if (clusteridstr.empty()) {
     clusterid = "unclassified";
@@ -279,7 +279,7 @@ AdjacencyVector parseAdjacents(const string& tokens)
     string vertexIdStr = trim(adjacentParts[0]);
     string isSupportEdgeStr = trim(adjacentParts[1]);
 
-    VertexID_t vertexid;
+    VertexID vertexid;
 
     try {
       vertexid = stoi(vertexIdStr);
@@ -303,7 +303,7 @@ AdjacencyVector parseAdjacents(const string& tokens)
   return adjacents;
 }
 
-pair<size_t, size_t> addVertexToCluster(ClusterMap& clusters, const VertexID_t& vertexId, const vector<double>& features, const ClassType& clusterKey, const AdjacencyVector& adjacents)
+pair<size_t, size_t> addVertexToCluster(ClusterMap& clusters, const VertexID& vertexId, const vector<double>& features, const ClusterID& clusterKey, const AdjacencyVector& adjacents)
 {
   clusters.emplace(clusterKey, Cluster());
   clusters[clusterKey].addVertex(vertexId, make_shared<Vertex>(Vertex(features, adjacents, &clusters[clusterKey])));
@@ -334,7 +334,7 @@ Edge parseEdge(const string& tokens)
     exit(1);
   }
 
-  VertexID_t vertex0, vertex1;
+  VertexID vertex0, vertex1;
 
   try {
     vertex0 = stoi(trim(edgeParts[0]));

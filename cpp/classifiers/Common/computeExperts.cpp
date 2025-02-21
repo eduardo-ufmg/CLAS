@@ -11,7 +11,7 @@
 
 using namespace std;
 
-shared_ptr<Vertex> findVertex(const VertexID_t vertexid, const Cluster& cluster);
+shared_ptr<Vertex> findVertex(const VertexID vertexid, const Cluster& cluster);
 EdgeVertices getEdgeVertices(const Edge& edge, const ClusterMap& clusters);
 vector<double> computeDifferences(const EdgeVertices& vertices);
 vector<double> computeMidpoint(const EdgeVertices& vertices);
@@ -50,7 +50,7 @@ vector<Expert> getExperts(const SupportEdges& supportEdges, const ClusterMap& cl
   return experts;
 }
 
-shared_ptr<Vertex> findVertex(const VertexID_t vertexid, const Cluster& cluster)
+shared_ptr<Vertex> findVertex(const VertexID vertexid, const Cluster& cluster)
 {
   auto vertex = cluster.vertices.find(vertexid);
   return vertex != cluster.vertices.end() ? vertex->second : nullptr;

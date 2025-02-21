@@ -12,14 +12,14 @@ Vertex::Vertex(vector<double> features, AdjacencyVector adjacents, Cluster* clus
   this->cluster = cluster;
 }
 
-size_t Cluster::addVertex(const VertexID_t vertexid, const shared_ptr<Vertex>& vertex)
+size_t Cluster::addVertex(const VertexID vertexid, const shared_ptr<Vertex>& vertex)
 {
   this->vertices.emplace(vertexid, vertex);
   vertex->cluster = this;
   return vertices.size();
 }
 
-size_t Cluster::removeVertex(VertexID_t vertexid)
+size_t Cluster::removeVertex(VertexID vertexid)
 {
   this->vertices.at(vertexid)->cluster = nullptr;
   this->vertices.erase(vertexid);

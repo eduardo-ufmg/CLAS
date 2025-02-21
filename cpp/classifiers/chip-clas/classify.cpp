@@ -17,8 +17,8 @@ vector<double> computeWeights(const vector<double>& distances, const double maxD
 vector<double> normalizeWeights(const vector<double>& weights);
 vector<double> computeNormalizedWeights(const vector<double>& distances, const double maxDistance);
 double computeDecisionSum(const vector<double>& point, const vector<Expert>& experts, const vector<double>& weights);
-int insertClassifiedVertexIntoClusterMap(ClusterMap& clusters, const VertexID_t vertexid, const shared_ptr<Vertex>& vertex, const int finalLabel);
-
+ClusterID classifyVertex(const double decision_sum);
+int insertClassifiedVertexIntoClusterMap(ClusterMap& clusters, const VertexID vertexid, const shared_ptr<Vertex>& vertex, const ClusterID label);
 
 ClassifiedVertices classify(ClusterMap& clusters, const vector<Expert>& experts, VertexMap& vertices)
 {
@@ -45,14 +45,15 @@ ClassifiedVertices classify(ClusterMap& clusters, const vector<Expert>& experts,
     double decision_sum = computeDecisionSum(point, experts, weights);
 
     // Final classification: f(point) = sign( sum_l c_l(point) * h_l(point) )
-    int finalLabel = sign(decision_sum);
+    ClusterID label = classifyVertex(decision_sum);
 
     // 4. Update the vertex's cluster assignment.
-    if (insertClassifiedVertexIntoClusterMap(clusters, vertexid, vertex, finalLabel) != 0) {
-      cout << "Error: Could not insert classified vertex into cluster map." << endl;
+    if (insertClassifiedVertexIntoClusterMap(clusters, vertexid, vertex, label) != 0) {
+      cout << "Could not insert classified vertex into cluster map." << endl;
     }
 
-    classifiedVertices.push_back(make_pair(vertexid, finalLabel));
+    classifiedVertices.push_back(make_pair(vertexid, label));
+    
   }
 
   return classifiedVertices;
@@ -146,12 +147,15 @@ double computeDecisionSum(const vector<double>& point, const vector<Expert>& exp
   return accumulate(decisions.begin(), decisions.end(), 0.0);
 }
 
-int insertClassifiedVertexIntoClusterMap(ClusterMap& clusters, const VertexID_t vertexid, const shared_ptr<Vertex>& vertex, const int finalLabel)
+ClusterID classifyVertex(const double decision_sum)
 {
-  ClassType label = finalLabel;
-  
+  return sign(decision_sum);
+}
+
+int insertClassifiedVertexIntoClusterMap(ClusterMap& clusters, const VertexID vertexid, const shared_ptr<Vertex>& vertex, const ClusterID label)
+{
   if (clusters.find(label) == clusters.end()) {
-    cout << "Error: Could not find cluster with label " << finalLabel << endl;
+    cout << "Error: Could not find cluster with label " << label << endl;
     return -1;
   }
 

@@ -11,8 +11,8 @@
 class Vertex;
 class Cluster;
 
-using VertexID_t = int;
-using AdjacencyVector = std::vector< std::pair<VertexID_t, bool> >;
+using VertexID = int;
+using AdjacencyVector = std::vector< std::pair<VertexID, bool> >;
 
 class Vertex
 {
@@ -24,7 +24,7 @@ public:
   Vertex(std::vector<double> features = {}, AdjacencyVector adjacents = {}, Cluster* cluster = nullptr);
 };
 
-using VertexMap = std::map<VertexID_t, std::shared_ptr<Vertex> >;
+using VertexMap = std::map<VertexID, std::shared_ptr<Vertex> >;
 
 class QualityMeasure
 {
@@ -41,12 +41,12 @@ public:
   double threshold;
   double averageQuality;
   double stdDeviation;
-  size_t addVertex(const VertexID_t vertexid, const std::shared_ptr<Vertex>& vertex);
-  size_t removeVertex(VertexID_t vertexid);
+  size_t addVertex(const VertexID vertexid, const std::shared_ptr<Vertex>& vertex);
+  size_t removeVertex(VertexID vertexid);
 };
 
-using ClassType = std::variant<int, std::string>;
-using ClusterMap = std::map<ClassType, Cluster>;
+using ClusterID = std::variant<int, std::string>;
+using ClusterMap = std::map<ClusterID, Cluster>;
 
 template<typename... Ts>
 std::enable_if_t<(sizeof...(Ts) > 0), std::ostream&>
@@ -55,7 +55,7 @@ operator<<(std::ostream& os, const std::variant<Ts...>& var) {
   return os;
 }
 
-using Edge = std::pair<VertexID_t, VertexID_t>;
+using Edge = std::pair<VertexID, VertexID>;
 using SupportEdges = std::set<Edge>;
 using EdgeVertices = std::pair<const Vertex*, const Vertex*>;
 
@@ -69,6 +69,6 @@ public:
   unsigned id;
 };
 
-using ClassifiedVertices = std::vector< std::pair<VertexID_t, ClassType> >;
+using ClassifiedVertices = std::vector< std::pair<VertexID, ClusterID> >;
 
 #endif

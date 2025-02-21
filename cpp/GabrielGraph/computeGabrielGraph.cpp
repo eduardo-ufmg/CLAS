@@ -8,7 +8,7 @@
 #include "graphTypes.hpp"
 
 using namespace std;
-using VertexVector = vector< pair<VertexID_t, shared_ptr<Vertex> > >;
+using VertexVector = vector< pair<VertexID, shared_ptr<Vertex> > >;
 
 double squaredDistance(const std::vector<double>& a, const std::vector<double>& b);
 const VertexVector collectAllVerticesIntoVector(const ClusterMap& clusters);
@@ -22,11 +22,11 @@ void computeGabrielGraph(ClusterMap& clusters)
   const size_t verticesQty = allVertices.size();
 
   for (size_t i = 0; i < verticesQty; ++i) {
-    const VertexID_t viid = allVertices[i].first;
+    const VertexID viid = allVertices[i].first;
     const shared_ptr<Vertex>& vi = allVertices[i].second;
 
     for (size_t j = i + 1; j < verticesQty; ++j) {
-      const VertexID_t vjid = allVertices[j].first;
+      const VertexID vjid = allVertices[j].first;
       const shared_ptr<Vertex>& vj = allVertices[j].second;
 
       if (viid == vjid) {
