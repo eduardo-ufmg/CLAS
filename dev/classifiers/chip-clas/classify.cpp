@@ -4,92 +4,55 @@
 #include <map>
 #include <cmath>
 #include <iostream>
+#include <numeric>
+#include <algorithm>
 
 #include "graphTypes.hpp"
 
 using namespace std;
 
 int sign(double num);
+pair <vector<double>, double> computeDistances(const vector<double>& point, const vector<Expert>& experts);
+vector<double> computeWeights(const vector<double>& distances, const double maxDistance);
+vector<double> normalizeWeights(const vector<double>& weights);
+vector<double> computeNormalizedWeights(const vector<double>& distances, const double maxDistance);
+double computeDecisionSum(const vector<double>& point, const vector<Expert>& experts, const vector<double>& weights);
+int insertClassifiedVertexIntoClusterMap(ClusterMap& clusters, const VertexID_t vertexid, const shared_ptr<Vertex>& vertex, const int finalLabel);
+
 
 ClassifiedVertices classify(ClusterMap& clusters, const vector<Expert>& experts, VertexMap& vertices)
 {
   ClassifiedVertices classifiedVertices;
-  // Iterate over all new vertices
-  for (auto& [vertex_id, vertex_ptr] : vertices) {
-    const vector<double>& x = vertex_ptr->features;
-    size_t dim = x.size();
+  
+  for (auto& [vertexid, vertex] : vertices) {
 
-    // 1. Compute distances from x to each expert's midpoint
-    vector<double> distances;
-    distances.reserve(experts.size());
-    double sigma = 0.0; // will be max distance
-    for (const Expert& expert : experts) {
-      double d = 0.0;
-      // Compute Euclidean distance
-      for (size_t i = 0; i < dim; ++i) {
-        double diff = x[i] - expert.midpoint_coordinates[i];
-        d += diff * diff;
-      }
-      d = sqrt(d);
-      distances.push_back(d);
-      if (d > sigma) {
-        sigma = d;
-      }
+    const vector<double>& point = vertex->features;
+
+    // 1. Compute distances from point to each expert's midpoint
+    auto [distances, maxDistance] = computeDistances(point, experts);
+
+    // Prevent division by zero (if point equals all expert midpoints)
+    if (maxDistance == 0.0) {
+      maxDistance = 1e-8;
     }
-    // Prevent division by zero (if x equals all expert midpoints)
-    if (sigma == 0.0)
-      sigma = 1e-8;
 
     // 2. Compute expert weights using the gating function:
-    //    c_l(x) = exp( - sigma^2 / D(x, pl) )
-    vector<double> weights;
-    weights.reserve(experts.size());
-    double sum_weights = 0.0;
-    for (double d : distances) {
-      double w = exp( - (sigma * sigma) / d );
-      weights.push_back(w);
-      sum_weights += w;
-    }
-    // Normalize weights
-    if (sum_weights == 0.0) {
-      // If all weights are zero (should not normally happen), use uniform weights.
-      for (double &w : weights) {
-        w = 1.0 / experts.size();
-      }
-    } else {
-      for (double &w : weights) {
-        w /= sum_weights;
-      }
-    }
+    //    c_l(point) = exp( - maxDistance^2 / D(point, pl) )
+    vector<double> weights = computeNormalizedWeights(distances, maxDistance);
 
     // 3. Compute the weighted sum of expert decisions.
-    // For each expert, h_l(x) = sign( dot(x, expert.differences) - expert.bias )
-    double decision_sum = 0.0;
-    for (size_t i = 0; i < experts.size(); ++i) {
-      const Expert& expert = experts[i];
-      double dot_product = 0.0;
-      for (size_t j = 0; j < dim; ++j)
-        dot_product += x[j] * expert.differences[j];
-      double activation = dot_product - expert.bias;
-      int h = sign(activation);
-      decision_sum += weights[i] * h;
-    }
+    // For each expert, h_l(point) = sign( dot(point, expert.differences) - expert.bias )
+    double decision_sum = computeDecisionSum(point, experts, weights);
 
-    // Final classification: f(x) = sign( sum_l c_l(x) * h_l(x) )
-    int final_label = sign(decision_sum);
+    // Final classification: f(point) = sign( sum_l c_l(point) * h_l(point) )
+    int finalLabel = sign(decision_sum);
 
     // 4. Update the vertex's cluster assignment.
-    // We use the final_label (either +1 or -1) as the key in the clusters map.
-    ClassType cluster_key = final_label;
-    if (clusters.find(cluster_key) == clusters.end()) {
-      // Create a new cluster if one does not exist for this label.
-      clusters[cluster_key] = Cluster();
+    if (insertClassifiedVertexIntoClusterMap(clusters, vertexid, vertex, finalLabel) != 0) {
+      cout << "Error: Could not insert classified vertex into cluster map." << endl;
     }
-    Cluster* assigned_cluster = &clusters[cluster_key];
-    vertex_ptr->cluster = assigned_cluster;
-    assigned_cluster->vertices[vertex_id] = vertex_ptr;
 
-    classifiedVertices.push_back(make_pair(vertex_id, final_label));
+    classifiedVertices.push_back(make_pair(vertexid, finalLabel));
   }
 
   return classifiedVertices;
@@ -98,4 +61,101 @@ ClassifiedVertices classify(ClusterMap& clusters, const vector<Expert>& experts,
 int sign(double num)
 {
   return (0 < num) - (num < 0);
+}
+
+pair<vector<double>, double> computeDistances(const vector<double>& point, const vector<Expert>& experts)
+{
+  vector<double> distances;
+
+  double maxDistance = 0.0;
+
+  for (const Expert& expert : experts) {
+
+    double sqDistance = inner_product(point.begin(), point.end(),
+      expert.midpoint_coordinates.begin(), 0.0,
+      plus<double>(), [](double a, double b) { return (a - b) * (a - b); });
+
+    distances.push_back(sqDistance);
+
+    if (sqDistance > maxDistance) {
+      maxDistance = sqDistance;
+    }
+
+  }
+
+  return make_pair(distances, maxDistance);
+}
+
+vector<double> computeWeights(const vector<double>& distances, const double maxDistance)
+{
+  vector<double> weights(distances.size());
+
+  transform(distances.begin(), distances.end(),
+    weights.begin(),
+    [maxDistance](double distance) {
+      return exp(-distance / maxDistance);
+    });
+
+  return weights;
+}
+
+vector<double> normalizeWeights(const vector<double>& weights)
+{
+  vector<double> normalizedWeights(weights.size());
+
+  double sum = accumulate(weights.begin(), weights.end(), 0.0);
+
+  if (sum == 0.0) {
+
+    fill(normalizedWeights.begin(), normalizedWeights.end(), 1.0 / weights.size());
+
+  } else {
+
+    transform(weights.begin(), weights.end(),
+      normalizedWeights.begin(),
+      [sum](double weight) {
+        return weight / sum;
+      });
+
+  }
+
+  return normalizedWeights;
+}
+
+vector<double> computeNormalizedWeights(const vector<double>& distances, const double maxDistance)
+{
+  vector<double> weights = computeWeights(distances, maxDistance);
+
+  weights = normalizeWeights(weights);
+
+  return weights;
+}
+
+double computeDecisionSum(const vector<double>& point, const vector<Expert>& experts, const vector<double>& weights)
+{
+  vector<double> decisions(experts.size());
+
+  transform(experts.begin(), experts.end(),
+    weights.begin(), decisions.begin(),
+    [point](const Expert& expert, double weight) {
+      double dotProduct = inner_product(point.begin(), point.end(),
+        expert.differences.begin(), 0.0);
+      return weight * (dotProduct - expert.bias);
+    });
+
+  return accumulate(decisions.begin(), decisions.end(), 0.0);
+}
+
+int insertClassifiedVertexIntoClusterMap(ClusterMap& clusters, const VertexID_t vertexid, const shared_ptr<Vertex>& vertex, const int finalLabel)
+{
+  ClassType label = finalLabel;
+  
+  if (clusters.find(label) == clusters.end()) {
+    cout << "Error: Could not find cluster with label " << finalLabel << endl;
+    return -1;
+  }
+
+  clusters[label].addVertex(vertexid, vertex);
+
+  return 0;
 }

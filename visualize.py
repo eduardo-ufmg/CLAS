@@ -392,7 +392,7 @@ def main():
     unique_classes = np.unique(to_classify_classes)
     cmap = plt.get_cmap("plasma", len(unique_classes))
     for idx, cl in enumerate(unique_classes):
-        mask = to_classify_classes == -cl
+        mask = to_classify_classes == cl
         axes[1].scatter(
             to_classify_data[mask, 0],
             to_classify_data[mask, 1],

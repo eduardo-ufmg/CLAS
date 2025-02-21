@@ -231,19 +231,26 @@ vector<double> parseFeatures(const string& tokens)
 
 ClassType parseClusterID(const string& tokens)
 {
-  string clusterIdStr = trim(tokens);
+  string clusteridstr = trim(tokens);
 
   ClassType clusterid;
 
-  if (!clusterIdStr.empty() && all_of(clusterIdStr.begin(), clusterIdStr.end(), ::isdigit)) {
+  if (clusteridstr.empty()) {
+    clusterid = "unclassified";
+    return clusterid;
+  } 
+
+  if (clusteridstr[0] == '-' ?
+        all_of(clusteridstr.begin() + 1, clusteridstr.end(), ::isdigit) :
+        all_of(clusteridstr.begin(), clusteridstr.end(), ::isdigit)) {
     try {
-      clusterid = stoi(clusterIdStr);
+      clusterid = stoi(clusteridstr);
     } catch (const exception& e) {
-      cerr << "Error: could not convert cluster ID '" << clusterIdStr << "' to integer." << endl;
+      cerr << "Error: could not convert cluster ID '" << clusteridstr << "' to integer." << endl;
       exit(1);
     }
   } else {
-    clusterid = clusterIdStr;
+    clusterid = clusteridstr;
   }
 
   return clusterid;
