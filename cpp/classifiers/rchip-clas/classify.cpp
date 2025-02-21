@@ -11,7 +11,8 @@
 
 using namespace std;
 
-Expert* getClosestExpert(const Vertex& vertex, const vector<Expert>& experts);
+double squaredDistance(const vector<double>& a, const vector<double>& b);
+const Expert* getClosestExpert(const Vertex& vertex, const vector<Expert>& experts);
 double computeHyperplaneSeparationValue(const Vertex& vertex, const Expert* expert);
 int sign(const double value);
 ClusterID classifyVertex(const double separationValue);
@@ -40,39 +41,33 @@ ClassifiedVertices classify(ClusterMap& clusters, const vector<Expert>& experts,
   return classifiedVertices;
 }
 
-Expert* getClosestExpert(const Vertex& vertex, const vector<Expert>& experts)
+double squaredDistance(const std::vector<double>& a, const std::vector<double>& b)
 {
-  double minDistance = numeric_limits<double>::max();
-  Expert* closestExpert = nullptr;
-
-  for (auto& expert : experts) {
-    double distance = 0.0;
-
-    for (size_t i = 0; i < vertex.features.size(); i++) {
-      distance += pow(vertex.features[i] - expert.midpoint_coordinates[i], 2);
-    }
-
-    distance = sqrt(distance);
-
-    if (distance < minDistance) {
-      minDistance = distance;
-      closestExpert = const_cast<Expert*>(&expert);
-    }
-
+  if (a.size() != b.size()) {
+   return numeric_limits<double>::infinity();
   }
 
-  return closestExpert;
+  return inner_product(a.begin(), a.end(),
+    b.begin(), 0.0, plus<double>(),
+    [](double x, double y) {
+      return (x - y) * (x - y);
+    });
+}
+
+const Expert* getClosestExpert(const Vertex& vertex, const vector<Expert>& experts)
+{
+  auto it = min_element(experts.begin(), experts.end(),
+    [&vertex](const Expert& a, const Expert& b) {
+      return squaredDistance(vertex.features, a.midpoint_coordinates) < squaredDistance(vertex.features, b.midpoint_coordinates);
+    });
+
+  return (it != experts.end()) ? &(*it) : nullptr;
 }
 
 double computeHyperplaneSeparationValue(const Vertex& vertex, const Expert* expert)
 {
-  double separationValue = -expert->bias;
-
-  for (size_t i = 0; i < vertex.features.size(); i++) {
-    separationValue += vertex.features[i] * expert->differences[i];
-  }
-
-  return separationValue;
+  return inner_product(vertex.features.begin(), vertex.features.end(),
+    expert->differences.begin(), -expert->bias);
 }
 
 int sign(const double value)

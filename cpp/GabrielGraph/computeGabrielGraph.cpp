@@ -4,6 +4,7 @@
 #include <vector>
 #include <limits>
 #include <algorithm>
+#include <numeric>
 
 #include "graphTypes.hpp"
 
@@ -73,19 +74,15 @@ void computeGabrielGraph(ClusterMap& clusters)
 
 double squaredDistance(const std::vector<double>& a, const std::vector<double>& b)
 {
-  double sum = 0.0;
-  size_t n = a.size();
-
-  if (n != b.size()) {
-   return numeric_limits<double>::infinity();
-  }
-
-  for (size_t i = 0; i < n; ++i) {
-    double diff = a[i] - b[i];
-    sum += diff * diff;
-  }
-
-  return sum;
+  if (a.size() != b.size()) {
+    return numeric_limits<double>::infinity();
+   }
+ 
+   return inner_product(a.begin(), a.end(),
+     b.begin(), 0.0, plus<double>(),
+     [](double x, double y) {
+       return (x - y) * (x - y);
+     });
 }
 
 const VertexVector collectAllVerticesIntoVector(const ClusterMap& clusters)
