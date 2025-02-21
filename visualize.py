@@ -248,26 +248,109 @@ def parse_chip_clas_file(filename: str) -> Dict[int, int]:
 
 def compute_nearest_neighbor_path(points: np.ndarray) -> List[int]:
     """
-    Given an array of points (n x NUM_DIMENSIONS), compute a simple nearest neighbor tour
-    starting from the first point. Returns a list of indices representing the order.
+    Given an array of points (n x NUM_DIMENSIONS), compute a nearest neighbor tour starting 
+    from the first point, then refine it using a two-opt algorithm.
+    Returns a list of indices representing the order.
     """
     n = len(points)
     if n == 0:
         return []
+    
+    # Greedy nearest neighbor route
     visited = set([0])
-    order = [0]
+    route = [0]
     current = 0
     while len(visited) < n:
-        # Compute distances from current to all points
         dists = np.linalg.norm(points - points[current], axis=1)
-        # Set distance to visited points to infinity
         for idx in visited:
             dists[idx] = np.inf
         next_idx = int(np.argmin(dists))
-        order.append(next_idx)
+        route.append(next_idx)
         visited.add(next_idx)
         current = next_idx
-    return order
+
+    # Refine the route using 2-opt improvement
+    route = two_opt(route, points)
+    return route
+
+def route_distance(route: List[int], points: np.ndarray) -> float:
+    """Compute total distance of the tour given a route (list of indices)."""
+    distance = 0.0
+    for i in range(len(route) - 1):
+        distance += np.linalg.norm(points[route[i]] - points[route[i+1]])
+    return distance
+
+def two_opt(route: List[int], points: np.ndarray) -> List[int]:
+    """
+    Apply the two-opt algorithm to improve the tour by swapping segments.
+    """
+    best = route
+    improved = True
+    while improved:
+        improved = False
+        for i in range(1, len(best) - 2):
+            for j in range(i + 1, len(best)):
+                if j - i == 1:  # skip adjacent indices
+                    continue
+                new_route = best[:i] + best[i:j][::-1] + best[j:]
+                if route_distance(new_route, points) < route_distance(best, points):
+                    best = new_route
+                    improved = True
+        route = best
+    return best
+
+# --- Extending the polyline to the plot boundaries ---
+def extend_point_to_bounds(point: np.ndarray, direction: np.ndarray, xlim: tuple, ylim: tuple) -> np.ndarray:
+    """
+    Extend a point along a given direction until it hits the plot boundaries.
+    """
+    if np.allclose(direction, 0):
+        return point.copy()
+    
+    t_candidates = []
+    # Calculate t for vertical boundaries (x-direction)
+    if direction[0] != 0:
+        if direction[0] > 0:
+            t_x = (xlim[1] - point[0]) / direction[0]
+        else:
+            t_x = (xlim[0] - point[0]) / direction[0]
+        t_candidates.append(t_x)
+    
+    # Calculate t for horizontal boundaries (y-direction)
+    if direction[1] != 0:
+        if direction[1] > 0:
+            t_y = (ylim[1] - point[1]) / direction[1]
+        else:
+            t_y = (ylim[0] - point[1]) / direction[1]
+        t_candidates.append(t_y)
+    
+    # Choose the smallest positive t
+    t = min(t for t in t_candidates if t > 0)
+    return point + t * direction
+
+def extend_polyline_to_bounds(polyline: np.ndarray, ax) -> np.ndarray:
+    """
+    Given a polyline (n x 2), extend its start and end in the directions
+    of the first and last segments so that the line touches the plot boundaries.
+    """
+    xlim = ax.get_xlim()
+    ylim = ax.get_ylim()
+    
+    # Extend start
+    start = polyline[0]
+    second = polyline[1]
+    start_direction = start - second  # reverse direction for extension
+    extended_start = extend_point_to_bounds(start, start_direction, xlim, ylim)
+    
+    # Extend end
+    end = polyline[-1]
+    penultimate = polyline[-2]
+    end_direction = end - penultimate  # forward direction
+    extended_end = extend_point_to_bounds(end, end_direction, xlim, ylim)
+    
+    # Combine the extended endpoints with the original polyline
+    extended_polyline = np.vstack([extended_start, polyline, extended_end])
+    return extended_polyline
 
 def run_command(cmd_input_file: List[str], cwd: str) -> None:
     """
@@ -366,13 +449,6 @@ def main():
     
     # Run hyperplanes executable on the filtered Gabriel Graph
     run_command([hyperplanes_exe, path_from_hyperplanes_to_root + gabriel_filtered_output_from_root], hyperplanes_cwd)
-    
-    # Parse hyperplanes output to get midpoints and compute a polyline path
-    midpoints = parse_hyperplanes_file(hyperplanes_output_from_root)
-    if midpoints.shape[0] > 0:
-        order = compute_nearest_neighbor_path(midpoints)
-        ordered_midpoints = midpoints[order]
-        axes[1].plot(ordered_midpoints[:, 0], ordered_midpoints[:, 1], "m--", lw=2, label="Hyperplane Polyline")
     
     # Run chip-clas executable on the to-classify data
     run_command(
