@@ -166,12 +166,13 @@ def extend_polyline_to_bounds(polyline: np.ndarray, ax) -> np.ndarray:
     extended_polyline = np.vstack([extended_start, polyline, extended_end])
     return extended_polyline
 
-def plot_classified(ax: Any, to_classify_data: np.ndarray, to_classify_classes: np.ndarray, title: str) -> None:
+def plot_classified(ax: Any, to_classify_data: np.ndarray, classifications: Dict[int, int], num_to_classify: int, title: str) -> None:
     """
     Plot the classified to-classify vertices on the given axis.
     """
 
-    # Plot the classified to-classify vertices on the midle subplot
+    to_classify_classes = np.array([classifications.get(i, 0) for i in range(-num_to_classify, 0)])
+
     unique_classes = np.unique(to_classify_classes)
     cmap = plt.get_cmap("plasma", len(unique_classes))
     for idx, cl in enumerate(unique_classes):

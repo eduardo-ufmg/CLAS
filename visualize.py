@@ -89,10 +89,8 @@ def main():
     
     # Parse chip-clas output and merge classification with to-classify data
     classifications = parse_files.parse_clas_file(chip_clas_output_from_root)
-
-    to_classify_classes = np.array([classifications.get(i + (1 - num_to_classify), 0) for i in range(len(to_classify_data))])
     
-    plots.plot_classified(axes[1], to_classify_data, to_classify_classes, title="CHIP-clas")
+    plots.plot_classified(axes[1], to_classify_data, classifications, num_to_classify, title="Chip-clas")
 
     # Run rchip-clas executable on the to-classify data
     run_command(
@@ -106,9 +104,7 @@ def main():
     # Parse rchip-clas output and merge classification with to-classify data
     classifications = parse_files.parse_clas_file(rchip_clas_output_from_root)
 
-    to_classify_classes = np.array([classifications.get(i + (1 - num_to_classify), 0) for i in range(len(to_classify_data))])
-
-    plots.plot_classified(axes[2], to_classify_data, to_classify_classes, title="RCHIP-clas")
+    plots.plot_classified(axes[2], to_classify_data, classifications, num_to_classify, title="RCHIP-clas")
 
     # Run nn-clas executable on the to-classify data
     run_command(
@@ -121,9 +117,7 @@ def main():
     # Parse nn-clas output and merge classification with to-classify data
     classifications = parse_files.parse_clas_file(nn_clas_output_from_root)
 
-    to_classify_classes = np.array([classifications.get(i + (1 - num_to_classify), 0) for i in range(len(to_classify_data))])
-
-    plots.plot_classified(axes[3], to_classify_data, to_classify_classes, title="NN-clas")
+    plots.plot_classified(axes[3], to_classify_data, classifications, num_to_classify, title="NN-clas")
 
     plt.tight_layout()
     plt.show()
