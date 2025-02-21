@@ -386,11 +386,20 @@ def main():
     synthetic_data_file_from_root = "data/synthetic/synthetic.csv"
     vertices_to_classify_from_root = "data/synthetic/to-classify.csv"
     
+    # Gabriel Graph parameters
     gabriel_graph_exe_from_root = "cpp/GabrielGraph/gabrielGraph"
     gabriel_output_from_root = "cpp/GabrielGraph/output/synthetic.csv"
     gabriel_filtered_output_from_root = "cpp/GabrielGraph/output/synthetic-filtered.csv"
+    path_from_gabriel_to_root = "../../"
+    gabriel_cwd = "cpp/GabrielGraph"
+    gabriel_exe = "./gabrielGraph"
+
+    # Low Degree Filter parameters
     filter_exe_from_root = "cpp/Filter/filter"
     filter_output_from_root = "cpp/Filter/output/synthetic-filtered.csv"
+    path_from_filter_to_root = "../../"
+    filter_cwd = "cpp/Filter"
+    filter_exe = "./filter"
     
     # Hyperplanes parameters
     hyperplanes_from_root = "cpp/classifiers/Common/hyperplanes"
@@ -399,16 +408,19 @@ def main():
     hyperplanes_cwd = "cpp/classifiers/Common"
     hyperplanes_exe = "./hyperplanes"
     
-    # Chip-clas parameters
+    # CHIP-clas parameters
     chip_clas_from_root = "cpp/classifiers/chip-clas/chip-clas"
     chip_clas_output_from_root = "cpp/classifiers/chip-clas/output/synthetic-classified.csv"
     path_from_chip_clas_to_root = "../../../"
     chip_clas_cwd = "cpp/classifiers/chip-clas"
     chip_clas_exe = "./chip-clas"
-    
-    # Other path parameters (from executables to project root)
-    path_from_gabriel_to_root = "../../"
-    path_from_filter_to_root = "../../"
+
+    # RCHIP-clas parameters
+    rchip_clas_from_root = "cpp/classifiers/rchip-clas/rchip-clas"
+    rchip_clas_output_from_root = "cpp/classifiers/rchip-clas/output/synthetic-classified.csv"
+    path_from_rchip_clas_to_root = "../../../"
+    rchip_clas_cwd = "cpp/classifiers/rchip-clas"
+    rchip_clas_exe = "./rchip-clas"
     
     # Generate synthetic training data and capture the centers
     training_data, centers = generate_synthetic_data(
@@ -428,17 +440,15 @@ def main():
     plot_synthetic_data(axes[0], training_data, title="Training Data")
     
     # Run Gabriel Graph executable on training data
-    gabriel_exe = "./gabrielGraph"
     gabriel_input_file = path_from_gabriel_to_root + synthetic_data_file_from_root
-    run_command([gabriel_exe, gabriel_input_file], "cpp/GabrielGraph")
+    run_command([gabriel_exe, gabriel_input_file], gabriel_cwd)
     
     # Run Low Degree Filter executable
-    filter_exe = "./filter"
     filter_input_file = path_from_filter_to_root + gabriel_output_from_root
-    run_command([filter_exe, filter_input_file, str(args.threshold_factor)], "cpp/Filter")
+    run_command([filter_exe, filter_input_file, str(args.threshold_factor)], filter_cwd)
     
     # Recompute Gabriel Graph on the filtered data
-    run_command([gabriel_exe, path_from_gabriel_to_root + filter_output_from_root], "cpp/GabrielGraph")
+    run_command([gabriel_exe, path_from_gabriel_to_root + filter_output_from_root], gabriel_cwd)
     
     # Parse and plot the filtered graph on the right subplot
     if not pathlib.Path(gabriel_filtered_output_from_root).exists():
