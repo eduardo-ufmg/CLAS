@@ -90,7 +90,7 @@
       }
     },
     {
-      "label": "Clean Chip",
+      "label": "Clean CHIP",
       "type": "shell",
       "command": "make clean",
       "options": {
@@ -99,7 +99,7 @@
       "problemMatcher": []
     },
     {
-      "label": "Debug Chip",
+      "label": "Debug CHIP",
       "type": "shell",
       "command": "make debug",
       "options": {
@@ -108,10 +108,68 @@
       "problemMatcher": ["$gcc"]
     },
     {
-      "label": "Build Chip",
+      "label": "Build CHIP",
       "dependsOn": [
-        "Clean Chip",
-        "Debug Chip"
+        "Clean CHIP",
+        "Debug CHIP"
+      ],
+      "dependsOrder": "sequence",
+      "group": {
+        "kind": "build"
+      }
+    },
+    {
+      "label": "Clean RCHIP",
+      "type": "shell",
+      "command": "make clean",
+      "options": {
+        "cwd": "${workspaceFolder}/cpp/classifiers/rchip-clas"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Debug RCHIP",
+      "type": "shell",
+      "command": "make debug",
+      "options": {
+        "cwd": "${workspaceFolder}/cpp/classifiers/rchip-clas"
+      },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Build RCHIP",
+      "dependsOn": [
+        "Clean RCHIP",
+        "Debug RCHIP"
+      ],
+      "dependsOrder": "sequence",
+      "group": {
+        "kind": "build"
+      }
+    },
+    {
+      "label": "Clean NN",
+      "type": "shell",
+      "command": "make clean",
+      "options": {
+        "cwd": "${workspaceFolder}/cpp/classifiers/nn-clas"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Debug NN",
+      "type": "shell",
+      "command": "make debug",
+      "options": {
+        "cwd": "${workspaceFolder}/cpp/classifiers/nn-clas"
+      },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Build NN",
+      "dependsOn": [
+        "Clean NN",
+        "Debug NN"
       ],
       "dependsOrder": "sequence",
       "group": {
@@ -124,7 +182,9 @@
         "Build Gabriel",
         "Build Filter",
         "Build Hyperplane",
-        "Build Chip"
+        "Build CHIP",
+        "Build RCHIP",
+        "Build NN"
       ],
       "dependsOrder": "sequence",
       "group": {

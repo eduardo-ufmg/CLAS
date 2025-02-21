@@ -37,3 +37,10 @@ rchip_clas_output_from_root = "cpp/classifiers/rchip-clas/output/synthetic-class
 path_from_rchip_clas_to_root = "../../../"
 rchip_clas_cwd = "cpp/classifiers/rchip-clas"
 rchip_clas_exe = "./rchip-clas"
+
+# NN-clas parameters
+nn_clas_from_root = "cpp/classifiers/nn-clas/nn-clas"
+nn_clas_output_from_root = "cpp/classifiers/nn-clas/output/synthetic-classified.csv"
+path_from_nn_clas_to_root = "../../../"
+nn_clas_cwd = "cpp/classifiers/nn-clas"
+nn_clas_exe = "./nn-clas"

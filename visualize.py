@@ -55,7 +55,7 @@ def main():
     )
     
     # Create the figure with three subplots
-    fig, axes = plt.subplots(1, 3, figsize=(14, 6))
+    fig, axes = plt.subplots(1, 4, figsize=(14, 6))
     
     # Left plot: original training dataset
     plots.plot_synthetic_data(axes[0], training_data, title="Training Data")
@@ -109,6 +109,21 @@ def main():
     to_classify_classes = np.array([classifications.get(i + (1 - num_to_classify), 0) for i in range(len(to_classify_data))])
 
     plots.plot_classified(axes[2], to_classify_data, to_classify_classes, title="RCHIP-clas")
+
+    # Run nn-clas executable on the to-classify data
+    run_command(
+        [nn_clas_exe,
+         path_from_nn_clas_to_root + gabriel_filtered_output_from_root,
+         path_from_nn_clas_to_root + vertices_to_classify_from_root],
+        nn_clas_cwd
+    )
+
+    # Parse nn-clas output and merge classification with to-classify data
+    classifications = parse_files.parse_clas_file(nn_clas_output_from_root)
+
+    to_classify_classes = np.array([classifications.get(i + (1 - num_to_classify), 0) for i in range(len(to_classify_data))])
+
+    plots.plot_classified(axes[3], to_classify_data, to_classify_classes, title="NN-clas")
 
     plt.tight_layout()
     plt.show()

@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 
   const NNsupportEdges nnSEs = getSEs(clusters);
 
-  ClassifiedVertices classifiedVertices = classify(nnSEs, new_vertices);
+  ClassifiedVertices classifiedVertices = classify(nnSEs, new_vertices, clusters);
 
   string aux_out_fn = outputPathFromInputPath(dataset_filename_with_path);
   string output_filename_with_path = aux_out_fn.substr(0, aux_out_fn.find_last_of('-')) + "-classified.csv";

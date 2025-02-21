@@ -169,7 +169,7 @@ int readVertices(VertexMap& vertices, const string& input_filename_with_path)
       continue;
     }
 
-    vertices.emplace(-lineNo, make_shared<Vertex>(Vertex(parseFeatures(line), {}, nullptr)));
+    vertices.emplace(-(lineNo + 1), make_shared<Vertex>(Vertex(parseFeatures(line), {}, nullptr)));
 
     ++lineNo;
   }

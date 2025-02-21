@@ -6,6 +6,8 @@
 
 using namespace std;
 
+
+
 NNsupportEdges getSEs(const ClusterMap& clusters)
 {
   using VertexClusterIDMap = map< VertexID, pair<ClusterID, const Vertex*> >;
@@ -26,7 +28,12 @@ NNsupportEdges getSEs(const ClusterMap& clusters)
     const auto& [clusterid, vertex] = vertexpair;
     for (const auto& [adjacentid, isSE] : vertex->adjacents) {
       if (isSE) {
-        supportEdges.emplace(make_pair(clusterid, vertex), vertices.at(adjacentid));
+        const auto& vpair = make_pair(clusterid, vertex);
+        const auto& adjpair = vertices.at(adjacentid);
+
+        const auto& edge = make_pair(min(vpair, adjpair), max(vpair, adjpair));
+
+        supportEdges.insert(edge);
       }
     }
   }

@@ -13,35 +13,40 @@
 
 using namespace std;
 
-ClassifiedVertices classify(const NNsupportEdges& se, VertexMap& vertices)
+set< pair< ClusterID, const Vertex* > > getVertices(const NNsupportEdges& se);
+ClassifiedVertices classify(const NNsupportEdges& se, VertexMap& vertices, ClusterMap& clusters)
 {
   ClassifiedVertices classifiedVertices;
+  auto edgeVertices = getVertices(se);
 
   for (auto& [vertexid, vertex] : vertices) {
-    ClusterID closestVertexClusterid;
-    double closestVertexDistance = numeric_limits<double>::max();
+    ClusterID farthestVertexClusterid;
+    double farthestDistance = numeric_limits<double>::min();
 
-    for (const auto& [vapair, vbpair] : se) {
-      const auto& [cida, va] = vapair;
-      const auto& [cidb, vb] = vbpair;
+    for (const auto& [clusterid, edgeVertex] : edgeVertices) {
+      const double distance = squaredDistance(vertex->features, edgeVertex->features);
 
-      double da = squaredDistance(vertex->features, va->features);
-      double db = squaredDistance(vertex->features, vb->features);
-
-      if (da < closestVertexDistance) {
-        closestVertexDistance = da;
-        closestVertexClusterid = cida;
+      if (distance > farthestDistance) {
+        farthestDistance = distance;
+        farthestVertexClusterid = clusterid;
       }
-
-      if (db < closestVertexDistance) {
-        closestVertexDistance = db;
-        closestVertexClusterid = cidb;
-      }
-
     }
 
-    classifiedVertices.push_back({vertexid, closestVertexClusterid});
+    clusters[farthestVertexClusterid].addVertex(vertexid, vertex);
+    classifiedVertices.push_back({vertexid, farthestVertexClusterid});
   }
 
   return classifiedVertices;
+}
+
+set< pair< ClusterID, const Vertex* > > getVertices(const NNsupportEdges& se)
+{
+  set< pair< ClusterID, const Vertex* > > vertices;
+
+  for (auto& [vapair, vbpair] : se) {
+    vertices.insert(vapair);
+    vertices.insert(vbpair);
+  }
+
+  return vertices;
 }

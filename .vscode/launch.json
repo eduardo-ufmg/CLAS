@@ -68,7 +68,7 @@
       "preLaunchTask": "Build Hyperplane"
     },
     {
-      "name": "Debug Chip - synthetic",
+      "name": "Debug CHIP - synthetic",
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/cpp/classifiers/chip-clas/chip-clas",
@@ -89,7 +89,54 @@
           "ignoreFailures": true
         }
       ],
-      "preLaunchTask": "Build Chip"
+      "preLaunchTask": "Build CHIP"
+    },
+    {
+      "name": "Debug RCHIP - synthetic",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/cpp/classifiers/rchip-clas/rchip-clas",
+      "args": [
+        "${workspaceFolder}/cpp/GabrielGraph/output/synthetic-filtered.csv",
+        "${workspaceFolder}/cpp/classifiers/Common/output/synthetic-filtered.csv",
+        "${workspaceFolder}/data/synthetic/to-classify.csv",
+      ],
+      "stopAtEntry": true,
+      "cwd": "${workspaceFolder}/cpp/classifiers/rchip-clas",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "Build RCHIP"
+    },
+    {
+      "name": "Debug NN - synthetic",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/cpp/classifiers/nn-clas/nn-clas",
+      "args": [
+        "${workspaceFolder}/cpp/GabrielGraph/output/synthetic-filtered.csv",
+        "${workspaceFolder}/data/synthetic/to-classify.csv",
+      ],
+      "stopAtEntry": true,
+      "cwd": "${workspaceFolder}/cpp/classifiers/nn-clas",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "Build NN"
     }
   ]
 }
