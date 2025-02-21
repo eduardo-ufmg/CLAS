@@ -8,10 +8,10 @@
 #include <algorithm>
 
 #include "graphTypes.hpp"
+#include "squaredDistance.hpp"
 
 using namespace std;
 
-double squaredDistance(const vector<double>& a, const vector<double>& b);
 const Expert* getClosestExpert(const Vertex& vertex, const vector<Expert>& experts);
 double computeHyperplaneSeparationValue(const Vertex& vertex, const Expert* expert);
 int sign(const double value);
@@ -39,19 +39,6 @@ ClassifiedVertices classify(ClusterMap& clusters, const vector<Expert>& experts,
   }
 
   return classifiedVertices;
-}
-
-double squaredDistance(const std::vector<double>& a, const std::vector<double>& b)
-{
-  if (a.size() != b.size()) {
-   return numeric_limits<double>::infinity();
-  }
-
-  return inner_product(a.begin(), a.end(),
-    b.begin(), 0.0, plus<double>(),
-    [](double x, double y) {
-      return (x - y) * (x - y);
-    });
 }
 
 const Expert* getClosestExpert(const Vertex& vertex, const vector<Expert>& experts)

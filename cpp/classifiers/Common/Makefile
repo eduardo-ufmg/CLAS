@@ -11,7 +11,7 @@ DEBUGFLAGS = -g
 TARGET = hyperplanes
 
 # Source files
-SRCS = hyperplanes.cpp ../../Common/stringHelpers.cpp ../../Common/writeFiles.cpp ../../Common/printLoadedData.cpp ../../Common/readFiles.cpp ../../Common/graphTypes.cpp computeExperts.cpp
+SRCS = hyperplanes.cpp ../../Common/stringHelpers.cpp ../../Common/writeFiles.cpp ../../Common/printLoadedData.cpp ../../Common/readFiles.cpp ../../Common/graphTypes.cpp ../../Common/squaredDistance.cpp computeExperts.cpp
 
 # Include directories
 INCS = -I../../Common

@@ -11,7 +11,7 @@ DEBUGFLAGS = -g
 TARGET = rchip-clas
 
 # Source files
-SRCS = rchip-clas.cpp ../../Common/stringHelpers.cpp ../../Common/writeFiles.cpp ../../Common/printLoadedData.cpp ../../Common/readFiles.cpp ../../Common/graphTypes.cpp classify.cpp
+SRCS = rchip-clas.cpp ../../Common/stringHelpers.cpp ../../Common/writeFiles.cpp ../../Common/printLoadedData.cpp ../../Common/readFiles.cpp ../../Common/graphTypes.cpp ../../Common/squaredDistance.cpp classify.cpp
 
 # Include directories
 INCS = -I../../Common -I../Common

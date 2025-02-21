@@ -7,13 +7,12 @@
 #include <numeric>
 
 #include "graphTypes.hpp"
+#include "squaredDistance.hpp"
 
 using namespace std;
 using VertexVector = vector< pair<VertexID, shared_ptr<Vertex> > >;
 
-double squaredDistance(const std::vector<double>& a, const std::vector<double>& b);
 const VertexVector collectAllVerticesIntoVector(const ClusterMap& clusters);
-
 
 void computeGabrielGraph(ClusterMap& clusters)
 {
@@ -70,19 +69,6 @@ void computeGabrielGraph(ClusterMap& clusters)
     }
   }
 
-}
-
-double squaredDistance(const std::vector<double>& a, const std::vector<double>& b)
-{
-  if (a.size() != b.size()) {
-    return numeric_limits<double>::infinity();
-   }
- 
-   return inner_product(a.begin(), a.end(),
-     b.begin(), 0.0, plus<double>(),
-     [](double x, double y) {
-       return (x - y) * (x - y);
-     });
 }
 
 const VertexVector collectAllVerticesIntoVector(const ClusterMap& clusters)

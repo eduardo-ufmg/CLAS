@@ -11,7 +11,7 @@ DEBUGFLAGS = -g
 TARGET = nn-clas
 
 # Source files
-SRCS = nn-clas.cpp ../../Common/stringHelpers.cpp ../../Common/writeFiles.cpp ../../Common/printLoadedData.cpp ../../Common/readFiles.cpp ../../Common/graphTypes.cpp classify.cpp
+SRCS = nn-clas.cpp ../../Common/stringHelpers.cpp ../../Common/writeFiles.cpp ../../Common/printLoadedData.cpp ../../Common/readFiles.cpp ../../Common/graphTypes.cpp ../../Common/squaredDistance.cpp getSEs.cpp classify.cpp
 
 # Include directories
 INCS = -I../../Common -I../Common
