@@ -24,10 +24,10 @@ SupportEdges getSEs(const ClusterMap& clusters)
 
   for (const auto& [_, cluster] : clusters) { (void)_;
     for (const auto& [vertexid, vertex] : cluster.vertices) {
-      for (const auto& [adjacentID, isSE] : vertex->adjacents) {
+      for (const auto& [adjacentid, isSE] : vertex->adjacents) {
 
         if (isSE) {
-          supportEdges.insert(make_pair(min(vertexid, adjacentID), max(vertexid, adjacentID)));
+          supportEdges.insert(make_pair(min(vertexid, adjacentid), max(vertexid, adjacentid)));
         }
 
       }
