@@ -14,26 +14,20 @@
 using namespace std;
 
 set< pair< ClusterID, const Vertex* > > getVertices(const NNsupportEdges& se);
+
 ClassifiedVertices classify(const NNsupportEdges& se, VertexMap& vertices, ClusterMap& clusters)
 {
   ClassifiedVertices classifiedVertices;
   auto edgeVertices = getVertices(se);
 
   for (auto& [vertexid, vertex] : vertices) {
-    ClusterID farthestVertexClusterid;
-    double farthestDistance = numeric_limits<double>::min();
+    auto farthest = max_element(edgeVertices.begin(), edgeVertices.end(),
+      [&vertex](const auto& a, const auto& b) {
+        return squaredDistance(vertex->features, a.second->features) < squaredDistance(vertex->features, b.second->features);
+      });
 
-    for (const auto& [clusterid, edgeVertex] : edgeVertices) {
-      const double distance = squaredDistance(vertex->features, edgeVertex->features);
-
-      if (distance > farthestDistance) {
-        farthestDistance = distance;
-        farthestVertexClusterid = clusterid;
-      }
-    }
-
-    clusters[farthestVertexClusterid].addVertex(vertexid, vertex);
-    classifiedVertices.push_back({vertexid, farthestVertexClusterid});
+    clusters[farthest->first].addVertex(vertexid, vertex);
+    classifiedVertices.push_back({vertexid, farthest->first});
   }
 
   return classifiedVertices;
