@@ -169,7 +169,7 @@ int readVertices(VertexMap vertices, string input_filename_with_path)
       continue;
     }
 
-    vertices.emplace(-(lineNo + 1), make_shared<Vertex>(Vertex(parseFeatures(line), {}, nullptr)));
+    vertices.emplace(-(lineNo + 1), Vertex(parseFeatures(line), {}, nullptr));
 
     ++lineNo;
   }
@@ -306,7 +306,7 @@ AdjacencyVector parseAdjacents(string tokens)
 pair<size_t, size_t> addVertexToCluster(ClusterMap clusters, VertexID vertexId, vector<double> features, ClusterID clusterKey, AdjacencyVector adjacents)
 {
   clusters.emplace(clusterKey, Cluster());
-  clusters[clusterKey].addVertex(vertexId, make_shared<Vertex>(Vertex(features, adjacents, &clusters[clusterKey])));
+  clusters[clusterKey].addVertex(vertexId, Vertex(features, adjacents, &clusters[clusterKey]));
   return make_pair(clusters[clusterKey].vertices.size(), clusters.size());
 }
 

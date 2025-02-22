@@ -10,7 +10,7 @@
 #include "squaredDistance.hpp"
 
 using namespace std;
-using VertexVector = vector< pair<VertexID, shared_ptr<Vertex> > >;
+using VertexVector = vector< pair<VertexID, Vertex > >;
 
 VertexVector collectAllVerticesIntoVector(ClusterMap clusters);
 
@@ -23,25 +23,25 @@ void computeGabrielGraph(ClusterMap clusters)
 
   for (size_t i = 0; i < verticesQty; ++i) {
     VertexID viid = allVertices[i].first;
-    shared_ptr<Vertex> vi = allVertices[i].second;
+    Vertex vi = allVertices[i].second;
 
     for (size_t j = i + 1; j < verticesQty; ++j) {
       VertexID vjid = allVertices[j].first;
-      shared_ptr<Vertex> vj = allVertices[j].second;
+      Vertex vj = allVertices[j].second;
 
       if (viid == vjid) {
         continue;
       }
 
-      vector<double> midPoint(vi->features.size());
+      vector<double> midPoint(vi.features.size());
 
-      transform(vi->features.begin(), vi->features.end(),
-        vj->features.begin(), midPoint.begin(),
+      transform(vi.features.begin(), vi.features.end(),
+        vj.features.begin(), midPoint.begin(),
         [](double a, double b) {
           return (a + b) / 2.0;
         });
 
-      double sqRadius = squaredDistance(vi->features, midPoint);
+      double sqRadius = squaredDistance(vi.features, midPoint);
 
       bool isEdge = true;
 
@@ -50,7 +50,7 @@ void computeGabrielGraph(ClusterMap clusters)
           continue;
         }
 
-        double sqDistance = squaredDistance(vk->features, midPoint);
+        double sqDistance = squaredDistance(vk.features, midPoint);
 
         if (sqDistance < sqRadius) {
           isEdge = false;
@@ -60,10 +60,10 @@ void computeGabrielGraph(ClusterMap clusters)
       }
 
       if (isEdge) {
-        bool isSE = vi->cluster != vj->cluster;
+        bool isSE = vi.cluster != vj.cluster;
 
-        vi->adjacents.push_back({vjid, isSE});
-        vj->adjacents.push_back({viid, isSE});
+        vi.adjacents.push_back({vjid, isSE});
+        vj.adjacents.push_back({viid, isSE});
       }
 
     }

@@ -23,7 +23,7 @@ ClassifiedVertices classify(NNsupportEdges se, VertexMap vertices, ClusterMap cl
   for (auto [vertexid, vertex] : vertices) {
     auto farthest = max_element(edgeVertices.begin(), edgeVertices.end(),
       [vertex](auto a, auto b) {
-        return squaredDistance(vertex->features, a.second->features) < squaredDistance(vertex->features, b.second->features);
+        return squaredDistance(vertex.features, a.second->features) < squaredDistance(vertex.features, b.second->features);
       });
 
     clusters[farthest->first].addVertex(vertexid, vertex);

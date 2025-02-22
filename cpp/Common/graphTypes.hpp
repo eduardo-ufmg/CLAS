@@ -24,7 +24,7 @@ public:
   Vertex(std::vector<double> features = {}, AdjacencyVector adjacents = {}, Cluster* cluster = nullptr);
 };
 
-using VertexMap = std::map<VertexID, std::shared_ptr<Vertex> >;
+using VertexMap = std::map<VertexID, Vertex >;
 
 class QualityMeasure
 {
@@ -41,7 +41,7 @@ public:
   double threshold;
   double averageQuality;
   double stdDeviation;
-  size_t addVertex(VertexID vertexid, std::shared_ptr<Vertex> vertex);
+  size_t addVertex(VertexID vertexid, Vertex vertex);
   size_t removeVertex(VertexID vertexid);
 };
 
@@ -71,4 +71,4 @@ public:
 
 using ClassifiedVertices = std::vector< std::pair<VertexID, ClusterID> >;
 
-#endif
+#endif // GRAPH_TYPES_HPP

@@ -42,7 +42,7 @@ void printAdjacencyLists(ClusterMap clusters, int maxCluster, int maxVertexPerCl
       
       cout << "Vertex " << id << ": ";
       
-      for (auto adjacent : vertex->adjacents) {
+      for (auto adjacent : vertex.adjacents) {
         cout << adjacent.first << " ";
       }
       cout << endl;

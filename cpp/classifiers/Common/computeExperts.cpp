@@ -11,7 +11,7 @@
 
 using namespace std;
 
-shared_ptr<Vertex> findVertex(VertexID vertexid, Cluster cluster);
+Vertex* findVertex(VertexID vertexid, Cluster cluster);
 EdgeVertices getEdgeVertices(Edge edge, ClusterMap clusters);
 vector<double> computeDifferences(EdgeVertices vertices);
 vector<double> computeMidpoint(EdgeVertices vertices);
@@ -24,7 +24,7 @@ SupportEdges getSEs(ClusterMap clusters)
 
   for (auto [_, cluster] : clusters) { (void)_;
     for (auto [vertexid, vertex] : cluster.vertices) {
-      for (auto [adjacentid, isSE] : vertex->adjacents) {
+      for (auto [adjacentid, isSE] : vertex.adjacents) {
 
         if (isSE) {
           supportEdges.insert(make_pair(min(vertexid, adjacentid), max(vertexid, adjacentid)));
@@ -50,10 +50,10 @@ vector<Expert> getExperts(SupportEdges supportEdges, ClusterMap clusters)
   return experts;
 }
 
-shared_ptr<Vertex> findVertex(VertexID vertexid, Cluster cluster)
+Vertex* findVertex(VertexID vertexid, Cluster cluster)
 {
   auto vertex = cluster.vertices.find(vertexid);
-  return vertex != cluster.vertices.end() ? vertex->second : nullptr;
+  return vertex != cluster.vertices.end() ? &(vertex->second) : nullptr;
 }
 
 EdgeVertices getEdgeVertices(Edge edge, ClusterMap clusters)
@@ -64,8 +64,8 @@ EdgeVertices getEdgeVertices(Edge edge, ClusterMap clusters)
   find_if(clusters.begin(), clusters.end(),
     [&v0, &v1, edge](auto clusterpair) {
       auto cluster = clusterpair.second;
-      if (!v0) v0 = findVertex(edge.first, cluster).get();
-      if (!v1) v1 = findVertex(edge.second, cluster).get();
+      if (!v0) v0 = findVertex(edge.first, cluster);
+      if (!v1) v1 = findVertex(edge.second, cluster);
       return v0 && v1;
     });
 

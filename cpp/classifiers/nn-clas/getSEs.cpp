@@ -6,8 +6,6 @@
 
 using namespace std;
 
-
-
 NNsupportEdges getSEs(ClusterMap clusters)
 {
   using VertexClusterIDMap = map< VertexID, pair<ClusterID, Vertex*> >;
@@ -16,7 +14,7 @@ NNsupportEdges getSEs(ClusterMap clusters)
     VertexClusterIDMap vertices;
     for (auto [clusterid, cluster] : clusters) {
       for (auto [vertexid, vertex] : cluster.vertices) {
-        vertices.emplace(vertexid, make_pair(clusterid, vertex.get()));
+        vertices.emplace(vertexid, make_pair(clusterid, &vertex));
       }
     }
     return vertices;

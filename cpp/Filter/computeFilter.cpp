@@ -11,7 +11,7 @@
 
 using namespace std;
 
-void computeVertexQ(shared_ptr<Vertex> vertex, Cluster cluster);
+void computeVertexQ(Vertex vertex, Cluster cluster);
 void computeClusterQ(Cluster cluster);
 void computeClusterStats(Cluster cluster);
 void computeClusterThreshold(Cluster cluster, double deviationFactor);
@@ -40,21 +40,21 @@ void filterVertices(ClusterMap clusters, double deviationFactor)
   }
 }
 
-void computeVertexQ(shared_ptr<Vertex> vertex, Cluster cluster)
+void computeVertexQ(Vertex vertex, Cluster cluster)
 {
-  unsigned degree = vertex->adjacents.size();
+  unsigned degree = vertex.adjacents.size();
 
   if (degree == 0) {
-    vertex->q = 0.0;
+    vertex.q = 0.0;
     return;
   }
 
-  unsigned sameClusterDegree = count_if(vertex->adjacents.begin(), vertex->adjacents.end(),
+  unsigned sameClusterDegree = count_if(vertex.adjacents.begin(), vertex.adjacents.end(),
   [cluster](auto adjacent) {
     return cluster.vertices.find(adjacent.first) != cluster.vertices.end();
   });
 
-  vertex->q = static_cast<double>(sameClusterDegree) / degree;
+  vertex.q = static_cast<double>(sameClusterDegree) / degree;
 }
 
 void computeClusterQ(Cluster cluster)
@@ -63,7 +63,7 @@ void computeClusterQ(Cluster cluster)
 
   cluster.Q.sum_q = accumulate(cluster.vertices.begin(), cluster.vertices.end(), 0.0,
   [](double sum, auto pair) {
-    return sum + pair.second->q;
+    return sum + pair.second.q;
   });
   
 }
@@ -82,7 +82,7 @@ void computeClusterStats(Cluster cluster)
     cluster.vertices.begin(), cluster.vertices.end(), 0.0,
     plus<>(),
     [averageQuality = cluster.averageQuality](auto pair) {
-      double diff = pair.second->q - averageQuality;
+      double diff = pair.second.q - averageQuality;
       return diff * diff;
     }
   );
@@ -98,6 +98,6 @@ void computeClusterThreshold(Cluster cluster, double deviationFactor)
 void filterVertices(Cluster cluster)
 {
   erase_if(cluster.vertices, [cluster](auto pair) {
-    return pair.second->q < cluster.threshold;
+    return pair.second.q < cluster.threshold;
   });
 }

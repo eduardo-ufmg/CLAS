@@ -34,13 +34,13 @@ int writeGabrielGraphToFile(ClusterMap clusters, string filename_with_path)
   for (auto [clusterid, cluster] : clusters) {
     
     // Iterate over each vertex in the cluster.
-    for (auto [vertexid, vertexptr] : cluster.vertices) {
+    for (auto [vertexid, vertex] : cluster.vertices) {
 
       // Write vertex id.
       outfile << vertexid << ", |";
       
       // Write features separated by comma.
-      for (double f : vertexptr->features) {
+      for (double f : vertex.features) {
         outfile << ", " << f;
       }
       
@@ -48,7 +48,7 @@ int writeGabrielGraphToFile(ClusterMap clusters, string filename_with_path)
       outfile << ", |, " << clusterid << ", |";
       
       // Write adjacent vertices.
-      for (auto [adjid, isSE] : vertexptr->adjacents) {
+      for (auto [adjid, isSE] : vertex.adjacents) {
         outfile << ", " << adjid << " - " << isSE;
       }
       
@@ -79,9 +79,9 @@ int writeVerticesToFile(ClusterMap clusters, string filename_with_path)
   for (auto [custerid, cluster] : clusters) {
     
     // Iterate over each vertex in the cluster.
-    for (auto [_, vertexptr] : cluster.vertices) { (void)_;
+    for (auto [_, vertex] : cluster.vertices) { (void)_;
       // Write features separated by comma.
-      for (double f : vertexptr->features) {
+      for (double f : vertex.features) {
         outfile << f << ", ";
       }
       

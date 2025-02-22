@@ -16,21 +16,19 @@ Expert* getClosestExpert(Vertex vertex, vector<Expert> experts);
 double computeHyperplaneSeparationValue(Vertex vertex, Expert* expert);
 int sign(double value);
 ClusterID classifyVertex(double separationValue);
-int insertClassifiedVertexIntoClusterMap(ClusterMap clusters, VertexID vertexid, shared_ptr<Vertex> vertex, ClusterID label);
+int insertClassifiedVertexIntoClusterMap(ClusterMap clusters, VertexID vertexid, Vertex vertex, ClusterID label);
 
 ClassifiedVertices classify(ClusterMap clusters, vector<Expert> experts, VertexMap vertices)
 {
   ClassifiedVertices classifiedVertices;
   
-  for (auto [vertexid, vertexptr] : vertices) {
-
-    Vertex vertex = *vertexptr;
+  for (auto [vertexid, vertex] : vertices) {
     
     Expert* closestExpert = getClosestExpert(vertex, experts);
     double separationValue = computeHyperplaneSeparationValue(vertex, closestExpert);
     ClusterID label = classifyVertex(separationValue);
 
-    if (insertClassifiedVertexIntoClusterMap(clusters, vertexid, vertexptr, label) != 0) {
+    if (insertClassifiedVertexIntoClusterMap(clusters, vertexid, vertex, label) != 0) {
       cout << "Could not insert classified vertex into cluster map" << endl;
     }
 
@@ -67,7 +65,7 @@ ClusterID classifyVertex(double separationValue)
   return sign(separationValue);
 }
 
-int insertClassifiedVertexIntoClusterMap(ClusterMap clusters, VertexID vertexid, shared_ptr<Vertex> vertex, ClusterID label)
+int insertClassifiedVertexIntoClusterMap(ClusterMap clusters, VertexID vertexid, Vertex vertex, ClusterID label)
 {
   if (clusters.find(label) == clusters.end()) {
     cout << "Error: Could not find cluster with label " << label << endl;

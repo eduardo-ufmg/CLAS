@@ -18,7 +18,7 @@ vector<double> normalizeWeights(vector<double> weights);
 vector<double> computeNormalizedWeights(vector<double> distances, double maxDistance);
 double computeDecisionSum(vector<double> point, vector<Expert> experts, vector<double> weights);
 ClusterID classifyVertex(double decision_sum);
-int insertClassifiedVertexIntoClusterMap(ClusterMap clusters, VertexID vertexid, shared_ptr<Vertex> vertex, ClusterID label);
+int insertClassifiedVertexIntoClusterMap(ClusterMap clusters, VertexID vertexid, Vertex vertex, ClusterID label);
 
 ClassifiedVertices classify(ClusterMap clusters, vector<Expert> experts, VertexMap vertices)
 {
@@ -26,7 +26,7 @@ ClassifiedVertices classify(ClusterMap clusters, vector<Expert> experts, VertexM
   
   for (auto [vertexid, vertex] : vertices) {
 
-    vector<double> point = vertex->features;
+    vector<double> point = vertex.features;
 
     // 1. Compute distances from point to each expert's midpoint
     auto [distances, maxDistance] = computeDistances(point, experts);
@@ -152,7 +152,7 @@ ClusterID classifyVertex(double decision_sum)
   return sign(decision_sum);
 }
 
-int insertClassifiedVertexIntoClusterMap(ClusterMap clusters, VertexID vertexid, shared_ptr<Vertex> vertex, ClusterID label)
+int insertClassifiedVertexIntoClusterMap(ClusterMap clusters, VertexID vertexid, Vertex vertex, ClusterID label)
 {
   if (clusters.find(label) == clusters.end()) {
     cout << "Error: Could not find cluster with label " << label << endl;
