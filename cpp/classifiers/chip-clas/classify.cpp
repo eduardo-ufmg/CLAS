@@ -11,41 +11,44 @@
 
 using namespace std;
 
-int sign(double num);
-pair <vector<double>, double> computeDistances(vector<double> point, vector<Expert> experts);
-vector<double> computeWeights(vector<double> distances, double maxDistance);
-vector<double> normalizeWeights(vector<double> weights);
-vector<double> computeNormalizedWeights(vector<double> distances, double maxDistance);
-double computeDecisionSum(vector<double> point, vector<Expert> experts, vector<double> weights);
-ClusterID classifyVertex(double decision_sum);
-int insertClassifiedVertexIntoClusterMap(ClusterMap clusters, VertexID vertexid, Vertex vertex, ClusterID label);
+using Distances = vector<double>;
+using MaxDistance = double;
+using DistancePair = pair<Distances, MaxDistance>;
 
-ClassifiedVertices classify(ClusterMap clusters, vector<Expert> experts, VertexMap vertices)
+using Weights = vector<double>;
+
+using ExpertDecision = double;
+
+int sign(const double num);
+const DistancePair computeDistances(const Coordinates& point, const Experts& experts);
+Weights computeWeights(const Distances& distances, const MaxDistance maxDistance);
+void normalizeWeights(Weights& weights);
+const Weights computeNormalizedWeights(const Distances& distances, const MaxDistance maxDistance);
+double computeDecisionSum(const Coordinates& point, const Experts& experts, const Weights& weights);
+ClusterID classifyVertex(const double decision_sum);
+int insertClassifiedVertexIntoClusterMap(ClusterMap& clusters, const VertexID vertexid, Vertex& vertex, const ClusterID label);
+
+const ClassifiedVertices classify(ClusterMap& clusters, const Experts& experts, VertexMap& vertices)
 {
   ClassifiedVertices classifiedVertices;
   
-  for (auto [vertexid, vertex] : vertices) {
+  for (auto& [vertexid, vertex] : vertices) {
 
-    vector<double> point = vertex.features;
+    const Coordinates& point = vertex.features;
 
     // 1. Compute distances from point to each expert's midpoint
-    auto [distances, maxDistance] = computeDistances(point, experts);
-
-    // Prevent division by zero (if point equals all expert midpoints)
-    if (maxDistance == 0.0) {
-      maxDistance = 1e-8;
-    }
+    const auto [distances, maxDistance] = computeDistances(point, experts);
 
     // 2. Compute expert weights using the gating function:
     //    c_l(point) = exp( - maxDistance^2 / D(point, pl) )
-    vector<double> weights = computeNormalizedWeights(distances, maxDistance);
+    const Weights weights = computeNormalizedWeights(distances, maxDistance);
 
     // 3. Compute the weighted sum of expert decisions.
     // For each expert, h_l(point) = sign( dot(point, expert.differences) - expert.bias )
-    double decision_sum = computeDecisionSum(point, experts, weights);
+    const double decision_sum = computeDecisionSum(point, experts, weights);
 
     // Final classification: f(point) = sign( sum_l c_l(point) * h_l(point) )
-    ClusterID label = classifyVertex(decision_sum);
+    const ClusterID label = classifyVertex(decision_sum);
 
     // 4. Update the vertex's cluster assignment.
     if (insertClassifiedVertexIntoClusterMap(clusters, vertexid, vertex, label) != 0) {
@@ -59,22 +62,26 @@ ClassifiedVertices classify(ClusterMap clusters, vector<Expert> experts, VertexM
   return classifiedVertices;
 }
 
-int sign(double num)
+int sign(const double num)
 {
   return (0 < num) - (num < 0);
 }
 
-pair<vector<double>, double> computeDistances(vector<double> point, vector<Expert> experts)
+const DistancePair computeDistances(const Coordinates& point, const Experts& experts)
 {
-  vector<double> distances;
+  Distances distances;
+
+  distances.reserve(experts.size());
 
   double maxDistance = 0.0;
 
-  for (Expert expert : experts) {
+  for (const auto& expert : experts) {
 
-    double sqDistance = inner_product(point.begin(), point.end(),
-      expert.midpoint_coordinates.begin(), 0.0,
-      plus<double>(), [](double a, double b) { return (a - b) * (a - b); });
+    const double sqDistance = inner_product(point.begin(), point.end(),
+      expert.mpCoordinates.begin(), 0.0,
+      plus<double>(), [](const double a, const double b) {
+        return (a - b) * (a - b);
+      });
 
     distances.push_back(sqDistance);
 
@@ -87,59 +94,54 @@ pair<vector<double>, double> computeDistances(vector<double> point, vector<Exper
   return make_pair(distances, maxDistance);
 }
 
-vector<double> computeWeights(vector<double> distances, double maxDistance)
+Weights computeWeights(const Distances& distances, const MaxDistance maxDistance)
 {
-  vector<double> weights(distances.size());
+  Weights weights(distances.size());
 
   transform(distances.begin(), distances.end(),
     weights.begin(),
-    [maxDistance](double distance) {
+    [&maxDistance](double distance) {
       return exp(-distance / maxDistance);
     });
 
   return weights;
 }
 
-vector<double> normalizeWeights(vector<double> weights)
+void normalizeWeights(Weights& weights)
 {
-  vector<double> normalizedWeights(weights.size());
-
-  double sum = accumulate(weights.begin(), weights.end(), 0.0);
+  const double sum = accumulate(weights.begin(), weights.end(), 0.0);
 
   if (sum == 0.0) {
 
-    fill(normalizedWeights.begin(), normalizedWeights.end(), 1.0 / weights.size());
+    fill(weights.begin(), weights.end(), 1.0 / weights.size());
 
   } else {
 
-    transform(weights.begin(), weights.end(),
-      normalizedWeights.begin(),
-      [sum](double weight) {
-        return weight / sum;
-      });
+    for (auto& weight : weights) {
+      weight /= sum;
+    }
 
   }
 
-  return normalizedWeights;
 }
 
-vector<double> computeNormalizedWeights(vector<double> distances, double maxDistance)
+const Weights computeNormalizedWeights(const Distances& distances, const MaxDistance maxDistance)
 {
-  vector<double> weights = computeWeights(distances, maxDistance);
+  Weights weights = computeWeights(distances, maxDistance);
 
-  weights = normalizeWeights(weights);
+  normalizeWeights(weights);
 
   return weights;
 }
 
-double computeDecisionSum(vector<double> point, vector<Expert> experts, vector<double> weights)
+double computeDecisionSum(const Coordinates& point, const Experts& experts, const Weights& weights)
 {
-  vector<double> decisions(experts.size());
+  vector<ExpertDecision> decisions(experts.size());
 
   transform(experts.begin(), experts.end(),
     weights.begin(), decisions.begin(),
-    [point](Expert expert, double weight) {
-      double dotProduct = inner_product(point.begin(), point.end(),
+    [&point](const Expert& expert, const double weight) {
+      const double dotProduct = inner_product(point.begin(), point.end(),
         expert.differences.begin(), 0.0);
       return weight * (dotProduct - expert.bias);
     });
@@ -147,12 +149,12 @@ double computeDecisionSum(vector<double> point, vector<Expert> experts, vector<d
   return accumulate(decisions.begin(), decisions.end(), 0.0);
 }
 
-ClusterID classifyVertex(double decision_sum)
+ClusterID classifyVertex(const double decision_sum)
 {
   return sign(decision_sum);
 }
 
-int insertClassifiedVertexIntoClusterMap(ClusterMap clusters, VertexID vertexid, Vertex vertex, ClusterID label)
+int insertClassifiedVertexIntoClusterMap(ClusterMap& clusters, const VertexID vertexid, Vertex& vertex, const ClusterID label)
 {
   if (clusters.find(label) == clusters.end()) {
     cout << "Error: Could not find cluster with label " << label << endl;

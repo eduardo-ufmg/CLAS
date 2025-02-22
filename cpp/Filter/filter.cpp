@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
     deviationFactor = atof(argv[2]);
   }
 
-  string input_filename_with_path = argv[1];
+  const string& input_filename_with_path = argv[1];
 
   ClusterMap clusters;
 
@@ -42,8 +42,8 @@ int main(int argc, char* argv[])
 
   filterVertices(clusters, deviationFactor);
 
-  string aux_out_fn = outputPathFromInputPath(input_filename_with_path);
-  string output_filename_with_path = aux_out_fn.substr(0, aux_out_fn.find_last_of('.')) + "-filtered.csv";
+  const string& aux_out_fn = outputPathFromInputPath(input_filename_with_path);
+  const string& output_filename_with_path = aux_out_fn.substr(0, aux_out_fn.find_last_of('.')) + "-filtered.csv";
 
   if (writeVerticesToFile(clusters, output_filename_with_path) != 0) {
     cerr << "Error writing output file" << output_filename_with_path << endl;

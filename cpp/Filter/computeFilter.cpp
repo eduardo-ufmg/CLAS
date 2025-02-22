@@ -11,21 +11,21 @@
 
 using namespace std;
 
-void computeVertexQ(Vertex vertex, Cluster cluster);
-void computeClusterQ(Cluster cluster);
-void computeClusterStats(Cluster cluster);
-void computeClusterThreshold(Cluster cluster, double deviationFactor);
-void filterVertices(Cluster cluster);
+void computeVertexQ(Vertex& vertex, const Cluster& cluster);
+void computeClusterQ(Cluster& cluster);
+void computeClusterStats(Cluster& cluster);
+void computeClusterThreshold(Cluster& cluster, const double deviationFactor);
+void filterVertices(Cluster& cluster);
 
-void filterVertices(ClusterMap clusters, double deviationFactor)
+void filterVertices(ClusterMap& clusters, const double deviationFactor)
 {
-  for (auto [_, cluster] : clusters) { (void)_;
+  for (auto& [_, cluster] : clusters) { (void)_;
 
     if (cluster.vertices.empty()) {
       continue;
     }
 
-    for (auto [_, vertex] : cluster.vertices) { (void)_;
+    for (auto& [_, vertex] : cluster.vertices) { (void)_;
       computeVertexQ(vertex, cluster);
     }
 
@@ -40,35 +40,35 @@ void filterVertices(ClusterMap clusters, double deviationFactor)
   }
 }
 
-void computeVertexQ(Vertex vertex, Cluster cluster)
+void computeVertexQ(Vertex& vertex, const Cluster& cluster)
 {
-  unsigned degree = vertex.adjacents.size();
+  const unsigned degree = vertex.adjacents.size();
 
   if (degree == 0) {
     vertex.q = 0.0;
     return;
   }
 
-  unsigned sameClusterDegree = count_if(vertex.adjacents.begin(), vertex.adjacents.end(),
-  [cluster](auto adjacent) {
+  const unsigned sameClusterDegree = count_if(vertex.adjacents.begin(), vertex.adjacents.end(),
+  [cluster](const auto& adjacent) {
     return cluster.vertices.find(adjacent.first) != cluster.vertices.end();
   });
 
   vertex.q = static_cast<double>(sameClusterDegree) / degree;
 }
 
-void computeClusterQ(Cluster cluster)
+void computeClusterQ(Cluster& cluster)
 {
   cluster.Q.magnitude = cluster.vertices.size();
 
   cluster.Q.sum_q = accumulate(cluster.vertices.begin(), cluster.vertices.end(), 0.0,
-  [](double sum, auto pair) {
+  [](double sum, const auto& pair) {
     return sum + pair.second.q;
   });
   
 }
 
-void computeClusterStats(Cluster cluster)
+void computeClusterStats(Cluster& cluster)
 {
   if (cluster.Q.magnitude == 0) {
     cluster.averageQuality = 0.0;
@@ -78,10 +78,10 @@ void computeClusterStats(Cluster cluster)
 
   cluster.averageQuality = cluster.Q.sum_q / cluster.Q.magnitude;
 
-  double sumSquaredDiff = transform_reduce(
+  const double sumSquaredDiff = transform_reduce(
     cluster.vertices.begin(), cluster.vertices.end(), 0.0,
     plus<>(),
-    [averageQuality = cluster.averageQuality](auto pair) {
+    [averageQuality = cluster.averageQuality](const auto& pair) {
       double diff = pair.second.q - averageQuality;
       return diff * diff;
     }
@@ -90,14 +90,14 @@ void computeClusterStats(Cluster cluster)
   cluster.stdDeviation = sqrt(sumSquaredDiff / cluster.Q.magnitude);
 }
 
-void computeClusterThreshold(Cluster cluster, double deviationFactor)
+void computeClusterThreshold(Cluster& cluster, const double deviationFactor)
 {
   cluster.threshold = cluster.averageQuality - deviationFactor * cluster.stdDeviation;
 }
 
-void filterVertices(Cluster cluster)
+void filterVertices(Cluster& cluster)
 {
-  erase_if(cluster.vertices, [cluster](auto pair) {
+  erase_if(cluster.vertices, [cluster](const auto& pair) {
     return pair.second.q < cluster.threshold;
   });
 }

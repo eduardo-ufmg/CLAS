@@ -11,20 +11,22 @@
 class Vertex;
 class Cluster;
 
+using Coordinates = std::vector< double>;
+
 using VertexID = int;
-using AdjacencyVector = std::vector< std::pair<VertexID, bool> >;
+using AdjacencyVector = std::vector< std::pair<const VertexID, const bool> >;
 
 class Vertex
 {
 public:
-  std::vector<double> features;
+  const Coordinates features;
   AdjacencyVector adjacents;
   double q;
   Cluster* cluster;
-  Vertex(std::vector<double> features = {}, AdjacencyVector adjacents = {}, Cluster* cluster = nullptr);
+  Vertex(const Coordinates features = {}, const AdjacencyVector adjacents = {}, Cluster * const cluster = nullptr);
 };
 
-using VertexMap = std::map<VertexID, Vertex >;
+using VertexMap = std::map<VertexID, Vertex>;
 
 class QualityMeasure
 {
@@ -41,8 +43,8 @@ public:
   double threshold;
   double averageQuality;
   double stdDeviation;
-  size_t addVertex(VertexID vertexid, Vertex vertex);
-  size_t removeVertex(VertexID vertexid);
+  size_t addVertex(const VertexID vertexid, Vertex vertex);
+  size_t removeVertex(const VertexID vertexid);
 };
 
 using ClusterID = std::variant<int, std::string>;
@@ -55,20 +57,27 @@ operator<<(std::ostream& os, const std::variant<Ts...>& var) {
   return os;
 }
 
-using Edge = std::pair<VertexID, VertexID>;
+using Edge = std::pair<const VertexID, const VertexID>;
 using SupportEdges = std::set<Edge>;
-using EdgeVertices = std::pair<Vertex*, Vertex*>;
+using EdgeVertices = std::pair<Vertex * const, Vertex * const>;
+
+using ExpertDifferences = std::vector<double>;
+using ExpertID = unsigned;
 
 class Expert
 {
 public:
-  Edge edge;
-  std::vector<double> differences;
-  std::vector<double> midpoint_coordinates;
+  const Edge edge;
+  ExpertDifferences differences;
+  Coordinates mpCoordinates;
   double bias;
-  unsigned id;
+  const ExpertID id;
+  Expert(const Edge edge, const ExpertID id);
+  Expert(const Edge edge, const ExpertDifferences differences, const Coordinates mpCoordinates, const double bias, const ExpertID id);
 };
 
-using ClassifiedVertices = std::vector< std::pair<VertexID, ClusterID> >;
+using Experts = std::vector<Expert>;
+
+using ClassifiedVertices = std::vector< std::pair<const VertexID, const ClusterID> >;
 
 #endif // GRAPH_TYPES_HPP

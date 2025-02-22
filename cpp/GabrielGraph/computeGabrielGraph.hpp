@@ -6,6 +6,6 @@
 
 #include "graphTypes.hpp"
 
-void computeGabrielGraph(ClusterMap clusters);
+void computeGabrielGraph(ClusterMap& clusters);
 
 #endif // GABRIEL_GRAPH_HPP

@@ -11,20 +11,20 @@
 
 using namespace std;
 
-Vertex* findVertex(VertexID vertexid, Cluster cluster);
-EdgeVertices getEdgeVertices(Edge edge, ClusterMap clusters);
-vector<double> computeDifferences(EdgeVertices vertices);
-vector<double> computeMidpoint(EdgeVertices vertices);
-double computeBias(vector<double> differences, vector<double> midpoint);
-Expert createExpert(Edge edge, ClusterMap clusters, unsigned expertid);
+Vertex* findVertex(const VertexID vertexid, Cluster& cluster);
+const EdgeVertices getEdgeVertices(const Edge& edge, ClusterMap& clusters);
+const ExpertDifferences computeDifferences(const EdgeVertices& vertices);
+const Coordinates computeMidpoint(const EdgeVertices& vertices);
+double computeBias(const ExpertDifferences& differences, const Coordinates& midpoint);
+const Expert createExpert(const Edge& edge, ClusterMap& clusters, const ExpertID expertid);
 
-SupportEdges getSEs(ClusterMap clusters)
+const SupportEdges getSEs(const ClusterMap& clusters)
 {
   SupportEdges supportEdges;
 
-  for (auto [_, cluster] : clusters) { (void)_;
-    for (auto [vertexid, vertex] : cluster.vertices) {
-      for (auto [adjacentid, isSE] : vertex.adjacents) {
+  for (const auto& [_, cluster] : clusters) { (void)_;
+    for (const auto& [vertexid, vertex] : cluster.vertices) {
+      for (const auto& [adjacentid, isSE] : vertex.adjacents) {
 
         if (isSE) {
           supportEdges.insert(make_pair(min(vertexid, adjacentid), max(vertexid, adjacentid)));
@@ -37,33 +37,39 @@ SupportEdges getSEs(ClusterMap clusters)
   return supportEdges;
 }
 
-vector<Expert> getExperts(SupportEdges supportEdges, ClusterMap clusters)
+const Experts getExperts(const SupportEdges& supportEdges, ClusterMap& clusters)
 {
-  vector<Expert> experts(supportEdges.size());
-  unsigned expertid = 0;
+  Experts experts;
+  ExpertID expertid = 0;
 
-  transform(supportEdges.begin(), supportEdges.end(), experts.begin(),
-    [clusters, &expertid](Edge edge) {
-      return createExpert(edge, clusters, expertid++);
-    });
+  experts.reserve(supportEdges.size());
+
+  for (const auto& edge : supportEdges) {
+    experts.push_back(createExpert(edge, clusters, expertid++));
+  }
 
   return experts;
 }
 
-Vertex* findVertex(VertexID vertexid, Cluster cluster)
+Vertex* findVertex(const VertexID vertexid, Cluster& cluster)
 {
-  auto vertex = cluster.vertices.find(vertexid);
-  return vertex != cluster.vertices.end() ? &(vertex->second) : nullptr;
+  const auto& it = cluster.vertices.find(vertexid);
+
+  if (it == cluster.vertices.end()) {
+    return nullptr;
+  }
+
+  return &(it->second);
 }
 
-EdgeVertices getEdgeVertices(Edge edge, ClusterMap clusters)
+const EdgeVertices getEdgeVertices(const Edge& edge, ClusterMap& clusters)
 {
   Vertex* v0 = nullptr;
   Vertex* v1 = nullptr;
 
   find_if(clusters.begin(), clusters.end(),
-    [&v0, &v1, edge](auto clusterpair) {
-      auto cluster = clusterpair.second;
+    [&v0, &v1, &edge](auto& clusterpair) {
+      auto& cluster = clusterpair.second;
       if (!v0) v0 = findVertex(edge.first, cluster);
       if (!v1) v1 = findVertex(edge.second, cluster);
       return v0 && v1;
@@ -76,9 +82,9 @@ EdgeVertices getEdgeVertices(Edge edge, ClusterMap clusters)
   return make_pair(v0, v1);
 }
 
-vector<double> computeDifferences(EdgeVertices vertices)
+const ExpertDifferences computeDifferences(const EdgeVertices& vertices)
 {
-  vector<double> differences(vertices.first->features.size());
+  ExpertDifferences differences(vertices.first->features.size());
 
   transform(vertices.first->features.begin(), vertices.first->features.end(),
     vertices.second->features.begin(), differences.begin(),
@@ -87,34 +93,30 @@ vector<double> computeDifferences(EdgeVertices vertices)
   return differences;
 }
 
-vector<double> computeMidpoint(EdgeVertices vertices)
+const Coordinates computeMidpoint(const EdgeVertices& vertices)
 {
-  vector<double> midpoint(vertices.first->features.size());
+  Coordinates midpoint(vertices.first->features.size());
 
   transform(vertices.first->features.begin(), vertices.first->features.end(),
     vertices.second->features.begin(), midpoint.begin(),
-    [](double a, double b) {
+    [](const double a, const double b) {
       return (a + b) / 2;
     });
 
   return midpoint;
 }
 
-double computeBias(vector<double> differences, vector<double> midpoint)
+double computeBias(const ExpertDifferences& differences, const Coordinates& midpoint)
 {
   return inner_product(differences.begin(), differences.end(), midpoint.begin(), 0.0);
 }
 
-Expert createExpert(Edge edge, ClusterMap clusters, unsigned expertid)
+const Expert createExpert(const Edge& edge, ClusterMap& clusters, const ExpertID expertid)
 {
-  Expert expert;
-  EdgeVertices vertices = getEdgeVertices(edge, clusters);
+  const EdgeVertices vertices = getEdgeVertices(edge, clusters);
+  const ExpertDifferences differences = computeDifferences(vertices);
+  const Coordinates midpoint = computeMidpoint(vertices);
+  const double bias = computeBias(differences, midpoint);
 
-  expert.edge = edge;
-  expert.differences = computeDifferences(vertices);
-  expert.midpoint_coordinates = computeMidpoint(vertices);
-  expert.bias = computeBias(expert.differences, expert.midpoint_coordinates);
-  expert.id = expertid;
-
-  return expert;
+  return Expert(edge, differences, midpoint, bias, expertid);
 }

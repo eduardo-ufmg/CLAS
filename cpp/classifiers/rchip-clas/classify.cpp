@@ -12,21 +12,21 @@
 
 using namespace std;
 
-Expert* getClosestExpert(Vertex vertex, vector<Expert> experts);
-double computeHyperplaneSeparationValue(Vertex vertex, Expert* expert);
-int sign(double value);
-ClusterID classifyVertex(double separationValue);
-int insertClassifiedVertexIntoClusterMap(ClusterMap clusters, VertexID vertexid, Vertex vertex, ClusterID label);
+Expert* getClosestExpert(const Vertex& vertex, Experts& experts);
+double computeHyperplaneSeparationValue(const Vertex& vertex, const Expert& expert);
+int sign(const double value);
+ClusterID classifyVertex(const double separationValue);
+int insertClassifiedVertexIntoClusterMap(ClusterMap& clusters, const VertexID vertexid, Vertex& vertex, const ClusterID label);
 
-ClassifiedVertices classify(ClusterMap clusters, vector<Expert> experts, VertexMap vertices)
+const ClassifiedVertices classify(ClusterMap& clusters, Experts& experts, VertexMap& vertices)
 {
   ClassifiedVertices classifiedVertices;
   
-  for (auto [vertexid, vertex] : vertices) {
+  for (auto& [vertexid, vertex] : vertices) {
     
-    Expert* closestExpert = getClosestExpert(vertex, experts);
-    double separationValue = computeHyperplaneSeparationValue(vertex, closestExpert);
-    ClusterID label = classifyVertex(separationValue);
+    const Expert * const closestExpert = getClosestExpert(vertex, experts);
+    const double separationValue = computeHyperplaneSeparationValue(vertex, *closestExpert);
+    const ClusterID label = classifyVertex(separationValue);
 
     if (insertClassifiedVertexIntoClusterMap(clusters, vertexid, vertex, label) != 0) {
       cout << "Could not insert classified vertex into cluster map" << endl;
@@ -39,33 +39,33 @@ ClassifiedVertices classify(ClusterMap clusters, vector<Expert> experts, VertexM
   return classifiedVertices;
 }
 
-Expert* getClosestExpert(Vertex vertex, vector<Expert> experts)
+Expert* getClosestExpert(const Vertex& vertex, Experts& experts)
 {
-  auto it = min_element(experts.begin(), experts.end(),
-    [vertex](Expert a, Expert b) {
-      return squaredDistance(vertex.features, a.midpoint_coordinates) < squaredDistance(vertex.features, b.midpoint_coordinates);
+  const auto it = min_element(experts.begin(), experts.end(),
+    [&vertex](const Expert& a, const Expert& b) {
+      return squaredDistance(vertex.features, a.mpCoordinates) < squaredDistance(vertex.features, b.mpCoordinates);
     });
 
   return (it != experts.end()) ? &(*it) : nullptr;
 }
 
-double computeHyperplaneSeparationValue(Vertex vertex, Expert* expert)
+double computeHyperplaneSeparationValue(const Vertex& vertex, const Expert& expert)
 {
   return inner_product(vertex.features.begin(), vertex.features.end(),
-    expert->differences.begin(), -expert->bias);
+    expert.differences.begin(), -expert.bias);
 }
 
-int sign(double value)
+int sign(const double value)
 {
   return (value > 0) - (value < 0);
 }
 
-ClusterID classifyVertex(double separationValue)
+ClusterID classifyVertex(const double separationValue)
 {
   return sign(separationValue);
 }
 
-int insertClassifiedVertexIntoClusterMap(ClusterMap clusters, VertexID vertexid, Vertex vertex, ClusterID label)
+int insertClassifiedVertexIntoClusterMap(ClusterMap& clusters, const VertexID vertexid, Vertex& vertex, const ClusterID label)
 {
   if (clusters.find(label) == clusters.end()) {
     cout << "Error: Could not find cluster with label " << label << endl;

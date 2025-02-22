@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
     return 1;
   }
 
-  string input_filename_with_path = argv[1];
+  const string& input_filename_with_path = argv[1];
 
   ClusterMap clusters;
 
@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
   
   computeGabrielGraph(clusters);
 
-  string output_filename_with_path = outputPathFromInputPath(input_filename_with_path);
+  const string& output_filename_with_path = outputPathFromInputPath(input_filename_with_path);
 
   if (writeGabrielGraphToFile(clusters, output_filename_with_path) != 0) {
     cerr << "Error writing output file" << output_filename_with_path << endl;

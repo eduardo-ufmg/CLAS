@@ -13,16 +13,16 @@
 
 using namespace std;
 
-set< pair< ClusterID, Vertex* > > getVertices(NNsupportEdges se);
+const set<ClusterIDVertex> getVertices(const NNsupportEdges& se);
 
-ClassifiedVertices classify(NNsupportEdges se, VertexMap vertices, ClusterMap clusters)
+const ClassifiedVertices classify(const NNsupportEdges& se, VertexMap& vertices, ClusterMap& clusters)
 {
   ClassifiedVertices classifiedVertices;
-  auto edgeVertices = getVertices(se);
+  const set<ClusterIDVertex> edgeVertices = getVertices(se);
 
-  for (auto [vertexid, vertex] : vertices) {
-    auto farthest = max_element(edgeVertices.begin(), edgeVertices.end(),
-      [vertex](auto a, auto b) {
+  for (const auto& [vertexid, vertex] : vertices) {
+    const auto farthest = max_element(edgeVertices.begin(), edgeVertices.end(),
+      [&vertex](const auto& a, const auto& b) {
         return squaredDistance(vertex.features, a.second->features) < squaredDistance(vertex.features, b.second->features);
       });
 
@@ -33,11 +33,11 @@ ClassifiedVertices classify(NNsupportEdges se, VertexMap vertices, ClusterMap cl
   return classifiedVertices;
 }
 
-set< pair< ClusterID, Vertex* > > getVertices(NNsupportEdges se)
+const set<ClusterIDVertex> getVertices(const NNsupportEdges& se)
 {
-  set< pair< ClusterID, Vertex* > > vertices;
+  set<ClusterIDVertex> vertices;
 
-  for (auto [vapair, vbpair] : se) {
+  for (const auto& [vapair, vbpair] : se) {
     vertices.insert(vapair);
     vertices.insert(vbpair);
   }

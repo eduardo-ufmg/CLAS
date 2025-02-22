@@ -6,14 +6,14 @@
 
 using namespace std;
 
-NNsupportEdges getSEs(ClusterMap clusters)
+const NNsupportEdges getSEs(const ClusterMap& clusters)
 {
-  using VertexClusterIDMap = map< VertexID, pair<ClusterID, Vertex*> >;
+  using VertexClusterIDMap = map< VertexID, ClusterIDVertex >;
 
-  VertexClusterIDMap vertices = [clusters]() -> VertexClusterIDMap {
+  const VertexClusterIDMap vertices = [&clusters]() -> const VertexClusterIDMap {
     VertexClusterIDMap vertices;
-    for (auto [clusterid, cluster] : clusters) {
-      for (auto [vertexid, vertex] : cluster.vertices) {
+    for (const auto& [clusterid, cluster] : clusters) {
+      for (const auto& [vertexid, vertex] : cluster.vertices) {
         vertices.emplace(vertexid, make_pair(clusterid, &vertex));
       }
     }
@@ -22,14 +22,12 @@ NNsupportEdges getSEs(ClusterMap clusters)
 
   NNsupportEdges supportEdges;
 
-  for (auto [vertexid, vertexpair] : vertices) {
-    auto [clusterid, vertex] = vertexpair;
-    for (auto [adjacentid, isSE] : vertex->adjacents) {
+  for (const auto& [vertexid, vertexpair] : vertices) {
+    for (auto [adjacentid, isSE] : vertexpair.second->adjacents) {
       if (isSE) {
-        auto vpair = make_pair(clusterid, vertex);
-        auto adjpair = vertices.at(adjacentid);
+        const auto& adjpair = vertices.at(adjacentid);
 
-        auto edge = make_pair(min(vpair, adjpair), max(vpair, adjpair));
+        NNedge edge = make_pair(min(vertexpair, adjpair), max(vertexpair, adjpair));
 
         supportEdges.insert(edge);
       }

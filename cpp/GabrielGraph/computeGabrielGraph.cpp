@@ -10,42 +10,43 @@
 #include "squaredDistance.hpp"
 
 using namespace std;
-using VertexVector = vector< pair<VertexID, Vertex > >;
+using VertexVector = vector< pair<const VertexID, Vertex> >;
 
-VertexVector collectAllVerticesIntoVector(ClusterMap clusters);
+VertexVector collectAllVerticesIntoVector(const ClusterMap& clusters);
+void writeAdjacentsToVerticesInClusters(const VertexVector& allVertices);
 
-void computeGabrielGraph(ClusterMap clusters)
+void computeGabrielGraph(ClusterMap& clusters)
 {
   // Collect all vertices from all clusters.
   VertexVector allVertices = collectAllVerticesIntoVector(clusters);
 
-  size_t verticesQty = allVertices.size();
+  const size_t verticesQty = allVertices.size();
 
   for (size_t i = 0; i < verticesQty; ++i) {
-    VertexID viid = allVertices[i].first;
-    Vertex vi = allVertices[i].second;
+    const VertexID viid = allVertices[i].first;
+    Vertex * const vi = &allVertices[i].second;
 
     for (size_t j = i + 1; j < verticesQty; ++j) {
-      VertexID vjid = allVertices[j].first;
-      Vertex vj = allVertices[j].second;
+      const VertexID vjid = allVertices[j].first;
+      Vertex * const vj = &allVertices[j].second;
 
       if (viid == vjid) {
         continue;
       }
 
-      vector<double> midPoint(vi.features.size());
+      Coordinates midPoint(vi->features.size());
 
-      transform(vi.features.begin(), vi.features.end(),
-        vj.features.begin(), midPoint.begin(),
-        [](double a, double b) {
+      transform(vi->features.begin(), vi->features.end(),
+        vj->features.begin(), midPoint.begin(),
+        [](const double a, const double b) {
           return (a + b) / 2.0;
         });
 
-      double sqRadius = squaredDistance(vi.features, midPoint);
+      const double sqRadius = squaredDistance(vi->features, midPoint);
 
       bool isEdge = true;
 
-      for (auto [vkid, vk] : allVertices) {
+      for (const auto& [vkid, vk] : allVertices) {
         if (vkid == viid || vkid == vjid) {
           continue;
         }
@@ -60,26 +61,37 @@ void computeGabrielGraph(ClusterMap clusters)
       }
 
       if (isEdge) {
-        bool isSE = vi.cluster != vj.cluster;
+        bool isSE = vi->cluster != vj->cluster;
 
-        vi.adjacents.push_back({vjid, isSE});
-        vj.adjacents.push_back({viid, isSE});
+        vi->adjacents.emplace_back(vjid, isSE);
+        vj->adjacents.emplace_back(viid, isSE);
       }
 
     }
   }
 
+  writeAdjacentsToVerticesInClusters(allVertices);
+
 }
 
-VertexVector collectAllVerticesIntoVector(ClusterMap clusters)
+VertexVector collectAllVerticesIntoVector(const ClusterMap& clusters)
 {
   VertexVector allVertices;
 
-  for (auto [_, cluster] : clusters) { (void)_;
-    for (auto [vertexid, vertex] : cluster.vertices) {
-      allVertices.push_back({vertexid, vertex});
+  for (const auto& [_, cluster] : clusters) { (void)_;
+    for (const auto& [vertexid, vertex] : cluster.vertices) {
+      allVertices.emplace_back(vertexid, vertex);
     }
   }
 
   return allVertices;
+}
+
+void writeAdjacentsToVerticesInClusters(const VertexVector& allVertices)
+{
+  for (const auto& [vertexid, vertex] : allVertices) {
+    auto& targetAdjacents = vertex.cluster->vertices[vertexid].adjacents;
+    targetAdjacents.reserve(vertex.adjacents.size());
+    copy(vertex.adjacents.begin(), vertex.adjacents.end(), back_inserter(targetAdjacents));
+  }
 }

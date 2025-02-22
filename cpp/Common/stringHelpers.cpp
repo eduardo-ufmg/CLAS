@@ -7,13 +7,13 @@
 
 using namespace std;
 
-string trim(const string &s)
+const string trim(const string& s)
 {
-  auto begin = find_if_not(s.begin(), s.end(), [](unsigned char ch) {
+  const auto begin = find_if_not(s.begin(), s.end(), [](const unsigned char ch) {
     return isspace(ch);
   });
   
-  auto end = find_if_not(s.rbegin(), s.rend(), [](unsigned char ch) {
+  const auto end = find_if_not(s.rbegin(), s.rend(), [](const unsigned char ch) {
     return isspace(ch);
   }).base();
 
@@ -25,7 +25,7 @@ string trim(const string &s)
 }
 
 
-vector<string> split(const string &s, const char delimiter)
+vector<string> split(const string& s, const char delimiter)
 {
   vector<string> tokens;
   string token;
@@ -38,7 +38,7 @@ vector<string> split(const string &s, const char delimiter)
   return tokens;
 }
 
-vector<string> split(const string &s, const string &delimiter)
+vector<string> split(const string& s, const string& delimiter)
 {
   vector<string> tokens;
   size_t start = 0;
@@ -55,7 +55,7 @@ vector<string> split(const string &s, const string &delimiter)
 
 vector<string> split(const string& line, const string& delimiter, const size_t& expectedPartSize)
 {
-  vector<string> parts = split(line, delimiter);
+  const vector<string> parts = split(line, delimiter);
 
   if (parts.size() != expectedPartSize) {
     throw runtime_error("Expected " + to_string(expectedPartSize) + " parts, but got " + to_string(parts.size()));
@@ -64,7 +64,7 @@ vector<string> split(const string& line, const string& delimiter, const size_t& 
   return parts;
 }
 
-vector<string> split(const string &s, const char delimiter, const DIRECTION direction, const size_t max_splits)
+vector<string> split(const string& s, const char delimiter, const DIRECTION direction, const size_t max_splits)
 {
   vector<string> tokens;
   size_t start = 0;
@@ -91,7 +91,7 @@ vector<string> split(const string &s, const char delimiter, const DIRECTION dire
   return tokens;
 }
 
-string outputPathFromInputPath(const string &input_path) {
-  string input_file_without_path = input_path.substr(input_path.find_last_of("/\\") + 1);
+const string outputPathFromInputPath(const string& input_path) {
+  const string input_file_without_path = input_path.substr(input_path.find_last_of("/\\") + 1);
   return "./output/" + input_file_without_path;
 }

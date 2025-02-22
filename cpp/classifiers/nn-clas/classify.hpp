@@ -4,7 +4,6 @@
 #include "graphTypes.hpp"
 #include "getSEs.hpp"
 
-ClassifiedVertices classify(NNsupportEdges se, VertexMap vertices, ClusterMap clusters);
-
+const ClassifiedVertices classify(const NNsupportEdges& se, VertexMap& vertices, ClusterMap& clusters);
 
 #endif // CLASSIFY_HPP

@@ -4,20 +4,20 @@
 
 using namespace std;
 
-void printClusterVertexQuantity(ClusterMap clusters)
+void printClusterVertexQuantity(const ClusterMap& clusters)
 {
   cout << "There are " << clusters.size() << " clusters." << endl;
 
-  for (auto [id, cluster] : clusters) {
+  for (const auto& [id, cluster] : clusters) {
     cout << "Cluster " << id << " has " << cluster.vertices.size() << " vertices." << endl;
   }
 }
 
-void printClusterStatistics(ClusterMap clusters)
+void printClusterStatistics(const ClusterMap& clusters)
 {
   cout << "Cluster statistics:" << endl;
 
-  for (auto [id, cluster] : clusters) {
+  for (const auto& [id, cluster] : clusters) {
     cout << "Cluster " << id << ": " << endl;
     cout << "  Q.magnitude: " << cluster.Q.magnitude << endl;
     cout << "  Q.sum_q: " << cluster.Q.sum_q << endl;
@@ -27,22 +27,22 @@ void printClusterStatistics(ClusterMap clusters)
   }
 }
 
-void printAdjacencyLists(ClusterMap clusters, int maxCluster, int maxVertexPerCluster)
+void printAdjacencyLists(const ClusterMap& clusters, const size_t maxCluster, const size_t maxVertexPerCluster)
 {
   cout << "Some adjacency lists:" << endl;
 
-  int clusterCount = 0;
-  for (auto [_, cluster] : clusters) { (void)_;
+  size_t clusterCount = 0;
+  for (const auto& [_, cluster] : clusters) { (void)_;
     if (clusterCount >= maxCluster) break;
     
-    int vertexCount = 0;
+    size_t vertexCount = 0;
     
-    for (auto [id, vertex] : cluster.vertices) {
+    for (const auto& [id, vertex] : cluster.vertices) {
       if (vertexCount >= maxVertexPerCluster) break;
       
       cout << "Vertex " << id << ": ";
       
-      for (auto adjacent : vertex.adjacents) {
+      for (const auto& adjacent : vertex.adjacents) {
         cout << adjacent.first << " ";
       }
       cout << endl;
@@ -54,20 +54,20 @@ void printAdjacencyLists(ClusterMap clusters, int maxCluster, int maxVertexPerCl
   }
 }
 
-void printExpertData(vector<Expert> experts)
+void printExpertData(const Experts& experts)
 {
   cout << "Expert data:" << endl;
 
-  for (auto expert : experts) {
+  for (const auto& expert : experts) {
     cout << "Expert " << expert.id << ":" << endl;
     cout << "  Edge: (" << expert.edge.first << ", " << expert.edge.second << ")" << endl;
     cout << "  Differences: ";
-    for (auto difference : expert.differences) {
+    for (const auto& difference : expert.differences) {
       cout << difference << " ";
     }
     cout << endl;
     cout << "  Midpoint: ";
-    for (auto coordinate : expert.midpoint_coordinates) {
+    for (const auto& coordinate : expert.mpCoordinates) {
       cout << coordinate << " ";
     }
     cout << endl;

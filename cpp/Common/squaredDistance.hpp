@@ -2,7 +2,8 @@
 #define SQUAREDDISTANCE_HPP
 
 #include <vector>
+#include "graphTypes.hpp"
 
-double squaredDistance(std::vector<double> a, std::vector<double> b);
+double squaredDistance(const Coordinates& a, const Coordinates& b);
 
 #endif // SQUAREDDISTANCE_HPP

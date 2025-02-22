@@ -13,33 +13,33 @@
 
 using namespace std;
 
-ifstream openFileRead(string input_filename_with_path);
+ifstream openFileRead(const string& input_filename_with_path);
 
-VertexID parseVertexID(string tokens);
-vector<double> parseFeatures(string tokens);
-ClusterID parseClusterID(string tokens);
-AdjacencyVector parseAdjacents(string tokens);
+VertexID parseVertexID(const string& token);
+const Coordinates parseCoordinates(const string& tokens);
+ClusterID parseClusterID(const string& token);
+const AdjacencyVector parseAdjacents(const string& tokens);
 
-pair<size_t, size_t> addVertexToCluster(ClusterMap clusters, VertexID vertexId, vector<double> features, ClusterID clusterKey, AdjacencyVector adjacents);
+pair<size_t, size_t> addVertexToCluster(ClusterMap& clusters, const VertexID vertexid, const Coordinates features, const ClusterID clusterKey, const AdjacencyVector adjacents);
 
-unsigned parseExpertid(string tokens);
-Edge parseEdge(string tokens);
-vector<double> parseExpertDifferences(string tokens);
-vector<double> parseMidpointCoordinates(string tokens);
-double parseBias(string tokens);
+ExpertID parseExpertid(const string& token);
+const Edge parseEdge(const string& token);
+const ExpertDifferences parseExpertDifferences(const string& tokens);
+const Coordinates parseMidpointCoordinates(const string& tokens);
+double parseBias(const string& token);
 
 /*
 
   input format:
 
-  vertex0_id, |, feature0_0, feature0_1, ..., feature0_n, |, cluster0_id, |, adjacent_vertex0_0 - isSupportEdge, adjacent_vertex0_1 - isSupportEdge, ..., adjacent_vertex0_m - isSupportEdge
+  vertex0_id, |, feature0_0, feature0_1, ..., feature0_n, |, cluster0_id, |, adjacent_vertex0_0 - isSE, adjacent_vertex0_1 - isSupportEdge, ..., adjacent_vertex0_m - isSupportEdge
   vertex1_id, |, feature1_0, feature1_1, ..., feature1_n, |, cluster1_id, |, adjacent_vertex1_0 - isSupportEdge, adjacent_vertex1_1 - isSupportEdge, ..., adjacent_vertex1_m - isSupportEdge
   ...
   vertexk_id, |, featurek_0, featurek_1, ..., featurek_n, |, clusterk_id, |, adjacent_vertexk_0 - isSupportEdge, adjacent_vertexk_1 - isSupportEdge, ..., adjacent_vertexk_m - isSupportEdge
 
 */
 
-int readGraph(ClusterMap clusters, string input_filename_with_path)
+int readGraph(ClusterMap& clusters, const string& input_filename_with_path)
 {
   ifstream infile = openFileRead(input_filename_with_path);
   
@@ -53,15 +53,15 @@ int readGraph(ClusterMap clusters, string input_filename_with_path)
     
     vector<string> parts = split(line, ", |,", 4);
     
-    VertexID vertexId = parseVertexID(parts[0]);
+    VertexID vertexid = parseVertexID(parts[0]);
 
-    vector<double> features = parseFeatures(parts[1]);
+    const Coordinates features = parseCoordinates(parts[1]);
     
     ClusterID clusterKey = parseClusterID(parts[2]);
     
-    AdjacencyVector adjacents = parseAdjacents(parts[3]);
+    const AdjacencyVector adjacents = parseAdjacents(parts[3]);
     
-    addVertexToCluster(clusters, vertexId, features, clusterKey, adjacents);
+    addVertexToCluster(clusters, vertexid, features, clusterKey, adjacents);
   }
   
   infile.close();
@@ -80,7 +80,7 @@ int readGraph(ClusterMap clusters, string input_filename_with_path)
 
 */
 
-int readVertices(ClusterMap clusters, string input_filename_with_path)
+int readVertices(ClusterMap& clusters, const string& input_filename_with_path)
 {
   ifstream infile = openFileRead(input_filename_with_path);
 
@@ -97,7 +97,7 @@ int readVertices(ClusterMap clusters, string input_filename_with_path)
 
     ClusterID clusterid = parseClusterID(tokens.back());
 
-    vector<double> features = parseFeatures(tokens.front());
+    const Coordinates features = parseCoordinates(tokens.front());
 
     addVertexToCluster(clusters, lineNo, features, clusterid, {});
 
@@ -118,28 +118,26 @@ int readVertices(ClusterMap clusters, string input_filename_with_path)
 
 */
 
-int readExperts(vector<Expert> experts, string input_filename_with_path)
+int readExperts(Experts& experts, const string& input_filename_with_path)
 {
   ifstream infile = openFileRead(input_filename_with_path);
 
   string line;
 
   while (getline(infile, line)) {
-    Expert expert;
-    
     vector<string> parts = split(line, ", |,", 5);
 
-    expert.id = parseExpertid(parts[0]);
+    ExpertID id = parseExpertid(parts[0]);
 
-    expert.edge = parseEdge(parts[1]);
+    const Edge edge = parseEdge(parts[1]);
 
-    expert.differences = parseExpertDifferences(parts[2]);
+    const ExpertDifferences differences = parseExpertDifferences(parts[2]);
 
-    expert.midpoint_coordinates = parseMidpointCoordinates(parts[3]);
+    const Coordinates mpCoordinates = parseMidpointCoordinates(parts[3]);
 
-    expert.bias = parseBias(parts[4]);
+    double bias = parseBias(parts[4]);
 
-    experts.push_back(expert);
+    experts.emplace_back(edge, differences, mpCoordinates, bias, id);
   }
 
   infile.close();
@@ -156,7 +154,7 @@ int readExperts(vector<Expert> experts, string input_filename_with_path)
   featurek_0, featurek_1, ..., featurek_n
 
 */
-int readVertices(VertexMap vertices, string input_filename_with_path)
+int readVertices(VertexMap& vertices, const string& input_filename_with_path)
 {
   ifstream infile = openFileRead(input_filename_with_path);
 
@@ -169,7 +167,9 @@ int readVertices(VertexMap vertices, string input_filename_with_path)
       continue;
     }
 
-    vertices.emplace(-(lineNo + 1), Vertex(parseFeatures(line), {}, nullptr));
+    const Coordinates features = parseCoordinates(line);
+
+    vertices.emplace(-(lineNo + 1), Vertex(features, {}, nullptr));
 
     ++lineNo;
   }
@@ -177,7 +177,7 @@ int readVertices(VertexMap vertices, string input_filename_with_path)
   return 0;
 }
 
-ifstream openFileRead(string input_filename_with_path)
+ifstream openFileRead(const string& input_filename_with_path)
 {
   ifstream infile(input_filename_with_path);
 
@@ -189,27 +189,27 @@ ifstream openFileRead(string input_filename_with_path)
   return infile;
 }
 
-VertexID parseVertexID(string tokens)
+VertexID parseVertexID(const string& token)
 {
-  string vertexIdStr = trim(tokens);
+  string vertexidstr = trim(token);
 
-  VertexID vertexId;
+  VertexID vertexid;
 
   try {
-    vertexId = stoi(vertexIdStr);
-  } catch (exception &e) {
-    cerr << "Error: could not convert vertex ID '" << vertexIdStr << "' to integer." << endl;
+    vertexid = stoi(vertexidstr);
+  } catch (exception& e) {
+    cerr << "Error: could not convert vertex ID '" << vertexidstr << "' to integer." << endl;
     exit(1);
   }
 
-  return vertexId;
+  return vertexid;
 }
 
-vector<double> parseFeatures(string tokens)
+const Coordinates parseCoordinates(const string& tokens)
 {
   vector<string> featureTokens = split(tokens, ',');
 
-  vector<double> features;
+  Coordinates features;
 
   for (string token : featureTokens) {
     string trimmed = trim(token);
@@ -220,7 +220,7 @@ vector<double> parseFeatures(string tokens)
 
     try {
       features.push_back(stod(trimmed));
-    } catch (exception &e) {
+    } catch (exception& e) {
       cerr << "Error: could not convert feature token '" << trimmed << "' to double." << endl;
       exit(1);
     }
@@ -229,9 +229,9 @@ vector<double> parseFeatures(string tokens)
   return features;
 }
 
-ClusterID parseClusterID(string tokens)
+ClusterID parseClusterID(const string& token)
 {
-  string clusteridstr = trim(tokens);
+  string clusteridstr = trim(token);
 
   ClusterID clusterid;
 
@@ -245,7 +245,7 @@ ClusterID parseClusterID(string tokens)
         all_of(clusteridstr.begin(), clusteridstr.end(), ::isdigit)) {
     try {
       clusterid = stoi(clusteridstr);
-    } catch (exception &e) {
+    } catch (exception& e) {
       cerr << "Error: could not convert cluster ID '" << clusteridstr << "' to integer." << endl;
       exit(1);
     }
@@ -256,7 +256,7 @@ ClusterID parseClusterID(string tokens)
   return clusterid;
 }
 
-AdjacencyVector parseAdjacents(string tokens)
+const AdjacencyVector parseAdjacents(const string& tokens)
 {
   vector<string> adjacentsTokens = split(tokens, ',');
 
@@ -269,89 +269,79 @@ AdjacencyVector parseAdjacents(string tokens)
       continue;
     }
 
-    vector<string> adjacentParts = split(trimmed, "-");
+    vector<string> adjacentParts = split(trimmed, "-", 2);
 
-    if (adjacentParts.size() != 2) {
-      cerr << "Error: expected 2 parts in adjacent token '" << trimmed << "', but found " << adjacentParts.size() << " parts." << endl;
-      exit(1);
-    }
-
-    string vertexIdStr = trim(adjacentParts[0]);
-    string isSupportEdgeStr = trim(adjacentParts[1]);
+    string vertexidstr = trim(adjacentParts[0]);
+    string isSEstr = trim(adjacentParts[1]);
 
     VertexID vertexid;
 
     try {
-      vertexid = stoi(vertexIdStr);
-    } catch (exception &e) {
-      cerr << "Error: could not convert vertex ID '" << vertexIdStr << "' to integer." << endl;
+      vertexid = stoi(vertexidstr);
+    } catch (exception& e) {
+      cerr << "Error: could not convert vertex ID '" << vertexidstr << "' to integer." << endl;
       exit(1);
     }
 
-    bool isSupportEdge;
+    bool isSE;
 
     try {
-      isSupportEdge = static_cast<bool>(stoi(isSupportEdgeStr));
-    } catch (exception &e) {
-      cerr << "Error: could not convert isSupportEdge token '" << isSupportEdgeStr << "' to boolean." << endl;
+      isSE = static_cast<bool>(stoi(isSEstr));
+    } catch (exception& e) {
+      cerr << "Error: could not convert isSE token '" << isSEstr << "' to boolean." << endl;
       exit(1);
     }
 
-    adjacents.push_back(make_pair(vertexid, isSupportEdge));
+    adjacents.push_back(make_pair(vertexid, isSE));
   }
 
   return adjacents;
 }
 
-pair<size_t, size_t> addVertexToCluster(ClusterMap clusters, VertexID vertexId, vector<double> features, ClusterID clusterKey, AdjacencyVector adjacents)
+pair<size_t, size_t> addVertexToCluster(ClusterMap& clusters, const VertexID vertexid, const Coordinates features, const ClusterID clusterKey, const AdjacencyVector adjacents)
 {
   clusters.emplace(clusterKey, Cluster());
-  clusters[clusterKey].addVertex(vertexId, Vertex(features, adjacents, &clusters[clusterKey]));
+  clusters[clusterKey].addVertex(vertexid, Vertex(features, adjacents, &clusters[clusterKey]));
   return make_pair(clusters[clusterKey].vertices.size(), clusters.size());
 }
 
-unsigned parseExpertid(string tokens)
+ExpertID parseExpertid(const string& token)
 {
-  string expertidStr = trim(tokens);
+  string expertidStr = trim(token);
 
-  unsigned expertid;
+  ExpertID expertid;
 
   try {
     expertid = stoi(expertidStr);
-  } catch (exception &e) {
+  } catch (exception& e) {
     cerr << "Error: could not convert expert ID '" << expertidStr << "' to integer." << endl;
     exit(1);
   }
 
   return expertid;
 }
-Edge parseEdge(string tokens)
+const Edge parseEdge(const string& token)
 {
-  vector<string> edgeParts = split(tokens, ',');
-
-  if (edgeParts.size() != 2) {
-    cerr << "Error: expected 2 parts in edge token '" << tokens << "', but found " << edgeParts.size() << " parts." << endl;
-    exit(1);
-  }
+  vector<string> edgeParts = split(token, ",", 2);
 
   VertexID vertex0, vertex1;
 
   try {
     vertex0 = stoi(trim(edgeParts[0]));
     vertex1 = stoi(trim(edgeParts[1]));
-  } catch (exception &e) {
-    cerr << "Error: could not convert edge token '" << tokens << "' to integers." << endl;
+  } catch (exception& e) {
+    cerr << "Error: could not convert edge token '" << token << "' to integers." << endl;
     exit(1);
   }
 
   return make_pair(vertex0, vertex1);
 }
 
-vector<double> parseExpertDifferences(string tokens)
+const ExpertDifferences parseExpertDifferences(const string& tokens)
 {
   vector<string> differencesTokens = split(tokens, ',');
 
-  vector<double> differences;
+  ExpertDifferences differences;
 
   for (string token : differencesTokens) {
     string trimmed = trim(token);
@@ -362,7 +352,7 @@ vector<double> parseExpertDifferences(string tokens)
 
     try {
       differences.push_back(stod(trimmed));
-    } catch (exception &e) {
+    } catch (exception& e) {
       cerr << "Error: could not convert differences token '" << trimmed << "' to double." << endl;
       exit(1);
     }
@@ -371,11 +361,11 @@ vector<double> parseExpertDifferences(string tokens)
   return differences;
 }
 
-vector<double> parseMidpointCoordinates(string tokens)
+const Coordinates parseMidpointCoordinates(const string& tokens)
 {
   vector<string> midpointTokens = split(tokens, ',');
 
-  vector<double> midpointCoordinates;
+  Coordinates midpointCoordinates;
 
   for (string token : midpointTokens) {
     string trimmed = trim(token);
@@ -386,7 +376,7 @@ vector<double> parseMidpointCoordinates(string tokens)
 
     try {
       midpointCoordinates.push_back(stod(trimmed));
-    } catch (exception &e) {
+    } catch (exception& e) {
       cerr << "Error: could not convert midpoint token '" << trimmed << "' to double." << endl;
       exit(1);
     }
@@ -395,16 +385,16 @@ vector<double> parseMidpointCoordinates(string tokens)
   return midpointCoordinates;
 }
 
-double parseBias(string tokens)
+double parseBias(const string& token)
 {
-  string biasStr = trim(tokens);
+  string biasstr = trim(token);
 
   double bias;
 
   try {
-    bias = stod(biasStr);
-  } catch (exception &e) {
-    cerr << "Error: could not convert bias token '" << biasStr << "' to double." << endl;
+    bias = stod(biasstr);
+  } catch (exception& e) {
+    cerr << "Error: could not convert bias token '" << biasstr << "' to double." << endl;
     exit(1);
   }
 
