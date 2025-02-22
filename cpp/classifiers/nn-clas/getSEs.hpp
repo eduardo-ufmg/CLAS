@@ -3,9 +3,9 @@
 
 #include "graphTypes.hpp"
 
-using NNedge = std::pair< std::pair<ClusterID, const Vertex*>, std::pair<ClusterID, const Vertex*> >;
+using NNedge = std::pair< std::pair<ClusterID, Vertex*>, std::pair<ClusterID, Vertex*> >;
 using NNsupportEdges = std::set<NNedge>;
 
-NNsupportEdges getSEs(const ClusterMap& clusters);
+NNsupportEdges getSEs(ClusterMap clusters);
 
 #endif // GETSE_HPP

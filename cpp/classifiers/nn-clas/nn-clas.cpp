@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
     return 1;
   }
 
-  const NNsupportEdges nnSEs = getSEs(clusters);
+  NNsupportEdges nnSEs = getSEs(clusters);
 
   ClassifiedVertices classifiedVertices = classify(nnSEs, new_vertices, clusters);
 

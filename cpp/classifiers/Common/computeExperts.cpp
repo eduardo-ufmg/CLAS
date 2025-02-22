@@ -11,20 +11,20 @@
 
 using namespace std;
 
-shared_ptr<Vertex> findVertex(const VertexID vertexid, const Cluster& cluster);
-EdgeVertices getEdgeVertices(const Edge& edge, const ClusterMap& clusters);
-vector<double> computeDifferences(const EdgeVertices& vertices);
-vector<double> computeMidpoint(const EdgeVertices& vertices);
-double computeBias(const vector<double>& differences, const vector<double>& midpoint);
-Expert createExpert(const Edge& edge, const ClusterMap& clusters, const unsigned expertid);
+shared_ptr<Vertex> findVertex(VertexID vertexid, Cluster cluster);
+EdgeVertices getEdgeVertices(Edge edge, ClusterMap clusters);
+vector<double> computeDifferences(EdgeVertices vertices);
+vector<double> computeMidpoint(EdgeVertices vertices);
+double computeBias(vector<double> differences, vector<double> midpoint);
+Expert createExpert(Edge edge, ClusterMap clusters, unsigned expertid);
 
-SupportEdges getSEs(const ClusterMap& clusters)
+SupportEdges getSEs(ClusterMap clusters)
 {
   SupportEdges supportEdges;
 
-  for (const auto& [_, cluster] : clusters) { (void)_;
-    for (const auto& [vertexid, vertex] : cluster.vertices) {
-      for (const auto& [adjacentid, isSE] : vertex->adjacents) {
+  for (auto [_, cluster] : clusters) { (void)_;
+    for (auto [vertexid, vertex] : cluster.vertices) {
+      for (auto [adjacentid, isSE] : vertex->adjacents) {
 
         if (isSE) {
           supportEdges.insert(make_pair(min(vertexid, adjacentid), max(vertexid, adjacentid)));
@@ -37,33 +37,33 @@ SupportEdges getSEs(const ClusterMap& clusters)
   return supportEdges;
 }
 
-const vector<Expert> getExperts(const SupportEdges& supportEdges, const ClusterMap& clusters)
+vector<Expert> getExperts(SupportEdges supportEdges, ClusterMap clusters)
 {
   vector<Expert> experts(supportEdges.size());
   unsigned expertid = 0;
 
   transform(supportEdges.begin(), supportEdges.end(), experts.begin(),
-    [&clusters, &expertid](const Edge& edge) {
+    [clusters, &expertid](Edge edge) {
       return createExpert(edge, clusters, expertid++);
     });
 
   return experts;
 }
 
-shared_ptr<Vertex> findVertex(const VertexID vertexid, const Cluster& cluster)
+shared_ptr<Vertex> findVertex(VertexID vertexid, Cluster cluster)
 {
   auto vertex = cluster.vertices.find(vertexid);
   return vertex != cluster.vertices.end() ? vertex->second : nullptr;
 }
 
-EdgeVertices getEdgeVertices(const Edge& edge, const ClusterMap& clusters)
+EdgeVertices getEdgeVertices(Edge edge, ClusterMap clusters)
 {
-  const Vertex* v0 = nullptr;
-  const Vertex* v1 = nullptr;
+  Vertex* v0 = nullptr;
+  Vertex* v1 = nullptr;
 
   find_if(clusters.begin(), clusters.end(),
-    [&v0, &v1, &edge](const auto& clusterpair) {
-      const auto& cluster = clusterpair.second;
+    [&v0, &v1, edge](auto clusterpair) {
+      auto cluster = clusterpair.second;
       if (!v0) v0 = findVertex(edge.first, cluster).get();
       if (!v1) v1 = findVertex(edge.second, cluster).get();
       return v0 && v1;
@@ -76,7 +76,7 @@ EdgeVertices getEdgeVertices(const Edge& edge, const ClusterMap& clusters)
   return make_pair(v0, v1);
 }
 
-vector<double> computeDifferences(const EdgeVertices& vertices)
+vector<double> computeDifferences(EdgeVertices vertices)
 {
   vector<double> differences(vertices.first->features.size());
 
@@ -87,7 +87,7 @@ vector<double> computeDifferences(const EdgeVertices& vertices)
   return differences;
 }
 
-vector<double> computeMidpoint(const EdgeVertices& vertices)
+vector<double> computeMidpoint(EdgeVertices vertices)
 {
   vector<double> midpoint(vertices.first->features.size());
 
@@ -100,12 +100,12 @@ vector<double> computeMidpoint(const EdgeVertices& vertices)
   return midpoint;
 }
 
-double computeBias(const vector<double>& differences, const vector<double>& midpoint)
+double computeBias(vector<double> differences, vector<double> midpoint)
 {
   return inner_product(differences.begin(), differences.end(), midpoint.begin(), 0.0);
 }
 
-Expert createExpert(const Edge& edge, const ClusterMap& clusters, const unsigned expertid)
+Expert createExpert(Edge edge, ClusterMap clusters, unsigned expertid)
 {
   Expert expert;
   EdgeVertices vertices = getEdgeVertices(edge, clusters);

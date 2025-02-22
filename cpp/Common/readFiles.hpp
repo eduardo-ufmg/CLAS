@@ -6,9 +6,9 @@
 
 #include "graphTypes.hpp"
 
-int readGraph(ClusterMap& clusters, const std::string& input_filename_with_path);
-int readVertices(ClusterMap& clusters, const std::string& input_filename_with_path);
-int readExperts(std::vector<Expert>& experts, const std::string& input_filename_with_path);
-int readVertices(VertexMap& vertices, const std::string& input_filename_with_path);
+int readGraph(ClusterMap clusters, const std::string input_filename_with_path);
+int readVertices(ClusterMap clusters, const std::string input_filename_with_path);
+int readExperts(std::vector<Expert> experts, const std::string input_filename_with_path);
+int readVertices(VertexMap vertices, const std::string input_filename_with_path);
 
 #endif // readGraph_HPP

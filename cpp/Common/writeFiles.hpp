@@ -7,9 +7,9 @@
 
 #include "graphTypes.hpp"
 
-int writeGabrielGraphToFile(const ClusterMap& clusters, const std::string& filename_with_path);
-int writeVerticesToFile(const ClusterMap& clusters, const std::string& filename_with_path);
-int writeExpertsToFile(const std::vector<Expert>& experts, const std::string& filename_with_path);
-int writeClassifiedVertices(const ClassifiedVertices& vertices, const std::string& filename_with_path);
+int writeGabrielGraphToFile(ClusterMap clusters, const std::string filename_with_path);
+int writeVerticesToFile(ClusterMap clusters, const std::string filename_with_path);
+int writeExpertsToFile(std::vector<Expert> experts, const std::string filename_with_path);
+int writeClassifiedVertices(ClassifiedVertices vertices, const std::string filename_with_path);
 
 #endif // WRITEFILES_H

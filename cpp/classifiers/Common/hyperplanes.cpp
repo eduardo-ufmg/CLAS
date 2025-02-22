@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
     return 1;
   }
 
-  const string input_filename_with_path = argv[1];
+  string input_filename_with_path = argv[1];
 
   ClusterMap clusters;
 
@@ -25,11 +25,11 @@ int main(int argc, char* argv[])
     return 1;
   }
 
-  const auto& se = getSEs(clusters);
+  auto se = getSEs(clusters);
 
-  const vector<Expert> experts = getExperts(se, clusters);
+  vector<Expert> experts = getExperts(se, clusters);
 
-  const string output_filename_with_path = outputPathFromInputPath(input_filename_with_path);
+  string output_filename_with_path = outputPathFromInputPath(input_filename_with_path);
 
   if (writeExpertsToFile(experts, output_filename_with_path) != 0) {
     cerr << "Error writing experts to " << output_filename_with_path << endl;

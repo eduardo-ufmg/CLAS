@@ -41,7 +41,7 @@ public:
   double threshold;
   double averageQuality;
   double stdDeviation;
-  size_t addVertex(const VertexID vertexid, const std::shared_ptr<Vertex>& vertex);
+  size_t addVertex(VertexID vertexid, std::shared_ptr<Vertex> vertex);
   size_t removeVertex(VertexID vertexid);
 };
 
@@ -57,7 +57,7 @@ operator<<(std::ostream& os, const std::variant<Ts...>& var) {
 
 using Edge = std::pair<VertexID, VertexID>;
 using SupportEdges = std::set<Edge>;
-using EdgeVertices = std::pair<const Vertex*, const Vertex*>;
+using EdgeVertices = std::pair<Vertex*, Vertex*>;
 
 class Expert
 {

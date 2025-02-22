@@ -5,9 +5,9 @@
 
 #include "graphTypes.hpp"
 
-void printClusterVertexQuantity(const ClusterMap& clusters);
-void printClusterStatistics(const ClusterMap& clusters);
-void printAdjacencyLists(const ClusterMap& clusters, int maxCluster, int maxVertexPerCluster);
-void printExpertData(const std::vector<Expert>& experts);
+void printClusterVertexQuantity(ClusterMap clusters);
+void printClusterStatistics(ClusterMap clusters);
+void printAdjacencyLists(ClusterMap clusters, int maxCluster, int maxVertexPerCluster);
+void printExpertData(std::vector<Expert> experts);
 
 #endif // PRINTLOADEDDATA_HPP

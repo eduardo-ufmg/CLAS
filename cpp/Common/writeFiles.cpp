@@ -13,7 +13,7 @@
 
 using namespace std;
 
-ofstream openFileWrite(const string& filename_with_path);
+ofstream openFileWrite(string filename_with_path);
 
 /*
 
@@ -26,21 +26,21 @@ ofstream openFileWrite(const string& filename_with_path);
 
 */
 
-int writeGabrielGraphToFile(const ClusterMap& clusters, const string& filename_with_path)
+int writeGabrielGraphToFile(ClusterMap clusters, string filename_with_path)
 {
   ofstream outfile = openFileWrite(filename_with_path);
   
   // Iterate over each cluster.
-  for (const auto& [clusterid, cluster] : clusters) {
+  for (auto [clusterid, cluster] : clusters) {
     
     // Iterate over each vertex in the cluster.
-    for (const auto& [vertexid, vertexptr] : cluster.vertices) {
+    for (auto [vertexid, vertexptr] : cluster.vertices) {
 
       // Write vertex id.
       outfile << vertexid << ", |";
       
       // Write features separated by comma.
-      for (const double& f : vertexptr->features) {
+      for (double f : vertexptr->features) {
         outfile << ", " << f;
       }
       
@@ -48,7 +48,7 @@ int writeGabrielGraphToFile(const ClusterMap& clusters, const string& filename_w
       outfile << ", |, " << clusterid << ", |";
       
       // Write adjacent vertices.
-      for (const auto& [adjid, isSE] : vertexptr->adjacents) {
+      for (auto [adjid, isSE] : vertexptr->adjacents) {
         outfile << ", " << adjid << " - " << isSE;
       }
       
@@ -71,17 +71,17 @@ featurek_0, featurek_1, ..., featurek_n, clusterk_id
 
 */
 
-int writeVerticesToFile(const ClusterMap& clusters, const string& filename_with_path)
+int writeVerticesToFile(ClusterMap clusters, string filename_with_path)
 {
   ofstream outfile = openFileWrite(filename_with_path);
   
   // Iterate over each cluster.
-  for (const auto& [custerid, cluster] : clusters) {
+  for (auto [custerid, cluster] : clusters) {
     
     // Iterate over each vertex in the cluster.
-    for (const auto& [_, vertexptr] : cluster.vertices) { (void)_;
+    for (auto [_, vertexptr] : cluster.vertices) { (void)_;
       // Write features separated by comma.
-      for (const double& f : vertexptr->features) {
+      for (double f : vertexptr->features) {
         outfile << f << ", ";
       }
       
@@ -104,11 +104,11 @@ id1, |, v10, v11, |, diff_coord10, diff_coord11, ..., diff_coord1n, |, midpoint_
 idk, |, vk0, vk1, |, diff_coordk0, diff_coordk1, ..., diff_coordkn, |, midpoint_coordk0, midpoint_coordk1, ..., midpoint_coordkn, |, biask
 
 */
-int writeExpertsToFile(const vector<Expert>& experts, const string& filename_with_path)
+int writeExpertsToFile(vector<Expert> experts, string filename_with_path)
 {
   ofstream outfile = openFileWrite(filename_with_path);
   
-  for (const auto& expert : experts) {
+  for (auto expert : experts) {
     // Write expert id.
     outfile << expert.id << ", |, ";
     
@@ -116,14 +116,14 @@ int writeExpertsToFile(const vector<Expert>& experts, const string& filename_wit
     outfile << expert.edge.first << ", " << expert.edge.second << ", |";
     
     // Write diff_coord.
-    for (const double& diff_coord : expert.differences) {
+    for (double diff_coord : expert.differences) {
       outfile << ", " << diff_coord;
     }
 
     outfile << ", |";
     
     // Write midpoint_coord.
-    for (const double& midpoint_coord : expert.midpoint_coordinates) {
+    for (double midpoint_coord : expert.midpoint_coordinates) {
       outfile << ", " << midpoint_coord;
     }
     
@@ -144,11 +144,11 @@ int writeExpertsToFile(const vector<Expert>& experts, const string& filename_wit
   idk, classk
 
 */
-int writeClassifiedVertices(const ClassifiedVertices& vertices, const string& filename_with_path)
+int writeClassifiedVertices(ClassifiedVertices vertices, string filename_with_path)
 {
   ofstream outfile = openFileWrite(filename_with_path);
 
-  for (const auto& [vertexid, clusterid] : vertices) {
+  for (auto [vertexid, clusterid] : vertices) {
     outfile << vertexid << ", " << clusterid << "\n";
   }
 
@@ -156,7 +156,7 @@ int writeClassifiedVertices(const ClassifiedVertices& vertices, const string& fi
   return 0;
 }
 
-ofstream openFileWrite(const string& filename_with_path)
+ofstream openFileWrite(string filename_with_path)
 {
   ofstream outfile(filename_with_path);
 

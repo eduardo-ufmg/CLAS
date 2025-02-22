@@ -5,6 +5,6 @@
 
 #include "graphTypes.hpp"
 
-ClassifiedVertices classify(ClusterMap& clusters, const std::vector<Expert>& experts, VertexMap& vertices);
+ClassifiedVertices classify(ClusterMap clusters, std::vector<Expert> experts, VertexMap vertices);
 
 #endif // CLASSIFY_HPP

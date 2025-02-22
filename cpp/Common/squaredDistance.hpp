@@ -3,6 +3,6 @@
 
 #include <vector>
 
-double squaredDistance(const std::vector<double>& a, const std::vector<double>& b);
+double squaredDistance(std::vector<double> a, std::vector<double> b);
 
 #endif // SQUAREDDISTANCE_HPP

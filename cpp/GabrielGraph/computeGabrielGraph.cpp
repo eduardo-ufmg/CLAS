@@ -12,22 +12,22 @@
 using namespace std;
 using VertexVector = vector< pair<VertexID, shared_ptr<Vertex> > >;
 
-const VertexVector collectAllVerticesIntoVector(const ClusterMap& clusters);
+VertexVector collectAllVerticesIntoVector(ClusterMap clusters);
 
-void computeGabrielGraph(ClusterMap& clusters)
+void computeGabrielGraph(ClusterMap clusters)
 {
   // Collect all vertices from all clusters.
-  const VertexVector allVertices = collectAllVerticesIntoVector(clusters);
+  VertexVector allVertices = collectAllVerticesIntoVector(clusters);
 
-  const size_t verticesQty = allVertices.size();
+  size_t verticesQty = allVertices.size();
 
   for (size_t i = 0; i < verticesQty; ++i) {
-    const VertexID viid = allVertices[i].first;
-    const shared_ptr<Vertex>& vi = allVertices[i].second;
+    VertexID viid = allVertices[i].first;
+    shared_ptr<Vertex> vi = allVertices[i].second;
 
     for (size_t j = i + 1; j < verticesQty; ++j) {
-      const VertexID vjid = allVertices[j].first;
-      const shared_ptr<Vertex>& vj = allVertices[j].second;
+      VertexID vjid = allVertices[j].first;
+      shared_ptr<Vertex> vj = allVertices[j].second;
 
       if (viid == vjid) {
         continue;
@@ -41,16 +41,16 @@ void computeGabrielGraph(ClusterMap& clusters)
           return (a + b) / 2.0;
         });
 
-      const double sqRadius = squaredDistance(vi->features, midPoint);
+      double sqRadius = squaredDistance(vi->features, midPoint);
 
       bool isEdge = true;
 
-      for (const auto& [vkid, vk] : allVertices) {
+      for (auto [vkid, vk] : allVertices) {
         if (vkid == viid || vkid == vjid) {
           continue;
         }
 
-        const double sqDistance = squaredDistance(vk->features, midPoint);
+        double sqDistance = squaredDistance(vk->features, midPoint);
 
         if (sqDistance < sqRadius) {
           isEdge = false;
@@ -60,7 +60,7 @@ void computeGabrielGraph(ClusterMap& clusters)
       }
 
       if (isEdge) {
-        const bool isSE = vi->cluster != vj->cluster;
+        bool isSE = vi->cluster != vj->cluster;
 
         vi->adjacents.push_back({vjid, isSE});
         vj->adjacents.push_back({viid, isSE});
@@ -71,12 +71,12 @@ void computeGabrielGraph(ClusterMap& clusters)
 
 }
 
-const VertexVector collectAllVerticesIntoVector(const ClusterMap& clusters)
+VertexVector collectAllVerticesIntoVector(ClusterMap clusters)
 {
   VertexVector allVertices;
 
-  for (const auto& [_, cluster] : clusters) { (void)_;
-    for (const auto& [vertexid, vertex] : cluster.vertices) {
+  for (auto [_, cluster] : clusters) { (void)_;
+    for (auto [vertexid, vertex] : cluster.vertices) {
       allVertices.push_back({vertexid, vertex});
     }
   }

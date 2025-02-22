@@ -12,7 +12,7 @@ Vertex::Vertex(vector<double> features, AdjacencyVector adjacents, Cluster* clus
   this->cluster = cluster;
 }
 
-size_t Cluster::addVertex(const VertexID vertexid, const shared_ptr<Vertex>& vertex)
+size_t Cluster::addVertex(VertexID vertexid, shared_ptr<Vertex> vertex)
 {
   this->vertices.emplace(vertexid, vertex);
   vertex->cluster = this;
