@@ -45,7 +45,7 @@ void computeGabrielGraph(ClusterMap& clusters)
 
       bool isEdge = true;
 
-      for (auto& [vkid, vk] : allVertices) {
+      for (const auto& [vkid, vk] : allVertices) {
         if (vkid == viid || vkid == vjid) {
           continue;
         }

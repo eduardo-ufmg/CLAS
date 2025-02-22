@@ -37,7 +37,7 @@ SupportEdges getSEs(const ClusterMap& clusters)
   return supportEdges;
 }
 
-vector<Expert> getExperts(const SupportEdges& supportEdges, const ClusterMap& clusters)
+const vector<Expert> getExperts(const SupportEdges& supportEdges, const ClusterMap& clusters)
 {
   vector<Expert> experts(supportEdges.size());
   unsigned expertid = 0;

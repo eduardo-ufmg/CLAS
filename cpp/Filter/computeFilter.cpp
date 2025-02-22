@@ -14,10 +14,10 @@ using namespace std;
 void computeVertexQ(const shared_ptr<Vertex>& vertex, const Cluster& cluster);
 void computeClusterQ(Cluster& cluster);
 void computeClusterStats(Cluster& cluster);
-void computeClusterThreshold(Cluster& cluster, double deviationFactor);
+void computeClusterThreshold(Cluster& cluster, const double deviationFactor);
 void filterVertices(Cluster& cluster);
 
-void filterVertices(ClusterMap& clusters, double deviationFactor)
+void filterVertices(ClusterMap& clusters, const double deviationFactor)
 {
   for (auto& [_, cluster] : clusters) { (void)_;
 
@@ -25,7 +25,7 @@ void filterVertices(ClusterMap& clusters, double deviationFactor)
       continue;
     }
 
-    for (auto& [_, vertex] : cluster.vertices) { (void)_;
+    for (const auto& [_, vertex] : cluster.vertices) { (void)_;
       computeVertexQ(vertex, cluster);
     }
 
@@ -42,15 +42,14 @@ void filterVertices(ClusterMap& clusters, double deviationFactor)
 
 void computeVertexQ(const shared_ptr<Vertex>& vertex, const Cluster& cluster)
 {
-  unsigned degree = vertex->adjacents.size();
-  unsigned sameClusterDegree = 0;
+  const unsigned degree = vertex->adjacents.size();
 
   if (degree == 0) {
     vertex->q = 0.0;
     return;
   }
 
-  sameClusterDegree = count_if(vertex->adjacents.begin(), vertex->adjacents.end(),
+  const unsigned sameClusterDegree = count_if(vertex->adjacents.begin(), vertex->adjacents.end(),
   [&cluster](const auto& adjacent) {
     return cluster.vertices.find(adjacent.first) != cluster.vertices.end();
   });
@@ -79,7 +78,7 @@ void computeClusterStats(Cluster& cluster)
 
   cluster.averageQuality = cluster.Q.sum_q / cluster.Q.magnitude;
 
-  double sumSquaredDiff = transform_reduce(
+  const double sumSquaredDiff = transform_reduce(
     cluster.vertices.begin(), cluster.vertices.end(), 0.0,
     plus<>(),
     [averageQuality = cluster.averageQuality](const auto& pair) {
@@ -91,7 +90,7 @@ void computeClusterStats(Cluster& cluster)
   cluster.stdDeviation = sqrt(sumSquaredDiff / cluster.Q.magnitude);
 }
 
-void computeClusterThreshold(Cluster& cluster, double deviationFactor)
+void computeClusterThreshold(Cluster& cluster, const double deviationFactor)
 {
   cluster.threshold = cluster.averageQuality - deviationFactor * cluster.stdDeviation;
 }

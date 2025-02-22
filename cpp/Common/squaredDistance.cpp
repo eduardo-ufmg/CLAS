@@ -6,7 +6,7 @@
 
 using namespace std;
 
-const double squaredDistance(const vector<double>& a, const vector<double>& b)
+double squaredDistance(const vector<double>& a, const vector<double>& b)
 {
   if (a.size() != b.size()) {
     return numeric_limits<double>::infinity();
