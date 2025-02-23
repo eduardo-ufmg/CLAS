@@ -37,3 +37,6 @@
 # output files
 **/output/
 data/synthetic/
+
+# Virtual environment
+optimized/evaluate/myenv/
