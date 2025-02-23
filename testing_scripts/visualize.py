@@ -45,13 +45,13 @@ def main():
     
     # Generate synthetic training data and capture the centers
     training_data, centers = generate_data.generate_synthetic_data(
-        NUM_CLASSES, NUM_DIMENSIONS, args.num_vertices, args.spread, synthetic_data_file_from_root, args.seed, return_centers=True
+        NUM_CLASSES, NUM_DIMENSIONS, args.num_vertices, args.spread, path_from_testing_scripts_to_root + synthetic_data_file_from_root, args.seed, return_centers=True
     )
     
     # Generate synthetic to-classify data (half as many vertices) using the same centers
     num_to_classify = args.num_vertices // 2
     to_classify_data = generate_data.generate_to_classify_data(
-        NUM_CLASSES, NUM_DIMENSIONS, centers, num_to_classify, args.to_classify_spread, vertices_to_classify_from_root, args.seed
+        NUM_CLASSES, NUM_DIMENSIONS, centers, num_to_classify, args.to_classify_spread, path_from_testing_scripts_to_root + vertices_to_classify_from_root, args.seed
     )
     
     # Create the figure with three subplots
@@ -62,21 +62,21 @@ def main():
     
     # Run Gabriel Graph executable on training data
     gabriel_input_file = path_from_gabriel_to_root + synthetic_data_file_from_root
-    run_command([gabriel_exe, gabriel_input_file], gabriel_cwd)
+    run_command([gabriel_exe, gabriel_input_file], path_from_testing_scripts_to_root + gabriel_cwd)
     
     # Run Low Degree Filter executable
     filter_input_file = path_from_filter_to_root + gabriel_output_from_root
-    run_command([filter_exe, filter_input_file, str(args.threshold_factor)], filter_cwd)
+    run_command([filter_exe, filter_input_file, str(args.threshold_factor)], path_from_testing_scripts_to_root + filter_cwd)
     
     # Recompute Gabriel Graph on the filtered data
-    run_command([gabriel_exe, path_from_gabriel_to_root + filter_output_from_root], gabriel_cwd)
+    run_command([gabriel_exe, path_from_gabriel_to_root + filter_output_from_root], path_from_testing_scripts_to_root + gabriel_cwd)
     
     # Parse and plot the filtered graph on the midle subplot
     if not pathlib.Path(gabriel_filtered_output_from_root).exists():
         print(f"Error: Expected Low Degree Filter output not found at {gabriel_filtered_output_from_root}")
     
     # Run hyperplanes executable on the filtered Gabriel Graph
-    run_command([hyperplanes_exe, path_from_hyperplanes_to_root + gabriel_filtered_output_from_root], hyperplanes_cwd)
+    run_command([hyperplanes_exe, path_from_hyperplanes_to_root + gabriel_filtered_output_from_root], path_from_testing_scripts_to_root + hyperplanes_cwd)
     
     # Run chip-clas executable on the to-classify data
     run_command(
@@ -84,11 +84,11 @@ def main():
          path_from_chip_clas_to_root + gabriel_filtered_output_from_root,
          path_from_chip_clas_to_root + hyperplanes_output_from_root,
          path_from_chip_clas_to_root + vertices_to_classify_from_root],
-        chip_clas_cwd
+        path_from_testing_scripts_to_root + chip_clas_cwd
     )
     
     # Parse chip-clas output and merge classification with to-classify data
-    classifications = parse_files.parse_clas_file(chip_clas_output_from_root)
+    classifications = parse_files.parse_clas_file(path_from_testing_scripts_to_root + chip_clas_output_from_root)
     
     plots.plot_classified(axes[1], to_classify_data, classifications, num_to_classify, title="Chip-clas")
 
@@ -98,11 +98,11 @@ def main():
          path_from_rchip_clas_to_root + gabriel_filtered_output_from_root,
          path_from_rchip_clas_to_root + hyperplanes_output_from_root,
          path_from_rchip_clas_to_root + vertices_to_classify_from_root],
-        rchip_clas_cwd
+        path_from_testing_scripts_to_root + rchip_clas_cwd
     )
 
     # Parse rchip-clas output and merge classification with to-classify data
-    classifications = parse_files.parse_clas_file(rchip_clas_output_from_root)
+    classifications = parse_files.parse_clas_file(path_from_testing_scripts_to_root + rchip_clas_output_from_root)
 
     plots.plot_classified(axes[2], to_classify_data, classifications, num_to_classify, title="RCHIP-clas")
 
@@ -111,11 +111,11 @@ def main():
         [nn_clas_exe,
          path_from_nn_clas_to_root + gabriel_filtered_output_from_root,
          path_from_nn_clas_to_root + vertices_to_classify_from_root],
-        nn_clas_cwd
+        path_from_testing_scripts_to_root + nn_clas_cwd
     )
 
     # Parse nn-clas output and merge classification with to-classify data
-    classifications = parse_files.parse_clas_file(nn_clas_output_from_root)
+    classifications = parse_files.parse_clas_file(path_from_testing_scripts_to_root + nn_clas_output_from_root)
 
     plots.plot_classified(axes[3], to_classify_data, classifications, num_to_classify, title="NN-clas")
 

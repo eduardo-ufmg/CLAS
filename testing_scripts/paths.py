@@ -1,4 +1,7 @@
-# Define file paths (relative to project root)
+# From here to root
+path_from_testing_scripts_to_root = "../"
+
+# Define file paths
 synthetic_data_file_from_root = "data/synthetic/synthetic.csv"
 vertices_to_classify_from_root = "data/synthetic/to-classify.csv"
 
