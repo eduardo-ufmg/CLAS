@@ -19,6 +19,9 @@ INCS = -I../Common
 # Object files
 OBJS = $(SRCS:.cpp=.o)
 
+DEPDIR = .deps
+DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
+
 # Default target
 all: $(TARGET)
 
@@ -26,10 +29,21 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(INCS) -o $@ $^
 
-# Compile source files into object files
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) $(INCS) -c $< -o $@
+# Include dependency files
+$(DEPDIR):
+	@mkdir -p $@
 
+# Compile source files into object files
+%.o : %.cpp
+%.o: %.cpp $(DEPDIR)/%.d | $(DEPDIR)
+	$(CXX) $(CXXFLAGS) $(DEPFLAGS) $(INCS) -c $< -o $@
+
+DEPFILES := $(SRCS:%.cpp=$(DEPDIR)/%.d)
+$(DEPFILES):
+
+include $(wildcard $(DEPFILES))
+
+# Debugging target
 debug: CXXFLAGS += $(DEBUGFLAGS)
 debug: $(TARGET)
 

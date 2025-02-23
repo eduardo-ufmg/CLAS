@@ -177,6 +177,36 @@
       }
     },
     {
+      "label": "Clean All",
+      "dependsOn": [
+        "Clean Gabriel",
+        "Clean Filter",
+        "Clean Hyperplane",
+        "Clean CHIP",
+        "Clean RCHIP",
+        "Clean NN"
+      ],
+      "dependsOrder": "sequence",
+      "group": {
+        "kind": "build"
+      }
+    },
+    {
+      "label": "Debug All",
+      "dependsOn": [
+        "Debug Gabriel",
+        "Debug Filter",
+        "Debug Hyperplane",
+        "Debug CHIP",
+        "Debug RCHIP",
+        "Debug NN"
+      ],
+      "dependsOrder": "sequence",
+      "group": {
+        "kind": "build"
+      }
+    },
+    {
       "label": "Build All",
       "dependsOn": [
         "Build Gabriel",

@@ -9,7 +9,7 @@ process_directories() {
     if [ -d "$dir" ]; then
       if [ -f "$dir/Makefile" ]; then
         echo "Processing $dir"
-        (cd "$dir" && make clean && make)
+        (cd "$dir" && make)
       fi
       process_directories "$dir"
     fi

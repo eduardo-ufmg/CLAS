@@ -21,7 +21,7 @@
           "ignoreFailures": true
         }
       ],
-      "preLaunchTask": "Build Gabriel"
+      "preLaunchTask": "Debug Gabriel"
     },
     {
       "name": "Debug Filter - synthetic",
@@ -43,7 +43,7 @@
           "ignoreFailures": true
         }
       ],
-      "preLaunchTask": "Build Filter"
+      "preLaunchTask": "Debug Filter"
     },
     {
       "name": "Debug Hyperplane - synthetic",
@@ -65,7 +65,7 @@
           "ignoreFailures": true
         }
       ],
-      "preLaunchTask": "Build Hyperplane"
+      "preLaunchTask": "Debug Hyperplane"
     },
     {
       "name": "Debug CHIP - synthetic",
@@ -89,7 +89,7 @@
           "ignoreFailures": true
         }
       ],
-      "preLaunchTask": "Build CHIP"
+      "preLaunchTask": "Debug CHIP"
     },
     {
       "name": "Debug RCHIP - synthetic",
@@ -113,7 +113,7 @@
           "ignoreFailures": true
         }
       ],
-      "preLaunchTask": "Build RCHIP"
+      "preLaunchTask": "Debug RCHIP"
     },
     {
       "name": "Debug NN - synthetic",
@@ -136,7 +136,7 @@
           "ignoreFailures": true
         }
       ],
-      "preLaunchTask": "Build NN"
+      "preLaunchTask": "Debug NN"
     }
   ]
 }
