@@ -1,4 +1,4 @@
-#include "classify.hpp"
+#include "label.hpp"
 
 #include <vector>
 #include <map>
@@ -15,9 +15,9 @@ using namespace std;
 
 const set<ClusterIDVertex> getVertices(const NNsupportEdges& se);
 
-const ClassifiedVertices classify(const NNsupportEdges& se, VertexMap& vertices, ClusterMap& clusters)
+const LabeledVertices label(const NNsupportEdges& se, VertexMap& vertices, ClusterMap& clusters)
 {
-  ClassifiedVertices classifiedVertices;
+  LabeledVertices labeledVertices;
   const set<ClusterIDVertex> edgeVertices = getVertices(se);
 
   for (const auto& [vertexid, vertex] : vertices) {
@@ -27,10 +27,10 @@ const ClassifiedVertices classify(const NNsupportEdges& se, VertexMap& vertices,
       });
 
     clusters[farthest->first].addVertex(vertexid, vertex);
-    classifiedVertices.push_back({vertexid, farthest->first});
+    labeledVertices.push_back({vertexid, farthest->first});
   }
 
-  return classifiedVertices;
+  return labeledVertices;
 }
 
 const set<ClusterIDVertex> getVertices(const NNsupportEdges& se)

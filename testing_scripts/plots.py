@@ -166,20 +166,20 @@ def extend_polyline_to_bounds(polyline: np.ndarray, ax) -> np.ndarray:
     extended_polyline = np.vstack([extended_start, polyline, extended_end])
     return extended_polyline
 
-def plot_classified(ax: Any, to_classify_data: np.ndarray, classifications: Dict[int, int], num_to_classify: int, title: str) -> None:
+def plot_labeled(ax: Any, to_label_data: np.ndarray, classifications: Dict[int, int], num_to_label: int, title: str) -> None:
     """
-    Plot the classified to-classify vertices on the given axis.
+    Plot the labeled to-label vertices on the given axis.
     """
 
-    to_classify_classes = np.array([classifications.get(i, 0) for i in range(-num_to_classify, 0)])
+    to_label_classes = np.array([classifications.get(i, 0) for i in range(-num_to_label, 0)])
 
-    unique_classes = np.unique(to_classify_classes)
+    unique_classes = np.unique(to_label_classes)
     cmap = plt.get_cmap("plasma", len(unique_classes))
     for idx, cl in enumerate(unique_classes):
-        mask = to_classify_classes == cl
+        mask = to_label_classes == cl
         ax.scatter(
-            to_classify_data[mask, 0],
-            to_classify_data[mask, 1],
+            to_label_data[mask, 0],
+            to_label_data[mask, 1],
             marker="D", edgecolor="k", facecolor=cmap(idx),
             s=80, label=cl
         )

@@ -75,7 +75,7 @@
       "args": [
         "${workspaceFolder}/cluster_oriented/GabrielGraph/output/synthetic-filtered.csv",
         "${workspaceFolder}/cluster_oriented/classifiers/Common/output/synthetic-filtered.csv",
-        "${workspaceFolder}/data/synthetic/to-classify.csv",
+        "${workspaceFolder}/data/synthetic/to-label.csv",
       ],
       "stopAtEntry": true,
       "cwd": "${workspaceFolder}/cluster_oriented/classifiers/chip-clas",
@@ -99,7 +99,7 @@
       "args": [
         "${workspaceFolder}/cluster_oriented/GabrielGraph/output/synthetic-filtered.csv",
         "${workspaceFolder}/cluster_oriented/classifiers/Common/output/synthetic-filtered.csv",
-        "${workspaceFolder}/data/synthetic/to-classify.csv",
+        "${workspaceFolder}/data/synthetic/to-label.csv",
       ],
       "stopAtEntry": true,
       "cwd": "${workspaceFolder}/cluster_oriented/classifiers/rchip-clas",
@@ -122,7 +122,7 @@
       "program": "${workspaceFolder}/cluster_oriented/classifiers/nn-clas/nn-clas",
       "args": [
         "${workspaceFolder}/cluster_oriented/GabrielGraph/output/synthetic-filtered.csv",
-        "${workspaceFolder}/data/synthetic/to-classify.csv",
+        "${workspaceFolder}/data/synthetic/to-label.csv",
       ],
       "stopAtEntry": true,
       "cwd": "${workspaceFolder}/cluster_oriented/classifiers/nn-clas",

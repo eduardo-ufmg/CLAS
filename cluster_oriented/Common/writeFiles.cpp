@@ -144,7 +144,7 @@ int writeExpertsToFile(const Experts& experts, const string& filename_with_path)
   idk, classk
 
 */
-int writeClassifiedVertices(const ClassifiedVertices& vertices, const string& filename_with_path)
+int writeLabeledVertices(const LabeledVertices& vertices, const string& filename_with_path)
 {
   ofstream outfile = openFileWrite(filename_with_path);
 

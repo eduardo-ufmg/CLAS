@@ -236,7 +236,7 @@ ClusterID parseClusterID(const string& token)
   ClusterID clusterid;
 
   if (clusteridstr.empty()) {
-    clusterid = "unclassified";
+    clusterid = "unlabeled";
     return clusterid;
   } 
 

@@ -11,7 +11,7 @@ DEBUGFLAGS = -g
 TARGET = nn-clas
 
 # Source files
-SRCS = nn-clas.cpp ../../Common/stringHelpers.cpp ../../Common/writeFiles.cpp ../../Common/printLoadedData.cpp ../../Common/readFiles.cpp ../../Common/graphTypes.cpp ../../Common/squaredDistance.cpp getSEs.cpp classify.cpp
+SRCS = nn-clas.cpp ../../Common/stringHelpers.cpp ../../Common/writeFiles.cpp ../../Common/printLoadedData.cpp ../../Common/readFiles.cpp ../../Common/graphTypes.cpp ../../Common/squaredDistance.cpp getSEs.cpp label.cpp
 
 # Include directories
 INCS = -I../../Common -I../Common
@@ -52,12 +52,12 @@ clean:
 # Run the target executable
 
 run_iris: $(TARGET)
-	./$(TARGET) ../../GabrielGraph/output/iris-filtered.csv ../Common/output/iris-filtered.csv ../../../data/iris/to-classify.csv
+	./$(TARGET) ../../GabrielGraph/output/iris-filtered.csv ../Common/output/iris-filtered.csv ../../../data/iris/to-label.csv
 
 run_ilpd: $(TARGET)
-	./$(TARGET) ../../GabrielGraph/output/ilpd-filtered.csv ../Common/output/ilpd-filtered.csv ../../../data/ilpd/to-classify.csv
+	./$(TARGET) ../../GabrielGraph/output/ilpd-filtered.csv ../Common/output/ilpd-filtered.csv ../../../data/ilpd/to-label.csv
 
 run_synthetic: $(TARGET)
-	./$(TARGET) ../../GabrielGraph/output/synthetic-filtered.csv ../Common/output/synthetic-filtered.csv ../../../data/synthetic/to-classify.csv
+	./$(TARGET) ../../GabrielGraph/output/synthetic-filtered.csv ../Common/output/synthetic-filtered.csv ../../../data/synthetic/to-label.csv
 
 .PHONY: all clean run_iris run_ilpd run_synthetic

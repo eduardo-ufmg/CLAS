@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package classifierpb;
+
+// ----------------------------
+// Training Dataset Messages
+// ----------------------------
+message TrainingDatasetEntry {
+  // Variable-length features.
+  repeated float features = 1;
+  
+  // class_id can be either an integer or a string.
+  oneof class_id {
+    int32 class_id_int = 2;
+    string class_id_str = 3;
+  }
+}
+
+message TrainingDataset {
+  repeated TrainingDatasetEntry entries = 1;
+}
+
+// ----------------------------
+// Support Vertices Messages
+// ----------------------------
+message SupportVertexEntry {
+  // Fixed-length vertex_id.
+  int32 vertex_id = 1;
+  
+  // Variable-length features.
+  repeated float features = 2;
+  
+  // class_id can be either an integer or a string.
+  oneof class_id {
+    int32 class_id_int = 3;
+    string class_id_str = 4;
+  }
+}
+
+message SupportVertices {
+  repeated SupportVertexEntry entries = 1;
+}
+
+// ----------------------------
+// Experts Messages
+// ----------------------------
+message ExpertEntry {
+  // Fixed-length expert_id.
+  int32 expert_id = 1;
+  
+  // Variable-length midpoint coordinates.
+  repeated float midpoint_coordinates = 2;
+  
+  // Variable-length differences.
+  repeated float differences = 3;
+  
+  // Fixed-length bias.
+  float bias = 4;
+}
+
+message Experts {
+  repeated ExpertEntry entries = 1;
+}
+
+// ----------------------------
+// Vertices to Label Messages
+// ----------------------------
+message VertexToLabelEntry {
+  // Fixed-length vertex_id.
+  int32 vertex_id = 1;
+  
+  // Variable-length features.
+  repeated float features = 2;
+}
+
+message VerticesToLabel {
+  repeated VertexToLabelEntry entries = 1;
+}
+
+// ----------------------------
+// Labeled Vertices Messages
+// ----------------------------
+message LabeledVertexEntry {
+  // Fixed-length vertex_id.
+  int32 vertex_id = 1;
+  
+  // class_id can be either an integer or a string.
+  oneof class_id {
+    int32 class_id_int = 2;
+    string class_id_str = 3;
+  }
+}
+
+message LabeledVertices {
+  repeated LabeledVertexEntry entries = 1;
+}

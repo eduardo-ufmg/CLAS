@@ -2,7 +2,7 @@
 
 #include "graphTypes.hpp"
 #include "readFiles.hpp"
-#include "classify.hpp"
+#include "label.hpp"
 #include "writeFiles.hpp"
 #include "stringHelpers.hpp"
 #include "getSEs.hpp"
@@ -35,16 +35,16 @@ int main(int argc, char* argv[])
 
   const NNsupportEdges nnSEs = getSEs(clusters);
 
-  const ClassifiedVertices classifiedVertices = classify(nnSEs, newVertices, clusters);
+  const LabeledVertices labeledVertices = label(nnSEs, newVertices, clusters);
 
   const string& aux_out_fn = outputPathFromInputPath(dataset_filename_with_path);
-  const string& output_filename_with_path = aux_out_fn.substr(0, aux_out_fn.find_last_of('-')) + "-classified.csv";
+  const string& output_filename_with_path = aux_out_fn.substr(0, aux_out_fn.find_last_of('-')) + "-labeled.csv";
 
-  if (writeClassifiedVertices(classifiedVertices, output_filename_with_path) != 0) {
+  if (writeLabeledVertices(labeledVertices, output_filename_with_path) != 0) {
     cerr << "Error writing output file" << output_filename_with_path << endl;
     return 1;
   } else {
-    cout << "Classified vertices written to " << output_filename_with_path << endl;
+    cout << "Labeled vertices written to " << output_filename_with_path << endl;
   }
 
   return 0;

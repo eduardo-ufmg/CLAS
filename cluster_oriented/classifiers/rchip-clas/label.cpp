@@ -1,4 +1,4 @@
-#include "classify.hpp"
+#include "label.hpp"
 
 #include <vector>
 #include <map>
@@ -15,28 +15,28 @@ using namespace std;
 Expert* getClosestExpert(const Vertex& vertex, Experts& experts);
 double computeHyperplaneSeparationValue(const Vertex& vertex, const Expert& expert);
 int sign(const double value);
-ClusterID classifyVertex(const double separationValue);
-int insertClassifiedVertexIntoClusterMap(ClusterMap& clusters, const VertexID vertexid, Vertex& vertex, const ClusterID label);
+ClusterID labelVertex(const double separationValue);
+int insertLabeledVertexIntoClusterMap(ClusterMap& clusters, const VertexID vertexid, Vertex& vertex, const ClusterID label);
 
-const ClassifiedVertices classify(ClusterMap& clusters, Experts& experts, VertexMap& vertices)
+const LabeledVertices label(ClusterMap& clusters, Experts& experts, VertexMap& vertices)
 {
-  ClassifiedVertices classifiedVertices;
+  LabeledVertices labeledVertices;
   
   for (auto& [vertexid, vertex] : vertices) {
     
     const Expert * const closestExpert = getClosestExpert(vertex, experts);
     const double separationValue = computeHyperplaneSeparationValue(vertex, *closestExpert);
-    const ClusterID label = classifyVertex(separationValue);
+    const ClusterID label = labelVertex(separationValue);
 
-    if (insertClassifiedVertexIntoClusterMap(clusters, vertexid, vertex, label) != 0) {
-      cout << "Could not insert classified vertex into cluster map" << endl;
+    if (insertLabeledVertexIntoClusterMap(clusters, vertexid, vertex, label) != 0) {
+      cout << "Could not insert labeled vertex into cluster map" << endl;
     }
 
-    classifiedVertices.push_back(make_pair(vertexid, label));
+    labeledVertices.push_back(make_pair(vertexid, label));
 
   }
 
-  return classifiedVertices;
+  return labeledVertices;
 }
 
 Expert* getClosestExpert(const Vertex& vertex, Experts& experts)
@@ -60,12 +60,12 @@ int sign(const double value)
   return (value > 0) - (value < 0);
 }
 
-ClusterID classifyVertex(const double separationValue)
+ClusterID labelVertex(const double separationValue)
 {
   return sign(separationValue);
 }
 
-int insertClassifiedVertexIntoClusterMap(ClusterMap& clusters, const VertexID vertexid, Vertex& vertex, const ClusterID label)
+int insertLabeledVertexIntoClusterMap(ClusterMap& clusters, const VertexID vertexid, Vertex& vertex, const ClusterID label)
 {
   if (clusters.find(label) == clusters.end()) {
     cout << "Error: Could not find cluster with label " << label << endl;

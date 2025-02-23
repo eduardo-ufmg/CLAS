@@ -5,6 +5,6 @@
 
 #include "graphTypes.hpp"
 
-const ClassifiedVertices classify(ClusterMap& clusters, Experts& experts, VertexMap& vertices);
+const LabeledVertices label(ClusterMap& clusters, const Experts& experts, VertexMap& vertices);
 
 #endif // CLASSIFY_HPP

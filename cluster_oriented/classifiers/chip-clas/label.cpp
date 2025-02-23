@@ -1,4 +1,4 @@
-#include "classify.hpp"
+#include "label.hpp"
 
 #include <vector>
 #include <map>
@@ -25,12 +25,12 @@ Weights computeWeights(const Distances& distances, const MaxDistance maxDistance
 void normalizeWeights(Weights& weights);
 const Weights computeNormalizedWeights(const Distances& distances, const MaxDistance maxDistance);
 double computeDecisionSum(const Coordinates& point, const Experts& experts, const Weights& weights);
-ClusterID classifyVertex(const double decision_sum);
-int insertClassifiedVertexIntoClusterMap(ClusterMap& clusters, const VertexID vertexid, Vertex& vertex, const ClusterID label);
+ClusterID labelVertex(const double decision_sum);
+int insertLabeledVertexIntoClusterMap(ClusterMap& clusters, const VertexID vertexid, Vertex& vertex, const ClusterID label);
 
-const ClassifiedVertices classify(ClusterMap& clusters, const Experts& experts, VertexMap& vertices)
+const LabeledVertices label(ClusterMap& clusters, const Experts& experts, VertexMap& vertices)
 {
-  ClassifiedVertices classifiedVertices;
+  LabeledVertices labeledVertices;
   
   for (auto& [vertexid, vertex] : vertices) {
 
@@ -48,18 +48,18 @@ const ClassifiedVertices classify(ClusterMap& clusters, const Experts& experts, 
     const double decision_sum = computeDecisionSum(point, experts, weights);
 
     // Final classification: f(point) = sign( sum_l c_l(point) * h_l(point) )
-    const ClusterID label = classifyVertex(decision_sum);
+    const ClusterID label = labelVertex(decision_sum);
 
     // 4. Update the vertex's cluster assignment.
-    if (insertClassifiedVertexIntoClusterMap(clusters, vertexid, vertex, label) != 0) {
-      cout << "Could not insert classified vertex into cluster map." << endl;
+    if (insertLabeledVertexIntoClusterMap(clusters, vertexid, vertex, label) != 0) {
+      cout << "Could not insert labeled vertex into cluster map." << endl;
     }
 
-    classifiedVertices.push_back(make_pair(vertexid, label));
+    labeledVertices.push_back(make_pair(vertexid, label));
     
   }
 
-  return classifiedVertices;
+  return labeledVertices;
 }
 
 int sign(const double num)
@@ -149,12 +149,12 @@ double computeDecisionSum(const Coordinates& point, const Experts& experts, cons
   return accumulate(decisions.begin(), decisions.end(), 0.0);
 }
 
-ClusterID classifyVertex(const double decision_sum)
+ClusterID labelVertex(const double decision_sum)
 {
   return sign(decision_sum);
 }
 
-int insertClassifiedVertexIntoClusterMap(ClusterMap& clusters, const VertexID vertexid, Vertex& vertex, const ClusterID label)
+int insertLabeledVertexIntoClusterMap(ClusterMap& clusters, const VertexID vertexid, Vertex& vertex, const ClusterID label)
 {
   if (clusters.find(label) == clusters.end()) {
     cout << "Error: Could not find cluster with label " << label << endl;

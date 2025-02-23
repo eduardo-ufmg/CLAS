@@ -81,7 +81,7 @@ def parse_clas_file(filename: str) -> Dict[int, int]:
       id, class
     
     Returns:
-      A dictionary mapping the vertex id (int) to the classified class (int).
+      A dictionary mapping the vertex id (int) to the labeled class (int).
     """
     classifications = {}
     with open(filename, "r") as f:

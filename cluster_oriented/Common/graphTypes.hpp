@@ -78,6 +78,6 @@ public:
 
 using Experts = std::vector<Expert>;
 
-using ClassifiedVertices = std::vector< std::pair<const VertexID, const ClusterID> >;
+using LabeledVertices = std::vector< std::pair<const VertexID, const ClusterID> >;
 
 #endif // GRAPH_TYPES_HPP
