@@ -4,7 +4,7 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/cpp/Common"
+                "${workspaceFolder}/cluster_oriented/Common"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

@@ -6,7 +6,7 @@
       "type": "shell",
       "command": "make clean",
       "options": {
-        "cwd": "${workspaceFolder}/cpp/GabrielGraph"
+        "cwd": "${workspaceFolder}/cluster_oriented/GabrielGraph"
       },
       "problemMatcher": []
     },
@@ -15,7 +15,7 @@
       "type": "shell",
       "command": "make debug",
       "options": {
-        "cwd": "${workspaceFolder}/cpp/GabrielGraph"
+        "cwd": "${workspaceFolder}/cluster_oriented/GabrielGraph"
       },
       "problemMatcher": ["$gcc"]
     },
@@ -36,7 +36,7 @@
       "type": "shell",
       "command": "make clean",
       "options": {
-        "cwd": "${workspaceFolder}/cpp/Filter"
+        "cwd": "${workspaceFolder}/cluster_oriented/Filter"
       },
       "problemMatcher": []
     },
@@ -45,7 +45,7 @@
       "type": "shell",
       "command": "make debug",
       "options": {
-        "cwd": "${workspaceFolder}/cpp/Filter"
+        "cwd": "${workspaceFolder}/cluster_oriented/Filter"
       },
       "problemMatcher": ["$gcc"]
     },
@@ -65,7 +65,7 @@
       "type": "shell",
       "command": "make clean",
       "options": {
-        "cwd": "${workspaceFolder}/cpp/classifiers/Common"
+        "cwd": "${workspaceFolder}/cluster_oriented/classifiers/Common"
       },
       "problemMatcher": []
     },
@@ -74,7 +74,7 @@
       "type": "shell",
       "command": "make debug",
       "options": {
-        "cwd": "${workspaceFolder}/cpp/classifiers/Common"
+        "cwd": "${workspaceFolder}/cluster_oriented/classifiers/Common"
       },
       "problemMatcher": ["$gcc"]
     },
@@ -94,7 +94,7 @@
       "type": "shell",
       "command": "make clean",
       "options": {
-        "cwd": "${workspaceFolder}/cpp/classifiers/chip-clas"
+        "cwd": "${workspaceFolder}/cluster_oriented/classifiers/chip-clas"
       },
       "problemMatcher": []
     },
@@ -103,7 +103,7 @@
       "type": "shell",
       "command": "make debug",
       "options": {
-        "cwd": "${workspaceFolder}/cpp/classifiers/chip-clas"
+        "cwd": "${workspaceFolder}/cluster_oriented/classifiers/chip-clas"
       },
       "problemMatcher": ["$gcc"]
     },
@@ -123,7 +123,7 @@
       "type": "shell",
       "command": "make clean",
       "options": {
-        "cwd": "${workspaceFolder}/cpp/classifiers/rchip-clas"
+        "cwd": "${workspaceFolder}/cluster_oriented/classifiers/rchip-clas"
       },
       "problemMatcher": []
     },
@@ -132,7 +132,7 @@
       "type": "shell",
       "command": "make debug",
       "options": {
-        "cwd": "${workspaceFolder}/cpp/classifiers/rchip-clas"
+        "cwd": "${workspaceFolder}/cluster_oriented/classifiers/rchip-clas"
       },
       "problemMatcher": ["$gcc"]
     },
@@ -152,7 +152,7 @@
       "type": "shell",
       "command": "make clean",
       "options": {
-        "cwd": "${workspaceFolder}/cpp/classifiers/nn-clas"
+        "cwd": "${workspaceFolder}/cluster_oriented/classifiers/nn-clas"
       },
       "problemMatcher": []
     },
@@ -161,7 +161,7 @@
       "type": "shell",
       "command": "make debug",
       "options": {
-        "cwd": "${workspaceFolder}/cpp/classifiers/nn-clas"
+        "cwd": "${workspaceFolder}/cluster_oriented/classifiers/nn-clas"
       },
       "problemMatcher": ["$gcc"]
     },
