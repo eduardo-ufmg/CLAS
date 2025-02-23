@@ -34,7 +34,6 @@ $(DEPDIR):
 	@mkdir -p $@
 
 # Compile source files into object files
-%.o : %.cpp
 %.o: %.cpp $(DEPDIR)/%.d | $(DEPDIR)
 	$(CXX) $(CXXFLAGS) $(DEPFLAGS) $(INCS) -c $< -o $@
 
