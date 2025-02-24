@@ -70,6 +70,8 @@
     "iomanip": "cpp",
     "mutex": "cpp",
     "stdfloat": "cpp",
-    "thread": "cpp"
+    "thread": "cpp",
+    "list": "cpp",
+    "format": "cpp"
   }
 }
