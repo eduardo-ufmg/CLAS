@@ -26,6 +26,8 @@ public:
   Vertex(const VertexID id, const Coordinates coordinates, const Cluster * const cluster = nullptr);
 };
 
+using Vertices = std::vector<Vertex>;
+
 using ClusterID = std::variant<int, const std::string>;
 
 class Cluster
@@ -48,6 +50,8 @@ public:
   void computeTreshold(const float tolerance);
 };
 
+using Clusters = std::vector<Cluster>;
+
 using Edge = std::pair<const Vertex * const, const Vertex * const>;
 using ExpertID = int;
 using ExpertDifferences = std::vector<float>;
@@ -69,6 +73,8 @@ public:
 
   Expert(const ExpertID id, const Edge edge);
 };
+
+using Experts = std::vector<Expert>;
 
 template<typename... Ts>
 std::enable_if_t<(sizeof...(Ts) > 0), std::ostream&>
