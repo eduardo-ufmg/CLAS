@@ -4,7 +4,7 @@ include ../../common_mk/flags.mk
 SRCS = *.cpp
 
 # Include directories
-INCS = -I../Common
+INCS = -I../Common -I~/protobuf/src/google/protobuf
 
 include ../../common_mk/files.mk
 
