@@ -4,7 +4,9 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/cluster_oriented/Common"
+                "${workspaceFolder}/cluster_oriented/Common",
+                "~/protobuf/src",
+                "~/abseil-cpp/"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

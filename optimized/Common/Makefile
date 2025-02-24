@@ -1,10 +1,10 @@
 include ../../common_mk/flags.mk
 
 # Source files
-SRCS = *.cpp
+SRCS = $(wildcard *.cpp)
 
 # Include directories
-INCS = -I../Common -I~/protobuf/src/google/protobuf
+INCS = -I../Common -I$${HOME}/protobuf/src -I$${HOME}/abseil-cpp
 
 include ../../common_mk/files.mk
 

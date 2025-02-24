@@ -7,7 +7,7 @@ TARGET = train
 SRCS = train.cpp computeExperts.cpp ../Common/*.cpp
 
 # Include directories
-INCS = -I../Common -I~/protobuf/src/google/protobuf
+INCS = -I../Common -I~/protobuf/src
 
 include ../../common_mk/files.mk
 

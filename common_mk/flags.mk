@@ -2,7 +2,7 @@
 CXX = g++
 
 # Compiler flags
-CXXFLAGS = -std=c++23 -Wall -Wextra -Werror -pedantic -pedantic-errors
+CXXFLAGS = -std=c++23 -Wall -Wextra -Werror
 
 # Debugging flags
 DEBUGFLAGS = -g
