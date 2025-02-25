@@ -4,7 +4,6 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/cluster_oriented/Common",
                 "~/protobuf/src",
                 "~/abseil-cpp/"
             ],

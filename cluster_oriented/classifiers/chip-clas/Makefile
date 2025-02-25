@@ -1,13 +1,13 @@
 include ../../../common_mk/flags.mk
 
 # Target executable
-TARGET = chip-clas
+TARGET := chip-clas
 
 # Source files
-SRCS = chip-clas.cpp ../../Common/stringHelpers.cpp ../../Common/writeFiles.cpp ../../Common/printLoadedData.cpp ../../Common/readFiles.cpp ../../Common/graphTypes.cpp ../../Common/squaredDistance.cpp label.cpp
+SRCS := chip-clas.cpp ../../Common/stringHelpers.cpp ../../Common/writeFiles.cpp ../../Common/printLoadedData.cpp ../../Common/readFiles.cpp ../../Common/graphTypes.cpp ../../Common/squaredDistance.cpp label.cpp
 
 # Include directories
-INCS = -I../../Common -I../Common
+INCS := -I../../Common -I../Common
 
 include ../../../common_mk/files.mk
 

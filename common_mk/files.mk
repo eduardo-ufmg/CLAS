@@ -1,5 +1,5 @@
 # Object files
-OBJS = $(SRCS:.cpp=.o)
+OBJS := $(SRCS:.cpp=.o)
 
 # Dependency files
-DEPDIR = .deps
+DEPDIR := .deps
