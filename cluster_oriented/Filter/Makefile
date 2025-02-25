@@ -1,13 +1,13 @@
 include ../../common_mk/flags.mk
 
 # Target executable
-TARGET = filter
+TARGET := filter
 
 # Source files
-SRCS = filter.cpp ../Common/stringHelpers.cpp ../Common/writeFiles.cpp ../Common/printLoadedData.cpp ../Common/readFiles.cpp ../Common/graphTypes.cpp ../Common/squaredDistance.cpp computeFilter.cpp
+SRCS := filter.cpp ../Common/stringHelpers.cpp ../Common/writeFiles.cpp ../Common/printLoadedData.cpp ../Common/readFiles.cpp ../Common/graphTypes.cpp ../Common/squaredDistance.cpp computeFilter.cpp
 
 # Include directories
-INCS = -I../Common
+INCS := -I../Common
 
 include ../../common_mk/files.mk
 
