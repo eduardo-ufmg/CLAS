@@ -53,10 +53,6 @@ extern "C" {
 extern const ::google::protobuf::internal::DescriptorTable descriptor_table_classifier_2eproto;
 }  // extern "C"
 namespace classifierpb {
-class ClusterID;
-struct ClusterIDDefaultTypeInternal;
-extern ClusterIDDefaultTypeInternal _ClusterID_default_instance_;
-extern const ::google::protobuf::internal::ClassDataFull ClusterID_class_data_;
 class ExpertEntry;
 struct ExpertEntryDefaultTypeInternal;
 extern ExpertEntryDefaultTypeInternal _ExpertEntry_default_instance_;
@@ -165,7 +161,7 @@ class VertexToLabelEntry final : public ::google::protobuf::Message
     return *reinterpret_cast<const VertexToLabelEntry*>(
         &_VertexToLabelEntry_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 7;
+  static constexpr int kIndexInFileMessages = 6;
   friend void swap(VertexToLabelEntry& a, VertexToLabelEntry& b) { a.Swap(&b); }
   inline void Swap(VertexToLabelEntry* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -253,25 +249,25 @@ class VertexToLabelEntry final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kCoordinatesFieldNumber = 2,
+    kFeaturesFieldNumber = 2,
     kVertexIdFieldNumber = 1,
   };
-  // repeated float coordinates = 2;
-  int coordinates_size() const;
+  // repeated float features = 2;
+  int features_size() const;
   private:
-  int _internal_coordinates_size() const;
+  int _internal_features_size() const;
 
   public:
-  void clear_coordinates() ;
-  float coordinates(int index) const;
-  void set_coordinates(int index, float value);
-  void add_coordinates(float value);
-  const ::google::protobuf::RepeatedField<float>& coordinates() const;
-  ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL mutable_coordinates();
+  void clear_features() ;
+  float features(int index) const;
+  void set_features(int index, float value);
+  void add_features(float value);
+  const ::google::protobuf::RepeatedField<float>& features() const;
+  ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL mutable_features();
 
   private:
-  const ::google::protobuf::RepeatedField<float>& _internal_coordinates() const;
-  ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL _internal_mutable_coordinates();
+  const ::google::protobuf::RepeatedField<float>& _internal_features() const;
+  ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL _internal_mutable_features();
 
   public:
   // int32 vertex_id = 1;
@@ -310,7 +306,7 @@ class VertexToLabelEntry final : public ::google::protobuf::Message
         const VertexToLabelEntry& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
-    ::google::protobuf::RepeatedField<float> coordinates_;
+    ::google::protobuf::RepeatedField<float> features_;
     ::int32_t vertex_id_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -319,6 +315,747 @@ class VertexToLabelEntry final : public ::google::protobuf::Message
 };
 
 extern const ::google::protobuf::internal::ClassDataFull VertexToLabelEntry_class_data_;
+// -------------------------------------------------------------------
+
+class TrainingDatasetEntry final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:classifierpb.TrainingDatasetEntry) */ {
+ public:
+  inline TrainingDatasetEntry() : TrainingDatasetEntry(nullptr) {}
+  ~TrainingDatasetEntry() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(TrainingDatasetEntry* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(TrainingDatasetEntry));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR TrainingDatasetEntry(::google::protobuf::internal::ConstantInitialized);
+
+  inline TrainingDatasetEntry(const TrainingDatasetEntry& from) : TrainingDatasetEntry(nullptr, from) {}
+  inline TrainingDatasetEntry(TrainingDatasetEntry&& from) noexcept
+      : TrainingDatasetEntry(nullptr, std::move(from)) {}
+  inline TrainingDatasetEntry& operator=(const TrainingDatasetEntry& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TrainingDatasetEntry& operator=(TrainingDatasetEntry&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const TrainingDatasetEntry& default_instance() {
+    return *reinterpret_cast<const TrainingDatasetEntry*>(
+        &_TrainingDatasetEntry_default_instance_);
+  }
+  enum ClassIdCase {
+    kClassIdInt = 2,
+    kClassIdStr = 3,
+    CLASS_ID_NOT_SET = 0,
+  };
+  static constexpr int kIndexInFileMessages = 0;
+  friend void swap(TrainingDatasetEntry& a, TrainingDatasetEntry& b) { a.Swap(&b); }
+  inline void Swap(TrainingDatasetEntry* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(TrainingDatasetEntry* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  TrainingDatasetEntry* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<TrainingDatasetEntry>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const TrainingDatasetEntry& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const TrainingDatasetEntry& from) { TrainingDatasetEntry::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(TrainingDatasetEntry* PROTOBUF_NONNULL other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "classifierpb.TrainingDatasetEntry"; }
+
+ protected:
+  explicit TrainingDatasetEntry(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  TrainingDatasetEntry(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const TrainingDatasetEntry& from);
+  TrainingDatasetEntry(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, TrainingDatasetEntry&& from) noexcept
+      : TrainingDatasetEntry(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_();
+
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kFeaturesFieldNumber = 1,
+    kClassIdIntFieldNumber = 2,
+    kClassIdStrFieldNumber = 3,
+  };
+  // repeated float features = 1;
+  int features_size() const;
+  private:
+  int _internal_features_size() const;
+
+  public:
+  void clear_features() ;
+  float features(int index) const;
+  void set_features(int index, float value);
+  void add_features(float value);
+  const ::google::protobuf::RepeatedField<float>& features() const;
+  ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL mutable_features();
+
+  private:
+  const ::google::protobuf::RepeatedField<float>& _internal_features() const;
+  ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL _internal_mutable_features();
+
+  public:
+  // int32 class_id_int = 2;
+  bool has_class_id_int() const;
+  void clear_class_id_int() ;
+  ::int32_t class_id_int() const;
+  void set_class_id_int(::int32_t value);
+
+  private:
+  ::int32_t _internal_class_id_int() const;
+  void _internal_set_class_id_int(::int32_t value);
+
+  public:
+  // string class_id_str = 3;
+  bool has_class_id_str() const;
+  void clear_class_id_str() ;
+  const std::string& class_id_str() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_class_id_str(Arg_&& arg, Args_... args);
+  std::string* PROTOBUF_NONNULL mutable_class_id_str();
+  [[nodiscard]] std::string* PROTOBUF_NULLABLE release_class_id_str();
+  void set_allocated_class_id_str(std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const std::string& _internal_class_id_str() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_class_id_str(const std::string& value);
+  std::string* PROTOBUF_NONNULL _internal_mutable_class_id_str();
+
+  public:
+  void clear_class_id();
+  ClassIdCase class_id_case() const;
+  // @@protoc_insertion_point(class_scope:classifierpb.TrainingDatasetEntry)
+ private:
+  class _Internal;
+  void set_has_class_id_int();
+  void set_has_class_id_str();
+  inline bool has_class_id() const;
+  inline void clear_has_class_id();
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<0, 3,
+                                   0, 54,
+                                   2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const TrainingDatasetEntry& from_msg);
+    ::google::protobuf::RepeatedField<float> features_;
+    union ClassIdUnion {
+      constexpr ClassIdUnion() : _constinit_{} {}
+      ::google::protobuf::internal::ConstantInitialized _constinit_;
+      ::int32_t class_id_int_;
+      ::google::protobuf::internal::ArenaStringPtr class_id_str_;
+    } class_id_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::uint32_t _oneof_case_[1];
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_classifier_2eproto;
+};
+
+extern const ::google::protobuf::internal::ClassDataFull TrainingDatasetEntry_class_data_;
+// -------------------------------------------------------------------
+
+class SupportVertexEntry final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:classifierpb.SupportVertexEntry) */ {
+ public:
+  inline SupportVertexEntry() : SupportVertexEntry(nullptr) {}
+  ~SupportVertexEntry() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(SupportVertexEntry* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(SupportVertexEntry));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR SupportVertexEntry(::google::protobuf::internal::ConstantInitialized);
+
+  inline SupportVertexEntry(const SupportVertexEntry& from) : SupportVertexEntry(nullptr, from) {}
+  inline SupportVertexEntry(SupportVertexEntry&& from) noexcept
+      : SupportVertexEntry(nullptr, std::move(from)) {}
+  inline SupportVertexEntry& operator=(const SupportVertexEntry& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SupportVertexEntry& operator=(SupportVertexEntry&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SupportVertexEntry& default_instance() {
+    return *reinterpret_cast<const SupportVertexEntry*>(
+        &_SupportVertexEntry_default_instance_);
+  }
+  enum ClassIdCase {
+    kClassIdInt = 3,
+    kClassIdStr = 4,
+    CLASS_ID_NOT_SET = 0,
+  };
+  static constexpr int kIndexInFileMessages = 2;
+  friend void swap(SupportVertexEntry& a, SupportVertexEntry& b) { a.Swap(&b); }
+  inline void Swap(SupportVertexEntry* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SupportVertexEntry* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SupportVertexEntry* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<SupportVertexEntry>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const SupportVertexEntry& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const SupportVertexEntry& from) { SupportVertexEntry::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(SupportVertexEntry* PROTOBUF_NONNULL other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "classifierpb.SupportVertexEntry"; }
+
+ protected:
+  explicit SupportVertexEntry(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  SupportVertexEntry(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const SupportVertexEntry& from);
+  SupportVertexEntry(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, SupportVertexEntry&& from) noexcept
+      : SupportVertexEntry(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_();
+
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kFeaturesFieldNumber = 2,
+    kVertexIdFieldNumber = 1,
+    kClassIdIntFieldNumber = 3,
+    kClassIdStrFieldNumber = 4,
+  };
+  // repeated float features = 2;
+  int features_size() const;
+  private:
+  int _internal_features_size() const;
+
+  public:
+  void clear_features() ;
+  float features(int index) const;
+  void set_features(int index, float value);
+  void add_features(float value);
+  const ::google::protobuf::RepeatedField<float>& features() const;
+  ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL mutable_features();
+
+  private:
+  const ::google::protobuf::RepeatedField<float>& _internal_features() const;
+  ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL _internal_mutable_features();
+
+  public:
+  // int32 vertex_id = 1;
+  void clear_vertex_id() ;
+  ::int32_t vertex_id() const;
+  void set_vertex_id(::int32_t value);
+
+  private:
+  ::int32_t _internal_vertex_id() const;
+  void _internal_set_vertex_id(::int32_t value);
+
+  public:
+  // int32 class_id_int = 3;
+  bool has_class_id_int() const;
+  void clear_class_id_int() ;
+  ::int32_t class_id_int() const;
+  void set_class_id_int(::int32_t value);
+
+  private:
+  ::int32_t _internal_class_id_int() const;
+  void _internal_set_class_id_int(::int32_t value);
+
+  public:
+  // string class_id_str = 4;
+  bool has_class_id_str() const;
+  void clear_class_id_str() ;
+  const std::string& class_id_str() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_class_id_str(Arg_&& arg, Args_... args);
+  std::string* PROTOBUF_NONNULL mutable_class_id_str();
+  [[nodiscard]] std::string* PROTOBUF_NULLABLE release_class_id_str();
+  void set_allocated_class_id_str(std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const std::string& _internal_class_id_str() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_class_id_str(const std::string& value);
+  std::string* PROTOBUF_NONNULL _internal_mutable_class_id_str();
+
+  public:
+  void clear_class_id();
+  ClassIdCase class_id_case() const;
+  // @@protoc_insertion_point(class_scope:classifierpb.SupportVertexEntry)
+ private:
+  class _Internal;
+  void set_has_class_id_int();
+  void set_has_class_id_str();
+  inline bool has_class_id() const;
+  inline void clear_has_class_id();
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<1, 4,
+                                   0, 52,
+                                   2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const SupportVertexEntry& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::RepeatedField<float> features_;
+    ::int32_t vertex_id_;
+    union ClassIdUnion {
+      constexpr ClassIdUnion() : _constinit_{} {}
+      ::google::protobuf::internal::ConstantInitialized _constinit_;
+      ::int32_t class_id_int_;
+      ::google::protobuf::internal::ArenaStringPtr class_id_str_;
+    } class_id_;
+    ::uint32_t _oneof_case_[1];
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_classifier_2eproto;
+};
+
+extern const ::google::protobuf::internal::ClassDataFull SupportVertexEntry_class_data_;
+// -------------------------------------------------------------------
+
+class LabeledVertexEntry final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:classifierpb.LabeledVertexEntry) */ {
+ public:
+  inline LabeledVertexEntry() : LabeledVertexEntry(nullptr) {}
+  ~LabeledVertexEntry() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(LabeledVertexEntry* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(LabeledVertexEntry));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR LabeledVertexEntry(::google::protobuf::internal::ConstantInitialized);
+
+  inline LabeledVertexEntry(const LabeledVertexEntry& from) : LabeledVertexEntry(nullptr, from) {}
+  inline LabeledVertexEntry(LabeledVertexEntry&& from) noexcept
+      : LabeledVertexEntry(nullptr, std::move(from)) {}
+  inline LabeledVertexEntry& operator=(const LabeledVertexEntry& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline LabeledVertexEntry& operator=(LabeledVertexEntry&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const LabeledVertexEntry& default_instance() {
+    return *reinterpret_cast<const LabeledVertexEntry*>(
+        &_LabeledVertexEntry_default_instance_);
+  }
+  enum ClassIdCase {
+    kClassIdInt = 2,
+    kClassIdStr = 3,
+    CLASS_ID_NOT_SET = 0,
+  };
+  static constexpr int kIndexInFileMessages = 8;
+  friend void swap(LabeledVertexEntry& a, LabeledVertexEntry& b) { a.Swap(&b); }
+  inline void Swap(LabeledVertexEntry* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(LabeledVertexEntry* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  LabeledVertexEntry* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<LabeledVertexEntry>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const LabeledVertexEntry& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const LabeledVertexEntry& from) { LabeledVertexEntry::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(LabeledVertexEntry* PROTOBUF_NONNULL other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "classifierpb.LabeledVertexEntry"; }
+
+ protected:
+  explicit LabeledVertexEntry(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  LabeledVertexEntry(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const LabeledVertexEntry& from);
+  LabeledVertexEntry(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, LabeledVertexEntry&& from) noexcept
+      : LabeledVertexEntry(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_();
+
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kVertexIdFieldNumber = 1,
+    kClassIdIntFieldNumber = 2,
+    kClassIdStrFieldNumber = 3,
+  };
+  // int32 vertex_id = 1;
+  void clear_vertex_id() ;
+  ::int32_t vertex_id() const;
+  void set_vertex_id(::int32_t value);
+
+  private:
+  ::int32_t _internal_vertex_id() const;
+  void _internal_set_vertex_id(::int32_t value);
+
+  public:
+  // int32 class_id_int = 2;
+  bool has_class_id_int() const;
+  void clear_class_id_int() ;
+  ::int32_t class_id_int() const;
+  void set_class_id_int(::int32_t value);
+
+  private:
+  ::int32_t _internal_class_id_int() const;
+  void _internal_set_class_id_int(::int32_t value);
+
+  public:
+  // string class_id_str = 3;
+  bool has_class_id_str() const;
+  void clear_class_id_str() ;
+  const std::string& class_id_str() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_class_id_str(Arg_&& arg, Args_... args);
+  std::string* PROTOBUF_NONNULL mutable_class_id_str();
+  [[nodiscard]] std::string* PROTOBUF_NULLABLE release_class_id_str();
+  void set_allocated_class_id_str(std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const std::string& _internal_class_id_str() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_class_id_str(const std::string& value);
+  std::string* PROTOBUF_NONNULL _internal_mutable_class_id_str();
+
+  public:
+  void clear_class_id();
+  ClassIdCase class_id_case() const;
+  // @@protoc_insertion_point(class_scope:classifierpb.LabeledVertexEntry)
+ private:
+  class _Internal;
+  void set_has_class_id_int();
+  void set_has_class_id_str();
+  inline bool has_class_id() const;
+  inline void clear_has_class_id();
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<0, 3,
+                                   0, 52,
+                                   2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const LabeledVertexEntry& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::int32_t vertex_id_;
+    union ClassIdUnion {
+      constexpr ClassIdUnion() : _constinit_{} {}
+      ::google::protobuf::internal::ConstantInitialized _constinit_;
+      ::int32_t class_id_int_;
+      ::google::protobuf::internal::ArenaStringPtr class_id_str_;
+    } class_id_;
+    ::uint32_t _oneof_case_[1];
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_classifier_2eproto;
+};
+
+extern const ::google::protobuf::internal::ClassDataFull LabeledVertexEntry_class_data_;
 // -------------------------------------------------------------------
 
 class ExpertEntry final : public ::google::protobuf::Message
@@ -376,7 +1113,7 @@ class ExpertEntry final : public ::google::protobuf::Message
     return *reinterpret_cast<const ExpertEntry*>(
         &_ExpertEntry_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 5;
+  static constexpr int kIndexInFileMessages = 4;
   friend void swap(ExpertEntry& a, ExpertEntry& b) { a.Swap(&b); }
   inline void Swap(ExpertEntry* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -564,231 +1301,6 @@ class ExpertEntry final : public ::google::protobuf::Message
 extern const ::google::protobuf::internal::ClassDataFull ExpertEntry_class_data_;
 // -------------------------------------------------------------------
 
-class ClusterID final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:classifierpb.ClusterID) */ {
- public:
-  inline ClusterID() : ClusterID(nullptr) {}
-  ~ClusterID() PROTOBUF_FINAL;
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(ClusterID* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(ClusterID));
-  }
-#endif
-
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR ClusterID(::google::protobuf::internal::ConstantInitialized);
-
-  inline ClusterID(const ClusterID& from) : ClusterID(nullptr, from) {}
-  inline ClusterID(ClusterID&& from) noexcept
-      : ClusterID(nullptr, std::move(from)) {}
-  inline ClusterID& operator=(const ClusterID& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline ClusterID& operator=(ClusterID&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const ClusterID& default_instance() {
-    return *reinterpret_cast<const ClusterID*>(
-        &_ClusterID_default_instance_);
-  }
-  enum ClusterIdCase {
-    kClusterIdInt = 1,
-    kClusterIdStr = 2,
-    CLUSTER_ID_NOT_SET = 0,
-  };
-  static constexpr int kIndexInFileMessages = 0;
-  friend void swap(ClusterID& a, ClusterID& b) { a.Swap(&b); }
-  inline void Swap(ClusterID* PROTOBUF_NONNULL other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(ClusterID* PROTOBUF_NONNULL other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  ClusterID* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<ClusterID>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const ClusterID& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const ClusterID& from) { ClusterID::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
-                        const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return true;
-  }
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  static void SharedDtor(MessageLite& self);
-  void InternalSwap(ClusterID* PROTOBUF_NONNULL other);
- private:
-  template <typename T>
-  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "classifierpb.ClusterID"; }
-
- protected:
-  explicit ClusterID(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  ClusterID(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const ClusterID& from);
-  ClusterID(
-      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, ClusterID&& from) noexcept
-      : ClusterID(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
-  static void* PROTOBUF_NONNULL PlacementNew_(
-      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
-      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  static constexpr auto InternalNewImpl_();
-
- public:
-  static constexpr auto InternalGenerateClassData_();
-
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kClusterIdIntFieldNumber = 1,
-    kClusterIdStrFieldNumber = 2,
-  };
-  // int32 cluster_id_int = 1;
-  bool has_cluster_id_int() const;
-  void clear_cluster_id_int() ;
-  ::int32_t cluster_id_int() const;
-  void set_cluster_id_int(::int32_t value);
-
-  private:
-  ::int32_t _internal_cluster_id_int() const;
-  void _internal_set_cluster_id_int(::int32_t value);
-
-  public:
-  // string cluster_id_str = 2;
-  bool has_cluster_id_str() const;
-  void clear_cluster_id_str() ;
-  const std::string& cluster_id_str() const;
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_cluster_id_str(Arg_&& arg, Args_... args);
-  std::string* PROTOBUF_NONNULL mutable_cluster_id_str();
-  [[nodiscard]] std::string* PROTOBUF_NULLABLE release_cluster_id_str();
-  void set_allocated_cluster_id_str(std::string* PROTOBUF_NULLABLE value);
-
-  private:
-  const std::string& _internal_cluster_id_str() const;
-  PROTOBUF_ALWAYS_INLINE void _internal_set_cluster_id_str(const std::string& value);
-  std::string* PROTOBUF_NONNULL _internal_mutable_cluster_id_str();
-
-  public:
-  void clear_cluster_id();
-  ClusterIdCase cluster_id_case() const;
-  // @@protoc_insertion_point(class_scope:classifierpb.ClusterID)
- private:
-  class _Internal;
-  void set_has_cluster_id_int();
-  void set_has_cluster_id_str();
-  inline bool has_cluster_id() const;
-  inline void clear_has_cluster_id();
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<0, 2,
-                                   0, 45,
-                                   2>
-      _table_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(
-        ::google::protobuf::internal::InternalVisibility visibility,
-        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-    inline explicit Impl_(
-        ::google::protobuf::internal::InternalVisibility visibility,
-        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-        const ClusterID& from_msg);
-    union ClusterIdUnion {
-      constexpr ClusterIdUnion() : _constinit_{} {}
-      ::google::protobuf::internal::ConstantInitialized _constinit_;
-      ::int32_t cluster_id_int_;
-      ::google::protobuf::internal::ArenaStringPtr cluster_id_str_;
-    } cluster_id_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
-    ::uint32_t _oneof_case_[1];
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_classifier_2eproto;
-};
-
-extern const ::google::protobuf::internal::ClassDataFull ClusterID_class_data_;
-// -------------------------------------------------------------------
-
 class VerticesToLabel final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:classifierpb.VerticesToLabel) */ {
  public:
@@ -844,7 +1356,7 @@ class VerticesToLabel final : public ::google::protobuf::Message
     return *reinterpret_cast<const VerticesToLabel*>(
         &_VerticesToLabel_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 8;
+  static constexpr int kIndexInFileMessages = 7;
   friend void swap(VerticesToLabel& a, VerticesToLabel& b) { a.Swap(&b); }
   inline void Swap(VerticesToLabel* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -986,855 +1498,6 @@ class VerticesToLabel final : public ::google::protobuf::Message
 extern const ::google::protobuf::internal::ClassDataFull VerticesToLabel_class_data_;
 // -------------------------------------------------------------------
 
-class TrainingDatasetEntry final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:classifierpb.TrainingDatasetEntry) */ {
- public:
-  inline TrainingDatasetEntry() : TrainingDatasetEntry(nullptr) {}
-  ~TrainingDatasetEntry() PROTOBUF_FINAL;
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(TrainingDatasetEntry* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(TrainingDatasetEntry));
-  }
-#endif
-
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR TrainingDatasetEntry(::google::protobuf::internal::ConstantInitialized);
-
-  inline TrainingDatasetEntry(const TrainingDatasetEntry& from) : TrainingDatasetEntry(nullptr, from) {}
-  inline TrainingDatasetEntry(TrainingDatasetEntry&& from) noexcept
-      : TrainingDatasetEntry(nullptr, std::move(from)) {}
-  inline TrainingDatasetEntry& operator=(const TrainingDatasetEntry& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline TrainingDatasetEntry& operator=(TrainingDatasetEntry&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const TrainingDatasetEntry& default_instance() {
-    return *reinterpret_cast<const TrainingDatasetEntry*>(
-        &_TrainingDatasetEntry_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 1;
-  friend void swap(TrainingDatasetEntry& a, TrainingDatasetEntry& b) { a.Swap(&b); }
-  inline void Swap(TrainingDatasetEntry* PROTOBUF_NONNULL other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(TrainingDatasetEntry* PROTOBUF_NONNULL other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  TrainingDatasetEntry* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<TrainingDatasetEntry>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const TrainingDatasetEntry& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const TrainingDatasetEntry& from) { TrainingDatasetEntry::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
-                        const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return true;
-  }
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  static void SharedDtor(MessageLite& self);
-  void InternalSwap(TrainingDatasetEntry* PROTOBUF_NONNULL other);
- private:
-  template <typename T>
-  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "classifierpb.TrainingDatasetEntry"; }
-
- protected:
-  explicit TrainingDatasetEntry(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  TrainingDatasetEntry(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const TrainingDatasetEntry& from);
-  TrainingDatasetEntry(
-      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, TrainingDatasetEntry&& from) noexcept
-      : TrainingDatasetEntry(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
-  static void* PROTOBUF_NONNULL PlacementNew_(
-      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
-      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  static constexpr auto InternalNewImpl_();
-
- public:
-  static constexpr auto InternalGenerateClassData_();
-
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kCoordinatesFieldNumber = 1,
-    kClusterIdFieldNumber = 2,
-  };
-  // repeated float coordinates = 1;
-  int coordinates_size() const;
-  private:
-  int _internal_coordinates_size() const;
-
-  public:
-  void clear_coordinates() ;
-  float coordinates(int index) const;
-  void set_coordinates(int index, float value);
-  void add_coordinates(float value);
-  const ::google::protobuf::RepeatedField<float>& coordinates() const;
-  ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL mutable_coordinates();
-
-  private:
-  const ::google::protobuf::RepeatedField<float>& _internal_coordinates() const;
-  ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL _internal_mutable_coordinates();
-
-  public:
-  // .classifierpb.ClusterID cluster_id = 2;
-  bool has_cluster_id() const;
-  void clear_cluster_id() ;
-  const ::classifierpb::ClusterID& cluster_id() const;
-  [[nodiscard]] ::classifierpb::ClusterID* PROTOBUF_NULLABLE release_cluster_id();
-  ::classifierpb::ClusterID* PROTOBUF_NONNULL mutable_cluster_id();
-  void set_allocated_cluster_id(::classifierpb::ClusterID* PROTOBUF_NULLABLE value);
-  void unsafe_arena_set_allocated_cluster_id(::classifierpb::ClusterID* PROTOBUF_NULLABLE value);
-  ::classifierpb::ClusterID* PROTOBUF_NULLABLE unsafe_arena_release_cluster_id();
-
-  private:
-  const ::classifierpb::ClusterID& _internal_cluster_id() const;
-  ::classifierpb::ClusterID* PROTOBUF_NONNULL _internal_mutable_cluster_id();
-
-  public:
-  // @@protoc_insertion_point(class_scope:classifierpb.TrainingDatasetEntry)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<1, 2,
-                                   1, 0,
-                                   2>
-      _table_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(
-        ::google::protobuf::internal::InternalVisibility visibility,
-        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-    inline explicit Impl_(
-        ::google::protobuf::internal::InternalVisibility visibility,
-        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-        const TrainingDatasetEntry& from_msg);
-    ::google::protobuf::internal::HasBits<1> _has_bits_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
-    ::google::protobuf::RepeatedField<float> coordinates_;
-    ::classifierpb::ClusterID* PROTOBUF_NULLABLE cluster_id_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_classifier_2eproto;
-};
-
-extern const ::google::protobuf::internal::ClassDataFull TrainingDatasetEntry_class_data_;
-// -------------------------------------------------------------------
-
-class SupportVertexEntry final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:classifierpb.SupportVertexEntry) */ {
- public:
-  inline SupportVertexEntry() : SupportVertexEntry(nullptr) {}
-  ~SupportVertexEntry() PROTOBUF_FINAL;
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(SupportVertexEntry* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(SupportVertexEntry));
-  }
-#endif
-
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR SupportVertexEntry(::google::protobuf::internal::ConstantInitialized);
-
-  inline SupportVertexEntry(const SupportVertexEntry& from) : SupportVertexEntry(nullptr, from) {}
-  inline SupportVertexEntry(SupportVertexEntry&& from) noexcept
-      : SupportVertexEntry(nullptr, std::move(from)) {}
-  inline SupportVertexEntry& operator=(const SupportVertexEntry& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline SupportVertexEntry& operator=(SupportVertexEntry&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const SupportVertexEntry& default_instance() {
-    return *reinterpret_cast<const SupportVertexEntry*>(
-        &_SupportVertexEntry_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 3;
-  friend void swap(SupportVertexEntry& a, SupportVertexEntry& b) { a.Swap(&b); }
-  inline void Swap(SupportVertexEntry* PROTOBUF_NONNULL other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(SupportVertexEntry* PROTOBUF_NONNULL other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  SupportVertexEntry* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<SupportVertexEntry>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const SupportVertexEntry& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const SupportVertexEntry& from) { SupportVertexEntry::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
-                        const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return true;
-  }
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  static void SharedDtor(MessageLite& self);
-  void InternalSwap(SupportVertexEntry* PROTOBUF_NONNULL other);
- private:
-  template <typename T>
-  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "classifierpb.SupportVertexEntry"; }
-
- protected:
-  explicit SupportVertexEntry(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  SupportVertexEntry(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const SupportVertexEntry& from);
-  SupportVertexEntry(
-      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, SupportVertexEntry&& from) noexcept
-      : SupportVertexEntry(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
-  static void* PROTOBUF_NONNULL PlacementNew_(
-      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
-      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  static constexpr auto InternalNewImpl_();
-
- public:
-  static constexpr auto InternalGenerateClassData_();
-
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kCoordinatesFieldNumber = 2,
-    kClusterIdFieldNumber = 3,
-    kVertexIdFieldNumber = 1,
-  };
-  // repeated float coordinates = 2;
-  int coordinates_size() const;
-  private:
-  int _internal_coordinates_size() const;
-
-  public:
-  void clear_coordinates() ;
-  float coordinates(int index) const;
-  void set_coordinates(int index, float value);
-  void add_coordinates(float value);
-  const ::google::protobuf::RepeatedField<float>& coordinates() const;
-  ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL mutable_coordinates();
-
-  private:
-  const ::google::protobuf::RepeatedField<float>& _internal_coordinates() const;
-  ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL _internal_mutable_coordinates();
-
-  public:
-  // .classifierpb.ClusterID cluster_id = 3;
-  bool has_cluster_id() const;
-  void clear_cluster_id() ;
-  const ::classifierpb::ClusterID& cluster_id() const;
-  [[nodiscard]] ::classifierpb::ClusterID* PROTOBUF_NULLABLE release_cluster_id();
-  ::classifierpb::ClusterID* PROTOBUF_NONNULL mutable_cluster_id();
-  void set_allocated_cluster_id(::classifierpb::ClusterID* PROTOBUF_NULLABLE value);
-  void unsafe_arena_set_allocated_cluster_id(::classifierpb::ClusterID* PROTOBUF_NULLABLE value);
-  ::classifierpb::ClusterID* PROTOBUF_NULLABLE unsafe_arena_release_cluster_id();
-
-  private:
-  const ::classifierpb::ClusterID& _internal_cluster_id() const;
-  ::classifierpb::ClusterID* PROTOBUF_NONNULL _internal_mutable_cluster_id();
-
-  public:
-  // int32 vertex_id = 1;
-  void clear_vertex_id() ;
-  ::int32_t vertex_id() const;
-  void set_vertex_id(::int32_t value);
-
-  private:
-  ::int32_t _internal_vertex_id() const;
-  void _internal_set_vertex_id(::int32_t value);
-
-  public:
-  // @@protoc_insertion_point(class_scope:classifierpb.SupportVertexEntry)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<2, 3,
-                                   1, 0,
-                                   2>
-      _table_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(
-        ::google::protobuf::internal::InternalVisibility visibility,
-        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-    inline explicit Impl_(
-        ::google::protobuf::internal::InternalVisibility visibility,
-        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-        const SupportVertexEntry& from_msg);
-    ::google::protobuf::internal::HasBits<1> _has_bits_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
-    ::google::protobuf::RepeatedField<float> coordinates_;
-    ::classifierpb::ClusterID* PROTOBUF_NULLABLE cluster_id_;
-    ::int32_t vertex_id_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_classifier_2eproto;
-};
-
-extern const ::google::protobuf::internal::ClassDataFull SupportVertexEntry_class_data_;
-// -------------------------------------------------------------------
-
-class LabeledVertexEntry final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:classifierpb.LabeledVertexEntry) */ {
- public:
-  inline LabeledVertexEntry() : LabeledVertexEntry(nullptr) {}
-  ~LabeledVertexEntry() PROTOBUF_FINAL;
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(LabeledVertexEntry* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(LabeledVertexEntry));
-  }
-#endif
-
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR LabeledVertexEntry(::google::protobuf::internal::ConstantInitialized);
-
-  inline LabeledVertexEntry(const LabeledVertexEntry& from) : LabeledVertexEntry(nullptr, from) {}
-  inline LabeledVertexEntry(LabeledVertexEntry&& from) noexcept
-      : LabeledVertexEntry(nullptr, std::move(from)) {}
-  inline LabeledVertexEntry& operator=(const LabeledVertexEntry& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline LabeledVertexEntry& operator=(LabeledVertexEntry&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const LabeledVertexEntry& default_instance() {
-    return *reinterpret_cast<const LabeledVertexEntry*>(
-        &_LabeledVertexEntry_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 9;
-  friend void swap(LabeledVertexEntry& a, LabeledVertexEntry& b) { a.Swap(&b); }
-  inline void Swap(LabeledVertexEntry* PROTOBUF_NONNULL other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(LabeledVertexEntry* PROTOBUF_NONNULL other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  LabeledVertexEntry* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<LabeledVertexEntry>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const LabeledVertexEntry& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const LabeledVertexEntry& from) { LabeledVertexEntry::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
-                        const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return true;
-  }
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  static void SharedDtor(MessageLite& self);
-  void InternalSwap(LabeledVertexEntry* PROTOBUF_NONNULL other);
- private:
-  template <typename T>
-  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "classifierpb.LabeledVertexEntry"; }
-
- protected:
-  explicit LabeledVertexEntry(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  LabeledVertexEntry(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const LabeledVertexEntry& from);
-  LabeledVertexEntry(
-      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, LabeledVertexEntry&& from) noexcept
-      : LabeledVertexEntry(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
-  static void* PROTOBUF_NONNULL PlacementNew_(
-      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
-      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  static constexpr auto InternalNewImpl_();
-
- public:
-  static constexpr auto InternalGenerateClassData_();
-
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kClusterIdFieldNumber = 2,
-    kVertexIdFieldNumber = 1,
-  };
-  // .classifierpb.ClusterID cluster_id = 2;
-  bool has_cluster_id() const;
-  void clear_cluster_id() ;
-  const ::classifierpb::ClusterID& cluster_id() const;
-  [[nodiscard]] ::classifierpb::ClusterID* PROTOBUF_NULLABLE release_cluster_id();
-  ::classifierpb::ClusterID* PROTOBUF_NONNULL mutable_cluster_id();
-  void set_allocated_cluster_id(::classifierpb::ClusterID* PROTOBUF_NULLABLE value);
-  void unsafe_arena_set_allocated_cluster_id(::classifierpb::ClusterID* PROTOBUF_NULLABLE value);
-  ::classifierpb::ClusterID* PROTOBUF_NULLABLE unsafe_arena_release_cluster_id();
-
-  private:
-  const ::classifierpb::ClusterID& _internal_cluster_id() const;
-  ::classifierpb::ClusterID* PROTOBUF_NONNULL _internal_mutable_cluster_id();
-
-  public:
-  // int32 vertex_id = 1;
-  void clear_vertex_id() ;
-  ::int32_t vertex_id() const;
-  void set_vertex_id(::int32_t value);
-
-  private:
-  ::int32_t _internal_vertex_id() const;
-  void _internal_set_vertex_id(::int32_t value);
-
-  public:
-  // @@protoc_insertion_point(class_scope:classifierpb.LabeledVertexEntry)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<1, 2,
-                                   1, 0,
-                                   2>
-      _table_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(
-        ::google::protobuf::internal::InternalVisibility visibility,
-        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-    inline explicit Impl_(
-        ::google::protobuf::internal::InternalVisibility visibility,
-        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-        const LabeledVertexEntry& from_msg);
-    ::google::protobuf::internal::HasBits<1> _has_bits_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
-    ::classifierpb::ClusterID* PROTOBUF_NULLABLE cluster_id_;
-    ::int32_t vertex_id_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_classifier_2eproto;
-};
-
-extern const ::google::protobuf::internal::ClassDataFull LabeledVertexEntry_class_data_;
-// -------------------------------------------------------------------
-
-class Experts final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:classifierpb.Experts) */ {
- public:
-  inline Experts() : Experts(nullptr) {}
-  ~Experts() PROTOBUF_FINAL;
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(Experts* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(Experts));
-  }
-#endif
-
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR Experts(::google::protobuf::internal::ConstantInitialized);
-
-  inline Experts(const Experts& from) : Experts(nullptr, from) {}
-  inline Experts(Experts&& from) noexcept
-      : Experts(nullptr, std::move(from)) {}
-  inline Experts& operator=(const Experts& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline Experts& operator=(Experts&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const Experts& default_instance() {
-    return *reinterpret_cast<const Experts*>(
-        &_Experts_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 6;
-  friend void swap(Experts& a, Experts& b) { a.Swap(&b); }
-  inline void Swap(Experts* PROTOBUF_NONNULL other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(Experts* PROTOBUF_NONNULL other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  Experts* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<Experts>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const Experts& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const Experts& from) { Experts::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
-                        const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return true;
-  }
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  static void SharedDtor(MessageLite& self);
-  void InternalSwap(Experts* PROTOBUF_NONNULL other);
- private:
-  template <typename T>
-  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "classifierpb.Experts"; }
-
- protected:
-  explicit Experts(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  Experts(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Experts& from);
-  Experts(
-      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, Experts&& from) noexcept
-      : Experts(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
-  static void* PROTOBUF_NONNULL PlacementNew_(
-      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
-      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  static constexpr auto InternalNewImpl_();
-
- public:
-  static constexpr auto InternalGenerateClassData_();
-
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kEntriesFieldNumber = 1,
-  };
-  // repeated .classifierpb.ExpertEntry entries = 1;
-  int entries_size() const;
-  private:
-  int _internal_entries_size() const;
-
-  public:
-  void clear_entries() ;
-  ::classifierpb::ExpertEntry* PROTOBUF_NONNULL mutable_entries(int index);
-  ::google::protobuf::RepeatedPtrField<::classifierpb::ExpertEntry>* PROTOBUF_NONNULL mutable_entries();
-
-  private:
-  const ::google::protobuf::RepeatedPtrField<::classifierpb::ExpertEntry>& _internal_entries() const;
-  ::google::protobuf::RepeatedPtrField<::classifierpb::ExpertEntry>* PROTOBUF_NONNULL _internal_mutable_entries();
-  public:
-  const ::classifierpb::ExpertEntry& entries(int index) const;
-  ::classifierpb::ExpertEntry* PROTOBUF_NONNULL add_entries();
-  const ::google::protobuf::RepeatedPtrField<::classifierpb::ExpertEntry>& entries() const;
-  // @@protoc_insertion_point(class_scope:classifierpb.Experts)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<0, 1,
-                                   1, 0,
-                                   2>
-      _table_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(
-        ::google::protobuf::internal::InternalVisibility visibility,
-        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-    inline explicit Impl_(
-        ::google::protobuf::internal::InternalVisibility visibility,
-        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-        const Experts& from_msg);
-    ::google::protobuf::RepeatedPtrField< ::classifierpb::ExpertEntry > entries_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_classifier_2eproto;
-};
-
-extern const ::google::protobuf::internal::ClassDataFull Experts_class_data_;
-// -------------------------------------------------------------------
-
 class TrainingDataset final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:classifierpb.TrainingDataset) */ {
  public:
@@ -1890,7 +1553,7 @@ class TrainingDataset final : public ::google::protobuf::Message
     return *reinterpret_cast<const TrainingDataset*>(
         &_TrainingDataset_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 2;
+  static constexpr int kIndexInFileMessages = 1;
   friend void swap(TrainingDataset& a, TrainingDataset& b) { a.Swap(&b); }
   inline void Swap(TrainingDataset* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -2087,7 +1750,7 @@ class SupportVertices final : public ::google::protobuf::Message
     return *reinterpret_cast<const SupportVertices*>(
         &_SupportVertices_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 4;
+  static constexpr int kIndexInFileMessages = 3;
   friend void swap(SupportVertices& a, SupportVertices& b) { a.Swap(&b); }
   inline void Swap(SupportVertices* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -2284,7 +1947,7 @@ class LabeledVertices final : public ::google::protobuf::Message
     return *reinterpret_cast<const LabeledVertices*>(
         &_LabeledVertices_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 10;
+  static constexpr int kIndexInFileMessages = 9;
   friend void swap(LabeledVertices& a, LabeledVertices& b) { a.Swap(&b); }
   inline void Swap(LabeledVertices* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -2424,6 +2087,203 @@ class LabeledVertices final : public ::google::protobuf::Message
 };
 
 extern const ::google::protobuf::internal::ClassDataFull LabeledVertices_class_data_;
+// -------------------------------------------------------------------
+
+class Experts final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:classifierpb.Experts) */ {
+ public:
+  inline Experts() : Experts(nullptr) {}
+  ~Experts() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(Experts* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(Experts));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR Experts(::google::protobuf::internal::ConstantInitialized);
+
+  inline Experts(const Experts& from) : Experts(nullptr, from) {}
+  inline Experts(Experts&& from) noexcept
+      : Experts(nullptr, std::move(from)) {}
+  inline Experts& operator=(const Experts& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Experts& operator=(Experts&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Experts& default_instance() {
+    return *reinterpret_cast<const Experts*>(
+        &_Experts_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 5;
+  friend void swap(Experts& a, Experts& b) { a.Swap(&b); }
+  inline void Swap(Experts* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Experts* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Experts* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<Experts>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const Experts& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const Experts& from) { Experts::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(Experts* PROTOBUF_NONNULL other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "classifierpb.Experts"; }
+
+ protected:
+  explicit Experts(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  Experts(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Experts& from);
+  Experts(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, Experts&& from) noexcept
+      : Experts(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_();
+
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kEntriesFieldNumber = 1,
+  };
+  // repeated .classifierpb.ExpertEntry entries = 1;
+  int entries_size() const;
+  private:
+  int _internal_entries_size() const;
+
+  public:
+  void clear_entries() ;
+  ::classifierpb::ExpertEntry* PROTOBUF_NONNULL mutable_entries(int index);
+  ::google::protobuf::RepeatedPtrField<::classifierpb::ExpertEntry>* PROTOBUF_NONNULL mutable_entries();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::classifierpb::ExpertEntry>& _internal_entries() const;
+  ::google::protobuf::RepeatedPtrField<::classifierpb::ExpertEntry>* PROTOBUF_NONNULL _internal_mutable_entries();
+  public:
+  const ::classifierpb::ExpertEntry& entries(int index) const;
+  ::classifierpb::ExpertEntry* PROTOBUF_NONNULL add_entries();
+  const ::google::protobuf::RepeatedPtrField<::classifierpb::ExpertEntry>& entries() const;
+  // @@protoc_insertion_point(class_scope:classifierpb.Experts)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<0, 1,
+                                   1, 0,
+                                   2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const Experts& from_msg);
+    ::google::protobuf::RepeatedPtrField< ::classifierpb::ExpertEntry > entries_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_classifier_2eproto;
+};
+
+extern const ::google::protobuf::internal::ClassDataFull Experts_class_data_;
 
 // ===================================================================
 
@@ -2439,283 +2299,181 @@ extern const ::google::protobuf::internal::ClassDataFull LabeledVertices_class_d
 #endif  // __GNUC__
 // -------------------------------------------------------------------
 
-// ClusterID
+// TrainingDatasetEntry
 
-// int32 cluster_id_int = 1;
-inline bool ClusterID::has_cluster_id_int() const {
-  return cluster_id_case() == kClusterIdInt;
+// repeated float features = 1;
+inline int TrainingDatasetEntry::_internal_features_size() const {
+  return _internal_features().size();
 }
-inline void ClusterID::set_has_cluster_id_int() {
-  _impl_._oneof_case_[0] = kClusterIdInt;
+inline int TrainingDatasetEntry::features_size() const {
+  return _internal_features_size();
 }
-inline void ClusterID::clear_cluster_id_int() {
+inline void TrainingDatasetEntry::clear_features() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (cluster_id_case() == kClusterIdInt) {
-    _impl_.cluster_id_.cluster_id_int_ = 0;
-    clear_has_cluster_id();
+  _impl_.features_.Clear();
+}
+inline float TrainingDatasetEntry::features(int index) const {
+  // @@protoc_insertion_point(field_get:classifierpb.TrainingDatasetEntry.features)
+  return _internal_features().Get(index);
+}
+inline void TrainingDatasetEntry::set_features(int index, float value) {
+  _internal_mutable_features()->Set(index, value);
+  // @@protoc_insertion_point(field_set:classifierpb.TrainingDatasetEntry.features)
+}
+inline void TrainingDatasetEntry::add_features(float value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _internal_mutable_features()->Add(value);
+  // @@protoc_insertion_point(field_add:classifierpb.TrainingDatasetEntry.features)
+}
+inline const ::google::protobuf::RepeatedField<float>& TrainingDatasetEntry::features() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:classifierpb.TrainingDatasetEntry.features)
+  return _internal_features();
+}
+inline ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL TrainingDatasetEntry::mutable_features()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:classifierpb.TrainingDatasetEntry.features)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_features();
+}
+inline const ::google::protobuf::RepeatedField<float>&
+TrainingDatasetEntry::_internal_features() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.features_;
+}
+inline ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL
+TrainingDatasetEntry::_internal_mutable_features() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.features_;
+}
+
+// int32 class_id_int = 2;
+inline bool TrainingDatasetEntry::has_class_id_int() const {
+  return class_id_case() == kClassIdInt;
+}
+inline void TrainingDatasetEntry::set_has_class_id_int() {
+  _impl_._oneof_case_[0] = kClassIdInt;
+}
+inline void TrainingDatasetEntry::clear_class_id_int() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (class_id_case() == kClassIdInt) {
+    _impl_.class_id_.class_id_int_ = 0;
+    clear_has_class_id();
   }
 }
-inline ::int32_t ClusterID::cluster_id_int() const {
-  // @@protoc_insertion_point(field_get:classifierpb.ClusterID.cluster_id_int)
-  return _internal_cluster_id_int();
+inline ::int32_t TrainingDatasetEntry::class_id_int() const {
+  // @@protoc_insertion_point(field_get:classifierpb.TrainingDatasetEntry.class_id_int)
+  return _internal_class_id_int();
 }
-inline void ClusterID::set_cluster_id_int(::int32_t value) {
-  if (cluster_id_case() != kClusterIdInt) {
-    clear_cluster_id();
-    set_has_cluster_id_int();
+inline void TrainingDatasetEntry::set_class_id_int(::int32_t value) {
+  if (class_id_case() != kClassIdInt) {
+    clear_class_id();
+    set_has_class_id_int();
   }
-  _impl_.cluster_id_.cluster_id_int_ = value;
-  // @@protoc_insertion_point(field_set:classifierpb.ClusterID.cluster_id_int)
+  _impl_.class_id_.class_id_int_ = value;
+  // @@protoc_insertion_point(field_set:classifierpb.TrainingDatasetEntry.class_id_int)
 }
-inline ::int32_t ClusterID::_internal_cluster_id_int() const {
-  if (cluster_id_case() == kClusterIdInt) {
-    return _impl_.cluster_id_.cluster_id_int_;
+inline ::int32_t TrainingDatasetEntry::_internal_class_id_int() const {
+  if (class_id_case() == kClassIdInt) {
+    return _impl_.class_id_.class_id_int_;
   }
   return 0;
 }
 
-// string cluster_id_str = 2;
-inline bool ClusterID::has_cluster_id_str() const {
-  return cluster_id_case() == kClusterIdStr;
+// string class_id_str = 3;
+inline bool TrainingDatasetEntry::has_class_id_str() const {
+  return class_id_case() == kClassIdStr;
 }
-inline void ClusterID::set_has_cluster_id_str() {
-  _impl_._oneof_case_[0] = kClusterIdStr;
+inline void TrainingDatasetEntry::set_has_class_id_str() {
+  _impl_._oneof_case_[0] = kClassIdStr;
 }
-inline void ClusterID::clear_cluster_id_str() {
+inline void TrainingDatasetEntry::clear_class_id_str() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (cluster_id_case() == kClusterIdStr) {
-    _impl_.cluster_id_.cluster_id_str_.Destroy();
-    clear_has_cluster_id();
+  if (class_id_case() == kClassIdStr) {
+    _impl_.class_id_.class_id_str_.Destroy();
+    clear_has_class_id();
   }
 }
-inline const std::string& ClusterID::cluster_id_str() const
+inline const std::string& TrainingDatasetEntry::class_id_str() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:classifierpb.ClusterID.cluster_id_str)
-  return _internal_cluster_id_str();
+  // @@protoc_insertion_point(field_get:classifierpb.TrainingDatasetEntry.class_id_str)
+  return _internal_class_id_str();
 }
 template <typename Arg_, typename... Args_>
-PROTOBUF_ALWAYS_INLINE void ClusterID::set_cluster_id_str(Arg_&& arg, Args_... args) {
+PROTOBUF_ALWAYS_INLINE void TrainingDatasetEntry::set_class_id_str(Arg_&& arg, Args_... args) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (cluster_id_case() != kClusterIdStr) {
-    clear_cluster_id();
+  if (class_id_case() != kClassIdStr) {
+    clear_class_id();
 
-    set_has_cluster_id_str();
-    _impl_.cluster_id_.cluster_id_str_.InitDefault();
+    set_has_class_id_str();
+    _impl_.class_id_.class_id_str_.InitDefault();
   }
-  _impl_.cluster_id_.cluster_id_str_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:classifierpb.ClusterID.cluster_id_str)
+  _impl_.class_id_.class_id_str_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:classifierpb.TrainingDatasetEntry.class_id_str)
 }
-inline std::string* PROTOBUF_NONNULL ClusterID::mutable_cluster_id_str()
+inline std::string* PROTOBUF_NONNULL TrainingDatasetEntry::mutable_class_id_str()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  std::string* _s = _internal_mutable_cluster_id_str();
-  // @@protoc_insertion_point(field_mutable:classifierpb.ClusterID.cluster_id_str)
+  std::string* _s = _internal_mutable_class_id_str();
+  // @@protoc_insertion_point(field_mutable:classifierpb.TrainingDatasetEntry.class_id_str)
   return _s;
 }
-inline const std::string& ClusterID::_internal_cluster_id_str() const {
+inline const std::string& TrainingDatasetEntry::_internal_class_id_str() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  if (cluster_id_case() != kClusterIdStr) {
+  if (class_id_case() != kClassIdStr) {
     return ::google::protobuf::internal::GetEmptyStringAlreadyInited();
   }
-  return _impl_.cluster_id_.cluster_id_str_.Get();
+  return _impl_.class_id_.class_id_str_.Get();
 }
-inline void ClusterID::_internal_set_cluster_id_str(const std::string& value) {
+inline void TrainingDatasetEntry::_internal_set_class_id_str(const std::string& value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (cluster_id_case() != kClusterIdStr) {
-    clear_cluster_id();
+  if (class_id_case() != kClassIdStr) {
+    clear_class_id();
 
-    set_has_cluster_id_str();
-    _impl_.cluster_id_.cluster_id_str_.InitDefault();
+    set_has_class_id_str();
+    _impl_.class_id_.class_id_str_.InitDefault();
   }
-  _impl_.cluster_id_.cluster_id_str_.Set(value, GetArena());
+  _impl_.class_id_.class_id_str_.Set(value, GetArena());
 }
-inline std::string* PROTOBUF_NONNULL ClusterID::_internal_mutable_cluster_id_str() {
+inline std::string* PROTOBUF_NONNULL TrainingDatasetEntry::_internal_mutable_class_id_str() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (cluster_id_case() != kClusterIdStr) {
-    clear_cluster_id();
+  if (class_id_case() != kClassIdStr) {
+    clear_class_id();
 
-    set_has_cluster_id_str();
-    _impl_.cluster_id_.cluster_id_str_.InitDefault();
+    set_has_class_id_str();
+    _impl_.class_id_.class_id_str_.InitDefault();
   }
-  return _impl_.cluster_id_.cluster_id_str_.Mutable( GetArena());
+  return _impl_.class_id_.class_id_str_.Mutable( GetArena());
 }
-inline std::string* PROTOBUF_NULLABLE ClusterID::release_cluster_id_str() {
+inline std::string* PROTOBUF_NULLABLE TrainingDatasetEntry::release_class_id_str() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:classifierpb.ClusterID.cluster_id_str)
-  if (cluster_id_case() != kClusterIdStr) {
+  // @@protoc_insertion_point(field_release:classifierpb.TrainingDatasetEntry.class_id_str)
+  if (class_id_case() != kClassIdStr) {
     return nullptr;
   }
-  clear_has_cluster_id();
-  return _impl_.cluster_id_.cluster_id_str_.Release();
+  clear_has_class_id();
+  return _impl_.class_id_.class_id_str_.Release();
 }
-inline void ClusterID::set_allocated_cluster_id_str(std::string* PROTOBUF_NULLABLE value) {
+inline void TrainingDatasetEntry::set_allocated_class_id_str(std::string* PROTOBUF_NULLABLE value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (has_cluster_id()) {
-    clear_cluster_id();
+  if (has_class_id()) {
+    clear_class_id();
   }
   if (value != nullptr) {
-    set_has_cluster_id_str();
-    _impl_.cluster_id_.cluster_id_str_.InitAllocated(value, GetArena());
+    set_has_class_id_str();
+    _impl_.class_id_.class_id_str_.InitAllocated(value, GetArena());
   }
-  // @@protoc_insertion_point(field_set_allocated:classifierpb.ClusterID.cluster_id_str)
+  // @@protoc_insertion_point(field_set_allocated:classifierpb.TrainingDatasetEntry.class_id_str)
 }
 
-inline bool ClusterID::has_cluster_id() const {
-  return cluster_id_case() != CLUSTER_ID_NOT_SET;
+inline bool TrainingDatasetEntry::has_class_id() const {
+  return class_id_case() != CLASS_ID_NOT_SET;
 }
-inline void ClusterID::clear_has_cluster_id() {
-  _impl_._oneof_case_[0] = CLUSTER_ID_NOT_SET;
+inline void TrainingDatasetEntry::clear_has_class_id() {
+  _impl_._oneof_case_[0] = CLASS_ID_NOT_SET;
 }
-inline ClusterID::ClusterIdCase ClusterID::cluster_id_case() const {
-  return ClusterID::ClusterIdCase(_impl_._oneof_case_[0]);
+inline TrainingDatasetEntry::ClassIdCase TrainingDatasetEntry::class_id_case() const {
+  return TrainingDatasetEntry::ClassIdCase(_impl_._oneof_case_[0]);
 }
-// -------------------------------------------------------------------
-
-// TrainingDatasetEntry
-
-// repeated float coordinates = 1;
-inline int TrainingDatasetEntry::_internal_coordinates_size() const {
-  return _internal_coordinates().size();
-}
-inline int TrainingDatasetEntry::coordinates_size() const {
-  return _internal_coordinates_size();
-}
-inline void TrainingDatasetEntry::clear_coordinates() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.coordinates_.Clear();
-}
-inline float TrainingDatasetEntry::coordinates(int index) const {
-  // @@protoc_insertion_point(field_get:classifierpb.TrainingDatasetEntry.coordinates)
-  return _internal_coordinates().Get(index);
-}
-inline void TrainingDatasetEntry::set_coordinates(int index, float value) {
-  _internal_mutable_coordinates()->Set(index, value);
-  // @@protoc_insertion_point(field_set:classifierpb.TrainingDatasetEntry.coordinates)
-}
-inline void TrainingDatasetEntry::add_coordinates(float value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _internal_mutable_coordinates()->Add(value);
-  // @@protoc_insertion_point(field_add:classifierpb.TrainingDatasetEntry.coordinates)
-}
-inline const ::google::protobuf::RepeatedField<float>& TrainingDatasetEntry::coordinates() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_list:classifierpb.TrainingDatasetEntry.coordinates)
-  return _internal_coordinates();
-}
-inline ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL TrainingDatasetEntry::mutable_coordinates()
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable_list:classifierpb.TrainingDatasetEntry.coordinates)
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  return _internal_mutable_coordinates();
-}
-inline const ::google::protobuf::RepeatedField<float>&
-TrainingDatasetEntry::_internal_coordinates() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.coordinates_;
-}
-inline ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL
-TrainingDatasetEntry::_internal_mutable_coordinates() {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return &_impl_.coordinates_;
-}
-
-// .classifierpb.ClusterID cluster_id = 2;
-inline bool TrainingDatasetEntry::has_cluster_id() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  PROTOBUF_ASSUME(!value || _impl_.cluster_id_ != nullptr);
-  return value;
-}
-inline void TrainingDatasetEntry::clear_cluster_id() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.cluster_id_ != nullptr) _impl_.cluster_id_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000001u;
-}
-inline const ::classifierpb::ClusterID& TrainingDatasetEntry::_internal_cluster_id() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::classifierpb::ClusterID* p = _impl_.cluster_id_;
-  return p != nullptr ? *p : reinterpret_cast<const ::classifierpb::ClusterID&>(::classifierpb::_ClusterID_default_instance_);
-}
-inline const ::classifierpb::ClusterID& TrainingDatasetEntry::cluster_id() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:classifierpb.TrainingDatasetEntry.cluster_id)
-  return _internal_cluster_id();
-}
-inline void TrainingDatasetEntry::unsafe_arena_set_allocated_cluster_id(
-    ::classifierpb::ClusterID* PROTOBUF_NULLABLE value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (GetArena() == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.cluster_id_);
-  }
-  _impl_.cluster_id_ = reinterpret_cast<::classifierpb::ClusterID*>(value);
-  if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:classifierpb.TrainingDatasetEntry.cluster_id)
-}
-inline ::classifierpb::ClusterID* PROTOBUF_NULLABLE TrainingDatasetEntry::release_cluster_id() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::classifierpb::ClusterID* released = _impl_.cluster_id_;
-  _impl_.cluster_id_ = nullptr;
-  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
-    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
-    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-    if (GetArena() == nullptr) {
-      delete old;
-    }
-  } else {
-    if (GetArena() != nullptr) {
-      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-    }
-  }
-  return released;
-}
-inline ::classifierpb::ClusterID* PROTOBUF_NULLABLE TrainingDatasetEntry::unsafe_arena_release_cluster_id() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:classifierpb.TrainingDatasetEntry.cluster_id)
-
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::classifierpb::ClusterID* temp = _impl_.cluster_id_;
-  _impl_.cluster_id_ = nullptr;
-  return temp;
-}
-inline ::classifierpb::ClusterID* PROTOBUF_NONNULL TrainingDatasetEntry::_internal_mutable_cluster_id() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.cluster_id_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::classifierpb::ClusterID>(GetArena());
-    _impl_.cluster_id_ = reinterpret_cast<::classifierpb::ClusterID*>(p);
-  }
-  return _impl_.cluster_id_;
-}
-inline ::classifierpb::ClusterID* PROTOBUF_NONNULL TrainingDatasetEntry::mutable_cluster_id()
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  ::classifierpb::ClusterID* _msg = _internal_mutable_cluster_id();
-  // @@protoc_insertion_point(field_mutable:classifierpb.TrainingDatasetEntry.cluster_id)
-  return _msg;
-}
-inline void TrainingDatasetEntry::set_allocated_cluster_id(::classifierpb::ClusterID* PROTOBUF_NULLABLE value) {
-  ::google::protobuf::Arena* message_arena = GetArena();
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (message_arena == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.cluster_id_);
-  }
-
-  if (value != nullptr) {
-    ::google::protobuf::Arena* submessage_arena = value->GetArena();
-    if (message_arena != submessage_arena) {
-      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
-    }
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-
-  _impl_.cluster_id_ = reinterpret_cast<::classifierpb::ClusterID*>(value);
-  // @@protoc_insertion_point(field_set_allocated:classifierpb.TrainingDatasetEntry.cluster_id)
-}
-
 // -------------------------------------------------------------------
 
 // TrainingDataset
@@ -2778,7 +2536,7 @@ TrainingDataset::_internal_mutable_entries() {
 inline void SupportVertexEntry::clear_vertex_id() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.vertex_id_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000002u;
+  _impl_._has_bits_[0] &= ~0x00000001u;
 }
 inline ::int32_t SupportVertexEntry::vertex_id() const {
   // @@protoc_insertion_point(field_get:classifierpb.SupportVertexEntry.vertex_id)
@@ -2786,7 +2544,7 @@ inline ::int32_t SupportVertexEntry::vertex_id() const {
 }
 inline void SupportVertexEntry::set_vertex_id(::int32_t value) {
   _internal_set_vertex_id(value);
-  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_._has_bits_[0] |= 0x00000001u;
   // @@protoc_insertion_point(field_set:classifierpb.SupportVertexEntry.vertex_id)
 }
 inline ::int32_t SupportVertexEntry::_internal_vertex_id() const {
@@ -2798,150 +2556,179 @@ inline void SupportVertexEntry::_internal_set_vertex_id(::int32_t value) {
   _impl_.vertex_id_ = value;
 }
 
-// repeated float coordinates = 2;
-inline int SupportVertexEntry::_internal_coordinates_size() const {
-  return _internal_coordinates().size();
+// repeated float features = 2;
+inline int SupportVertexEntry::_internal_features_size() const {
+  return _internal_features().size();
 }
-inline int SupportVertexEntry::coordinates_size() const {
-  return _internal_coordinates_size();
+inline int SupportVertexEntry::features_size() const {
+  return _internal_features_size();
 }
-inline void SupportVertexEntry::clear_coordinates() {
+inline void SupportVertexEntry::clear_features() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.coordinates_.Clear();
+  _impl_.features_.Clear();
 }
-inline float SupportVertexEntry::coordinates(int index) const {
-  // @@protoc_insertion_point(field_get:classifierpb.SupportVertexEntry.coordinates)
-  return _internal_coordinates().Get(index);
+inline float SupportVertexEntry::features(int index) const {
+  // @@protoc_insertion_point(field_get:classifierpb.SupportVertexEntry.features)
+  return _internal_features().Get(index);
 }
-inline void SupportVertexEntry::set_coordinates(int index, float value) {
-  _internal_mutable_coordinates()->Set(index, value);
-  // @@protoc_insertion_point(field_set:classifierpb.SupportVertexEntry.coordinates)
+inline void SupportVertexEntry::set_features(int index, float value) {
+  _internal_mutable_features()->Set(index, value);
+  // @@protoc_insertion_point(field_set:classifierpb.SupportVertexEntry.features)
 }
-inline void SupportVertexEntry::add_coordinates(float value) {
+inline void SupportVertexEntry::add_features(float value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _internal_mutable_coordinates()->Add(value);
-  // @@protoc_insertion_point(field_add:classifierpb.SupportVertexEntry.coordinates)
+  _internal_mutable_features()->Add(value);
+  // @@protoc_insertion_point(field_add:classifierpb.SupportVertexEntry.features)
 }
-inline const ::google::protobuf::RepeatedField<float>& SupportVertexEntry::coordinates() const
+inline const ::google::protobuf::RepeatedField<float>& SupportVertexEntry::features() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_list:classifierpb.SupportVertexEntry.coordinates)
-  return _internal_coordinates();
+  // @@protoc_insertion_point(field_list:classifierpb.SupportVertexEntry.features)
+  return _internal_features();
 }
-inline ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL SupportVertexEntry::mutable_coordinates()
+inline ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL SupportVertexEntry::mutable_features()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable_list:classifierpb.SupportVertexEntry.coordinates)
+  // @@protoc_insertion_point(field_mutable_list:classifierpb.SupportVertexEntry.features)
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  return _internal_mutable_coordinates();
+  return _internal_mutable_features();
 }
 inline const ::google::protobuf::RepeatedField<float>&
-SupportVertexEntry::_internal_coordinates() const {
+SupportVertexEntry::_internal_features() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.coordinates_;
+  return _impl_.features_;
 }
 inline ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL
-SupportVertexEntry::_internal_mutable_coordinates() {
+SupportVertexEntry::_internal_mutable_features() {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return &_impl_.coordinates_;
+  return &_impl_.features_;
 }
 
-// .classifierpb.ClusterID cluster_id = 3;
-inline bool SupportVertexEntry::has_cluster_id() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  PROTOBUF_ASSUME(!value || _impl_.cluster_id_ != nullptr);
-  return value;
+// int32 class_id_int = 3;
+inline bool SupportVertexEntry::has_class_id_int() const {
+  return class_id_case() == kClassIdInt;
 }
-inline void SupportVertexEntry::clear_cluster_id() {
+inline void SupportVertexEntry::set_has_class_id_int() {
+  _impl_._oneof_case_[0] = kClassIdInt;
+}
+inline void SupportVertexEntry::clear_class_id_int() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.cluster_id_ != nullptr) _impl_.cluster_id_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000001u;
-}
-inline const ::classifierpb::ClusterID& SupportVertexEntry::_internal_cluster_id() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::classifierpb::ClusterID* p = _impl_.cluster_id_;
-  return p != nullptr ? *p : reinterpret_cast<const ::classifierpb::ClusterID&>(::classifierpb::_ClusterID_default_instance_);
-}
-inline const ::classifierpb::ClusterID& SupportVertexEntry::cluster_id() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:classifierpb.SupportVertexEntry.cluster_id)
-  return _internal_cluster_id();
-}
-inline void SupportVertexEntry::unsafe_arena_set_allocated_cluster_id(
-    ::classifierpb::ClusterID* PROTOBUF_NULLABLE value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (GetArena() == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.cluster_id_);
+  if (class_id_case() == kClassIdInt) {
+    _impl_.class_id_.class_id_int_ = 0;
+    clear_has_class_id();
   }
-  _impl_.cluster_id_ = reinterpret_cast<::classifierpb::ClusterID*>(value);
-  if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:classifierpb.SupportVertexEntry.cluster_id)
 }
-inline ::classifierpb::ClusterID* PROTOBUF_NULLABLE SupportVertexEntry::release_cluster_id() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
+inline ::int32_t SupportVertexEntry::class_id_int() const {
+  // @@protoc_insertion_point(field_get:classifierpb.SupportVertexEntry.class_id_int)
+  return _internal_class_id_int();
+}
+inline void SupportVertexEntry::set_class_id_int(::int32_t value) {
+  if (class_id_case() != kClassIdInt) {
+    clear_class_id();
+    set_has_class_id_int();
+  }
+  _impl_.class_id_.class_id_int_ = value;
+  // @@protoc_insertion_point(field_set:classifierpb.SupportVertexEntry.class_id_int)
+}
+inline ::int32_t SupportVertexEntry::_internal_class_id_int() const {
+  if (class_id_case() == kClassIdInt) {
+    return _impl_.class_id_.class_id_int_;
+  }
+  return 0;
+}
 
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::classifierpb::ClusterID* released = _impl_.cluster_id_;
-  _impl_.cluster_id_ = nullptr;
-  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
-    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
-    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-    if (GetArena() == nullptr) {
-      delete old;
-    }
-  } else {
-    if (GetArena() != nullptr) {
-      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-    }
-  }
-  return released;
+// string class_id_str = 4;
+inline bool SupportVertexEntry::has_class_id_str() const {
+  return class_id_case() == kClassIdStr;
 }
-inline ::classifierpb::ClusterID* PROTOBUF_NULLABLE SupportVertexEntry::unsafe_arena_release_cluster_id() {
+inline void SupportVertexEntry::set_has_class_id_str() {
+  _impl_._oneof_case_[0] = kClassIdStr;
+}
+inline void SupportVertexEntry::clear_class_id_str() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:classifierpb.SupportVertexEntry.cluster_id)
-
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::classifierpb::ClusterID* temp = _impl_.cluster_id_;
-  _impl_.cluster_id_ = nullptr;
-  return temp;
-}
-inline ::classifierpb::ClusterID* PROTOBUF_NONNULL SupportVertexEntry::_internal_mutable_cluster_id() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.cluster_id_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::classifierpb::ClusterID>(GetArena());
-    _impl_.cluster_id_ = reinterpret_cast<::classifierpb::ClusterID*>(p);
+  if (class_id_case() == kClassIdStr) {
+    _impl_.class_id_.class_id_str_.Destroy();
+    clear_has_class_id();
   }
-  return _impl_.cluster_id_;
 }
-inline ::classifierpb::ClusterID* PROTOBUF_NONNULL SupportVertexEntry::mutable_cluster_id()
+inline const std::string& SupportVertexEntry::class_id_str() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  ::classifierpb::ClusterID* _msg = _internal_mutable_cluster_id();
-  // @@protoc_insertion_point(field_mutable:classifierpb.SupportVertexEntry.cluster_id)
-  return _msg;
+  // @@protoc_insertion_point(field_get:classifierpb.SupportVertexEntry.class_id_str)
+  return _internal_class_id_str();
 }
-inline void SupportVertexEntry::set_allocated_cluster_id(::classifierpb::ClusterID* PROTOBUF_NULLABLE value) {
-  ::google::protobuf::Arena* message_arena = GetArena();
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void SupportVertexEntry::set_class_id_str(Arg_&& arg, Args_... args) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (message_arena == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.cluster_id_);
-  }
+  if (class_id_case() != kClassIdStr) {
+    clear_class_id();
 
+    set_has_class_id_str();
+    _impl_.class_id_.class_id_str_.InitDefault();
+  }
+  _impl_.class_id_.class_id_str_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:classifierpb.SupportVertexEntry.class_id_str)
+}
+inline std::string* PROTOBUF_NONNULL SupportVertexEntry::mutable_class_id_str()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_class_id_str();
+  // @@protoc_insertion_point(field_mutable:classifierpb.SupportVertexEntry.class_id_str)
+  return _s;
+}
+inline const std::string& SupportVertexEntry::_internal_class_id_str() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  if (class_id_case() != kClassIdStr) {
+    return ::google::protobuf::internal::GetEmptyStringAlreadyInited();
+  }
+  return _impl_.class_id_.class_id_str_.Get();
+}
+inline void SupportVertexEntry::_internal_set_class_id_str(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (class_id_case() != kClassIdStr) {
+    clear_class_id();
+
+    set_has_class_id_str();
+    _impl_.class_id_.class_id_str_.InitDefault();
+  }
+  _impl_.class_id_.class_id_str_.Set(value, GetArena());
+}
+inline std::string* PROTOBUF_NONNULL SupportVertexEntry::_internal_mutable_class_id_str() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (class_id_case() != kClassIdStr) {
+    clear_class_id();
+
+    set_has_class_id_str();
+    _impl_.class_id_.class_id_str_.InitDefault();
+  }
+  return _impl_.class_id_.class_id_str_.Mutable( GetArena());
+}
+inline std::string* PROTOBUF_NULLABLE SupportVertexEntry::release_class_id_str() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:classifierpb.SupportVertexEntry.class_id_str)
+  if (class_id_case() != kClassIdStr) {
+    return nullptr;
+  }
+  clear_has_class_id();
+  return _impl_.class_id_.class_id_str_.Release();
+}
+inline void SupportVertexEntry::set_allocated_class_id_str(std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (has_class_id()) {
+    clear_class_id();
+  }
   if (value != nullptr) {
-    ::google::protobuf::Arena* submessage_arena = value->GetArena();
-    if (message_arena != submessage_arena) {
-      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
-    }
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
+    set_has_class_id_str();
+    _impl_.class_id_.class_id_str_.InitAllocated(value, GetArena());
   }
-
-  _impl_.cluster_id_ = reinterpret_cast<::classifierpb::ClusterID*>(value);
-  // @@protoc_insertion_point(field_set_allocated:classifierpb.SupportVertexEntry.cluster_id)
+  // @@protoc_insertion_point(field_set_allocated:classifierpb.SupportVertexEntry.class_id_str)
 }
 
+inline bool SupportVertexEntry::has_class_id() const {
+  return class_id_case() != CLASS_ID_NOT_SET;
+}
+inline void SupportVertexEntry::clear_has_class_id() {
+  _impl_._oneof_case_[0] = CLASS_ID_NOT_SET;
+}
+inline SupportVertexEntry::ClassIdCase SupportVertexEntry::class_id_case() const {
+  return SupportVertexEntry::ClassIdCase(_impl_._oneof_case_[0]);
+}
 // -------------------------------------------------------------------
 
 // SupportVertices
@@ -3222,50 +3009,50 @@ inline void VertexToLabelEntry::_internal_set_vertex_id(::int32_t value) {
   _impl_.vertex_id_ = value;
 }
 
-// repeated float coordinates = 2;
-inline int VertexToLabelEntry::_internal_coordinates_size() const {
-  return _internal_coordinates().size();
+// repeated float features = 2;
+inline int VertexToLabelEntry::_internal_features_size() const {
+  return _internal_features().size();
 }
-inline int VertexToLabelEntry::coordinates_size() const {
-  return _internal_coordinates_size();
+inline int VertexToLabelEntry::features_size() const {
+  return _internal_features_size();
 }
-inline void VertexToLabelEntry::clear_coordinates() {
+inline void VertexToLabelEntry::clear_features() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.coordinates_.Clear();
+  _impl_.features_.Clear();
 }
-inline float VertexToLabelEntry::coordinates(int index) const {
-  // @@protoc_insertion_point(field_get:classifierpb.VertexToLabelEntry.coordinates)
-  return _internal_coordinates().Get(index);
+inline float VertexToLabelEntry::features(int index) const {
+  // @@protoc_insertion_point(field_get:classifierpb.VertexToLabelEntry.features)
+  return _internal_features().Get(index);
 }
-inline void VertexToLabelEntry::set_coordinates(int index, float value) {
-  _internal_mutable_coordinates()->Set(index, value);
-  // @@protoc_insertion_point(field_set:classifierpb.VertexToLabelEntry.coordinates)
+inline void VertexToLabelEntry::set_features(int index, float value) {
+  _internal_mutable_features()->Set(index, value);
+  // @@protoc_insertion_point(field_set:classifierpb.VertexToLabelEntry.features)
 }
-inline void VertexToLabelEntry::add_coordinates(float value) {
+inline void VertexToLabelEntry::add_features(float value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _internal_mutable_coordinates()->Add(value);
-  // @@protoc_insertion_point(field_add:classifierpb.VertexToLabelEntry.coordinates)
+  _internal_mutable_features()->Add(value);
+  // @@protoc_insertion_point(field_add:classifierpb.VertexToLabelEntry.features)
 }
-inline const ::google::protobuf::RepeatedField<float>& VertexToLabelEntry::coordinates() const
+inline const ::google::protobuf::RepeatedField<float>& VertexToLabelEntry::features() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_list:classifierpb.VertexToLabelEntry.coordinates)
-  return _internal_coordinates();
+  // @@protoc_insertion_point(field_list:classifierpb.VertexToLabelEntry.features)
+  return _internal_features();
 }
-inline ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL VertexToLabelEntry::mutable_coordinates()
+inline ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL VertexToLabelEntry::mutable_features()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable_list:classifierpb.VertexToLabelEntry.coordinates)
+  // @@protoc_insertion_point(field_mutable_list:classifierpb.VertexToLabelEntry.features)
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  return _internal_mutable_coordinates();
+  return _internal_mutable_features();
 }
 inline const ::google::protobuf::RepeatedField<float>&
-VertexToLabelEntry::_internal_coordinates() const {
+VertexToLabelEntry::_internal_features() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.coordinates_;
+  return _impl_.features_;
 }
 inline ::google::protobuf::RepeatedField<float>* PROTOBUF_NONNULL
-VertexToLabelEntry::_internal_mutable_coordinates() {
+VertexToLabelEntry::_internal_mutable_features() {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return &_impl_.coordinates_;
+  return &_impl_.features_;
 }
 
 // -------------------------------------------------------------------
@@ -3330,7 +3117,7 @@ VerticesToLabel::_internal_mutable_entries() {
 inline void LabeledVertexEntry::clear_vertex_id() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.vertex_id_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000002u;
+  _impl_._has_bits_[0] &= ~0x00000001u;
 }
 inline ::int32_t LabeledVertexEntry::vertex_id() const {
   // @@protoc_insertion_point(field_get:classifierpb.LabeledVertexEntry.vertex_id)
@@ -3338,7 +3125,7 @@ inline ::int32_t LabeledVertexEntry::vertex_id() const {
 }
 inline void LabeledVertexEntry::set_vertex_id(::int32_t value) {
   _internal_set_vertex_id(value);
-  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_._has_bits_[0] |= 0x00000001u;
   // @@protoc_insertion_point(field_set:classifierpb.LabeledVertexEntry.vertex_id)
 }
 inline ::int32_t LabeledVertexEntry::_internal_vertex_id() const {
@@ -3350,104 +3137,133 @@ inline void LabeledVertexEntry::_internal_set_vertex_id(::int32_t value) {
   _impl_.vertex_id_ = value;
 }
 
-// .classifierpb.ClusterID cluster_id = 2;
-inline bool LabeledVertexEntry::has_cluster_id() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  PROTOBUF_ASSUME(!value || _impl_.cluster_id_ != nullptr);
-  return value;
+// int32 class_id_int = 2;
+inline bool LabeledVertexEntry::has_class_id_int() const {
+  return class_id_case() == kClassIdInt;
 }
-inline void LabeledVertexEntry::clear_cluster_id() {
+inline void LabeledVertexEntry::set_has_class_id_int() {
+  _impl_._oneof_case_[0] = kClassIdInt;
+}
+inline void LabeledVertexEntry::clear_class_id_int() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.cluster_id_ != nullptr) _impl_.cluster_id_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000001u;
-}
-inline const ::classifierpb::ClusterID& LabeledVertexEntry::_internal_cluster_id() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::classifierpb::ClusterID* p = _impl_.cluster_id_;
-  return p != nullptr ? *p : reinterpret_cast<const ::classifierpb::ClusterID&>(::classifierpb::_ClusterID_default_instance_);
-}
-inline const ::classifierpb::ClusterID& LabeledVertexEntry::cluster_id() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:classifierpb.LabeledVertexEntry.cluster_id)
-  return _internal_cluster_id();
-}
-inline void LabeledVertexEntry::unsafe_arena_set_allocated_cluster_id(
-    ::classifierpb::ClusterID* PROTOBUF_NULLABLE value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (GetArena() == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.cluster_id_);
+  if (class_id_case() == kClassIdInt) {
+    _impl_.class_id_.class_id_int_ = 0;
+    clear_has_class_id();
   }
-  _impl_.cluster_id_ = reinterpret_cast<::classifierpb::ClusterID*>(value);
-  if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:classifierpb.LabeledVertexEntry.cluster_id)
 }
-inline ::classifierpb::ClusterID* PROTOBUF_NULLABLE LabeledVertexEntry::release_cluster_id() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
+inline ::int32_t LabeledVertexEntry::class_id_int() const {
+  // @@protoc_insertion_point(field_get:classifierpb.LabeledVertexEntry.class_id_int)
+  return _internal_class_id_int();
+}
+inline void LabeledVertexEntry::set_class_id_int(::int32_t value) {
+  if (class_id_case() != kClassIdInt) {
+    clear_class_id();
+    set_has_class_id_int();
+  }
+  _impl_.class_id_.class_id_int_ = value;
+  // @@protoc_insertion_point(field_set:classifierpb.LabeledVertexEntry.class_id_int)
+}
+inline ::int32_t LabeledVertexEntry::_internal_class_id_int() const {
+  if (class_id_case() == kClassIdInt) {
+    return _impl_.class_id_.class_id_int_;
+  }
+  return 0;
+}
 
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::classifierpb::ClusterID* released = _impl_.cluster_id_;
-  _impl_.cluster_id_ = nullptr;
-  if (::google::protobuf::internal::DebugHardenForceCopyInRelease()) {
-    auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
-    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-    if (GetArena() == nullptr) {
-      delete old;
-    }
-  } else {
-    if (GetArena() != nullptr) {
-      released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-    }
-  }
-  return released;
+// string class_id_str = 3;
+inline bool LabeledVertexEntry::has_class_id_str() const {
+  return class_id_case() == kClassIdStr;
 }
-inline ::classifierpb::ClusterID* PROTOBUF_NULLABLE LabeledVertexEntry::unsafe_arena_release_cluster_id() {
+inline void LabeledVertexEntry::set_has_class_id_str() {
+  _impl_._oneof_case_[0] = kClassIdStr;
+}
+inline void LabeledVertexEntry::clear_class_id_str() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:classifierpb.LabeledVertexEntry.cluster_id)
-
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::classifierpb::ClusterID* temp = _impl_.cluster_id_;
-  _impl_.cluster_id_ = nullptr;
-  return temp;
-}
-inline ::classifierpb::ClusterID* PROTOBUF_NONNULL LabeledVertexEntry::_internal_mutable_cluster_id() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.cluster_id_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::classifierpb::ClusterID>(GetArena());
-    _impl_.cluster_id_ = reinterpret_cast<::classifierpb::ClusterID*>(p);
+  if (class_id_case() == kClassIdStr) {
+    _impl_.class_id_.class_id_str_.Destroy();
+    clear_has_class_id();
   }
-  return _impl_.cluster_id_;
 }
-inline ::classifierpb::ClusterID* PROTOBUF_NONNULL LabeledVertexEntry::mutable_cluster_id()
+inline const std::string& LabeledVertexEntry::class_id_str() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  ::classifierpb::ClusterID* _msg = _internal_mutable_cluster_id();
-  // @@protoc_insertion_point(field_mutable:classifierpb.LabeledVertexEntry.cluster_id)
-  return _msg;
+  // @@protoc_insertion_point(field_get:classifierpb.LabeledVertexEntry.class_id_str)
+  return _internal_class_id_str();
 }
-inline void LabeledVertexEntry::set_allocated_cluster_id(::classifierpb::ClusterID* PROTOBUF_NULLABLE value) {
-  ::google::protobuf::Arena* message_arena = GetArena();
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void LabeledVertexEntry::set_class_id_str(Arg_&& arg, Args_... args) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (message_arena == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.cluster_id_);
-  }
+  if (class_id_case() != kClassIdStr) {
+    clear_class_id();
 
+    set_has_class_id_str();
+    _impl_.class_id_.class_id_str_.InitDefault();
+  }
+  _impl_.class_id_.class_id_str_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:classifierpb.LabeledVertexEntry.class_id_str)
+}
+inline std::string* PROTOBUF_NONNULL LabeledVertexEntry::mutable_class_id_str()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_class_id_str();
+  // @@protoc_insertion_point(field_mutable:classifierpb.LabeledVertexEntry.class_id_str)
+  return _s;
+}
+inline const std::string& LabeledVertexEntry::_internal_class_id_str() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  if (class_id_case() != kClassIdStr) {
+    return ::google::protobuf::internal::GetEmptyStringAlreadyInited();
+  }
+  return _impl_.class_id_.class_id_str_.Get();
+}
+inline void LabeledVertexEntry::_internal_set_class_id_str(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (class_id_case() != kClassIdStr) {
+    clear_class_id();
+
+    set_has_class_id_str();
+    _impl_.class_id_.class_id_str_.InitDefault();
+  }
+  _impl_.class_id_.class_id_str_.Set(value, GetArena());
+}
+inline std::string* PROTOBUF_NONNULL LabeledVertexEntry::_internal_mutable_class_id_str() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (class_id_case() != kClassIdStr) {
+    clear_class_id();
+
+    set_has_class_id_str();
+    _impl_.class_id_.class_id_str_.InitDefault();
+  }
+  return _impl_.class_id_.class_id_str_.Mutable( GetArena());
+}
+inline std::string* PROTOBUF_NULLABLE LabeledVertexEntry::release_class_id_str() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:classifierpb.LabeledVertexEntry.class_id_str)
+  if (class_id_case() != kClassIdStr) {
+    return nullptr;
+  }
+  clear_has_class_id();
+  return _impl_.class_id_.class_id_str_.Release();
+}
+inline void LabeledVertexEntry::set_allocated_class_id_str(std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (has_class_id()) {
+    clear_class_id();
+  }
   if (value != nullptr) {
-    ::google::protobuf::Arena* submessage_arena = value->GetArena();
-    if (message_arena != submessage_arena) {
-      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
-    }
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
+    set_has_class_id_str();
+    _impl_.class_id_.class_id_str_.InitAllocated(value, GetArena());
   }
-
-  _impl_.cluster_id_ = reinterpret_cast<::classifierpb::ClusterID*>(value);
-  // @@protoc_insertion_point(field_set_allocated:classifierpb.LabeledVertexEntry.cluster_id)
+  // @@protoc_insertion_point(field_set_allocated:classifierpb.LabeledVertexEntry.class_id_str)
 }
 
+inline bool LabeledVertexEntry::has_class_id() const {
+  return class_id_case() != CLASS_ID_NOT_SET;
+}
+inline void LabeledVertexEntry::clear_has_class_id() {
+  _impl_._oneof_case_[0] = CLASS_ID_NOT_SET;
+}
+inline LabeledVertexEntry::ClassIdCase LabeledVertexEntry::class_id_case() const {
+  return LabeledVertexEntry::ClassIdCase(_impl_._oneof_case_[0]);
+}
 // -------------------------------------------------------------------
 
 // LabeledVertices

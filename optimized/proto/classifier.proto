@@ -2,23 +2,18 @@ syntax = "proto3";
 
 package classifierpb;
 
-message ClusterID {
-  // cluster_id can be either an integer or a string.
-  oneof cluster_id {
-    int32 cluster_id_int = 1;
-    string cluster_id_str = 2;
-  }
-}
-
 // ----------------------------
 // Training Dataset Messages
 // ----------------------------
 message TrainingDatasetEntry {
-  // Variable-length coordinates.
-  repeated float coordinates = 1;
+  // Variable-length features.
+  repeated float features = 1;
   
-  // Variable-type cluster_id.
-  ClusterID cluster_id = 2;
+  // class_id can be either an integer or a string.
+  oneof class_id {
+    int32 class_id_int = 2;
+    string class_id_str = 3;
+  }
 }
 
 message TrainingDataset {
@@ -32,11 +27,14 @@ message SupportVertexEntry {
   // Fixed-length vertex_id.
   int32 vertex_id = 1;
   
-  // Variable-length coordinates.
-  repeated float coordinates = 2;
+  // Variable-length features.
+  repeated float features = 2;
   
-  // Variable-type cluster_id.
-  ClusterID cluster_id = 3;
+  // class_id can be either an integer or a string.
+  oneof class_id {
+    int32 class_id_int = 3;
+    string class_id_str = 4;
+  }
 }
 
 message SupportVertices {
@@ -71,8 +69,8 @@ message VertexToLabelEntry {
   // Fixed-length vertex_id.
   int32 vertex_id = 1;
   
-  // Variable-length coordinates.
-  repeated float coordinates = 2;
+  // Variable-length features.
+  repeated float features = 2;
 }
 
 message VerticesToLabel {
@@ -86,8 +84,11 @@ message LabeledVertexEntry {
   // Fixed-length vertex_id.
   int32 vertex_id = 1;
   
-  // variable-type cluster_id.
-  ClusterID cluster_id = 2;
+  // class_id can be either an integer or a string.
+  oneof class_id {
+    int32 class_id_int = 2;
+    string class_id_str = 3;
+  }
 }
 
 message LabeledVertices {

@@ -1,13 +1,13 @@
 include ../../common_mk/flags.mk
 
 # Target executable
-TARGET := train
+TARGET = train
 
 # Source files
-SRCS := train.cpp computeExperts.cpp ../Common/*.cpp
+SRCS = train.cpp computeExperts.cpp ../Common/*.cpp
 
 # Include directories
-INCS := -I../Common -I~/protobuf/src
+INCS = -I../Common -I~/protobuf/src/google/protobuf
 
 include ../../common_mk/files.mk
 

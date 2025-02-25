@@ -24,33 +24,31 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10\x63lassifier.proto\x12\x0c\x63lassifierpb\"M\n\tClusterID\x12\x18\n\x0e\x63luster_id_int\x18\x01 \x01(\x05H\x00\x12\x18\n\x0e\x63luster_id_str\x18\x02 \x01(\tH\x00\x42\x0c\n\ncluster_id\"X\n\x14TrainingDatasetEntry\x12\x13\n\x0b\x63oordinates\x18\x01 \x03(\x02\x12+\n\ncluster_id\x18\x02 \x01(\x0b\x32\x17.classifierpb.ClusterID\"F\n\x0fTrainingDataset\x12\x33\n\x07\x65ntries\x18\x01 \x03(\x0b\x32\".classifierpb.TrainingDatasetEntry\"i\n\x12SupportVertexEntry\x12\x11\n\tvertex_id\x18\x01 \x01(\x05\x12\x13\n\x0b\x63oordinates\x18\x02 \x03(\x02\x12+\n\ncluster_id\x18\x03 \x01(\x0b\x32\x17.classifierpb.ClusterID\"D\n\x0fSupportVertices\x12\x31\n\x07\x65ntries\x18\x01 \x03(\x0b\x32 .classifierpb.SupportVertexEntry\"a\n\x0b\x45xpertEntry\x12\x11\n\texpert_id\x18\x01 \x01(\x05\x12\x1c\n\x14midpoint_coordinates\x18\x02 \x03(\x02\x12\x13\n\x0b\x64ifferences\x18\x03 \x03(\x02\x12\x0c\n\x04\x62ias\x18\x04 \x01(\x02\"5\n\x07\x45xperts\x12*\n\x07\x65ntries\x18\x01 \x03(\x0b\x32\x19.classifierpb.ExpertEntry\"<\n\x12VertexToLabelEntry\x12\x11\n\tvertex_id\x18\x01 \x01(\x05\x12\x13\n\x0b\x63oordinates\x18\x02 \x03(\x02\"D\n\x0fVerticesToLabel\x12\x31\n\x07\x65ntries\x18\x01 \x03(\x0b\x32 .classifierpb.VertexToLabelEntry\"T\n\x12LabeledVertexEntry\x12\x11\n\tvertex_id\x18\x01 \x01(\x05\x12+\n\ncluster_id\x18\x02 \x01(\x0b\x32\x17.classifierpb.ClusterID\"D\n\x0fLabeledVertices\x12\x31\n\x07\x65ntries\x18\x01 \x03(\x0b\x32 .classifierpb.LabeledVertexEntryb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10\x63lassifier.proto\x12\x0c\x63lassifierpb\"d\n\x14TrainingDatasetEntry\x12\x10\n\x08\x66\x65\x61tures\x18\x01 \x03(\x02\x12\x16\n\x0c\x63lass_id_int\x18\x02 \x01(\x05H\x00\x12\x16\n\x0c\x63lass_id_str\x18\x03 \x01(\tH\x00\x42\n\n\x08\x63lass_id\"F\n\x0fTrainingDataset\x12\x33\n\x07\x65ntries\x18\x01 \x03(\x0b\x32\".classifierpb.TrainingDatasetEntry\"u\n\x12SupportVertexEntry\x12\x11\n\tvertex_id\x18\x01 \x01(\x05\x12\x10\n\x08\x66\x65\x61tures\x18\x02 \x03(\x02\x12\x16\n\x0c\x63lass_id_int\x18\x03 \x01(\x05H\x00\x12\x16\n\x0c\x63lass_id_str\x18\x04 \x01(\tH\x00\x42\n\n\x08\x63lass_id\"D\n\x0fSupportVertices\x12\x31\n\x07\x65ntries\x18\x01 \x03(\x0b\x32 .classifierpb.SupportVertexEntry\"a\n\x0b\x45xpertEntry\x12\x11\n\texpert_id\x18\x01 \x01(\x05\x12\x1c\n\x14midpoint_coordinates\x18\x02 \x03(\x02\x12\x13\n\x0b\x64ifferences\x18\x03 \x03(\x02\x12\x0c\n\x04\x62ias\x18\x04 \x01(\x02\"5\n\x07\x45xperts\x12*\n\x07\x65ntries\x18\x01 \x03(\x0b\x32\x19.classifierpb.ExpertEntry\"9\n\x12VertexToLabelEntry\x12\x11\n\tvertex_id\x18\x01 \x01(\x05\x12\x10\n\x08\x66\x65\x61tures\x18\x02 \x03(\x02\"D\n\x0fVerticesToLabel\x12\x31\n\x07\x65ntries\x18\x01 \x03(\x0b\x32 .classifierpb.VertexToLabelEntry\"c\n\x12LabeledVertexEntry\x12\x11\n\tvertex_id\x18\x01 \x01(\x05\x12\x16\n\x0c\x63lass_id_int\x18\x02 \x01(\x05H\x00\x12\x16\n\x0c\x63lass_id_str\x18\x03 \x01(\tH\x00\x42\n\n\x08\x63lass_id\"D\n\x0fLabeledVertices\x12\x31\n\x07\x65ntries\x18\x01 \x03(\x0b\x32 .classifierpb.LabeledVertexEntryb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'classifier_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_CLUSTERID']._serialized_start=34
-  _globals['_CLUSTERID']._serialized_end=111
-  _globals['_TRAININGDATASETENTRY']._serialized_start=113
-  _globals['_TRAININGDATASETENTRY']._serialized_end=201
-  _globals['_TRAININGDATASET']._serialized_start=203
-  _globals['_TRAININGDATASET']._serialized_end=273
-  _globals['_SUPPORTVERTEXENTRY']._serialized_start=275
-  _globals['_SUPPORTVERTEXENTRY']._serialized_end=380
-  _globals['_SUPPORTVERTICES']._serialized_start=382
-  _globals['_SUPPORTVERTICES']._serialized_end=450
-  _globals['_EXPERTENTRY']._serialized_start=452
-  _globals['_EXPERTENTRY']._serialized_end=549
-  _globals['_EXPERTS']._serialized_start=551
-  _globals['_EXPERTS']._serialized_end=604
-  _globals['_VERTEXTOLABELENTRY']._serialized_start=606
-  _globals['_VERTEXTOLABELENTRY']._serialized_end=666
-  _globals['_VERTICESTOLABEL']._serialized_start=668
-  _globals['_VERTICESTOLABEL']._serialized_end=736
-  _globals['_LABELEDVERTEXENTRY']._serialized_start=738
-  _globals['_LABELEDVERTEXENTRY']._serialized_end=822
-  _globals['_LABELEDVERTICES']._serialized_start=824
-  _globals['_LABELEDVERTICES']._serialized_end=892
+  _globals['_TRAININGDATASETENTRY']._serialized_start=34
+  _globals['_TRAININGDATASETENTRY']._serialized_end=134
+  _globals['_TRAININGDATASET']._serialized_start=136
+  _globals['_TRAININGDATASET']._serialized_end=206
+  _globals['_SUPPORTVERTEXENTRY']._serialized_start=208
+  _globals['_SUPPORTVERTEXENTRY']._serialized_end=325
+  _globals['_SUPPORTVERTICES']._serialized_start=327
+  _globals['_SUPPORTVERTICES']._serialized_end=395
+  _globals['_EXPERTENTRY']._serialized_start=397
+  _globals['_EXPERTENTRY']._serialized_end=494
+  _globals['_EXPERTS']._serialized_start=496
+  _globals['_EXPERTS']._serialized_end=549
+  _globals['_VERTEXTOLABELENTRY']._serialized_start=551
+  _globals['_VERTEXTOLABELENTRY']._serialized_end=608
+  _globals['_VERTICESTOLABEL']._serialized_start=610
+  _globals['_VERTICESTOLABEL']._serialized_end=678
+  _globals['_LABELEDVERTEXENTRY']._serialized_start=680
+  _globals['_LABELEDVERTEXENTRY']._serialized_end=779
+  _globals['_LABELEDVERTICES']._serialized_start=781
+  _globals['_LABELEDVERTICES']._serialized_end=849
 # @@protoc_insertion_point(module_scope)

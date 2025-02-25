@@ -1,13 +1,13 @@
 include ../../common_mk/flags.mk
 
 # Target executable
-TARGET := gabrielGraph
+TARGET = gabrielGraph
 
 # Source files
-SRCS := gabrielGraph.cpp ../Common/stringHelpers.cpp ../Common/writeFiles.cpp ../Common/printLoadedData.cpp ../Common/readFiles.cpp ../Common/graphTypes.cpp ../Common/squaredDistance.cpp computeGabrielGraph.cpp
+SRCS = gabrielGraph.cpp ../Common/stringHelpers.cpp ../Common/writeFiles.cpp ../Common/printLoadedData.cpp ../Common/readFiles.cpp ../Common/graphTypes.cpp ../Common/squaredDistance.cpp computeGabrielGraph.cpp
 
 # Include directories
-INCS := -I../Common
+INCS = -I../Common
 
 include ../../common_mk/files.mk
 

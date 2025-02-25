@@ -72,16 +72,6 @@
     "stdfloat": "cpp",
     "thread": "cpp",
     "list": "cpp",
-    "format": "cpp",
-    "csignal": "cpp",
-    "any": "cpp",
-    "bitset": "cpp",
-    "chrono": "cpp",
-    "codecvt": "cpp",
-    "forward_list": "cpp",
-    "regex": "cpp",
-    "future": "cpp",
-    "scoped_allocator": "cpp",
-    "valarray": "cpp"
+    "format": "cpp"
   }
 }

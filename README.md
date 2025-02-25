@@ -5,8 +5,3 @@ However, by the time of writing this, the latest `protobuf` python stable is `5.
 - compile the proto file: `@evaluate $ ./compile_py.sh`
 - activate the virtual environment: `@evaluate $ source myenv/bin/activate`
 - from there, run the scripts
-
-## EXTERNAL INCLUDES
-
-- abseil-cpp: https://github.com/abseil/abseil-cpp.git
-- google/protobuf: https://github.com/protocolbuffers/protobuf.git

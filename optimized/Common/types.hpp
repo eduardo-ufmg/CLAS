@@ -4,7 +4,6 @@
 #include <vector>
 #include <variant>
 #include <string>
-#include <map>
 
 class Vertex;
 class Cluster;
@@ -51,7 +50,7 @@ public:
   void computeTreshold(const float tolerance);
 };
 
-using Clusters = std::map<ClusterID, Cluster>;
+using Clusters = std::vector<Cluster>;
 
 using Edge = std::pair<const Vertex * const, const Vertex * const>;
 using ExpertID = int;

@@ -1,19 +1,10 @@
 include ../../common_mk/flags.mk
 
-# Target executable
-TARGET := test
-
-.SUFFIXES:
-
 # Source files
-SRCS := $(wildcard *.cpp)
-SRCS += "classifier.pb.cc"
-
-make_debug:
-	echo $(SRCS)
+SRCS = *.cpp
 
 # Include directories
-INCS := -I../Common -I$${HOME}/protobuf/src -I$${HOME}/abseil-cpp
+INCS = -I../Common -I~/protobuf/src/google/protobuf
 
 include ../../common_mk/files.mk
 
