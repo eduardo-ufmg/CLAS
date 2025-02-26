@@ -3,17 +3,25 @@ syntax = "proto3";
 package classifierpb;
 
 // ----------------------------
+// Variable-type cluster id.
+// ----------------------------
+message ClusterID {
+  // cluster_id can be either an integer or a string.
+  oneof cluster_id {
+    int32 cluster_id_int = 1;
+    string cluster_id_str = 2;
+  }
+}
+
+// ----------------------------
 // Training Dataset Messages
 // ----------------------------
 message TrainingDatasetEntry {
   // Variable-length features.
   repeated float features = 1;
   
-  // class_id can be either an integer or a string.
-  oneof class_id {
-    int32 class_id_int = 2;
-    string class_id_str = 3;
-  }
+  // cluster_id can be either an integer or a string.
+  ClusterID cluster_id = 2;
 }
 
 message TrainingDataset {
@@ -30,11 +38,8 @@ message SupportVertexEntry {
   // Variable-length features.
   repeated float features = 2;
   
-  // class_id can be either an integer or a string.
-  oneof class_id {
-    int32 class_id_int = 3;
-    string class_id_str = 4;
-  }
+  // cluster_id can be either an integer or a string.
+  ClusterID cluster_id = 3;
 }
 
 message SupportVertices {
@@ -84,11 +89,8 @@ message LabeledVertexEntry {
   // Fixed-length vertex_id.
   int32 vertex_id = 1;
   
-  // class_id can be either an integer or a string.
-  oneof class_id {
-    int32 class_id_int = 2;
-    string class_id_str = 3;
-  }
+  // cluster_id can be either an integer or a string.
+  ClusterID cluster_id = 2;
 }
 
 message LabeledVertices {
