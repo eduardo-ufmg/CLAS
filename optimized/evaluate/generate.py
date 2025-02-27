@@ -1,5 +1,6 @@
 import random
-import sys
+import argparse
+import pathlib
 from classifier_pb2 import TrainingDataset, TrainingDatasetEntry, VerticesToLabel, VertexToLabelEntry
 
 def generate_synthetic_data(spread, tlspread, vertcount):
@@ -10,7 +11,7 @@ def generate_synthetic_data(spread, tlspread, vertcount):
   for _ in range(vertcount):
     entry = TrainingDatasetEntry()
     entry.features.extend([random.uniform(-spread, spread) for _ in range(2)])
-    entry.cluster_id.cluster_id_int = random.randint(0, 1)
+    entry.cluster_id.cluster_id_int = [-1, 1][random.randint(0, 1)]
     synthetic_dataset.entries.append(entry)
 
   # Generate tolabel dataset
@@ -30,13 +31,12 @@ def write_datasets(synthetic_dataset, tolabel_dataset):
     f.write(tolabel_dataset.SerializeToString())
 
 if __name__ == "__main__":
-  if len(sys.argv) != 4:
-    print("Usage: generate.py <spread> <tlspread> <vertcount>")
-    sys.exit(1)
+  parser = argparse.ArgumentParser(description="Generate synthetic datasets for graph-based classifier.")
+  parser.add_argument("--spread", type=float, help="Spread for synthetic dataset features")
+  parser.add_argument("--tlspread", type=float, help="Spread for tolabel dataset features")
+  parser.add_argument("--vertcount", type=int, help="Number of vertices")
 
-  spread = float(sys.argv[1])
-  tlspread = float(sys.argv[2])
-  vertcount = int(sys.argv[3])
+  args = parser.parse_args()
 
-  synthetic_dataset, tolabel_dataset = generate_synthetic_data(spread, tlspread, vertcount)
+  synthetic_dataset, tolabel_dataset = generate_synthetic_data(args.spread, args.tlspread, args.vertcount)
   write_datasets(synthetic_dataset, tolabel_dataset)

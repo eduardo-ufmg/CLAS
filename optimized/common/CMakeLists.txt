@@ -4,6 +4,13 @@ project(CommonLib)
 # Find Protobuf
 find_package(Protobuf REQUIRED)
 
+# Add an option to enable debug output
+option(DEBUG "Enable debug output" OFF)
+
+if(DEBUG)
+    add_definitions(-DDEBUG=1)
+endif()
+
 # List all the source files (headers need not be compiled, but can be added for IDE organization)
 set(COMMON_SOURCES
     classifier.pb.cc

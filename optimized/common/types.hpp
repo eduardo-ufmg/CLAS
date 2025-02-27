@@ -4,6 +4,7 @@
 #include <vector>
 #include <variant>
 #include <string>
+#include <memory>
 #include <map>
 
 class Vertex;
@@ -20,11 +21,11 @@ public:
   const VertexID id;
   const Coordinates coordinates;
 
-  const Cluster * cluster;
+  std::shared_ptr<Cluster> cluster;
   AdjacencyList adjacencyList;
   float quality;
 
-  Vertex(const VertexID id, const Coordinates coordinates, const Cluster * const cluster = nullptr);
+  Vertex(const VertexID id, const Coordinates coordinates, std::shared_ptr<Cluster> cluster = nullptr);
 };
 
 using Vertices = std::vector<Vertex>;
@@ -51,7 +52,7 @@ public:
   void computeTreshold(const float tolerance);
 };
 
-using Clusters = std::map<ClusterID, Cluster>;
+using Clusters = std::map<ClusterID, std::shared_ptr<Cluster>>;
 
 using Edge = std::pair<const Vertex * const, const Vertex * const>;
 using ExpertID = int;

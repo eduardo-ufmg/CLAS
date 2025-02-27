@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Vertex::Vertex(const VertexID id, const Coordinates coordinates, const Cluster * const cluster)
+Vertex::Vertex(const VertexID id, const Coordinates coordinates, std::shared_ptr<Cluster> cluster)
   : id(id), coordinates(coordinates), cluster(cluster), quality(0.0f)
 {}
 

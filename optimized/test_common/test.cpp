@@ -7,7 +7,11 @@ using namespace std;
 
 int main()
 {
-  Vertices vertices = readDataset("../../data/synthetic");
+  Vertices vertices = readDataset("../../data/synthetic/synthetic");
+
+  #if DEBUG
+  cout << "DEBUG: READ_DATASET OK" << endl;
+  #endif
 
   for (const Vertex& vertex : vertices) {
     cout << "Vertex " << vertex.id << " in cluster " << vertex.cluster->id << " has coordinates: ";
