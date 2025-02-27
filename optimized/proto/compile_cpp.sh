@@ -1,3 +1,3 @@
 #!/bin/bash
 
-protoc --cpp_out=../Common/ classifier.proto
+protoc --cpp_out=../common/ classifier.proto
