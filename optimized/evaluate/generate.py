@@ -10,7 +10,7 @@ def generate_synthetic_data(spread, tlspread, vertcount):
   for _ in range(vertcount):
     entry = TrainingDatasetEntry()
     entry.features.extend([random.uniform(-spread, spread) for _ in range(2)])
-    entry.class_id_int = random.randint(0, 1)
+    entry.cluster_id.cluster_id_int = random.randint(0, 1)
     synthetic_dataset.entries.append(entry)
 
   # Generate tolabel dataset

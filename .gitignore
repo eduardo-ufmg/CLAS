@@ -36,7 +36,8 @@
 
 # output files
 **/output/
-data/synthetic/
+**/data/synthetic/
+**/build/
 
 # Virtual environment
-optimized/evaluate/myenv/
+optimized/evaluate/venv_evaluate/
