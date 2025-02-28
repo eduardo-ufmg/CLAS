@@ -5,6 +5,7 @@
 #include "readFiles.hpp"
 #include "gabrielGraph.hpp"
 #include "filter.hpp"
+#include "computeSVs.hpp"
 
 const float DEFAULT_TOLERANCE = 0.5f;
 
@@ -37,6 +38,11 @@ int main(int argc, char **argv)
   cout << "After Filter:" << endl;
   printVertexQuantity(vertices);
   printClusterStats(vertices);
+
+  const Vertices supportVertices = computeSVs(vertices);
+
+  cout << "Support Vertices:" << endl;
+  printVertices(supportVertices);
 
   return 0;
 }

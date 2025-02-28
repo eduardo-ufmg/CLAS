@@ -34,6 +34,10 @@ void filter(Vertices& vertices, const float tolerance)
                              return vertex.quality < vertex.cluster->treshold;
                            }),
                  vertices.end());
+
+  for (auto& vertex : vertices) {
+    vertex.adjacencyList.clear();
+  }
 }
 
 size_t countSameClusterAdjacents(const Vertex& vertex)

@@ -2,45 +2,26 @@
 
 using namespace std;
 
+void printVerticesFromTo(const Vertices& vertices, size_t from, size_t to);
+
+void printVertices(const Vertices& vertices)
+{
+  printVerticesFromTo(vertices, 0, vertices.size());
+}
+
 void printVertices(const Vertices& vertices, size_t limitPerSegment)
 {
   size_t counter = 0;
 
-  auto printFromTo = [](size_t from, size_t to, const Vertices& vertices) {
-    for (size_t i = from; i < to; ++i) {
-      const auto& vertex = vertices[i];
-      cout << vertex.id << " ";
-
-      if (vertex.cluster) {
-        cout << "(" << vertex.cluster->id << ") ";
-      }
-
-      for (const auto& c : vertex.coordinates) {
-        cout << c << " ";
-      }
-
-      if (!vertex.adjacencyList.empty()) {
-        cout << "|";
-
-        for (const auto& adj : vertex.adjacencyList) {
-          cout << " (" << adj.first->id << " - " << adj.second << ")";
-        }
-
-      }
-
-      cout << endl;
-    }
-  };
-
   limitPerSegment = min(limitPerSegment, vertices.size());
 
-  printFromTo(0, limitPerSegment, vertices);
+  printVerticesFromTo(vertices, 0, limitPerSegment);
 
   size_t half = vertices.size() / 2;
 
-  printFromTo(half, half + limitPerSegment, vertices);
+  printVerticesFromTo(vertices, half, half + limitPerSegment);
 
-  printFromTo(vertices.size() - limitPerSegment, vertices.size(), vertices);
+  printVerticesFromTo(vertices, vertices.size() - limitPerSegment, vertices.size());
 }
 
 void printVertexQuantity(const Vertices& vertices)
@@ -65,3 +46,31 @@ void printClusterStats(const Vertices& vertices)
     cout << "  treshold: " << cluster->treshold << '\n';
   }
 }
+
+void printVerticesFromTo(const Vertices& vertices, size_t from, size_t to)
+{
+  for (size_t i = from; i < to; ++i) {
+    const auto& vertex = vertices[i];
+    cout << vertex.id << " ";
+
+    if (vertex.cluster) {
+      cout << "(" << vertex.cluster->id << ") ";
+    }
+
+    for (const auto& c : vertex.coordinates) {
+      cout << c << " ";
+    }
+
+    if (!vertex.adjacencyList.empty()) {
+      cout << "|";
+
+      for (const auto& adj : vertex.adjacencyList) {
+        cout << " (" << adj.first->id << " - " << adj.second << ")";
+      }
+
+    }
+
+    cout << endl;
+  }
+}
+
