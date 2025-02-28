@@ -18,8 +18,8 @@ using AdjacencyList = std::vector<AdjacentVertex>;
 class Vertex
 {
 public:
-  const VertexID id;
-  const Coordinates coordinates;
+  VertexID id;
+  Coordinates coordinates;
 
   std::shared_ptr<Cluster> cluster;
   AdjacencyList adjacencyList;
