@@ -10,14 +10,32 @@
 
 using namespace std;
 
-ifstream openFile(const string& filename);
+ifstream openFileRead(const string& filename);
 ClusterID parseCID(const classifierpb::ClusterID& cid);
+
+const string filenameFromPath(const string& path)
+{
+  const size_t last_slash_idx = path.find_last_of("\\/");
+  if (string::npos == last_slash_idx) {
+    return path;
+  }
+  return path.substr(last_slash_idx + 1);
+}
+
+const string filenameNoExtension(const string& filename)
+{
+  const size_t period_idx = filename.rfind('.');
+  if (string::npos == period_idx) {
+    return filename;
+  }
+  return filename.substr(0, period_idx);
+}
 
 Vertices readDataset(const string& filename)
 {
   classifierpb::TrainingDataset dataset;
   
-  ifstream file = openFile(filename);
+  ifstream file = openFileRead(filename);
 
   if (!dataset.ParseFromIstream(&file)) {
 
@@ -74,7 +92,7 @@ Vertices readDataset(const string& filename)
   return vertices;
 }
 
-ifstream openFile(const string& filename)
+ifstream openFileRead(const string& filename)
 {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 

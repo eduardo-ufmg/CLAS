@@ -7,14 +7,12 @@
 #include "filter.hpp"
 #include "computeSVs.hpp"
 
-const float DEFAULT_TOLERANCE = 0.5f;
-
 using namespace std;
 
 int main(int argc, char **argv)
 {
 
-  float tolerance = DEFAULT_TOLERANCE;
+  float tolerance = ns_filter::DEFAULT_TOLERANCE;
 
   if (argc > 1) {
     tolerance = stof(argv[1]);

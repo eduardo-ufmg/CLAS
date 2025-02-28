@@ -3,6 +3,10 @@
 
 #include "types.hpp"
 
+namespace ns_filter {
+  const float DEFAULT_TOLERANCE = 1.0f;
+}
+
 void filter(Vertices& vertices, const float tolerance);
 
 #endif // FILTER_HPP
