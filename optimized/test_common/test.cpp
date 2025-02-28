@@ -1,7 +1,10 @@
 #include <iostream>
 
 #include "types.hpp"
+#include "printContainers.hpp"
 #include "readFiles.hpp"
+#include "gabrielGraph.hpp"
+
 
 using namespace std;
 
@@ -13,15 +16,11 @@ int main()
   cout << "DEBUG: READ_DATASET OK" << endl;
   #endif
 
-  for (const Vertex& vertex : vertices) {
-    cout << "Vertex " << vertex.id << " in cluster " << vertex.cluster->id << " has coordinates: ";
+  printVertices(vertices, 5);
 
-    for (const float& coord : vertex.coordinates) {
-      cout << coord << " ";
-    }
+  computeGabrielGraph(vertices);
 
-    cout << endl;
-  }
+  printVertices(vertices, 5);
 
   return 0;
 }

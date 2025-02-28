@@ -5,7 +5,7 @@ project(test_common)
 add_subdirectory(../common ${CMAKE_CURRENT_BINARY_DIR}/common)
 
 # Create the test executable
-add_executable(test test.cpp)
+add_executable(test test.cpp printContainers.cpp)
 
 # Link the common library and propagate its settings (includes, Protobuf, etc.)
 target_link_libraries(test PRIVATE common)
