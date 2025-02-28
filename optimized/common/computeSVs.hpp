@@ -1,3 +1,8 @@
-// so i don't forget: i want these because nn don't needs the entire gabriel graph after filtering,
-// as it only needs the support vertices and thus i can only check for edges between vertices that
-// are from different clusters
+#ifndef COMPUTESVS_HPP
+#define COMPUTESVS_HPP
+
+#include "types.hpp"
+
+const Vertices computeSVs(const Vertices& vertices);
+
+#endif // COMPUTESVS_HPP

@@ -17,6 +17,7 @@ set(COMMON_SOURCES
     computeSVs.cpp
     filter.cpp
     gabrielGraph.cpp
+    isgabrielEdge.cpp
     readFiles.cpp
     squaredDistance.cpp
     types.cpp

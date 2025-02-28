@@ -5,6 +5,7 @@
 #include <stdexcept>
 
 #include "squaredDistance.hpp"
+#include "isgabrielEdge.hpp"
 
 using namespace std;
 
@@ -14,33 +15,20 @@ void computeGabrielGraph(Vertices &vertices)
 
   for (size_t i = 0; i < vertexqtty; ++ i) {
     for (size_t j = i + 1; j < vertexqtty; ++ j) {
+
+      Vertex& vi = vertices[i];
+      Vertex& vj = vertices[j];
       
-      const float distancesq = squaredDistance(vertices[i].coordinates, vertices[j].coordinates);
+      bool isGE = isGabrielEdge(vertices, vi, vj, vertexqtty);
 
-      bool isGabrielEdge = true;
-
-      for (size_t k = 0; k < vertexqtty; ++ k) {
-        if (k == i || k == j) {
-          continue;
-        }
-
-        const float distancesq1 = squaredDistance(vertices[i].coordinates, vertices[k].coordinates);
-        const float distancesq2 = squaredDistance(vertices[j].coordinates, vertices[k].coordinates);
-
-        if (distancesq > distancesq1 + distancesq2) {
-          isGabrielEdge = false;
-          break;
-        }
-      }
-
-      if (isGabrielEdge) {
-        const ClusterID viCid = vertices[i].cluster->id;
-        const ClusterID vjCid = vertices[j].cluster->id;
+      if (isGE) {
+        const ClusterID viCid = vi.cluster->id;
+        const ClusterID vjCid = vj.cluster->id;
 
         bool isSE = viCid != vjCid;
 
-        vertices[i].adjacencyList.push_back({&vertices[j], isSE});
-        vertices[j].adjacencyList.push_back({&vertices[i], isSE});
+        vi.adjacencyList.push_back({&vj, isSE});
+        vj.adjacencyList.push_back({&vi, isSE});
       }
 
     }
