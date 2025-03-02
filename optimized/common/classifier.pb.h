@@ -1788,10 +1788,33 @@ class LabeledVertexEntry final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kClusterIdFieldNumber = 2,
+    kFeaturesFieldNumber = 2,
+    kClusterIdFieldNumber = 3,
     kVertexIdFieldNumber = 1,
   };
-  // .classifierpb.ClusterID cluster_id = 2;
+  // repeated float features = 2;
+  int features_size() const;
+  private:
+  int _internal_features_size() const;
+  public:
+  void clear_features();
+  private:
+  float _internal_features(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+      _internal_features() const;
+  void _internal_add_features(float value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+      _internal_mutable_features();
+  public:
+  float features(int index) const;
+  void set_features(int index, float value);
+  void add_features(float value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+      features() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+      mutable_features();
+
+  // .classifierpb.ClusterID cluster_id = 3;
   bool has_cluster_id() const;
   private:
   bool _internal_has_cluster_id() const;
@@ -1826,6 +1849,7 @@ class LabeledVertexEntry final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > features_;
     ::classifierpb::ClusterID* cluster_id_;
     int32_t vertex_id_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -2836,7 +2860,54 @@ inline void LabeledVertexEntry::set_vertex_id(int32_t value) {
   // @@protoc_insertion_point(field_set:classifierpb.LabeledVertexEntry.vertex_id)
 }
 
-// .classifierpb.ClusterID cluster_id = 2;
+// repeated float features = 2;
+inline int LabeledVertexEntry::_internal_features_size() const {
+  return _impl_.features_.size();
+}
+inline int LabeledVertexEntry::features_size() const {
+  return _internal_features_size();
+}
+inline void LabeledVertexEntry::clear_features() {
+  _impl_.features_.Clear();
+}
+inline float LabeledVertexEntry::_internal_features(int index) const {
+  return _impl_.features_.Get(index);
+}
+inline float LabeledVertexEntry::features(int index) const {
+  // @@protoc_insertion_point(field_get:classifierpb.LabeledVertexEntry.features)
+  return _internal_features(index);
+}
+inline void LabeledVertexEntry::set_features(int index, float value) {
+  _impl_.features_.Set(index, value);
+  // @@protoc_insertion_point(field_set:classifierpb.LabeledVertexEntry.features)
+}
+inline void LabeledVertexEntry::_internal_add_features(float value) {
+  _impl_.features_.Add(value);
+}
+inline void LabeledVertexEntry::add_features(float value) {
+  _internal_add_features(value);
+  // @@protoc_insertion_point(field_add:classifierpb.LabeledVertexEntry.features)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+LabeledVertexEntry::_internal_features() const {
+  return _impl_.features_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+LabeledVertexEntry::features() const {
+  // @@protoc_insertion_point(field_list:classifierpb.LabeledVertexEntry.features)
+  return _internal_features();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+LabeledVertexEntry::_internal_mutable_features() {
+  return &_impl_.features_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
+LabeledVertexEntry::mutable_features() {
+  // @@protoc_insertion_point(field_mutable_list:classifierpb.LabeledVertexEntry.features)
+  return _internal_mutable_features();
+}
+
+// .classifierpb.ClusterID cluster_id = 3;
 inline bool LabeledVertexEntry::_internal_has_cluster_id() const {
   return this != internal_default_instance() && _impl_.cluster_id_ != nullptr;
 }

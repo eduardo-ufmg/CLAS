@@ -57,6 +57,61 @@
       "detail": "Generated task for building nn/train with CMake"
     },
     {
+      "label": "debug nn label",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-DCMAKE_BUILD_TYPE=Debug",
+        ".."
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/nn/label"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"],
+      "detail": "Generated task for building nn/label with CMake"
+    },
+    {
+      "label": "build nn label debug",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "."
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/nn/label"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"],
+      "dependsOn": "debug nn label",
+      "detail": "Generated task for building nn/label with CMake"
+    },
+    {
+      "label": "release nn label",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        ".."
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/nn/label"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"],
+      "detail": "Generated task for building nn/label with CMake"
+    },
+    {
       "label": "build nn train release",
       "type": "shell",
       "command": "cmake",
@@ -74,6 +129,25 @@
       "problemMatcher": ["$gcc"],
       "dependsOn": "release nn train",
       "detail": "Generated task for building nn/train with CMake"
+    },
+    {
+      "label": "build nn label release",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "."
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/nn/label"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"],
+      "dependsOn": "release nn label",
+      "detail": "Generated task for building nn/label with CMake"
     }
   ]
 }

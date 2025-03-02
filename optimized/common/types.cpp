@@ -6,8 +6,12 @@
 
 using namespace std;
 
+BaseVertex::BaseVertex(const VertexID id, const Coordinates coordinates)
+  : id(id), coordinates(coordinates)
+{}
+
 Vertex::Vertex(const VertexID id, const Coordinates coordinates, std::shared_ptr<Cluster> cluster)
-  : id(id), coordinates(coordinates), cluster(cluster), quality(0.0f)
+  : BaseVertex(id, coordinates), cluster(cluster), quality(0.0f)
 {}
 
 Cluster::Cluster(const ClusterID id)
@@ -101,6 +105,14 @@ Expert::Expert(const ExpertID id, const Edge edge)
   bias(computeBias(midpoint, differences))
 {}
 
-SupportVertex::SupportVertex(const VertexID id, const Coordinates coordinates, const ClusterID cluster_id)
-  : id(id), coordinates(coordinates), cluster_id(cluster_id)
+SupportVertex::SupportVertex(const VertexID id, const Coordinates coordinates, const ClusterID clusterid)
+  : BaseVertex(id, coordinates), clusterid(clusterid)
+{}
+
+VertexToLabel::VertexToLabel(const VertexID id, const Coordinates coordinates)
+  : BaseVertex(id, coordinates)
+{}
+
+LabeledVertex::LabeledVertex(const VertexID id, const Coordinates coordinates, const ClusterID clusterid)
+  : BaseVertex(id, coordinates), clusterid(clusterid)
 {}

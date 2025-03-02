@@ -88,9 +88,12 @@ message VerticesToLabel {
 message LabeledVertexEntry {
   // Fixed-length vertex_id.
   int32 vertex_id = 1;
+
+  // Variable-length features.
+  repeated float features = 2;
   
   // cluster_id can be either an integer or a string.
-  ClusterID cluster_id = 2;
+  ClusterID cluster_id = 3;
 }
 
 message LabeledVertices {

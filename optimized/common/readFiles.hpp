@@ -7,7 +7,7 @@
 #include "classifier.pb.h"
 
 Vertices readDataset(const std::string& filename);
-Vertices readToLabel(const std::string& filename);
+VerticesToLabel readToLabel(const std::string& filename);
 SupportVertices readSVs(const std::string& filename);
 
 #endif // READFILES_HPP

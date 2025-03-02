@@ -18,7 +18,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
 
 foreach(EXE IN LISTS EXECUTABLES)
     # Create the executable
-    add_executable(${EXE} ${EXE}.cpp)
+    add_executable(${EXE} ${EXE}.cpp nearestSVlabel.cpp)
 
     # Link the common library and propagate its settings (includes, Protobuf, etc.)
     target_link_libraries(${EXE} PRIVATE common)

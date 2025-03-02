@@ -15,11 +15,18 @@ using Coordinates = std::vector<float>;
 using AdjacentVertex = std::pair<const Vertex *, bool>; // second: is support edge
 using AdjacencyList = std::vector<AdjacentVertex>;
 
-class Vertex
+class BaseVertex
 {
 public:
   VertexID id;
   Coordinates coordinates;
+
+  BaseVertex(const VertexID id, const Coordinates coordinates);  
+};
+
+class Vertex : public BaseVertex
+{
+public:
   std::shared_ptr<Cluster> cluster;
   
   AdjacencyList adjacencyList;
@@ -78,17 +85,33 @@ public:
 
 using Experts = std::vector<Expert>;
 
-class SupportVertex
+class SupportVertex : public BaseVertex
 {
 public:
-  const VertexID id;
-  const Coordinates coordinates;
-  const ClusterID cluster_id;
+  const ClusterID clusterid;
 
   SupportVertex(const VertexID id, const Coordinates coordinates, const ClusterID cluster_id);
 };
 
 using SupportVertices = std::vector<SupportVertex>;
+
+class VertexToLabel : public BaseVertex
+{
+public:
+  VertexToLabel(const VertexID id, const Coordinates coordinates);
+};
+
+using VerticesToLabel = std::vector<VertexToLabel>;
+
+class LabeledVertex : public BaseVertex
+{
+public:
+  const ClusterID clusterid;
+
+  LabeledVertex(const VertexID id, const Coordinates coordinates, const ClusterID cluster_id);
+};
+
+using LabeledVertices = std::vector<LabeledVertex>;
 
 template<typename... Ts>
 std::enable_if_t<(sizeof...(Ts) > 0), std::ostream&>

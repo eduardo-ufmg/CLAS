@@ -74,7 +74,7 @@ Vertices readDataset(const string& filename)
   return vertices;
 }
 
-Vertices readToLabel(const string& filename)
+VerticesToLabel readToLabel(const string& filename)
 {
   classifierpb::VerticesToLabel pb_vertices;
   
@@ -86,7 +86,7 @@ Vertices readToLabel(const string& filename)
 
   file.close();
 
-  Vertices vertices;
+  VerticesToLabel vertices;
   VertexID vcounter = -1;
 
   for (const auto& vertex : pb_vertices.entries()) {
