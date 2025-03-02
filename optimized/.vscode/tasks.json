@@ -1,0 +1,79 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "debug nn train",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-DCMAKE_BUILD_TYPE=Debug",
+        ".."
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/nn/train"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"],
+      "detail": "Generated task for building nn/train with CMake"
+    },
+    {
+      "label": "build nn train debug",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "."
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/nn/train"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"],
+      "dependsOn": "debug nn train",
+      "detail": "Generated task for building nn/train with CMake"
+    },
+    {
+      "label": "release nn train",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        ".."
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/nn/train"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"],
+      "detail": "Generated task for building nn/train with CMake"
+    },
+    {
+      "label": "build nn train release",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "."
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/nn/train"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"],
+      "dependsOn": "release nn train",
+      "detail": "Generated task for building nn/train with CMake"
+    }
+  ]
+}

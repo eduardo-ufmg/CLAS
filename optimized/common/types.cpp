@@ -100,3 +100,7 @@ Expert::Expert(const ExpertID id, const Edge edge)
   differences(computeDifferences(edge)),
   bias(computeBias(midpoint, differences))
 {}
+
+SupportVertex::SupportVertex(const VertexID id, const Coordinates coordinates, const ClusterID cluster_id)
+  : id(id), coordinates(coordinates), cluster_id(cluster_id)
+{}

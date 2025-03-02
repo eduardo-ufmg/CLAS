@@ -5,6 +5,7 @@
 #include "gabrielGraph.hpp"
 #include "filter.hpp"
 #include "computeSVs.hpp"
+#include "filenameHelpers.hpp"
 #include "writeFiles.hpp"
 
 using namespace std;
@@ -15,7 +16,7 @@ int main(int argc, char **argv)
   float tolerance = ns_filter::DEFAULT_TOLERANCE;
 
   if (argc < 2) {
-    cout << "Usage: " << argv[0] << " <dataset> [tolerance]" << endl;
+    cerr << "Usage: " << argv[0] << " <dataset> [tolerance]" << endl;
     return 1;
   }
 
@@ -31,7 +32,7 @@ int main(int argc, char **argv)
 
   filter(vertices, tolerance);
 
-  const Vertices supportVertices = computeSVs(vertices);
+  const SupportVertices supportVertices = computeSVs(vertices);
 
   const string output_file_path = "./trained/" + filenameFromPath(dataset_file_path);
 

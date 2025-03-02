@@ -7,6 +7,15 @@ add_subdirectory(../common ${CMAKE_CURRENT_BINARY_DIR}/common)
 # List of executables
 set(EXECUTABLES label train)
 
+# Set build type if not specified
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
+    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
+
+# Set compiler flags for debug build
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
+
 foreach(EXE IN LISTS EXECUTABLES)
     # Create the executable
     add_executable(${EXE} ${EXE}.cpp)

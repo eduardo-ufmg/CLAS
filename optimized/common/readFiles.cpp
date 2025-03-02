@@ -13,35 +13,17 @@ using namespace std;
 ifstream openFileRead(const string& filename);
 ClusterID parseCID(const classifierpb::ClusterID& cid);
 
-const string filenameFromPath(const string& path)
-{
-  const size_t last_slash_idx = path.find_last_of("\\/");
-  if (string::npos == last_slash_idx) {
-    return path;
-  }
-  return path.substr(last_slash_idx + 1);
-}
-
-const string filenameNoExtension(const string& filename)
-{
-  const size_t period_idx = filename.rfind('.');
-  if (string::npos == period_idx) {
-    return filename;
-  }
-  return filename.substr(0, period_idx);
-}
-
 Vertices readDataset(const string& filename)
 {
-  classifierpb::TrainingDataset dataset;
+  classifierpb::TrainingDataset pb_dataset;
   
   ifstream file = openFileRead(filename);
 
-  if (!dataset.ParseFromIstream(&file)) {
+  if (!pb_dataset.ParseFromIstream(&file)) {
 
     #if DEBUG
     cout << "DEBUG_START: DATASET PARSE ERROR" << endl;
-    dataset.PrintDebugString();
+    pb_dataset.PrintDebugString();
     cout << "DEBUG_END: DATASET PARSE ERROR" << endl;
     #endif
 
@@ -56,7 +38,7 @@ Vertices readDataset(const string& filename)
 
   #if DEBUG
   cout << "DEBUG_START: PRINT PARSED DATASET" << endl;
-  dataset.PrintDebugString();
+  pb_dataset.PrintDebugString();
   cout << "DEBUG_END: PRINT PARSED DATASET" << endl;
   #endif
 
@@ -64,7 +46,7 @@ Vertices readDataset(const string& filename)
   int debug_counter = 0;
   #endif
 
-  for (const auto& vertex : dataset.entries()) {
+  for (const auto& vertex : pb_dataset.entries()) {
 
     #if DEBUG
     cout << "DEBUG_START: VERTEX " << debug_counter << endl;
@@ -88,6 +70,56 @@ Vertices readDataset(const string& filename)
   #if DEBUG
   cout << "DEBUG: ALL VERTICES PARSED" << endl;
   #endif
+
+  return vertices;
+}
+
+Vertices readToLabel(const string& filename)
+{
+  classifierpb::VerticesToLabel pb_vertices;
+  
+  ifstream file = openFileRead(filename);
+
+  if (!pb_vertices.ParseFromIstream(&file)) {
+    throw runtime_error("Error: could not parse vertices");
+  }
+
+  file.close();
+
+  Vertices vertices;
+  VertexID vcounter = -1;
+
+  for (const auto& vertex : pb_vertices.entries()) {
+    const VertexID id = vcounter --;
+    const Coordinates coordinates(vertex.features().begin(), vertex.features().end());
+
+    vertices.emplace_back(id, coordinates);
+  }
+
+  return vertices;
+}
+
+SupportVertices readSVs(const string& filename)
+{
+  classifierpb::SupportVertices pb_svs;
+
+  ifstream file = openFileRead(filename);
+
+  if (!pb_svs.ParseFromIstream(&file)) {
+    throw runtime_error("Error: could not parse support vertices");
+  }
+
+  file.close();
+
+  SupportVertices vertices;
+
+  for (const auto& vertex : pb_svs.entries()) {
+    const VertexID id = vertex.vertex_id();
+    const Coordinates coordinates(vertex.features().begin(), vertex.features().end());
+    const ClusterID cid = parseCID(vertex.cluster_id());
+
+    vertices.emplace_back(id, coordinates, cid);
+  }
 
   return vertices;
 }

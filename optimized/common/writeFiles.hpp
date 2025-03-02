@@ -3,6 +3,6 @@
 
 #include "types.hpp"
 
-int writeSVs(const Vertices& supportVertices, const std::string& filename);
+int writeSVs(const SupportVertices& supportVertices, const std::string& filename);
 
 #endif // WRITEFILES_HPP

@@ -8,13 +8,13 @@
 
 using namespace std;
 
-bool insert_unique_sorted(Vertices& Vertices, const Vertex& vertex);
+bool emplace_unique(SupportVertices& Vertices, const Vertex& vertex);
 
-const Vertices computeSVs(const Vertices& vertices)
+const SupportVertices computeSVs(const Vertices& vertices)
 {
   const size_t vertexqtty = vertices.size();
 
-  Vertices supportVertices;
+  SupportVertices supportVertices;
 
   for (size_t i = 0; i < vertexqtty; ++ i) {
     for (size_t j = i + 1; j < vertexqtty; ++ j) {
@@ -29,8 +29,10 @@ const Vertices computeSVs(const Vertices& vertices)
       bool isGE = isGabrielEdge(vertices, vi, vj, vertexqtty);
 
       if (isGE) {
-        insert_unique_sorted(supportVertices, vi);
-        insert_unique_sorted(supportVertices, vj);
+
+
+        emplace_unique(supportVertices, vi);
+        emplace_unique(supportVertices, vj);
       }
 
     }
@@ -39,19 +41,16 @@ const Vertices computeSVs(const Vertices& vertices)
   return supportVertices;
 }
 
-bool insert_unique_sorted(Vertices& Vertices, const Vertex& vertex)
+bool emplace_unique(SupportVertices& Vertices, const Vertex& vertex)
 {
-    auto it = lower_bound(Vertices.begin(), Vertices.end(),
-                          vertex,
-                          [](const Vertex& a, const Vertex& b) {
-                              return a.id < b.id;
-                          });
+  auto it = find_if(Vertices.begin(), Vertices.end(), [&vertex](const SupportVertex& v) {
+    return v.id == vertex.id;
+  });
 
-    if (it != Vertices.end() // a Vertex that is not less was found
-        && it->id == vertex.id) { // the Vertex is the same
-      return false;
-    }
+  if (it != Vertices.end()) {
+    return false;
+  }
 
-    Vertices.insert(it, vertex);
-    return true;
+  Vertices.emplace_back(vertex.id, vertex.coordinates, vertex.cluster->id);
+  return true;
 }

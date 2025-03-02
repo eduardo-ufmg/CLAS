@@ -16,6 +16,7 @@ set(COMMON_SOURCES
     classifier.pb.cc
     computeSVs.cpp
     filter.cpp
+    filenameHelpers.cpp
     gabrielGraph.cpp
     isgabrielEdge.cpp
     readFiles.cpp

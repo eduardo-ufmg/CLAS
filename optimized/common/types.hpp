@@ -20,8 +20,8 @@ class Vertex
 public:
   VertexID id;
   Coordinates coordinates;
-
   std::shared_ptr<Cluster> cluster;
+  
   AdjacencyList adjacencyList;
   float quality;
 
@@ -77,6 +77,18 @@ public:
 };
 
 using Experts = std::vector<Expert>;
+
+class SupportVertex
+{
+public:
+  const VertexID id;
+  const Coordinates coordinates;
+  const ClusterID cluster_id;
+
+  SupportVertex(const VertexID id, const Coordinates coordinates, const ClusterID cluster_id);
+};
+
+using SupportVertices = std::vector<SupportVertex>;
 
 template<typename... Ts>
 std::enable_if_t<(sizeof...(Ts) > 0), std::ostream&>

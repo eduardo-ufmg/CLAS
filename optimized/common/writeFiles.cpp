@@ -15,11 +15,11 @@ template<class... Ts> overloaded(Ts...) -> overloaded<Ts...>;
 
 ofstream openFileWrite(const string& filename);
 
-int writeSVs(const Vertices& supportVertices, const std::string& filename)
+int writeSVs(const SupportVertices& supportVertices, const std::string& filename)
 {
   classifierpb::SupportVertices pb_supportVertices;
 
-  for (const Vertex& vertex : supportVertices) {
+  for (const SupportVertex& vertex : supportVertices) {
     classifierpb::SupportVertexEntry *pb_vertex = pb_supportVertices.add_entries();
     
     pb_vertex->set_vertex_id(vertex.id);
@@ -28,15 +28,15 @@ int writeSVs(const Vertices& supportVertices, const std::string& filename)
       pb_vertex->add_features(coord);
     }
 
-    classifierpb::ClusterID pb_clusterid;
+    classifierpb::ClusterID * pb_clusterid = make_unique<classifierpb::ClusterID>().release();
 
     visit(overloaded {
-      [&pb_clusterid](const int id) { pb_clusterid.set_cluster_id_int(id); },
-      [&pb_clusterid](const string& id) { pb_clusterid.set_cluster_id_str(id); }
-    }, vertex.cluster->id);
+      [pb_clusterid](const int id) { pb_clusterid->set_cluster_id_int(id); },
+      [pb_clusterid](const string& id) { pb_clusterid->set_cluster_id_str(id); }
+    }, vertex.cluster_id);
 
 
-    pb_vertex->set_allocated_cluster_id(&pb_clusterid);
+    pb_vertex->set_allocated_cluster_id(pb_clusterid);
   }
 
   ofstream file = openFileWrite(filename);
