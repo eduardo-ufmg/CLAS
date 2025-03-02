@@ -33,7 +33,7 @@ if __name__ == "__main__":
 
   data = {
     "dataset": (base_path / f"../data/{args.setname}/{args.setname}", TrainingDataset),
-    "sv": (base_path / "../nn/supportvertices", SupportVertices),
+    "sv": (base_path / f"../nn/train/trained/{args.setname}", SupportVertices),
     "expt": (base_path / "../chip/experts", Experts),
     "tolabel": (base_path / f"../data/{args.setname}/tolabel", VerticesToLabel),
     "labeled": (labeledpath[args.classifier] / "labeled", LabeledVertices)
