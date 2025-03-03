@@ -38,8 +38,3 @@
 **/output/
 **/data/synthetic/
 **/build/
-**/train/
-**/label/
-
-# Virtual environment
-optimized/evaluate/venv_evaluate/
