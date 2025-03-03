@@ -14,8 +14,8 @@ endif()
 # List all the source files (headers need not be compiled, but can be added for IDE organization)
 set(COMMON_SOURCES
     classifier.pb.cc
-    filter.cpp
     filenameHelpers.cpp
+    filter.cpp
     gabrielGraph.cpp
     isgabrielEdge.cpp
     readFiles.cpp
