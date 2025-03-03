@@ -34,7 +34,7 @@ int main(int argc, char **argv)
 
   const SupportVertices supportVertices = computeSVs(vertices);
 
-  const string output_file_path = "nn-" + filenameFromPath(dataset_file_path);
+  const string output_file_path = "./train/nn-" + filenameFromPath(dataset_file_path);
 
   if (writeSVs(supportVertices, output_file_path) != 0) {
     cerr << "Error: could not write SVs to file" << endl;

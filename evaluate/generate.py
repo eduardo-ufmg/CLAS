@@ -1,25 +1,33 @@
 import random
 import argparse
 import pathlib
+import sklearn.datasets
+import numpy as np
 from classifier_pb2 import TrainingDataset, TrainingDatasetEntry, VerticesToLabel, VertexToLabelEntry
 
 def generate_synthetic_data(spread, tlspread, vertcount):
   synthetic_dataset = TrainingDataset()
   tolabel_dataset = VerticesToLabel()
 
-  # Generate synthetic dataset
-  for _ in range(vertcount):
-    entry = TrainingDatasetEntry()
-    entry.features.extend([random.uniform(-spread, spread) for _ in range(2)])
-    entry.cluster_id.cluster_id_int = [-1, 1][random.randint(0, 1)]
-    synthetic_dataset.entries.append(entry)
+  centers = [(random.uniform(-1, 1), random.uniform(-1, 1)) for _ in range(2)]
 
-  # Generate tolabel dataset
-  for _ in range(vertcount // 2):
-    entry = VertexToLabelEntry()
-    entry.features.extend([random.uniform(-tlspread, tlspread) for _ in range(2)])
-    entry.vertex_id = random.randint(0, vertcount)
-    tolabel_dataset.entries.append(entry)
+  synthetic_features, synthetic_labels = sklearn.datasets.make_blobs(n_samples=vertcount,
+                                                                     centers=centers,
+                                                                     cluster_std=spread)
+
+  for i in range(vertcount):
+    entry = synthetic_dataset.entries.add()
+    entry.features.extend(synthetic_features[i])
+    entry.cluster_id.cluster_id_int = synthetic_labels[i]
+
+  tolabel_features, _ = sklearn.datasets.make_blobs(n_samples=vertcount,
+                                                    centers=centers,
+                                                    cluster_std=tlspread)
+
+  for i in range(vertcount):
+    entry = tolabel_dataset.entries.add()
+    entry.features.extend(tolabel_features[i])
+
 
   return synthetic_dataset, tolabel_dataset
 

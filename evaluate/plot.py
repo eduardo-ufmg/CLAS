@@ -2,25 +2,42 @@ import numpy as np
 import matplotlib.pyplot as plt
 from classifier_pb2 import TrainingDataset, SupportVertices, Experts, VerticesToLabel, LabeledVertices
 
-def plot_dataset(dataset: TrainingDataset):
-  X = np.array([[v.x, v.y] for v in dataset.vertices])
-  y = np.array([v.label for v in dataset.vertices])
-  plt.scatter(X[:, 0], X[:, 1], c=y)
-  plt.show()
+def plot_dataset(dataset: TrainingDataset, dataset_name: str):
+  # Extract features and labels from the dataset
+  features = []
+  labels = []
+  for entry in dataset.entries:
+    features.append(entry.features)
+    if entry.cluster_id.HasField('cluster_id_int'):
+      labels.append(entry.cluster_id.cluster_id_int)
+    else:
+      labels.append(entry.cluster_id.cluster_id_str)
+  
+  features = np.array(features)
+  
+  # Assuming the features are 2D for plotting purposes
+  if features.shape[1] != 2:
+    raise ValueError("Features must be 2-dimensional for plotting.")
+  
+  # Create a scatter plot
+  _ = plt.scatter(features[:, 0], features[:, 1], c=labels)
 
-def highlight_SVs(dataset: TrainingDataset, SVs: SupportVertices):
-  X = np.array([[v.x, v.y] for v in dataset.vertices])
-  y = np.array([v.label for v in dataset.vertices])
-  plt.scatter(X[:, 0], X[:, 1], c=y)
-  SVs = np.array([[v.x, v.y] for v in SVs.vertices])
-  plt.scatter(SVs[:, 0], SVs[:, 1], c='red')
-  plt.show()
-
-def plot_labeled_vertices(dataset: TrainingDataset, labeled_vertices: LabeledVertices):
-  X = np.array([[v.x, v.y] for v in dataset.vertices])
-  y = np.array([v.label for v in dataset.vertices])
-  plt.scatter(X[:, 0], X[:, 1], c=y)
-  labeled_vertices = np.array([[v.x, v.y] for v in labeled_vertices.vertices])
-  labels = np.array([v.label for v in labeled_vertices])
-  plt.scatter(labeled_vertices[:, 0], labeled_vertices[:, 1], c=labels)
-  plt.show()
+def plot_SVs(svs: SupportVertices):
+  # Extract features and labels from the svs
+  features = []
+  labels = []
+  for entry in svs.entries:
+    features.append(entry.features)
+    if entry.cluster_id.HasField('cluster_id_int'):
+      labels.append(entry.cluster_id.cluster_id_int)
+    else:
+      labels.append(entry.cluster_id.cluster_id_str)
+  
+  features = np.array(features)
+  
+  # Assuming the features are 2D for plotting purposes
+  if features.shape[1] != 2:
+    raise ValueError("Features must be 2-dimensional for plotting.")
+  
+  # Create a scatter plot
+  _ = plt.scatter(features[:, 0], features[:, 1], c=labels, marker='x', s=200)
