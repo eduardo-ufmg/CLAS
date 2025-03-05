@@ -13,16 +13,24 @@ def main():
 
   classifiers_dir = pathlib.Path("../bin")
 
-  classifiers_exe = {
+  trainers = {
     "chip": "./chip-train",
     "rchip": "./rchip-train",
     "nn": "./nn-train"
   }
 
+  classifiers = {
+    "chip": "./chip-label",
+    "rchip": "./rchip-label",
+    "nn": "./nn-label"
+  }
+
   dataset_name = args.dataset
   dataset = "../data" / pathlib.Path(args.dataset) / pathlib.Path(args.dataset)
-  classifier = classifiers_exe[args.classifier]
+  trainer = trainers[args.classifier]
+  classifier = classifiers[args.classifier]
   tolerance = str(args.tolerance)
+  tolabel_path = pathlib.Path("../data") / dataset_name / pathlib.Path("tolabel") 
 
   pb_dataset = TrainingDataset()
   pb_dataset.ParseFromString(open(dataset, "rb").read())
@@ -31,14 +39,20 @@ def main():
   plot.plt.title(dataset_name)
 
   # Plot the dataset
-  plot.plot_dataset(pb_dataset, dataset_name)
+  plot.plot_vertices(pb_dataset, "dataset")
   
-  subprocess.run([classifier, dataset, tolerance], cwd=classifiers_dir)
+  subprocess.run([trainer, dataset, tolerance], cwd=classifiers_dir)
 
   if args.classifier == "nn":
+    support_vertices_path = classifiers_dir / "train" / pathlib.Path("nn-" + dataset_name)
     pb_svs = SupportVertices()
-    pb_svs.ParseFromString(open(classifiers_dir / "train" / pathlib.Path("nn-" + dataset_name), "rb").read())
-    plot.plot_SVs(pb_svs)
+    pb_svs.ParseFromString(open(support_vertices_path, "rb").read())
+    plot.plot_vertices(pb_svs, "SVs")
+    subprocess.run([classifier, tolabel_path, support_vertices_path], cwd=classifiers_dir)
+
+  pb_labeled_vertices = LabeledVertices()
+  pb_labeled_vertices.ParseFromString(open(classifiers_dir / "label" / pathlib.Path(args.classifier + "-" + dataset_name), "rb").read())
+  plot.plot_vertices(pb_labeled_vertices, "labeled")
 
   plot.plt.show()
   

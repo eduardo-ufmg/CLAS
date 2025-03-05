@@ -23,7 +23,7 @@ int main(int argc, char **argv)
 
   const LabeledVertices labeledVertices = nearestSVLabel(toLabel, supportVertices);
 
-  const string labeled_vertices_file_path = "./label/nn-" + filenameFromPath(support_vertices_file_path);
+  const string labeled_vertices_file_path = "./label/" + filenameFromPath(support_vertices_file_path);
 
   if (writeLabeledVertices(labeledVertices, labeled_vertices_file_path) != 0) {
     cerr << "Error: could not write labeled vertices to file" << labeled_vertices_file_path << endl;
