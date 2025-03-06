@@ -20,11 +20,13 @@ def plot_vertices(vertices, type):
     raise ValueError("Features must be 2-dimensional for plotting.")
   
   # Create a scatter plot
-  if type == 'SVs':
-    _ = plt.scatter(features[:, 0], features[:, 1], c=labels, edgecolors='k', marker=',')
+  if type == 'dataset':
+    marker = 'o'
+  elif type == 'SVs':
+    marker = ','
   elif type == 'labeled':
-    _ = plt.scatter(features[:, 0], features[:, 1], c=labels, edgecolors='k', marker='v')
-  elif type == 'dataset':
-    _ = plt.scatter(features[:, 0], features[:, 1], c=labels, edgecolors='k')
+    marker = 'v'
   else:
     raise ValueError("Invalid type. Must be 'SVs', 'labeled', or 'dataset'.")
+
+  _ = plt.scatter(features[:, 0], features[:, 1], c=labels, edgecolors='k', marker=marker)

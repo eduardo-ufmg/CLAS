@@ -5,9 +5,11 @@ import sklearn.datasets
 import numpy as np
 from classifier_pb2 import TrainingDataset, TrainingDatasetEntry, VerticesToLabel, VertexToLabelEntry
 
-def generate_synthetic_data(spread, tlspread, vertcount):
+def generate_synthetic_data(spread, vertcount):
   synthetic_dataset = TrainingDataset()
   tolabel_dataset = VerticesToLabel()
+
+  tlspread = spread * 2
 
   centers = [(random.uniform(-1, 1), random.uniform(-1, 1)) for _ in range(2)]
 
@@ -41,10 +43,9 @@ def write_datasets(synthetic_dataset, tolabel_dataset):
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description="Generate synthetic datasets for graph-based classifier.")
   parser.add_argument("--spread", type=float, help="Spread for synthetic dataset features")
-  parser.add_argument("--tlspread", type=float, help="Spread for tolabel dataset features")
   parser.add_argument("--vertcount", type=int, help="Number of vertices")
 
   args = parser.parse_args()
 
-  synthetic_dataset, tolabel_dataset = generate_synthetic_data(args.spread, args.tlspread, args.vertcount)
+  synthetic_dataset, tolabel_dataset = generate_synthetic_data(args.spread, args.vertcount)
   write_datasets(synthetic_dataset, tolabel_dataset)

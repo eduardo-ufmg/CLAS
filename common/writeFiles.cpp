@@ -49,6 +49,36 @@ int writeSVs(const SupportVertices& supportVertices, const std::string& filename
   return 0;
 }
 
+int writeExperts(const Experts& experts, const std::string& filename)
+{
+  classifierpb::Experts pb_experts;
+
+  for (const Expert& expert : experts) {
+    classifierpb::ExpertEntry *pb_expert = pb_experts.add_entries();
+    
+    pb_expert->set_expert_id(expert.id);
+
+    for (const float coord : expert.midpoint) {
+      pb_expert->add_midpoint_coordinates(coord);
+    }
+
+    for (const float diff : expert.differences) {
+      pb_expert->add_differences(diff);
+    }
+
+    pb_expert->set_bias(expert.bias);
+  }
+
+  ofstream file = openFileWrite(filename);
+  if (!pb_experts.SerializeToOstream(&file)) {
+    cerr << "Error: could not write experts to file" << filename << endl;
+    return 1;
+  }
+  file.close();
+
+  return 0;
+}
+
 int writeLabeledVertices(const LabeledVertices& labeledVertices, const std::string& filename)
 {
   classifierpb::LabeledVertices pb_labeledVertices;
