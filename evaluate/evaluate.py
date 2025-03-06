@@ -5,62 +5,61 @@ import plot
 from classifier_pb2 import TrainingDataset, SupportVertices, Experts, VerticesToLabel, LabeledVertices
 
 def main():
-  parser = argparse.ArgumentParser("Train a classifier")
-  parser.add_argument("--dataset", required=True, help="Path to the dataset")
-  parser.add_argument("--classifier", required=True, choices=["chip", "rchip", "nn"], help="Classifier to train")
-  parser.add_argument("--tolerance", default=1.0, help="Filter tolerance")
-  args = parser.parse_args()
+    parser = argparse.ArgumentParser("Train and evaluate multiple classifiers")
+    parser.add_argument("--dataset", required=True, help="Path to the dataset")
+    parser.add_argument("--tolerance", default=1.0, help="Filter tolerance")
+    args = parser.parse_args()
+    
+    classifiers_dir = pathlib.Path("../bin")
+    dataset_name = args.dataset
+    dataset_path = pathlib.Path("../data") / dataset_name / dataset_name
+    tolerance = str(args.tolerance)
+    tolabel_path = pathlib.Path("../data") / dataset_name / "tolabel"
+    
+    # Load dataset
+    pb_dataset = TrainingDataset()
+    pb_dataset.ParseFromString(open(dataset_path, "rb").read())
+    
+    # Define classifiers
+    classifiers = {
+        "chip": {"trainer": "./chips-train", "labeler": "./chip-label"},
+        "rchip": {"trainer": "./chips-train", "labeler": "./rchip-label"},
+        "nn": {"trainer": "./nn-train", "labeler": "./nn-label"}
+    }
+    
+    # Storage for labeled results
+    labeled_results = {}
+    
+    for clf_name, paths in classifiers.items():
+        trainer = paths["trainer"]
+        labeler = paths["labeler"]
+        
+        # Train classifier
+        subprocess.run([trainer, str(dataset_path), tolerance], cwd=classifiers_dir)
+        
+        # Determine file paths for trained model
+        if clf_name == "nn":
+            trained_model_path = classifiers_dir / "train" / f"nn-{dataset_name}"
+        else:
+            trained_model_path = classifiers_dir / "train" / f"chips-{dataset_name}"
+        
+        # Label dataset
+        subprocess.run([labeler, str(tolabel_path), str(trained_model_path)], cwd=classifiers_dir)
+        
+        # Load labeled results
+        labeled_path = classifiers_dir / "label" / f"{clf_name}-{dataset_name}"
+        pb_labeled = LabeledVertices()
+        pb_labeled.ParseFromString(open(labeled_path, "rb").read())
+        labeled_results[clf_name] = pb_labeled
+    
+    # Plot results
+    plot.plot_classification_results(
+        pb_dataset, 
+        labeled_results["chip"], 
+        labeled_results["rchip"], 
+        labeled_results["nn"], 
+        dataset_name
+    )
 
-  classifiers_dir = pathlib.Path("../bin")
-
-  trainers = {
-    "chip": "./chips-train",
-    "rchip": "./chips-train",
-    "nn": "./nn-train"
-  }
-
-  classifiers = {
-    "chip": "./chip-label",
-    "rchip": "./rchip-label",
-    "nn": "./nn-label"
-  }
-
-  dataset_name = args.dataset
-  dataset = "../data" / pathlib.Path(args.dataset) / pathlib.Path(args.dataset)
-  trainer = trainers[args.classifier]
-  classifier = classifiers[args.classifier]
-  tolerance = str(args.tolerance)
-  tolabel_path = pathlib.Path("../data") / dataset_name / pathlib.Path("tolabel") 
-
-  pb_dataset = TrainingDataset()
-  pb_dataset.ParseFromString(open(dataset, "rb").read())
-
-  plot.plt.figure(figsize=(10, 8))
-  plot.plt.title(dataset_name)
-
-  # Plot the dataset
-  plot.plot_vertices(pb_dataset, "dataset")
-  
-  subprocess.run([trainer, dataset, tolerance], cwd=classifiers_dir)
-
-  if args.classifier == "nn":
-    support_vertices_path = classifiers_dir / "train" / pathlib.Path("nn-" + dataset_name)
-    pb_svs = SupportVertices()
-    pb_svs.ParseFromString(open(support_vertices_path, "rb").read())
-    plot.plot_vertices(pb_svs, "SVs")
-    subprocess.run([classifier, tolabel_path, support_vertices_path], cwd=classifiers_dir)
-
-  elif args.classifier == "chip" or args.classifier == "rchip":
-    experts_path = classifiers_dir / "train" / pathlib.Path("chips-" + dataset_name)
-    pb_experts = Experts()
-    pb_experts.ParseFromString(open(experts_path, "rb").read())
-    subprocess.run([classifier, tolabel_path, experts_path], cwd=classifiers_dir)
-
-  pb_labeled_vertices = LabeledVertices()
-  pb_labeled_vertices.ParseFromString(open(classifiers_dir / "label" / pathlib.Path(args.classifier + "-" + dataset_name), "rb").read())
-  plot.plot_vertices(pb_labeled_vertices, "labeled")
-
-  plot.plt.show()
-  
 if __name__ == "__main__":
-  main()
+    main()
