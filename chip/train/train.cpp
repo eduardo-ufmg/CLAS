@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "types.hpp"
 #include "filenameHelpers.hpp"
 #include "readFiles.hpp"
@@ -5,8 +7,6 @@
 #include "filter.hpp"
 #include "computeExperts.hpp"
 #include "writeFiles.hpp"
-
-#include <iostream>
 
 using namespace std;
 

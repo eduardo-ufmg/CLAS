@@ -14,8 +14,8 @@ def main():
   classifiers_dir = pathlib.Path("../bin")
 
   trainers = {
-    "chip": "./chip-train",
-    "rchip": "./rchip-train",
+    "chip": "./chips-train",
+    "rchip": "./chips-train",
     "nn": "./nn-train"
   }
 
@@ -49,6 +49,12 @@ def main():
     pb_svs.ParseFromString(open(support_vertices_path, "rb").read())
     plot.plot_vertices(pb_svs, "SVs")
     subprocess.run([classifier, tolabel_path, support_vertices_path], cwd=classifiers_dir)
+
+  if args.classifier == "chip":
+    experts_path = classifiers_dir / "train" / pathlib.Path("chips-" + dataset_name)
+    pb_experts = Experts()
+    pb_experts.ParseFromString(open(experts_path, "rb").read())
+    subprocess.run([classifier, tolabel_path, experts_path], cwd=classifiers_dir)
 
   pb_labeled_vertices = LabeledVertices()
   pb_labeled_vertices.ParseFromString(open(classifiers_dir / "label" / pathlib.Path(args.classifier + "-" + dataset_name), "rb").read())

@@ -81,6 +81,7 @@ public:
   const float bias;
 
   Expert(const ExpertID id, const Edge edge);
+  Expert(const ExpertID id, const Coordinates midpoint, const ExpertDifferences differences, const float bias);
 };
 
 using Experts = std::vector<Expert>;

@@ -7,6 +7,7 @@ set(CHIP_COMMON_SOURCES
 if(BUILD_CHIP_LABEL)
     add_executable(chip-label
         chip-clas/label.cpp
+        chip-clas/chip.cpp
         ${CHIP_COMMON_SOURCES}
     )
     target_link_libraries(chip-label common)

@@ -124,6 +124,32 @@ SupportVertices readSVs(const string& filename)
   return vertices;
 }
 
+Experts readExperts(const string& filename)
+{
+  classifierpb::Experts pb_experts;
+
+  ifstream file = openFileRead(filename);
+
+  if (!pb_experts.ParseFromIstream(&file)) {
+    throw runtime_error("Error: could not parse experts");
+  }
+
+  file.close();
+
+  Experts experts;
+
+  for (const auto& expert : pb_experts.entries()) {
+    const ExpertID id = expert.expert_id();
+    const Coordinates midpoint(expert.midpoint_coordinates().begin(), expert.midpoint_coordinates().end());
+    const ExpertDifferences differences(expert.differences().begin(), expert.differences().end());
+    const float bias = expert.bias();
+
+    experts.emplace_back(id, midpoint, differences, bias);
+  }
+
+  return experts;
+}
+
 ifstream openFileRead(const string& filename)
 {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
