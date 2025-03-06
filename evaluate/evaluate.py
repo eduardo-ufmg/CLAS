@@ -50,7 +50,7 @@ def main():
     plot.plot_vertices(pb_svs, "SVs")
     subprocess.run([classifier, tolabel_path, support_vertices_path], cwd=classifiers_dir)
 
-  if args.classifier == "chip":
+  elif args.classifier == "chip" or args.classifier == "rchip":
     experts_path = classifiers_dir / "train" / pathlib.Path("chips-" + dataset_name)
     pb_experts = Experts()
     pb_experts.ParseFromString(open(experts_path, "rb").read())

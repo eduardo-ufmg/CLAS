@@ -18,6 +18,7 @@ endif()
 if(BUILD_RCHIP_LABEL)
     add_executable(rchip-label
         rchip-clas/label.cpp
+        rchip-clas/rchip.cpp
         ${CHIP_COMMON_SOURCES}
     )
     target_link_libraries(rchip-label common)
