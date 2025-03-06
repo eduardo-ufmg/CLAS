@@ -19,6 +19,11 @@ def main():
     # Load dataset
     pb_dataset = TrainingDataset()
     pb_dataset.ParseFromString(open(dataset_path, "rb").read())
+
+    # Load to-label vertices
+    pb_tolabel = VerticesToLabel()
+    pb_tolabel.ParseFromString(open(tolabel_path, "rb").read())
+    expected_dict = {entry.vertex_id: entry.expected_cluster_id for entry in pb_tolabel.entries}
     
     # Define classifiers
     classifiers = {
@@ -27,7 +32,7 @@ def main():
         "nn": {"trainer": "./nn-train", "labeler": "./nn-label"}
     }
     
-    # Storage for labeled results
+    # Storage for labeled results and correctness
     labeled_results = {}
     
     for clf_name, paths in classifiers.items():
@@ -50,8 +55,23 @@ def main():
         labeled_path = classifiers_dir / "label" / f"{clf_name}-{dataset_name}"
         pb_labeled = LabeledVertices()
         pb_labeled.ParseFromString(open(labeled_path, "rb").read())
-        labeled_results[clf_name] = pb_labeled
-    
+        
+        # Check correctness
+        correctness = []
+        for entry in pb_labeled.entries:
+            expected_cluster = expected_dict[entry.vertex_id]
+            actual_cluster = entry.cluster_id
+            correct = False
+            if expected_cluster.HasField('cluster_id_int'):
+                if actual_cluster.HasField('cluster_id_int'):
+                    correct = (expected_cluster.cluster_id_int == actual_cluster.cluster_id_int)
+            elif expected_cluster.HasField('cluster_id_str'):
+                if actual_cluster.HasField('cluster_id_str'):
+                    correct = (expected_cluster.cluster_id_str == actual_cluster.cluster_id_str)
+            correctness.append(correct)
+        
+        labeled_results[clf_name] = (pb_labeled, correctness)
+
     # Plot results
     plot.plot_classification_results(
         pb_dataset, 
@@ -63,3 +83,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    

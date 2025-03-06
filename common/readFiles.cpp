@@ -87,10 +87,9 @@ VerticesToLabel readToLabel(const string& filename)
   file.close();
 
   VerticesToLabel vertices;
-  VertexID vcounter = -1;
 
   for (const auto& vertex : pb_vertices.entries()) {
-    const VertexID id = vcounter --;
+    const VertexID id = vertex.vertex_id();
     const Coordinates coordinates(vertex.features().begin(), vertex.features().end());
     const ClusterID expectedcid = parseCID(vertex.expected_cluster_id());
 
