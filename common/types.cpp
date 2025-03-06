@@ -71,7 +71,7 @@ const Coordinates Expert::computeMidpoint(const Edge& edge)
 
 const ExpertDifferences Expert::computeDifferences(const Edge& edge)
 {
-  const auto& [v1, v2] = edge;
+  const auto& [v2, v1] = edge;
   const auto& c1 = v1->coordinates;
   const auto& c2 = v2->coordinates;
 
