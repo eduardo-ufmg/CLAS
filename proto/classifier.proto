@@ -76,6 +76,9 @@ message VertexToLabelEntry {
   
   // Variable-length features.
   repeated float features = 2;
+
+  // cluster_id can be either an integer or a string.
+  ClusterID expected_cluster_id = 3;
 }
 
 message VerticesToLabel {

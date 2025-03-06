@@ -22,13 +22,15 @@ def generate_synthetic_data(spread, vertcount):
     entry.features.extend(synthetic_features[i])
     entry.cluster_id.cluster_id_int = synthetic_labels[i]
 
-  tolabel_features, _ = sklearn.datasets.make_blobs(n_samples=vertcount,
+  tolabel_features, expected_labels = sklearn.datasets.make_blobs(n_samples=vertcount,
                                                     centers=centers,
                                                     cluster_std=tlspread)
 
-  for i in range(vertcount):
+  for i in range(vertcount // 2):
     entry = tolabel_dataset.entries.add()
+    entry.vertex_id = -i - 1
     entry.features.extend(tolabel_features[i])
+    entry.expected_cluster_id.cluster_id_int = expected_labels[i]
 
 
   return synthetic_dataset, tolabel_dataset

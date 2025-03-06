@@ -99,7 +99,9 @@ using SupportVertices = std::vector<SupportVertex>;
 class VertexToLabel : public BaseVertex
 {
 public:
-  VertexToLabel(const VertexID id, const Coordinates coordinates);
+  const ClusterID expectedclusterid;
+
+  VertexToLabel(const VertexID id, const Coordinates coordinates, const ClusterID expected_cluster_id);
 };
 
 using VerticesToLabel = std::vector<VertexToLabel>;

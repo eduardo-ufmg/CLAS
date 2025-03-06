@@ -92,8 +92,9 @@ VerticesToLabel readToLabel(const string& filename)
   for (const auto& vertex : pb_vertices.entries()) {
     const VertexID id = vcounter --;
     const Coordinates coordinates(vertex.features().begin(), vertex.features().end());
+    const ClusterID expectedcid = parseCID(vertex.expected_cluster_id());
 
-    vertices.emplace_back(id, coordinates);
+    vertices.emplace_back(id, coordinates, expectedcid);
   }
 
   return vertices;

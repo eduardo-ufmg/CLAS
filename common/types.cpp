@@ -112,8 +112,8 @@ SupportVertex::SupportVertex(const VertexID id, const Coordinates coordinates, c
   : BaseVertex(id, coordinates), clusterid(clusterid)
 {}
 
-VertexToLabel::VertexToLabel(const VertexID id, const Coordinates coordinates)
-  : BaseVertex(id, coordinates)
+VertexToLabel::VertexToLabel(const VertexID id, const Coordinates coordinates, const ClusterID expectedclusterid)
+  : BaseVertex(id, coordinates), expectedclusterid(expectedclusterid)
 {}
 
 LabeledVertex::LabeledVertex(const VertexID id, const Coordinates coordinates, const ClusterID clusterid)

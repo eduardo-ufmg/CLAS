@@ -122,6 +122,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR VertexToLabelEntry::VertexToLabelEntry(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.features_)*/{}
+  , /*decltype(_impl_.expected_cluster_id_)*/nullptr
   , /*decltype(_impl_.vertex_id_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct VertexToLabelEntryDefaultTypeInternal {
@@ -245,6 +246,7 @@ const uint32_t TableStruct_classifier_2eproto::offsets[] PROTOBUF_SECTION_VARIAB
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::classifierpb::VertexToLabelEntry, _impl_.vertex_id_),
   PROTOBUF_FIELD_OFFSET(::classifierpb::VertexToLabelEntry, _impl_.features_),
+  PROTOBUF_FIELD_OFFSET(::classifierpb::VertexToLabelEntry, _impl_.expected_cluster_id_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::classifierpb::VerticesToLabel, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -278,9 +280,9 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 40, -1, -1, sizeof(::classifierpb::ExpertEntry)},
   { 50, -1, -1, sizeof(::classifierpb::Experts)},
   { 57, -1, -1, sizeof(::classifierpb::VertexToLabelEntry)},
-  { 65, -1, -1, sizeof(::classifierpb::VerticesToLabel)},
-  { 72, -1, -1, sizeof(::classifierpb::LabeledVertexEntry)},
-  { 81, -1, -1, sizeof(::classifierpb::LabeledVertices)},
+  { 66, -1, -1, sizeof(::classifierpb::VerticesToLabel)},
+  { 73, -1, -1, sizeof(::classifierpb::LabeledVertexEntry)},
+  { 82, -1, -1, sizeof(::classifierpb::LabeledVertices)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -312,19 +314,21 @@ const char descriptor_table_protodef_classifier_2eproto[] PROTOBUF_SECTION_VARIA
   "ntry\"a\n\013ExpertEntry\022\021\n\texpert_id\030\001 \001(\005\022\034"
   "\n\024midpoint_coordinates\030\002 \003(\002\022\023\n\013differen"
   "ces\030\003 \003(\002\022\014\n\004bias\030\004 \001(\002\"5\n\007Experts\022*\n\007en"
-  "tries\030\001 \003(\0132\031.classifierpb.ExpertEntry\"9"
+  "tries\030\001 \003(\0132\031.classifierpb.ExpertEntry\"o"
   "\n\022VertexToLabelEntry\022\021\n\tvertex_id\030\001 \001(\005\022"
-  "\020\n\010features\030\002 \003(\002\"D\n\017VerticesToLabel\0221\n\007"
-  "entries\030\001 \003(\0132 .classifierpb.VertexToLab"
-  "elEntry\"f\n\022LabeledVertexEntry\022\021\n\tvertex_"
-  "id\030\001 \001(\005\022\020\n\010features\030\002 \003(\002\022+\n\ncluster_id"
-  "\030\003 \001(\0132\027.classifierpb.ClusterID\"D\n\017Label"
-  "edVertices\0221\n\007entries\030\001 \003(\0132 .classifier"
-  "pb.LabeledVertexEntryb\006proto3"
+  "\020\n\010features\030\002 \003(\002\0224\n\023expected_cluster_id"
+  "\030\003 \001(\0132\027.classifierpb.ClusterID\"D\n\017Verti"
+  "cesToLabel\0221\n\007entries\030\001 \003(\0132 .classifier"
+  "pb.VertexToLabelEntry\"f\n\022LabeledVertexEn"
+  "try\022\021\n\tvertex_id\030\001 \001(\005\022\020\n\010features\030\002 \003(\002"
+  "\022+\n\ncluster_id\030\003 \001(\0132\027.classifierpb.Clus"
+  "terID\"D\n\017LabeledVertices\0221\n\007entries\030\001 \003("
+  "\0132 .classifierpb.LabeledVertexEntryb\006pro"
+  "to3"
   ;
 static ::_pbi::once_flag descriptor_table_classifier_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_classifier_2eproto = {
-    false, false, 909, descriptor_table_protodef_classifier_2eproto,
+    false, false, 963, descriptor_table_protodef_classifier_2eproto,
     "classifier.proto",
     &descriptor_table_classifier_2eproto_once, nullptr, 0, 11,
     schemas, file_default_instances, TableStruct_classifier_2eproto::offsets,
@@ -1929,8 +1933,13 @@ void Experts::InternalSwap(Experts* other) {
 
 class VertexToLabelEntry::_Internal {
  public:
+  static const ::classifierpb::ClusterID& expected_cluster_id(const VertexToLabelEntry* msg);
 };
 
+const ::classifierpb::ClusterID&
+VertexToLabelEntry::_Internal::expected_cluster_id(const VertexToLabelEntry* msg) {
+  return *msg->_impl_.expected_cluster_id_;
+}
 VertexToLabelEntry::VertexToLabelEntry(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -1942,10 +1951,14 @@ VertexToLabelEntry::VertexToLabelEntry(const VertexToLabelEntry& from)
   VertexToLabelEntry* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.features_){from._impl_.features_}
+    , decltype(_impl_.expected_cluster_id_){nullptr}
     , decltype(_impl_.vertex_id_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_expected_cluster_id()) {
+    _this->_impl_.expected_cluster_id_ = new ::classifierpb::ClusterID(*from._impl_.expected_cluster_id_);
+  }
   _this->_impl_.vertex_id_ = from._impl_.vertex_id_;
   // @@protoc_insertion_point(copy_constructor:classifierpb.VertexToLabelEntry)
 }
@@ -1956,6 +1969,7 @@ inline void VertexToLabelEntry::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.features_){arena}
+    , decltype(_impl_.expected_cluster_id_){nullptr}
     , decltype(_impl_.vertex_id_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
@@ -1973,6 +1987,7 @@ VertexToLabelEntry::~VertexToLabelEntry() {
 inline void VertexToLabelEntry::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.features_.~RepeatedField();
+  if (this != internal_default_instance()) delete _impl_.expected_cluster_id_;
 }
 
 void VertexToLabelEntry::SetCachedSize(int size) const {
@@ -1986,6 +2001,10 @@ void VertexToLabelEntry::Clear() {
   (void) cached_has_bits;
 
   _impl_.features_.Clear();
+  if (GetArenaForAllocation() == nullptr && _impl_.expected_cluster_id_ != nullptr) {
+    delete _impl_.expected_cluster_id_;
+  }
+  _impl_.expected_cluster_id_ = nullptr;
   _impl_.vertex_id_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -2012,6 +2031,14 @@ const char* VertexToLabelEntry::_InternalParse(const char* ptr, ::_pbi::ParseCon
         } else if (static_cast<uint8_t>(tag) == 21) {
           _internal_add_features(::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr));
           ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // .classifierpb.ClusterID expected_cluster_id = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr = ctx->ParseMessage(_internal_mutable_expected_cluster_id(), ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -2055,6 +2082,13 @@ uint8_t* VertexToLabelEntry::_InternalSerialize(
     target = stream->WriteFixedPacked(2, _internal_features(), target);
   }
 
+  // .classifierpb.ClusterID expected_cluster_id = 3;
+  if (this->_internal_has_expected_cluster_id()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, _Internal::expected_cluster_id(this),
+        _Internal::expected_cluster_id(this).GetCachedSize(), target, stream);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2082,6 +2116,13 @@ size_t VertexToLabelEntry::ByteSizeLong() const {
     total_size += data_size;
   }
 
+  // .classifierpb.ClusterID expected_cluster_id = 3;
+  if (this->_internal_has_expected_cluster_id()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.expected_cluster_id_);
+  }
+
   // int32 vertex_id = 1;
   if (this->_internal_vertex_id() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_vertex_id());
@@ -2106,6 +2147,10 @@ void VertexToLabelEntry::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, con
   (void) cached_has_bits;
 
   _this->_impl_.features_.MergeFrom(from._impl_.features_);
+  if (from._internal_has_expected_cluster_id()) {
+    _this->_internal_mutable_expected_cluster_id()->::classifierpb::ClusterID::MergeFrom(
+        from._internal_expected_cluster_id());
+  }
   if (from._internal_vertex_id() != 0) {
     _this->_internal_set_vertex_id(from._internal_vertex_id());
   }
@@ -2127,7 +2172,12 @@ void VertexToLabelEntry::InternalSwap(VertexToLabelEntry* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   _impl_.features_.InternalSwap(&other->_impl_.features_);
-  swap(_impl_.vertex_id_, other->_impl_.vertex_id_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(VertexToLabelEntry, _impl_.vertex_id_)
+      + sizeof(VertexToLabelEntry::_impl_.vertex_id_)
+      - PROTOBUF_FIELD_OFFSET(VertexToLabelEntry, _impl_.expected_cluster_id_)>(
+          reinterpret_cast<char*>(&_impl_.expected_cluster_id_),
+          reinterpret_cast<char*>(&other->_impl_.expected_cluster_id_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata VertexToLabelEntry::GetMetadata() const {

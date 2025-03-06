@@ -1460,6 +1460,7 @@ class VertexToLabelEntry final :
 
   enum : int {
     kFeaturesFieldNumber = 2,
+    kExpectedClusterIdFieldNumber = 3,
     kVertexIdFieldNumber = 1,
   };
   // repeated float features = 2;
@@ -1484,6 +1485,24 @@ class VertexToLabelEntry final :
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
       mutable_features();
 
+  // .classifierpb.ClusterID expected_cluster_id = 3;
+  bool has_expected_cluster_id() const;
+  private:
+  bool _internal_has_expected_cluster_id() const;
+  public:
+  void clear_expected_cluster_id();
+  const ::classifierpb::ClusterID& expected_cluster_id() const;
+  PROTOBUF_NODISCARD ::classifierpb::ClusterID* release_expected_cluster_id();
+  ::classifierpb::ClusterID* mutable_expected_cluster_id();
+  void set_allocated_expected_cluster_id(::classifierpb::ClusterID* expected_cluster_id);
+  private:
+  const ::classifierpb::ClusterID& _internal_expected_cluster_id() const;
+  ::classifierpb::ClusterID* _internal_mutable_expected_cluster_id();
+  public:
+  void unsafe_arena_set_allocated_expected_cluster_id(
+      ::classifierpb::ClusterID* expected_cluster_id);
+  ::classifierpb::ClusterID* unsafe_arena_release_expected_cluster_id();
+
   // int32 vertex_id = 1;
   void clear_vertex_id();
   int32_t vertex_id() const;
@@ -1502,6 +1521,7 @@ class VertexToLabelEntry final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > features_;
+    ::classifierpb::ClusterID* expected_cluster_id_;
     int32_t vertex_id_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -2790,6 +2810,96 @@ inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
 VertexToLabelEntry::mutable_features() {
   // @@protoc_insertion_point(field_mutable_list:classifierpb.VertexToLabelEntry.features)
   return _internal_mutable_features();
+}
+
+// .classifierpb.ClusterID expected_cluster_id = 3;
+inline bool VertexToLabelEntry::_internal_has_expected_cluster_id() const {
+  return this != internal_default_instance() && _impl_.expected_cluster_id_ != nullptr;
+}
+inline bool VertexToLabelEntry::has_expected_cluster_id() const {
+  return _internal_has_expected_cluster_id();
+}
+inline void VertexToLabelEntry::clear_expected_cluster_id() {
+  if (GetArenaForAllocation() == nullptr && _impl_.expected_cluster_id_ != nullptr) {
+    delete _impl_.expected_cluster_id_;
+  }
+  _impl_.expected_cluster_id_ = nullptr;
+}
+inline const ::classifierpb::ClusterID& VertexToLabelEntry::_internal_expected_cluster_id() const {
+  const ::classifierpb::ClusterID* p = _impl_.expected_cluster_id_;
+  return p != nullptr ? *p : reinterpret_cast<const ::classifierpb::ClusterID&>(
+      ::classifierpb::_ClusterID_default_instance_);
+}
+inline const ::classifierpb::ClusterID& VertexToLabelEntry::expected_cluster_id() const {
+  // @@protoc_insertion_point(field_get:classifierpb.VertexToLabelEntry.expected_cluster_id)
+  return _internal_expected_cluster_id();
+}
+inline void VertexToLabelEntry::unsafe_arena_set_allocated_expected_cluster_id(
+    ::classifierpb::ClusterID* expected_cluster_id) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.expected_cluster_id_);
+  }
+  _impl_.expected_cluster_id_ = expected_cluster_id;
+  if (expected_cluster_id) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:classifierpb.VertexToLabelEntry.expected_cluster_id)
+}
+inline ::classifierpb::ClusterID* VertexToLabelEntry::release_expected_cluster_id() {
+  
+  ::classifierpb::ClusterID* temp = _impl_.expected_cluster_id_;
+  _impl_.expected_cluster_id_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::classifierpb::ClusterID* VertexToLabelEntry::unsafe_arena_release_expected_cluster_id() {
+  // @@protoc_insertion_point(field_release:classifierpb.VertexToLabelEntry.expected_cluster_id)
+  
+  ::classifierpb::ClusterID* temp = _impl_.expected_cluster_id_;
+  _impl_.expected_cluster_id_ = nullptr;
+  return temp;
+}
+inline ::classifierpb::ClusterID* VertexToLabelEntry::_internal_mutable_expected_cluster_id() {
+  
+  if (_impl_.expected_cluster_id_ == nullptr) {
+    auto* p = CreateMaybeMessage<::classifierpb::ClusterID>(GetArenaForAllocation());
+    _impl_.expected_cluster_id_ = p;
+  }
+  return _impl_.expected_cluster_id_;
+}
+inline ::classifierpb::ClusterID* VertexToLabelEntry::mutable_expected_cluster_id() {
+  ::classifierpb::ClusterID* _msg = _internal_mutable_expected_cluster_id();
+  // @@protoc_insertion_point(field_mutable:classifierpb.VertexToLabelEntry.expected_cluster_id)
+  return _msg;
+}
+inline void VertexToLabelEntry::set_allocated_expected_cluster_id(::classifierpb::ClusterID* expected_cluster_id) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.expected_cluster_id_;
+  }
+  if (expected_cluster_id) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(expected_cluster_id);
+    if (message_arena != submessage_arena) {
+      expected_cluster_id = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, expected_cluster_id, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.expected_cluster_id_ = expected_cluster_id;
+  // @@protoc_insertion_point(field_set_allocated:classifierpb.VertexToLabelEntry.expected_cluster_id)
 }
 
 // -------------------------------------------------------------------
