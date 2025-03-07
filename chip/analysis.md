@@ -78,7 +78,7 @@ Xi + Xj
 | 1, 1       | -1, 1     | ALL -1           |
 | 1, 1       | 1, -1     | ALL 1            |
 
-MIXED I: Vertices for which `x > -y` are correctly labeled, others are labeled as the opposite cluster.
-MIXED II: Vertices in `(x < y Δ x > -y)` are correctly labeled, others are labeled as the opposite cluster.
-MIXED III: Vertices in `(x < y Δ x < -y)` are correctly labeled, others are labeled as the opposite cluster.
+MIXED I: Vertices for which `x > -y` are correctly labeled, others are labeled as the opposite cluster. <br>
+MIXED II: Vertices in `(x < y Δ x > -y)` are correctly labeled, others are labeled as the opposite cluster. <br>
+MIXED III: Vertices in `(x < y Δ x < -y)` are correctly labeled, others are labeled as the opposite cluster. <br>
 MIEXD IV: Vertices for which `y < 1` are correctly labeled, others are labeled as the opposite cluster.
