@@ -130,13 +130,13 @@ def generate_hemispheres(noise, tlnoise, vertcount):
   labels = [1] * half
 
   features += generate_hemisphere(inner_radius, half, noise)
-  labels += [-1] * half
+  labels += [0] * half
 
   tolabel_features = generate_hemisphere(outer_radius, half, tlnoise)
   expected_labels = [1] * half
 
   tolabel_features += generate_hemisphere(inner_radius, half, tlnoise)
-  expected_labels += [-1] * half
+  expected_labels += [0] * half
 
   return (features, labels), (tolabel_features, expected_labels)
 
