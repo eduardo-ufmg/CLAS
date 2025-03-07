@@ -87,15 +87,9 @@ const ExpertDifferences Expert::computeDifferences(const Edge& edge)
 
 float Expert::computeBias(const Coordinates& midpoint, const ExpertDifferences& differences)
 {
-  const float sum = inner_product(differences.begin(), differences.end(),
-                                  midpoint.begin(),
-                                  0.0f,
-                                  plus<float>(),
-                                  [](const float x, const float y) {
-                                    return x * y;
-                                  });
-
-  return sum / midpoint.size();
+  return inner_product(midpoint.begin(), midpoint.end(),
+                       differences.begin(),
+                       0.0f);
 }
 
 Expert::Expert(const ExpertID id, const Edge edge)
