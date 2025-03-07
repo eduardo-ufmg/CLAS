@@ -71,13 +71,14 @@ const Coordinates Expert::computeMidpoint(const Edge& edge)
 
 const ExpertDifferences Expert::computeDifferences(const Edge& edge)
 {
-  const auto& [_, v] = edge;
-  const auto& cv = v->coordinates;
+  const auto& [v1, v2] = edge;
+  const auto& c1 = v1->coordinates;
+  const auto& c2 = v2->coordinates;
 
-  ExpertDifferences differences(cv.size());
+  ExpertDifferences differences(midpoint.size());
 
-  transform(midpoint.begin(), midpoint.end(),
-            cv.begin(),
+  transform(c1.begin(), c1.end(),
+            c2.begin(),
             differences.begin(),
             minus<float>());
 

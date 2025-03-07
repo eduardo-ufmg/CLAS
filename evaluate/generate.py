@@ -5,28 +5,28 @@ import sklearn.datasets
 import numpy as np
 from classifier_pb2 import TrainingDataset, TrainingDatasetEntry, VerticesToLabel, VertexToLabelEntry
 
-def generate_synthetic_data(spread, vertcount):
-  synthetic_dataset = TrainingDataset()
+def generate_blob(noise, vertcount):
+  blob_dataset = TrainingDataset()
   tolabel_dataset = VerticesToLabel()
 
-  tlspread = spread * 2
+  tlnoise = noise * 2
 
   centers = [(random.uniform(-1, 1), random.uniform(-1, 1)) for _ in range(2)]
 
-  synthetic_features, synthetic_labels = sklearn.datasets.make_blobs(n_samples=vertcount,
-                                                                     centers=centers,
-                                                                     cluster_std=spread)
+  blob_features, blob_labels = sklearn.datasets.make_blobs(n_samples=vertcount,
+                                                            centers=centers,
+                                                            cluster_std=noise)
   
-  synthetic_labels = [[-1, 1][label] for label in synthetic_labels]
+  blob_labels = [[-1, 1][label] for label in blob_labels]
 
   for i in range(vertcount):
-    entry = synthetic_dataset.entries.add()
-    entry.features.extend(synthetic_features[i])
-    entry.cluster_id.cluster_id_int = synthetic_labels[i]
+    entry = blob_dataset.entries.add()
+    entry.features.extend(blob_features[i])
+    entry.cluster_id.cluster_id_int = blob_labels[i]
 
   tolabel_features, expected_labels = sklearn.datasets.make_blobs(n_samples=vertcount,
                                                                   centers=centers,
-                                                                  cluster_std=tlspread)
+                                                                  cluster_std=tlnoise)
   
   expected_labels = [[-1, 1][label] for label in expected_labels]
 
@@ -37,21 +37,36 @@ def generate_synthetic_data(spread, vertcount):
     entry.expected_cluster_id.cluster_id_int = expected_labels[i]
 
 
-  return synthetic_dataset, tolabel_dataset
+  return blob_dataset, tolabel_dataset
 
-def write_datasets(synthetic_dataset, tolabel_dataset):
-  with open('../data/synthetic/synthetic', 'wb') as f:
-    f.write(synthetic_dataset.SerializeToString())
-  
-  with open('../data/synthetic/tolabel', 'wb') as f:
+def generate_synthetic_data(type, spread, vertcount):
+  if type == "blob":
+    return generate_blob(spread, vertcount)
+  elif type == "circle":
+    return generate_circle(spread, vertcount)
+  elif type == "moons":
+    return generate_moons(spread, vertcount)
+  elif type == "xor":
+    return generate_xor(spread, vertcount)
+  else:
+    raise ValueError("Invalid synthetic dataset type")
+
+def write_datasets(type, dataset, tolabel_dataset):
+  dataset_path = pathlib.Path(f"../data/{type}/{type}")
+  tolabel_path = pathlib.Path(f"../data/{type}/tolabel")
+
+  with open(dataset_path, "wb") as f:
+    f.write(dataset.SerializeToString())
+
+  with open(tolabel_path, "wb") as f:
     f.write(tolabel_dataset.SerializeToString())
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description="Generate synthetic datasets for graph-based classifier.")
-  parser.add_argument("--spread", type=float, help="Spread for synthetic dataset features")
+  parser.add_argument("--type", type=str, choices=["blob", "circle", "moons", "xor"], help="Type of synthetic dataset to generate")
+  parser.add_argument("--noise", type=float, help="Spread for synthetic dataset features")
   parser.add_argument("--vertcount", type=int, help="Number of vertices")
-
   args = parser.parse_args()
 
-  synthetic_dataset, tolabel_dataset = generate_synthetic_data(args.spread, args.vertcount)
-  write_datasets(synthetic_dataset, tolabel_dataset)
+  synthetic_dataset, tolabel_dataset = generate_synthetic_data(args.type, args.noise, args.vertcount)
+  write_datasets(args.type, synthetic_dataset, tolabel_dataset)
