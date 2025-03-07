@@ -42,12 +42,15 @@ def main():
         
         # Train classifier
         train_time = metrics.run_and_measure_time([trainer, str(dataset_path), tolerance], classifiers_dir)
-        
+
         # Determine file paths for trained model
         if clf_name == "nn":
             trained_model_path = classifiers_dir / "train" / f"nn-{dataset_name}"
         else:
             trained_model_path = classifiers_dir / "train" / f"chips-{dataset_name}"
+
+        # Model size
+        model_size = trained_model_path.stat().st_size
         
         # Label dataset
         label_time = metrics.run_and_measure_time([labeler, str(tolabel_path), str(trained_model_path)], cwd=classifiers_dir)
@@ -65,6 +68,7 @@ def main():
 
         run_metrics = {
             "train_time": train_time,
+            "model_size": model_size,
             "label_time": label_time,
             "correctness": correctness,
             "auc": auc

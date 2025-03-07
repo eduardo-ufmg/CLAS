@@ -37,7 +37,8 @@ def plot_classification_results(dataset, labeled_chip, labeled_rchip, labeled_nn
 
     train_table_data = [
         ['Classifier', 'CHIP', 'RCHIP', 'NN'],
-        ['Time (ms)', f"{labeled_chip[1]['train_time']:.2f}", f"{labeled_rchip[1]['train_time']:.2f}", f"{labeled_nn[1]['train_time']:.2f}"]
+        ['Time (ms)', f"{labeled_chip[1]['train_time']:.2f}", f"{labeled_rchip[1]['train_time']:.2f}", f"{labeled_nn[1]['train_time']:.2f}"],
+        ['Model Size (B)', f"{labeled_chip[1]['model_size']}", f"{labeled_rchip[1]['model_size']}", f"{labeled_nn[1]['model_size']}"]
     ]
 
     # Create the table
