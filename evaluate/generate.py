@@ -30,7 +30,7 @@ def generate_synthetic_data(spread, vertcount):
   
   expected_labels = [[-1, 1][label] for label in expected_labels]
 
-  for i in range(vertcount // 2):
+  for i in range(vertcount):
     entry = tolabel_dataset.entries.add()
     entry.vertex_id = -i - 1
     entry.features.extend(tolabel_features[i])

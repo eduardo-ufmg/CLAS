@@ -76,8 +76,8 @@ const ExpertDifferences Expert::computeDifferences(const Edge& edge)
 
   ExpertDifferences differences(cv.size());
 
-  transform(cv.begin(), cv.end(),
-            this->midpoint.begin(),
+  transform(midpoint.begin(), midpoint.end(),
+            cv.begin(),
             differences.begin(),
             minus<float>());
 
