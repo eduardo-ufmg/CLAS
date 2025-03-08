@@ -1,6 +1,7 @@
 # Common sources for chip components
 set(CHIP_COMMON_SOURCES
     computeExperts.cpp
+    chipcid.cpp
 )
 
 # Chip-label executable

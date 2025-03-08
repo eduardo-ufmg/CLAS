@@ -3,6 +3,7 @@
 #include "types.hpp"
 #include "filenameHelpers.hpp"
 #include "readFiles.hpp"
+#include "chipcid.hpp"
 #include "gabrielGraph.hpp"
 #include "filter.hpp"
 #include "computeExperts.hpp"
@@ -33,10 +34,18 @@ int main(int argc, char** argv)
 
   const Experts experts = computeExperts(vertices);
 
+  const chipIDbimap chipidmap = getchipIDmap(vertices, experts);
+
   const string output_file_path = "./train/chips-" + filenameFromPath(dataset_file_path);
+  const string chipidmap_file_path = "./train/chipidmap-" + filenameFromPath(dataset_file_path);
 
   if (writeExperts(experts, output_file_path) != 0) {
     cerr << "Error: could not write experts to file" << output_file_path << endl;
+    return 1;
+  }
+
+  if (writechipIDmap(chipidmap, chipidmap_file_path) != 0) {
+    cerr << "Error: could not write chipidmap to file" << chipidmap_file_path << endl;
     return 1;
   }
 

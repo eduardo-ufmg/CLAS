@@ -150,6 +150,30 @@ Experts readExperts(const string& filename)
   return experts;
 }
 
+chipIDbimap readchipIDmap(const string& filename)
+{
+  classifierpb::chipIDmap pb_chipidmap;
+
+  ifstream file = openFileRead(filename);
+
+  if (!pb_chipidmap.ParseFromIstream(&file)) {
+    throw runtime_error("Error: could not parse chip id map");
+  }
+
+  file.close();
+
+  chipIDbimap chipidmap;
+
+  for (const auto& chipidpair : pb_chipidmap.entries()) {
+    const int chip = chipidpair.chip_int();
+    const ClusterID cid = parseCID(chipidpair.cluster_id());
+
+    chipidmap.insert(chip, cid);
+  }
+
+  return chipidmap;
+}
+
 ifstream openFileRead(const string& filename)
 {
   GOOGLE_PROTOBUF_VERIFY_VERSION;

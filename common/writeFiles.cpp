@@ -112,9 +112,40 @@ int writeLabeledVertices(const LabeledVertices& labeledVertices, const std::stri
   return 0;
 }
 
+int writechipIDmap(const chipIDbimap& chipidmap, const std::string& filename)
+{
+  classifierpb::chipIDmap pb_chipidmap;
+
+  for (const auto& [chip, cid] : chipidmap.getcidtochip()) {
+    classifierpb::chipIDpair *pb_pair = pb_chipidmap.add_entries();
+    
+    pb_pair->set_chip_int(get<int>(chip));
+    
+    classifierpb::ClusterID * pb_clusterid = make_unique<classifierpb::ClusterID>().release();
+
+    visit(overloaded {
+      [pb_clusterid](const int id) { pb_clusterid->set_cluster_id_int(id); },
+      [pb_clusterid](const string& id) { pb_clusterid->set_cluster_id_str(id); }
+    }, cid);
+
+    pb_pair->set_allocated_cluster_id(pb_clusterid);
+
+  }
+
+  ofstream file = openFileWrite(filename);
+  if (!pb_chipidmap.SerializeToOstream(&file)) {
+    cerr << "Error: could not write chipIDmap to file" << filename << endl;
+    return 1;
+  }
+  file.close();
+
+  return 0;
+}
 
 ofstream openFileWrite(const string& filename)
 {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
   ofstream file(filename, ios::binary);
   if (!file.is_open()) {
     throw runtime_error("Could not open file " + filename);

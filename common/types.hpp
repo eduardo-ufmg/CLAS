@@ -116,6 +116,22 @@ public:
 
 using LabeledVertices = std::vector<LabeledVertex>;
 
+using chipIDmap = std::map<ClusterID, ClusterID>;
+
+class chipIDbimap{
+  public:
+    void insert(const ClusterID& cid, const ClusterID& chip);
+  
+    const ClusterID& getchip(const ClusterID& cid) const;
+    const ClusterID& getcid(const ClusterID& chip) const;
+    const chipIDmap& getcidtochip() const;
+    const chipIDmap& getchiptocid() const;
+  
+  private:
+    chipIDmap cidtochip;
+    chipIDmap chiptocid;
+  };
+
 template<typename... Ts>
 std::enable_if_t<(sizeof...(Ts) > 0), std::ostream&>
 operator<<(std::ostream& os, const std::variant<Ts...>& var) {

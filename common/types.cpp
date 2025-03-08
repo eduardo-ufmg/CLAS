@@ -114,3 +114,29 @@ VertexToLabel::VertexToLabel(const VertexID id, const Coordinates coordinates, c
 LabeledVertex::LabeledVertex(const VertexID id, const Coordinates coordinates, const ClusterID clusterid)
   : BaseVertex(id, coordinates), clusterid(clusterid)
 {}
+
+void chipIDbimap::insert(const ClusterID& cid, const ClusterID& chip)
+{
+  cidtochip.emplace(cid, chip);
+  chiptocid.emplace(chip, cid);
+}
+
+const ClusterID& chipIDbimap::getchip(const ClusterID& cid) const
+{
+  return cidtochip.at(cid);
+}
+
+const ClusterID& chipIDbimap::getcid(const ClusterID& chip) const
+{
+  return chiptocid.at(chip);
+}
+
+const chipIDmap& chipIDbimap::getcidtochip() const
+{
+  return cidtochip;
+}
+
+const chipIDmap& chipIDbimap::getchiptocid() const
+{
+  return chiptocid;
+}

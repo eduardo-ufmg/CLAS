@@ -78,6 +78,12 @@ extern VertexToLabelEntryDefaultTypeInternal _VertexToLabelEntry_default_instanc
 class VerticesToLabel;
 struct VerticesToLabelDefaultTypeInternal;
 extern VerticesToLabelDefaultTypeInternal _VerticesToLabel_default_instance_;
+class chipIDmap;
+struct chipIDmapDefaultTypeInternal;
+extern chipIDmapDefaultTypeInternal _chipIDmap_default_instance_;
+class chipIDpair;
+struct chipIDpairDefaultTypeInternal;
+extern chipIDpairDefaultTypeInternal _chipIDpair_default_instance_;
 }  // namespace classifierpb
 PROTOBUF_NAMESPACE_OPEN
 template<> ::classifierpb::ClusterID* Arena::CreateMaybeMessage<::classifierpb::ClusterID>(Arena*);
@@ -91,6 +97,8 @@ template<> ::classifierpb::TrainingDataset* Arena::CreateMaybeMessage<::classifi
 template<> ::classifierpb::TrainingDatasetEntry* Arena::CreateMaybeMessage<::classifierpb::TrainingDatasetEntry>(Arena*);
 template<> ::classifierpb::VertexToLabelEntry* Arena::CreateMaybeMessage<::classifierpb::VertexToLabelEntry>(Arena*);
 template<> ::classifierpb::VerticesToLabel* Arena::CreateMaybeMessage<::classifierpb::VerticesToLabel>(Arena*);
+template<> ::classifierpb::chipIDmap* Arena::CreateMaybeMessage<::classifierpb::chipIDmap>(Arena*);
+template<> ::classifierpb::chipIDpair* Arena::CreateMaybeMessage<::classifierpb::chipIDpair>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace classifierpb {
 
@@ -2034,6 +2042,331 @@ class LabeledVertices final :
   union { Impl_ _impl_; };
   friend struct ::TableStruct_classifier_2eproto;
 };
+// -------------------------------------------------------------------
+
+class chipIDpair final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:classifierpb.chipIDpair) */ {
+ public:
+  inline chipIDpair() : chipIDpair(nullptr) {}
+  ~chipIDpair() override;
+  explicit PROTOBUF_CONSTEXPR chipIDpair(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  chipIDpair(const chipIDpair& from);
+  chipIDpair(chipIDpair&& from) noexcept
+    : chipIDpair() {
+    *this = ::std::move(from);
+  }
+
+  inline chipIDpair& operator=(const chipIDpair& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline chipIDpair& operator=(chipIDpair&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const chipIDpair& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const chipIDpair* internal_default_instance() {
+    return reinterpret_cast<const chipIDpair*>(
+               &_chipIDpair_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    11;
+
+  friend void swap(chipIDpair& a, chipIDpair& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(chipIDpair* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(chipIDpair* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  chipIDpair* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<chipIDpair>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const chipIDpair& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const chipIDpair& from) {
+    chipIDpair::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(chipIDpair* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "classifierpb.chipIDpair";
+  }
+  protected:
+  explicit chipIDpair(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kClusterIdFieldNumber = 2,
+    kChipIntFieldNumber = 1,
+  };
+  // .classifierpb.ClusterID cluster_id = 2;
+  bool has_cluster_id() const;
+  private:
+  bool _internal_has_cluster_id() const;
+  public:
+  void clear_cluster_id();
+  const ::classifierpb::ClusterID& cluster_id() const;
+  PROTOBUF_NODISCARD ::classifierpb::ClusterID* release_cluster_id();
+  ::classifierpb::ClusterID* mutable_cluster_id();
+  void set_allocated_cluster_id(::classifierpb::ClusterID* cluster_id);
+  private:
+  const ::classifierpb::ClusterID& _internal_cluster_id() const;
+  ::classifierpb::ClusterID* _internal_mutable_cluster_id();
+  public:
+  void unsafe_arena_set_allocated_cluster_id(
+      ::classifierpb::ClusterID* cluster_id);
+  ::classifierpb::ClusterID* unsafe_arena_release_cluster_id();
+
+  // int32 chip_int = 1;
+  void clear_chip_int();
+  int32_t chip_int() const;
+  void set_chip_int(int32_t value);
+  private:
+  int32_t _internal_chip_int() const;
+  void _internal_set_chip_int(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:classifierpb.chipIDpair)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::classifierpb::ClusterID* cluster_id_;
+    int32_t chip_int_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_classifier_2eproto;
+};
+// -------------------------------------------------------------------
+
+class chipIDmap final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:classifierpb.chipIDmap) */ {
+ public:
+  inline chipIDmap() : chipIDmap(nullptr) {}
+  ~chipIDmap() override;
+  explicit PROTOBUF_CONSTEXPR chipIDmap(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  chipIDmap(const chipIDmap& from);
+  chipIDmap(chipIDmap&& from) noexcept
+    : chipIDmap() {
+    *this = ::std::move(from);
+  }
+
+  inline chipIDmap& operator=(const chipIDmap& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline chipIDmap& operator=(chipIDmap&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const chipIDmap& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const chipIDmap* internal_default_instance() {
+    return reinterpret_cast<const chipIDmap*>(
+               &_chipIDmap_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    12;
+
+  friend void swap(chipIDmap& a, chipIDmap& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(chipIDmap* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(chipIDmap* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  chipIDmap* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<chipIDmap>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const chipIDmap& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const chipIDmap& from) {
+    chipIDmap::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(chipIDmap* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "classifierpb.chipIDmap";
+  }
+  protected:
+  explicit chipIDmap(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kEntriesFieldNumber = 1,
+  };
+  // repeated .classifierpb.chipIDpair entries = 1;
+  int entries_size() const;
+  private:
+  int _internal_entries_size() const;
+  public:
+  void clear_entries();
+  ::classifierpb::chipIDpair* mutable_entries(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::classifierpb::chipIDpair >*
+      mutable_entries();
+  private:
+  const ::classifierpb::chipIDpair& _internal_entries(int index) const;
+  ::classifierpb::chipIDpair* _internal_add_entries();
+  public:
+  const ::classifierpb::chipIDpair& entries(int index) const;
+  ::classifierpb::chipIDpair* add_entries();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::classifierpb::chipIDpair >&
+      entries() const;
+
+  // @@protoc_insertion_point(class_scope:classifierpb.chipIDmap)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::classifierpb::chipIDpair > entries_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_classifier_2eproto;
+};
 // ===================================================================
 
 
@@ -3151,9 +3484,171 @@ LabeledVertices::entries() const {
   return _impl_.entries_;
 }
 
+// -------------------------------------------------------------------
+
+// chipIDpair
+
+// int32 chip_int = 1;
+inline void chipIDpair::clear_chip_int() {
+  _impl_.chip_int_ = 0;
+}
+inline int32_t chipIDpair::_internal_chip_int() const {
+  return _impl_.chip_int_;
+}
+inline int32_t chipIDpair::chip_int() const {
+  // @@protoc_insertion_point(field_get:classifierpb.chipIDpair.chip_int)
+  return _internal_chip_int();
+}
+inline void chipIDpair::_internal_set_chip_int(int32_t value) {
+  
+  _impl_.chip_int_ = value;
+}
+inline void chipIDpair::set_chip_int(int32_t value) {
+  _internal_set_chip_int(value);
+  // @@protoc_insertion_point(field_set:classifierpb.chipIDpair.chip_int)
+}
+
+// .classifierpb.ClusterID cluster_id = 2;
+inline bool chipIDpair::_internal_has_cluster_id() const {
+  return this != internal_default_instance() && _impl_.cluster_id_ != nullptr;
+}
+inline bool chipIDpair::has_cluster_id() const {
+  return _internal_has_cluster_id();
+}
+inline void chipIDpair::clear_cluster_id() {
+  if (GetArenaForAllocation() == nullptr && _impl_.cluster_id_ != nullptr) {
+    delete _impl_.cluster_id_;
+  }
+  _impl_.cluster_id_ = nullptr;
+}
+inline const ::classifierpb::ClusterID& chipIDpair::_internal_cluster_id() const {
+  const ::classifierpb::ClusterID* p = _impl_.cluster_id_;
+  return p != nullptr ? *p : reinterpret_cast<const ::classifierpb::ClusterID&>(
+      ::classifierpb::_ClusterID_default_instance_);
+}
+inline const ::classifierpb::ClusterID& chipIDpair::cluster_id() const {
+  // @@protoc_insertion_point(field_get:classifierpb.chipIDpair.cluster_id)
+  return _internal_cluster_id();
+}
+inline void chipIDpair::unsafe_arena_set_allocated_cluster_id(
+    ::classifierpb::ClusterID* cluster_id) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.cluster_id_);
+  }
+  _impl_.cluster_id_ = cluster_id;
+  if (cluster_id) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:classifierpb.chipIDpair.cluster_id)
+}
+inline ::classifierpb::ClusterID* chipIDpair::release_cluster_id() {
+  
+  ::classifierpb::ClusterID* temp = _impl_.cluster_id_;
+  _impl_.cluster_id_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::classifierpb::ClusterID* chipIDpair::unsafe_arena_release_cluster_id() {
+  // @@protoc_insertion_point(field_release:classifierpb.chipIDpair.cluster_id)
+  
+  ::classifierpb::ClusterID* temp = _impl_.cluster_id_;
+  _impl_.cluster_id_ = nullptr;
+  return temp;
+}
+inline ::classifierpb::ClusterID* chipIDpair::_internal_mutable_cluster_id() {
+  
+  if (_impl_.cluster_id_ == nullptr) {
+    auto* p = CreateMaybeMessage<::classifierpb::ClusterID>(GetArenaForAllocation());
+    _impl_.cluster_id_ = p;
+  }
+  return _impl_.cluster_id_;
+}
+inline ::classifierpb::ClusterID* chipIDpair::mutable_cluster_id() {
+  ::classifierpb::ClusterID* _msg = _internal_mutable_cluster_id();
+  // @@protoc_insertion_point(field_mutable:classifierpb.chipIDpair.cluster_id)
+  return _msg;
+}
+inline void chipIDpair::set_allocated_cluster_id(::classifierpb::ClusterID* cluster_id) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.cluster_id_;
+  }
+  if (cluster_id) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(cluster_id);
+    if (message_arena != submessage_arena) {
+      cluster_id = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, cluster_id, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.cluster_id_ = cluster_id;
+  // @@protoc_insertion_point(field_set_allocated:classifierpb.chipIDpair.cluster_id)
+}
+
+// -------------------------------------------------------------------
+
+// chipIDmap
+
+// repeated .classifierpb.chipIDpair entries = 1;
+inline int chipIDmap::_internal_entries_size() const {
+  return _impl_.entries_.size();
+}
+inline int chipIDmap::entries_size() const {
+  return _internal_entries_size();
+}
+inline void chipIDmap::clear_entries() {
+  _impl_.entries_.Clear();
+}
+inline ::classifierpb::chipIDpair* chipIDmap::mutable_entries(int index) {
+  // @@protoc_insertion_point(field_mutable:classifierpb.chipIDmap.entries)
+  return _impl_.entries_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::classifierpb::chipIDpair >*
+chipIDmap::mutable_entries() {
+  // @@protoc_insertion_point(field_mutable_list:classifierpb.chipIDmap.entries)
+  return &_impl_.entries_;
+}
+inline const ::classifierpb::chipIDpair& chipIDmap::_internal_entries(int index) const {
+  return _impl_.entries_.Get(index);
+}
+inline const ::classifierpb::chipIDpair& chipIDmap::entries(int index) const {
+  // @@protoc_insertion_point(field_get:classifierpb.chipIDmap.entries)
+  return _internal_entries(index);
+}
+inline ::classifierpb::chipIDpair* chipIDmap::_internal_add_entries() {
+  return _impl_.entries_.Add();
+}
+inline ::classifierpb::chipIDpair* chipIDmap::add_entries() {
+  ::classifierpb::chipIDpair* _add = _internal_add_entries();
+  // @@protoc_insertion_point(field_add:classifierpb.chipIDmap.entries)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::classifierpb::chipIDpair >&
+chipIDmap::entries() const {
+  // @@protoc_insertion_point(field_list:classifierpb.chipIDmap.entries)
+  return _impl_.entries_;
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
