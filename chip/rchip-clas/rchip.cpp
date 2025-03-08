@@ -11,9 +11,9 @@ using namespace std;
 int sign(const double num);
 const Expert& getClosestExpert(const Coordinates& point, const Experts& experts);
 double computeHyperplaneSeparation(const Coordinates& point, const Expert& expert);
-ClusterID labelVertex(const double separation);
+ClusterID labelVertex(const double separation, const chipIDbimap& chipidbimap);
 
-const LabeledVertices rchip(const VerticesToLabel& vertices, const Experts& experts)
+const LabeledVertices rchip(const VerticesToLabel& vertices, const Experts& experts, const chipIDbimap& chipidbimap)
 {
   LabeledVertices labeledVertices;
 
@@ -23,7 +23,7 @@ const LabeledVertices rchip(const VerticesToLabel& vertices, const Experts& expe
 
     const Expert& closestExpert = getClosestExpert(vertex.coordinates, experts);
     const double separation = computeHyperplaneSeparation(vertex.coordinates, closestExpert);
-    const ClusterID clusterid = labelVertex(separation);
+    const ClusterID clusterid = labelVertex(separation, chipidbimap);
 
     labeledVertices.emplace_back(vertex.id, vertex.coordinates, clusterid);
   }
@@ -50,7 +50,8 @@ double computeHyperplaneSeparation(const Coordinates& point, const Expert& exper
                        expert.differences.begin(), -expert.bias);
 }
 
-ClusterID labelVertex(const double separation)
+ClusterID labelVertex(const double separation, const chipIDbimap& chipidbimap)
 {
-  return sign(separation);
+  const int chip = sign(separation);
+  return chipidbimap.getcid(chip);
 }

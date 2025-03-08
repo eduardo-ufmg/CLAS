@@ -22,7 +22,7 @@ const chipIDbimap getchipIDmap(const Vertices& vertices, const Experts& experts)
   for (const VertexToLabel& vtl : refVertices) {
     for (const LabeledVertex& lbdv : lbdVertices) {
       if (lbdv.id == vtl.id) {
-        chipidmap.insert(vtl.expectedclusterid, lbdv.clusterid);
+        chipidmap.insert(vtl.expectedclusterid, get<int>(lbdv.clusterid));
         break;
       }
     }

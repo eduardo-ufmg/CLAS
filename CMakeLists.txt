@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(MyProject)
+project(gabrielgraphclassifiers)
 
 # Set build options
 option(BUILD_ALL "Build all targets" ON)

@@ -116,10 +116,10 @@ int writechipIDmap(const chipIDbimap& chipidmap, const std::string& filename)
 {
   classifierpb::chipIDmap pb_chipidmap;
 
-  for (const auto& [chip, cid] : chipidmap.getcidtochip()) {
+  for (const auto& [chip, cid] : chipidmap.getchiptocid()) {
     classifierpb::chipIDpair *pb_pair = pb_chipidmap.add_entries();
     
-    pb_pair->set_chip_int(get<int>(chip));
+    pb_pair->set_chip_int(chip);
     
     classifierpb::ClusterID * pb_clusterid = make_unique<classifierpb::ClusterID>().release();
 

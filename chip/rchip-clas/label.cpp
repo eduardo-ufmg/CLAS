@@ -11,14 +11,16 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-  if (argc < 4) {
-    cerr << "Usage: " << argv[0] << " <tolabel> <experts> <chipidbimap" << endl;
+  if (argc < 3) {
+    cerr << "Usage: " << argv[0] << " <tolabel> <experts>" << endl;
     return 1;
   }
 
   const string tolabel_path = argv[1];
   const string experts_path = argv[2];
-  const string chipidbimap_path = argv[3];
+
+  const string experts_name = filenameFromPath(experts_path);
+  const string chipidbimap_path = parentFolder(experts_path) + "/chipidbimap-" + datasetFromFilename(experts_name);
 
   const VerticesToLabel verticestl = readToLabel(tolabel_path);
   const Experts experts = readExperts(experts_path);
@@ -26,7 +28,6 @@ int main(int argc, char **argv)
 
   const LabeledVertices labeledVertices = rchip(verticestl, experts, chipidbimap);
 
-  const string experts_name = filenameFromPath(experts_path);
   const string dataset_name = experts_name.substr(experts_name.find("-") + 1);
   const string labeled_vertices_path = "./label/rchip-" + dataset_name;
 

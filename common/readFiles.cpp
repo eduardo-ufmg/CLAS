@@ -168,7 +168,7 @@ chipIDbimap readchipIDmap(const string& filename)
     const int chip = chipidpair.chip_int();
     const ClusterID cid = parseCID(chipidpair.cluster_id());
 
-    chipidmap.insert(chip, cid);
+    chipidmap.insert(cid, chip);
   }
 
   return chipidmap;

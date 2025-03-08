@@ -1,5 +1,5 @@
 from google.protobuf.message import DecodeError
-from classifier_pb2 import TrainingDataset, SupportVertices, Experts, VerticesToLabel, LabeledVertices
+from classifier_pb2 import TrainingDataset, SupportVertices, Experts, VerticesToLabel, LabeledVertices, chipIDmap
 import argparse
 import pathlib
 
@@ -18,25 +18,25 @@ def print_dataset(file_path, messageType):
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description="Print data from protobuf files")
-  parser.add_argument("--data", choices=["dataset", "sv", "expt", "tolabel", "labeled"], help="data to print")
-  parser.add_argument("--classifier", choices=["chip", "rchip", "nn"], default="nn", help="classifier type")
-  parser.add_argument("--setname", default="synthetic", help="dataset name")
+  parser.add_argument("--data", choices=["dataset", "sv", "expt", "tolabel", "labeled", "chipidbimap"], help="data to print")
+  parser.add_argument("--classifier", choices=["chip", "rchip", "nn"], help="classifier type")
+  parser.add_argument("--setname", help="dataset name")
   args = parser.parse_args()
 
   base_path = pathlib.Path(__file__).parent
 
-  labeledpath = {
-    "chip": base_path / "../chip/chip-clas/",
-    "rchip": base_path / "../chip/rchip-clas/",
-    "nn": base_path / "../nn/"
-  }
+  data_path = base_path / "../data/"
+  bin_path = base_path / "../bin/"
+  trained_path = bin_path / "train/"
+  labeled_path = bin_path / "label/"
 
   data = {
-    "dataset": (base_path / f"../data/{args.setname}/{args.setname}", TrainingDataset),
-    "sv": (base_path / f"../nn/train/trained/{args.setname}", SupportVertices),
-    "expt": (base_path / "../chip/experts", Experts),
-    "tolabel": (base_path / f"../data/{args.setname}/tolabel", VerticesToLabel),
-    "labeled": (labeledpath[args.classifier] / "label/labeled", LabeledVertices)
+    "dataset": (data_path / args.setname / args.setname, TrainingDataset),
+    "sv": (trained_path / f"{args.classifier}-{args.setname}", SupportVertices),
+    "expt": (trained_path / f"rchips-{args.setname}", Experts),
+    "tolabel": (data_path / args.setname / "tolabel", VerticesToLabel),
+    "labeled": (labeled_path / f"{args.classifier}-{args.setname}", LabeledVertices),
+    "chipidbimap": (trained_path / f"chipidbimap-{args.setname}", chipIDmap)
   }
 
   print_dataset(*data[args.data])

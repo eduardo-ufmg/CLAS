@@ -116,20 +116,21 @@ public:
 
 using LabeledVertices = std::vector<LabeledVertex>;
 
-using chipIDmap = std::map<ClusterID, ClusterID>;
+using chiptocIDMap = std::map<int, ClusterID>;
+using cIDtochipMap = std::map<ClusterID, int>;
 
 class chipIDbimap{
   public:
-    void insert(const ClusterID& cid, const ClusterID& chip);
+    void insert(const ClusterID& cid, const int chip);
   
-    const ClusterID& getchip(const ClusterID& cid) const;
-    const ClusterID& getcid(const ClusterID& chip) const;
-    const chipIDmap& getcidtochip() const;
-    const chipIDmap& getchiptocid() const;
+    int getchip(const ClusterID& cid) const;
+    const ClusterID& getcid(const int chip) const;
+    const cIDtochipMap& getcidtochip() const;
+    const chiptocIDMap& getchiptocid() const;
   
   private:
-    chipIDmap cidtochip;
-    chipIDmap chiptocid;
+    cIDtochipMap cidtochip;
+    chiptocIDMap chiptocid;
   };
 
 template<typename... Ts>
