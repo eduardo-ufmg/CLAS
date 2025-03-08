@@ -5,6 +5,16 @@ import sklearn.datasets
 import numpy as np
 from classifier_pb2 import TrainingDataset, TrainingDatasetEntry, VerticesToLabel, VertexToLabelEntry
 
+def correct_labels(labels, idtype):
+  if idtype == "int":
+    label_set = [-1, 1]
+  elif idtype == "str":
+    label_set = ["A", "B"]
+  else:
+    raise ValueError("Invalid cluster ID type")
+  
+  return [label_set[label] for label in labels]
+
 def generate_blob(noise, tlnoise, vertcount):
   centers = [(random.uniform(-1, 1), np.random.uniform(-1, 1)) for _ in range(2)]
 
@@ -52,7 +62,7 @@ def generate_xor(noise, tlnoise, vertcount):
   return (features, labels), (tolabel_features, expected_labels)
   
 
-def generate_2d_synthetic_data(type, noise, vertcount):
+def generate_2d_synthetic_data(type, idtype, noise, vertcount):
   dataset = TrainingDataset()
   tolabel_dataset = VerticesToLabel()
 
@@ -72,20 +82,25 @@ def generate_2d_synthetic_data(type, noise, vertcount):
   else:
     raise ValueError("Invalid synthetic dataset type")
   
-  labels = [[-1, 1][label] for label in labels]
+  labels = correct_labels(labels, idtype)
+  expected_labels = correct_labels(expected_labels, idtype)
 
   for i in range(vertcount):
     entry = dataset.entries.add()
     entry.features.extend(features[i])
-    entry.cluster_id.cluster_id_int = labels[i]
-
-  expected_labels = [[-1, 1][label] for label in expected_labels]
+    if idtype == "int":
+      entry.cluster_id.cluster_id_int = labels[i]
+    elif idtype == "str":
+      entry.cluster_id.cluster_id_str = labels[i]
 
   for i in range(vertcount):
     entry = tolabel_dataset.entries.add()
     entry.vertex_id = -i - 1
     entry.features.extend(tolabel_features[i])
-    entry.expected_cluster_id.cluster_id_int = expected_labels[i]
+    if idtype == "int":
+      entry.expected_cluster_id.cluster_id_int = expected_labels[i]
+    elif idtype == "str":
+      entry.expected_cluster_id.cluster_id_str = expected_labels[i]
 
   return dataset, tolabel_dataset
 
@@ -180,7 +195,7 @@ def generate_3d_xor(noise, tlnoise, vertcount):
 
   return (features, labels), (tolabel_features, expected_labels)
 
-def generate_3d_synthetic_data(type, noise, vertcount):
+def generate_3d_synthetic_data(type, idtype, noise, vertcount):
   dataset = TrainingDataset()
   tolabel_dataset = VerticesToLabel()
 
@@ -201,23 +216,65 @@ def generate_3d_synthetic_data(type, noise, vertcount):
   else:
     raise ValueError("Invalid synthetic dataset type")
   
-  labels = [[-1, 1][label] for label in labels]
+  labels = correct_labels(labels, idtype)
+  expected_labels = correct_labels(expected_labels, idtype)
 
   for i in range(vertcount):
     entry = dataset.entries.add()
     entry.features.extend(features[i])
-    entry.cluster_id.cluster_id_int = labels[i]
-
-  expected_labels = [[-1, 1][label] for label in expected_labels]
+    if idtype == "int":
+      entry.cluster_id.cluster_id_int = labels[i]
+    elif idtype == "str":
+      entry.cluster_id.cluster_id_str = labels[i]
 
   for i in range(vertcount):
     entry = tolabel_dataset.entries.add()
     entry.vertex_id = -i - 1
     entry.features.extend(tolabel_features[i])
-    entry.expected_cluster_id.cluster_id_int = expected_labels[i]
+    if idtype == "int":
+      entry.expected_cluster_id.cluster_id_int = expected_labels[i]
+    elif idtype == "str":
+      entry.expected_cluster_id.cluster_id_str = expected_labels[i]
 
   return dataset, tolabel_dataset
 
+def generate_multidim_blob(noise, idtype, vertcount, dim):
+  tlnoise = noise * 2
+
+  centers = [np.random.uniform(-1, 1, dim) for _ in range(2)]
+
+  features, labels = sklearn.datasets.make_blobs(n_samples=vertcount,
+                                                  centers=centers,
+                                                  cluster_std=noise)
+  
+  tolabel_features, expected_labels = sklearn.datasets.make_blobs(n_samples=vertcount,
+                                                                  centers=centers,
+                                                                  cluster_std=tlnoise)
+  
+  dataset = TrainingDataset()
+  tolabel_dataset = VerticesToLabel()
+
+  labels = correct_labels(labels, idtype)
+  expected_labels = correct_labels(expected_labels, idtype)
+
+  for i in range(vertcount):
+    entry = dataset.entries.add()
+    entry.features.extend(features[i])
+    if idtype == "int":
+      entry.cluster_id.cluster_id_int = labels[i]
+    elif idtype == "str":
+      entry.cluster_id.cluster_id_str = labels[i]
+
+  for i in range(vertcount):
+    entry = tolabel_dataset.entries.add()
+    entry.vertex_id = -i - 1
+    entry.features.extend(tolabel_features[i])
+    if idtype == "int":
+      entry.expected_cluster_id.cluster_id_int = expected_labels[i]
+    elif idtype == "str":
+      entry.expected_cluster_id.cluster_id_str = expected_labels[i]
+
+  return dataset, tolabel_dataset
 
 def write_datasets(type, dataset, tolabel_dataset):
   dataset_path = pathlib.Path(f"../data/{type}/{type}")
@@ -233,17 +290,18 @@ def write_datasets(type, dataset, tolabel_dataset):
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description="Generate synthetic datasets for graph-based classifier.")
-  parser.add_argument("--dim", type=int, choices=[2, 3], default=2, help="Dimension of synthetic dataset")
+  parser.add_argument("--dim", type=int, default=2, help="Dimension of synthetic dataset")
   parser.add_argument("--type", type=str, choices=["blob", "circle", "moons", "xor"], help="Type of synthetic dataset to generate")
+  parser.add_argument("--idtype", type=str, choices=["int", "str"], default="int", help="Type of cluster ID to use")
   parser.add_argument("--noise", type=float, help="Spread for synthetic dataset features")
   parser.add_argument("--vertcount", type=int, help="Number of vertices")
   args = parser.parse_args()
 
   if args.dim == 2:
-    synthetic_dataset, tolabel_dataset = generate_2d_synthetic_data(args.type, args.noise, args.vertcount)
+    synthetic_dataset, tolabel_dataset = generate_2d_synthetic_data(args.type, args.idtype, args.noise, args.vertcount)
   elif args.dim == 3:
-    synthetic_dataset, tolabel_dataset = generate_3d_synthetic_data(args.type, args.noise, args.vertcount)
+    synthetic_dataset, tolabel_dataset = generate_3d_synthetic_data(args.type, args.idtype, args.noise, args.vertcount)
   else:
-    raise ValueError("Invalid dimension")
+    synthetic_dataset, tolabel_dataset = generate_multidim_blob(args.noise, args.idtype, args.vertcount, args.dim)
 
   write_datasets(args.type, synthetic_dataset, tolabel_dataset)

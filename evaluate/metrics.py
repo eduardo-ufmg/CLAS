@@ -17,18 +17,25 @@ def vertexwise_correctness(pb_labeled, expected_dict):
 
   return correctness
 
+def str_to_int(s):
+  d = 0
+  for c in s:
+    d += ord(c)
+  return d
+    
 def mean_auc(pb_labeled, expected_dict):
   y_true = []
   y_score = []
+
   for entry in pb_labeled.entries:
-      expected_cluster = expected_dict[entry.vertex_id]
-      actual_cluster = entry.cluster_id
-      if expected_cluster.HasField('cluster_id_int'):
-          y_true.append(expected_cluster.cluster_id_int)
-          y_score.append(actual_cluster.cluster_id_int)
-      elif expected_cluster.HasField('cluster_id_str'):
-          y_true.append(expected_cluster.cluster_id_str)
-          y_score.append(actual_cluster.cluster_id_str)
+    expected_cluster = expected_dict[entry.vertex_id]
+    actual_cluster = entry.cluster_id
+    if expected_cluster.HasField('cluster_id_int'):
+      y_true.append(expected_cluster.cluster_id_int)
+      y_score.append(actual_cluster.cluster_id_int)
+    elif expected_cluster.HasField('cluster_id_str'):
+      y_true.append(str_to_int(expected_cluster.cluster_id_str))
+      y_score.append(str_to_int(actual_cluster.cluster_id_str))
 
   return roc_auc_score(y_true, y_score)
 

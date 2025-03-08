@@ -2,6 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 from classifier_pb2 import TrainingDataset, SupportVertices, Experts, VerticesToLabel, LabeledVertices
 
+def str_to_int(s):
+  d = 0
+  for c in s:
+    d += ord(c)
+  return d
+
 def plot_vertices(ax, vertices, title, type, edge_colors=None):
     """Plots the vertices in the specified subplot ax with edge colors based on correctness."""
     features = []
@@ -11,9 +17,14 @@ def plot_vertices(ax, vertices, title, type, edge_colors=None):
         if entry.cluster_id.HasField('cluster_id_int'):
             labels.append(entry.cluster_id.cluster_id_int)
         else:
-            labels.append(entry.cluster_id.cluster_id_str)
+            label_str = entry.cluster_id.cluster_id_str
+            label_int = str_to_int(label_str)
+
+            labels.append( (label_str, label_int) )
     
     features = np.array(features)
+
+    labels_to_use_in_colors = [label if isinstance(label, int) else label[1] for label in labels]
 
     dim = features.shape[1]
     if dim not in [2, 3]:
@@ -23,16 +34,29 @@ def plot_vertices(ax, vertices, title, type, edge_colors=None):
 
     if edge_colors is None:
         edge_colors = 'k'
-        
+
     if dim == 2:
-        scatter = ax.scatter(features[:, 0], features[:, 1], c=labels, edgecolors=edge_colors, marker=markers[type])
+        scatter = ax.scatter(features[:, 0], features[:, 1], c=labels_to_use_in_colors, edgecolors=edge_colors, marker=markers[type])
     elif dim == 3:
-        scatter = ax.scatter(features[:, 0], features[:, 1], features[:, 2], c=labels, edgecolors=edge_colors, marker=markers[type])
+        scatter = ax.scatter(features[:, 0], features[:, 1], features[:, 2], c=labels_to_use_in_colors, edgecolors=edge_colors, marker=markers[type])
 
     ax.set_title(title)
     
     # Create a legend
-    legend1 = ax.legend(*scatter.legend_elements(), title="Clusters")
+
+    handles, legend_labels = scatter.legend_elements()
+
+    unique_labels = set(labels)
+    
+    for i, legend_label in enumerate(legend_labels):
+        for label in unique_labels:
+            if not isinstance(label, int):
+                legend_label_int = int(legend_label.strip('$\\mathdefault{}'))
+                if label[1] == legend_label_int:
+                    legend_labels[i] = label[0]
+                    break
+
+    legend1 = ax.legend(handles, legend_labels, title="Clusters")
     ax.add_artist(legend1)
 
 def plot_classification_results(dataset, labeled_chip, labeled_rchip, labeled_nn, dataset_name, label_accuracy):
@@ -45,20 +69,27 @@ def plot_classification_results(dataset, labeled_chip, labeled_rchip, labeled_nn
         fig = plt.figure(figsize=(15, 10))
         axs = fig.subplots(2, 3, subplot_kw={'projection': '3d'})
     else:
-        raise ValueError("Features must be 2 or 3-dimensional for plotting.")
+        fig, axs = plt.subplots(1, 2, figsize=(15, 10))
 
-    # Plot original dataset in quadrant 0
-    plot_vertices(axs[0, 0], dataset, f"Dataset: {dataset_name}", 'dataset')
-    
-    # Reserve quadrants 1 and 2 for tables
-    train_ax = axs[0, 1]
+    # Plot original dataset in quadrant 0 if 2D or 3D
+    if dim in [2, 3]:
+        plot_vertices(axs[0, 0], dataset, f"Dataset: {dataset_name}", 'dataset')
+
+    if dim in [2, 3]:
+        train_ax = axs[0, 1]
+        label_ax = axs[0, 2]
+    else:
+        train_ax = axs[0]
+        label_ax = axs[1]
+
     train_ax.axis('off')
     train_ax.set_title("Training")
 
     train_table_data = [
-        ['Classifier', 'CHIP', 'RCHIP', 'NN'],
-        ['Time (ms)', f"{labeled_chip[1]['train_time']:.2f}", f"{labeled_rchip[1]['train_time']:.2f}", f"{labeled_nn[1]['train_time']:.2f}"],
-        ['Model Size (B)', f"{labeled_chip[1]['model_size']}", f"{labeled_rchip[1]['model_size']}", f"{labeled_nn[1]['model_size']}"]
+        ['Classifier', 'Time (ms)', 'Model Size (B)'],
+        ['CHIP', f"{labeled_chip[1]['train_time']:.2f}", f"{labeled_chip[1]['model_size']}"],
+        ['RCHIP', f"{labeled_rchip[1]['train_time']:.2f}", f"{labeled_rchip[1]['model_size']}"],
+        ['NN', f"{labeled_nn[1]['train_time']:.2f}", f"{labeled_nn[1]['model_size']}"]
     ]
 
     # Create the table
@@ -68,11 +99,6 @@ def plot_classification_results(dataset, labeled_chip, labeled_rchip, labeled_nn
         cellLoc='center',
     )
 
-    train_table.auto_set_font_size(False)
-    train_table.set_fontsize(10)
-    train_table.scale(1, 1.5)
-
-    label_ax = axs[0, 2]
     label_ax.axis('off')
     label_ax.set_title("Labeling")
 
@@ -82,10 +108,10 @@ def plot_classification_results(dataset, labeled_chip, labeled_rchip, labeled_nn
 
     # Prepare data for tables
     label_table_data = [
-        ['Classifier', 'CHIP', 'RCHIP', 'NN'],
-        ['Accuracy (%)', f"{label_accuracy['CHIP']:.2f}%", f"{label_accuracy['RCHIP']:.2f}%", f"{label_accuracy['NN']:.2f}%"],
-        ['AUC', f"{chip_auc:.2f}", f"{rchip_auc:.2f}", f"{nn_auc:.2f}"],
-        ['Time (ms)', f"{labeled_chip[1]['label_time']:.2f}", f"{labeled_rchip[1]['label_time']:.2f}", f"{labeled_nn[1]['label_time']:.2f}"]
+        ['Classifier', 'Accuracy (%)', 'AUC', 'Time (ms)'],
+        ['CHIP', f"{label_accuracy['CHIP']:.2f}%", f"{chip_auc:.2f}", f"{labeled_chip[1]['label_time']:.2f}"],
+        ['RCHIP', f"{label_accuracy['RCHIP']:.2f}%", f"{rchip_auc:.2f}", f"{labeled_rchip[1]['label_time']:.2f}"],
+        ['NN', f"{label_accuracy['NN']:.2f}%", f"{nn_auc:.2f}", f"{labeled_nn[1]['label_time']:.2f}"]
     ]
 
     # Create the table
@@ -94,20 +120,17 @@ def plot_classification_results(dataset, labeled_chip, labeled_rchip, labeled_nn
         loc='center',
         cellLoc='center',
     )
-
-    label_table.auto_set_font_size(False)
-    label_table.set_fontsize(10)
-    label_table.scale(1, 1.5)
     
     # Plot classified results with correctness
-    for ax, (labeled_data, metrics) in zip(axs[1, :], [labeled_chip, labeled_rchip, labeled_nn]):
-        edge_colors = ['g' if correct else 'r' for correct in metrics['correctness']]
-        plot_vertices(ax, labeled_data, ax.get_title(), 'labeled', edge_colors=edge_colors)
-    
-    # Set titles for classified results
-    axs[1, 0].set_title("CHIP")
-    axs[1, 1].set_title("RCHIP")
-    axs[1, 2].set_title("NN")
+    if dim in [2, 3]:
+        for ax, (labeled_data, metrics) in zip(axs[1, :], [labeled_chip, labeled_rchip, labeled_nn]):
+            edge_colors = ['g' if correct else 'r' for correct in metrics['correctness']]
+            plot_vertices(ax, labeled_data, ax.get_title(), 'labeled', edge_colors=edge_colors)
+        
+        # Set titles for classified results
+        axs[1, 0].set_title("CHIP")
+        axs[1, 1].set_title("RCHIP")
+        axs[1, 2].set_title("NN")
     
     plt.tight_layout()
     plt.show()
