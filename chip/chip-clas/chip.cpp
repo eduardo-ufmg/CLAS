@@ -20,9 +20,9 @@ Weights computeWeights(const DistancePair& distpair);
 void normalizeWeights(Weights& weights);
 const Weights computeNormalizedWeights(const DistancePair& distpair);
 double computeDecisionSum(const Coordinates& point, const Experts& experts, const Weights& weights);
-ClusterID labelVertex(const double decision_sum);
+ClusterID labelVertex(const double decision_sum, const chipIDbimap& chipidbimap);
 
-const LabeledVertices chip(const VerticesToLabel& vertices, const Experts& experts)
+const LabeledVertices chip(const VerticesToLabel& vertices, const Experts& experts, const chipIDbimap& chipidbimap)
 {
   LabeledVertices labeledVertices;
 
@@ -33,7 +33,7 @@ const LabeledVertices chip(const VerticesToLabel& vertices, const Experts& exper
     const DistancePair distpair = computeDistances(vertex.coordinates, experts);
     const Weights weights = computeNormalizedWeights(distpair);
     const double decision_sum = computeDecisionSum(vertex.coordinates, experts, weights);
-    const ClusterID clusterid = labelVertex(decision_sum);
+    const ClusterID clusterid = labelVertex(decision_sum, chipidbimap);
 
     labeledVertices.emplace_back(vertex.id, vertex.coordinates, clusterid);
 
@@ -135,7 +135,8 @@ double computeDecisionSum(const Coordinates& point, const Experts& experts, cons
   return accumulate(decisions.begin(), decisions.end(), 0.0);
 }
 
-ClusterID labelVertex(const double decision_sum)
+ClusterID labelVertex(const double decision_sum, const chipIDbimap& chipidbimap)
 {
-  return sign(decision_sum);
+  const int chip = sign(decision_sum);
+  return chipidbimap.getcid(chip);
 }

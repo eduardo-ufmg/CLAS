@@ -18,12 +18,15 @@ int main(int argc, char **argv)
   const string tolabel_path = argv[1];
   const string experts_path = argv[2];
 
+  const string experts_name = filenameFromPath(experts_path);
+  const string chipidbimap_path = parentFolder(experts_path) + "/chipidbimap-" + datasetFromFilename(experts_name);
+
   const VerticesToLabel verticestl = readToLabel(tolabel_path);
   const Experts experts = readExperts(experts_path);
+  const chipIDbimap chipidbimap = readchipIDmap(chipidbimap_path);
 
-  const LabeledVertices labeledVertices = chip(verticestl, experts);
+  const LabeledVertices labeledVertices = chip(verticestl, experts, chipidbimap);
 
-  const string experts_name = filenameFromPath(experts_path);
   const string dataset_name = experts_name.substr(experts_name.find("-") + 1);
   const string labeled_vertices_path = "./label/chip-" + dataset_name;
 
