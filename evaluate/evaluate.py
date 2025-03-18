@@ -3,7 +3,7 @@ import pathlib
 import subprocess
 import plot
 import metrics
-from classifier_pb2 import TrainingDataset, SupportVertices, Experts, VerticesToLabel, LabeledVertices
+from classifier_pb2 import TrainingDataset, VerticesToLabel, LabeledVertices
 
 def main():
     parser = argparse.ArgumentParser("Train and evaluate multiple classifiers")
@@ -15,16 +15,15 @@ def main():
     dataset_name = args.dataset
     dataset_path = pathlib.Path("../data") / dataset_name / dataset_name
     tolerance = str(args.tolerance)
-    tolabel_path = pathlib.Path("../data") / dataset_name / "tolabel"
+    test_path = pathlib.Path("../data") / dataset_name / "test"
     
     # Load dataset
     pb_dataset = TrainingDataset()
     pb_dataset.ParseFromString(open(dataset_path, "rb").read())
 
     # Load to-label vertices
-    pb_tolabel = VerticesToLabel()
-    pb_tolabel.ParseFromString(open(tolabel_path, "rb").read())
-    expected_dict = {entry.vertex_id: entry.expected_cluster_id for entry in pb_tolabel.entries}
+    pb_test = VerticesToLabel()
+    pb_test.ParseFromString(open(test_path, "rb").read())
     
     # Define classifiers
     classifiers = {
@@ -53,37 +52,20 @@ def main():
         model_size = trained_model_path.stat().st_size
         
         # Label dataset
-        label_time = metrics.run_and_measure_time([labeler, str(tolabel_path), str(trained_model_path)], cwd=classifiers_dir)
+        label_time = metrics.run_and_measure_time([labeler, str(test_path), str(trained_model_path)], cwd=classifiers_dir)
         
         # Load labeled results
         labeled_path = classifiers_dir / "label" / f"{clf_name}-{dataset_name}"
         pb_labeled = LabeledVertices()
         pb_labeled.ParseFromString(open(labeled_path, "rb").read())
         
-        # Check correctness
-        correctness = metrics.vertexwise_correctness(pb_labeled, expected_dict)
-
-        # Mean AUC
-        auc = metrics.mean_auc(pb_labeled, expected_dict)
-
         run_metrics = {
             "train_time": train_time,
             "model_size": model_size,
             "label_time": label_time,
-            "correctness": correctness,
-            "auc": auc
         }
         
         labeled_results[clf_name] = (pb_labeled, run_metrics)
-
-    # Calculate accuracies
-    accuracies = {
-        'CHIP': (sum(labeled_results["chip"][1]["correctness"]) / len(labeled_results["chip"][1]["correctness"])) * 100,
-        'RCHIP': (sum(labeled_results["rchip"][1]["correctness"]) / len(labeled_results["rchip"][1]["correctness"])) * 100,
-        'NN': (sum(labeled_results["nn"][1]["correctness"]) / len(labeled_results["nn"][1]["correctness"])) * 100
-    }
-
-    accuracies = {k: round(v, 2) for k, v in accuracies.items()}
 
     # Plot results
     plot.plot_classification_results(
@@ -92,7 +74,6 @@ def main():
         labeled_results["rchip"], 
         labeled_results["nn"], 
         dataset_name,
-        accuracies,
     )
 
 if __name__ == "__main__":

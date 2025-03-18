@@ -1,5 +1,5 @@
 import subprocess
-from sklearn.metrics import auc, roc_curve, roc_auc_score
+from sklearn.metrics import roc_auc_score
 
 def vertexwise_correctness(pb_labeled, expected_dict):
   correctness = []

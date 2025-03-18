@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from classifier_pb2 import TrainingDataset, SupportVertices, Experts, VerticesToLabel, LabeledVertices
 
 def str_to_int(s):
   d = 0
@@ -59,7 +58,30 @@ def plot_vertices(ax, vertices, title, type, edge_colors=None):
     legend1 = ax.legend(handles, legend_labels, title="Clusters")
     ax.add_artist(legend1)
 
-def plot_classification_results(dataset, labeled_chip, labeled_rchip, labeled_nn, dataset_name, label_accuracy):
+def plot_test_grid(ax, test_grid, title, type):
+    """Plots the test grid in the specified subplot ax."""
+    features = []
+    labels = []
+    for entry in test_grid.entries:
+        features.append(entry.features)
+        if entry.cluster_id.HasField('cluster_id_int'):
+            labels.append(entry.cluster_id.cluster_id_int)
+        else:
+            label_str = entry.cluster_id.cluster_id_str
+            label_int = str_to_int(label_str)
+            labels.append((label_str, label_int))
+
+    features = np.array(features)
+    labels_to_use_in_colors = [label if isinstance(label, int) else label[1] for label in labels]
+
+    dim = features.shape[1]
+    if dim != 2:
+        raise ValueError("Test grid features must be 2-dimensional for plotting.")
+
+    scatter = ax.scatter(features[:, 0], features[:, 1], c=labels_to_use_in_colors, cmap='viridis', marker='s', s=10, alpha=0.6)
+    ax.set_title(title)
+
+def plot_classification_results(dataset, labeled_chip, labeled_rchip, labeled_nn, dataset_name):
     """Creates a figure with six quadrants displaying dataset and classification results."""    
     dim = len(dataset.entries[0].features)
 
@@ -93,7 +115,7 @@ def plot_classification_results(dataset, labeled_chip, labeled_rchip, labeled_nn
     ]
 
     # Create the table
-    train_table = train_ax.table(
+    _ = train_ax.table(
         cellText=train_table_data,
         loc='center',
         cellLoc='center',
@@ -102,20 +124,16 @@ def plot_classification_results(dataset, labeled_chip, labeled_rchip, labeled_nn
     label_ax.axis('off')
     label_ax.set_title("Labeling")
 
-    chip_auc = labeled_chip[1]['auc']
-    rchip_auc = labeled_rchip[1]['auc']
-    nn_auc = labeled_nn[1]['auc']
-
     # Prepare data for tables
     label_table_data = [
-        ['Classifier', 'Accuracy (%)', 'AUC', 'Time (ms)'],
-        ['CHIP', f"{label_accuracy['CHIP']:.2f}%", f"{chip_auc:.2f}", f"{labeled_chip[1]['label_time']:.2f}"],
-        ['RCHIP', f"{label_accuracy['RCHIP']:.2f}%", f"{rchip_auc:.2f}", f"{labeled_rchip[1]['label_time']:.2f}"],
-        ['NN', f"{label_accuracy['NN']:.2f}%", f"{nn_auc:.2f}", f"{labeled_nn[1]['label_time']:.2f}"]
+        ['Classifier', 'Time (ms)'],
+        ['CHIP', f"{labeled_chip[1]['label_time']:.2f}"],
+        ['RCHIP', f"{labeled_rchip[1]['label_time']:.2f}"],
+        ['NN', f"{labeled_nn[1]['label_time']:.2f}"]
     ]
 
     # Create the table
-    label_table = label_ax.table(
+    _ = label_ax.table(
         cellText=label_table_data,
         loc='center',
         cellLoc='center',
@@ -123,9 +141,8 @@ def plot_classification_results(dataset, labeled_chip, labeled_rchip, labeled_nn
     
     # Plot classified results with correctness
     if dim in [2, 3]:
-        for ax, (labeled_data, metrics) in zip(axs[1, :], [labeled_chip, labeled_rchip, labeled_nn]):
-            edge_colors = ['g' if correct else 'r' for correct in metrics['correctness']]
-            plot_vertices(ax, labeled_data, ax.get_title(), 'labeled', edge_colors=edge_colors)
+        for ax, (labeled_data, _) in zip(axs[1, :], [labeled_chip, labeled_rchip, labeled_nn]):
+            plot_test_grid(ax, labeled_data, f"Test Grid: {dataset_name}", 'labeled')
         
         # Set titles for classified results
         axs[1, 0].set_title("CHIP")
