@@ -5,7 +5,7 @@ from classifier_pb2 import TrainingDataset, VerticesToLabel
 from correct_labels import correct_labels
 
 def generate_blob(noise, tlnoise, vertcount):
-  centers = [(random.uniform(-1, 1), np.random.uniform(-1, 1)) for _ in range(2)]
+  centers = [(np.random.uniform(-1, 1), np.random.uniform(-1, 1)) for _ in range(2)]
 
   features, labels = sklearn.datasets.make_blobs(n_samples=vertcount,
                                                   centers=centers,

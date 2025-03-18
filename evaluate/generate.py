@@ -1,9 +1,6 @@
-import random
 import argparse
 import pathlib
-import sklearn.datasets
 import numpy as np
-from classifier_pb2 import TrainingDataset, VerticesToLabel
 from synthetic_2d import generate_2d_synthetic_data
 from synthetic_3d import generate_3d_synthetic_data
 from synthetic_nd import generate_multidim_blob
@@ -33,7 +30,7 @@ if __name__ == "__main__":
   if args.dim == 2:
     synthetic_dataset, tolabel_dataset = generate_2d_synthetic_data(args.type, args.idtype, args.noise, args.vertcount, args.grid_res)
   elif args.dim == 3:
-    synthetic_dataset, tolabel_dataset = generate_3d_synthetic_data(args.type, args.idtype, args.noise, args.vertcount)
+    synthetic_dataset, tolabel_dataset = generate_3d_synthetic_data(args.type, args.idtype, args.noise, args.vertcount, args.grid_res)
   else:
     synthetic_dataset, tolabel_dataset = generate_multidim_blob(args.noise, args.idtype, args.vertcount, args.dim)
 

@@ -4,18 +4,14 @@ import numpy as np
 from classifier_pb2 import TrainingDataset, VerticesToLabel
 from correct_labels import correct_labels
 
-def generate_3d_blob(noise, tlnoise, vertcount):
-  centers = [(random.uniform(-1, 1), np.random.uniform(-1, 1), np.random.uniform(-1, 1)) for _ in range(2)]
+def generate_3d_blob(noise, vertcount):
+  centers = [(np.random.uniform(-1, 1), np.random.uniform(-1, 1), np.random.uniform(-1, 1)) for _ in range(2)]
 
   features, labels = sklearn.datasets.make_blobs(n_samples=vertcount,
                                                   centers=centers,
                                                   cluster_std=noise)
   
-  tolabel_features, expected_labels = sklearn.datasets.make_blobs(n_samples=vertcount,
-                                                                  centers=centers,
-                                                                  cluster_std=tlnoise)
-  
-  return (features, labels), (tolabel_features, expected_labels)
+  return features, labels
 
 def generate_hemisphere(radius, points, noise):
   features = []
@@ -36,7 +32,7 @@ def generate_hemisphere(radius, points, noise):
 
   return features
 
-def generate_hemispheres(noise, tlnoise, vertcount):
+def generate_hemispheres(noise, vertcount):
   half = vertcount // 2
   outer_radius = np.random.uniform(1, 2)
   inner_radius = np.random.uniform(0, 1)
@@ -47,15 +43,9 @@ def generate_hemispheres(noise, tlnoise, vertcount):
   features += generate_hemisphere(inner_radius, half, noise)
   labels += [0] * half
 
-  tolabel_features = generate_hemisphere(outer_radius, half, tlnoise)
-  expected_labels = [1] * half
+  return features, labels
 
-  tolabel_features += generate_hemisphere(inner_radius, half, tlnoise)
-  expected_labels += [0] * half
-
-  return (features, labels), (tolabel_features, expected_labels)
-
-def generate_3d_moons(noise, tlnoise, vertcount):
+def generate_3d_moons(noise, vertcount):
   radius = np.random.uniform(1, 2)
 
   features, labels = sklearn.datasets.make_moons(n_samples=vertcount, noise=noise)
@@ -67,18 +57,9 @@ def generate_3d_moons(noise, tlnoise, vertcount):
   features3d[:, 1] = (radius + features[:, 0]) * np.sin(phi)
   features3d[:, 2] = features[:, 1]
 
-  tolabel_features, expected_labels = sklearn.datasets.make_moons(n_samples=vertcount, noise=tlnoise)
+  return features3d, labels
 
-  phi = np.random.uniform(0, 2 * np.pi, tolabel_features.shape[0])
-
-  tolabel_features3d = np.zeros((tolabel_features.shape[0], 3))
-  tolabel_features3d[:, 0] = (radius + tolabel_features[:, 0]) * np.cos(phi)
-  tolabel_features3d[:, 1] = (radius + tolabel_features[:, 0]) * np.sin(phi)
-  tolabel_features3d[:, 2] = tolabel_features[:, 1]
-
-  return (features3d, labels), (tolabel_features3d, expected_labels)
-
-def generate_3d_xor(noise, tlnoise, vertcount):
+def generate_3d_xor(noise, vertcount):
   centers = [(1, 1, 1), (-1, 1, 1), (-1, -1, 1), (1, -1, 1), (1, 1, -1), (-1, 1, -1), (-1, -1, -1), (1, -1, -1)]
   
   features, labels = sklearn.datasets.make_blobs(n_samples=vertcount,
@@ -87,37 +68,28 @@ def generate_3d_xor(noise, tlnoise, vertcount):
   
   labels = [label % 2 for label in labels]
 
-  tolabel_features, expected_labels = sklearn.datasets.make_blobs(n_samples=vertcount,
-                                                    centers=centers,
-                                                    cluster_std=tlnoise)
-  
-  expected_labels = [label % 2 for label in expected_labels]
+  return features, labels
 
-  return (features, labels), (tolabel_features, expected_labels)
-
-def generate_3d_synthetic_data(type, idtype, noise, vertcount):
+def generate_3d_synthetic_data(type, idtype, noise, vertcount, grid_res):
   dataset = TrainingDataset()
-  tolabel_dataset = VerticesToLabel()
-
-  tlnoise = noise * 2
+  test_grid = VerticesToLabel()
 
   if type == "blob":
-    (features, labels), (tolabel_features, expected_labels) = generate_3d_blob(noise, tlnoise, vertcount)
+    features, labels = generate_3d_blob(noise, vertcount)
 
   elif type == "circle":
-    (features, labels), (tolabel_features, expected_labels) = generate_hemispheres(noise, tlnoise, vertcount)
+    features, labels = generate_hemispheres(noise, vertcount)
 
   elif type == "moons":
-    (features, labels), (tolabel_features, expected_labels) = generate_3d_moons(noise, tlnoise, vertcount)
+    features, labels = generate_3d_moons(noise, vertcount)
 
   elif type == "xor":
-    (features, labels), (tolabel_features, expected_labels) = generate_3d_xor(noise, tlnoise, vertcount)
+    features, labels = generate_3d_xor(noise, vertcount)
 
   else:
     raise ValueError("Invalid synthetic dataset type")
   
   labels = correct_labels(labels, idtype)
-  expected_labels = correct_labels(expected_labels, idtype)
 
   for i in range(vertcount):
     entry = dataset.entries.add()
@@ -127,13 +99,26 @@ def generate_3d_synthetic_data(type, idtype, noise, vertcount):
     elif idtype == "str":
       entry.cluster_id.cluster_id_str = labels[i]
 
-  for i in range(vertcount):
-    entry = tolabel_dataset.entries.add()
-    entry.vertex_id = -i - 1
-    entry.features.extend(tolabel_features[i])
-    if idtype == "int":
-      entry.expected_cluster_id.cluster_id_int = expected_labels[i]
-    elif idtype == "str":
-      entry.expected_cluster_id.cluster_id_str = expected_labels[i]
+  grid_x_max = max(features, key=lambda x: x[0])[0]
+  grid_x_min = min(features, key=lambda x: x[0])[0]
+  grid_y_max = max(features, key=lambda x: x[1])[1]
+  grid_y_min = min(features, key=lambda x: x[1])[1]
+  grid_z_max = max(features, key=lambda x: x[2])[2]
+  grid_z_min = min(features, key=lambda x: x[2])[2]
 
-  return dataset, tolabel_dataset
+  grid_x = np.linspace(grid_x_min, grid_x_max, grid_res)
+  grid_y = np.linspace(grid_y_min, grid_y_max, grid_res)
+  grid_z = np.linspace(grid_z_min, grid_z_max, grid_res)
+
+  for x in grid_x:
+    for y in grid_y:
+      for z in grid_z:
+        entry = test_grid.entries.add()
+        entry.vertex_id = -1
+        entry.features.extend([x, y, z])
+        if idtype == "int":
+          entry.expected_cluster_id.cluster_id_int = 0
+        elif idtype == "str":
+          entry.expected_cluster_id.cluster_id_str = '\0'
+
+  return dataset, test_grid

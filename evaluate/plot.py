@@ -58,7 +58,7 @@ def plot_vertices(ax, vertices, title, type, edge_colors=None):
     legend1 = ax.legend(handles, legend_labels, title="Clusters")
     ax.add_artist(legend1)
 
-def plot_test_grid(ax, test_grid, title, type):
+def plot_test_grid(ax, test_grid, title):
     """Plots the test grid in the specified subplot ax."""
     features = []
     labels = []
@@ -78,7 +78,7 @@ def plot_test_grid(ax, test_grid, title, type):
     if dim != 2:
         raise ValueError("Test grid features must be 2-dimensional for plotting.")
 
-    scatter = ax.scatter(features[:, 0], features[:, 1], c=labels_to_use_in_colors, cmap='viridis', marker='s', s=10, alpha=0.6)
+    _ = ax.scatter(features[:, 0], features[:, 1], c=labels_to_use_in_colors, cmap='viridis', marker='s', s=10, alpha=0.6)
     ax.set_title(title)
 
 def plot_classification_results(dataset, labeled_chip, labeled_rchip, labeled_nn, dataset_name):
@@ -92,6 +92,8 @@ def plot_classification_results(dataset, labeled_chip, labeled_rchip, labeled_nn
         axs = fig.subplots(2, 3, subplot_kw={'projection': '3d'})
     else:
         fig, axs = plt.subplots(1, 2, figsize=(15, 10))
+
+    fig.suptitle(dataset_name, fontsize=16)
 
     # Plot original dataset in quadrant 0 if 2D or 3D
     if dim in [2, 3]:
@@ -108,10 +110,9 @@ def plot_classification_results(dataset, labeled_chip, labeled_rchip, labeled_nn
     train_ax.set_title("Training")
 
     train_table_data = [
-        ['Classifier', 'Time (ms)', 'Model Size (B)'],
-        ['CHIP', f"{labeled_chip[1]['train_time']:.2f}", f"{labeled_chip[1]['model_size']}"],
-        ['RCHIP', f"{labeled_rchip[1]['train_time']:.2f}", f"{labeled_rchip[1]['model_size']}"],
-        ['NN', f"{labeled_nn[1]['train_time']:.2f}", f"{labeled_nn[1]['model_size']}"]
+        ['Classifier', 'CHIP', 'RCHIP', 'NN'],
+        ['Time (ms)', f"{labeled_chip[1]['train_time']:.2f}", f"{labeled_rchip[1]['train_time']:.2f}", f"{labeled_nn[1]['train_time']:.2f}"],
+        ['Model Size (B)', f"{labeled_chip[1]['model_size']}", f"{labeled_rchip[1]['model_size']}", f"{labeled_nn[1]['model_size']}"]
     ]
 
     # Create the table
@@ -126,10 +127,8 @@ def plot_classification_results(dataset, labeled_chip, labeled_rchip, labeled_nn
 
     # Prepare data for tables
     label_table_data = [
-        ['Classifier', 'Time (ms)'],
-        ['CHIP', f"{labeled_chip[1]['label_time']:.2f}"],
-        ['RCHIP', f"{labeled_rchip[1]['label_time']:.2f}"],
-        ['NN', f"{labeled_nn[1]['label_time']:.2f}"]
+        ['Classifier', 'CHIP', 'RCHIP', 'NN'],
+        ['Time (ms)', f"{labeled_chip[1]['label_time']:.2f}", f"{labeled_rchip[1]['label_time']:.2f}", f"{labeled_nn[1]['label_time']:.2f}"]
     ]
 
     # Create the table
@@ -142,7 +141,10 @@ def plot_classification_results(dataset, labeled_chip, labeled_rchip, labeled_nn
     # Plot classified results with correctness
     if dim in [2, 3]:
         for ax, (labeled_data, _) in zip(axs[1, :], [labeled_chip, labeled_rchip, labeled_nn]):
-            plot_test_grid(ax, labeled_data, f"Test Grid: {dataset_name}", 'labeled')
+            if dim == 2:
+                plot_test_grid(ax, labeled_data, f"Test Grid: {dataset_name}")
+            elif dim == 3:
+                plot_vertices(ax, labeled_data, f"Test Grid: {dataset_name}", 'labeled')
         
         # Set titles for classified results
         axs[1, 0].set_title("CHIP")
