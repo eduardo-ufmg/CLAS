@@ -1,11 +1,14 @@
+# GabrielGraphBasedClassifiers
+
 cmake_minimum_required(VERSION 3.10)
 project(gabrielgraphclassifiers)
 
 # Set build options
 option(BUILD_ALL "Build all targets" ON)
 option(BUILD_CHIP_LABEL "Build chip-label" ${BUILD_ALL})
+option(BUILD_CHIP_TRAIN "Build chip-train" ${BUILD_ALL})
 option(BUILD_RCHIP_LABEL "Build rchip-label" ${BUILD_ALL})
-option(BUILD_CHIPS_TRAIN "Build chips-train" ${BUILD_ALL})
+option(BUILD_RCHIP_TRAIN "Build rchip-train" ${BUILD_ALL})
 option(BUILD_NN_LABEL "Build nn-label" ${BUILD_ALL})
 option(BUILD_NN_TRAIN "Build nn-train" ${BUILD_ALL})
 

@@ -1,13 +1,15 @@
+# GabrielGraphBasedClassifiers/nn
+
 # Common sources for NN components
 set(NN_COMMON_SOURCES
-    computeSVs.cpp
-    nearestSVlabel.cpp
+    
 )
 
 # NN-label executable
 if(BUILD_NN_LABEL)
     add_executable(nn-label
         label/label.cpp
+        label/nearestSVlabel.cpp
         ${NN_COMMON_SOURCES}
     )
     target_link_libraries(nn-label common)
@@ -18,6 +20,7 @@ endif()
 if(BUILD_NN_TRAIN)
     add_executable(nn-train
         train/train.cpp
+        train/computeSVs.cpp
         ${NN_COMMON_SOURCES}
     )
     target_link_libraries(nn-train common)
