@@ -27,8 +27,8 @@ def main():
     
     # Define classifiers
     classifiers = {
-        "chip": {"trainer": "./chips-train", "labeler": "./chip-label"},
-        "rchip": {"trainer": "./chips-train", "labeler": "./rchip-label"},
+        "chip": {"trainer": "./chip-train", "labeler": "./chip-label"},
+        "rchip": {"trainer": "./rchip-train", "labeler": "./rchip-label"},
         "nn": {"trainer": "./nn-train", "labeler": "./nn-label"}
     }
     
@@ -43,10 +43,7 @@ def main():
         train_time = metrics.run_and_measure_time([trainer, str(dataset_path), tolerance], classifiers_dir)
 
         # Determine file paths for trained model
-        if clf_name == "nn":
-            trained_model_path = classifiers_dir / "train" / f"nn-{dataset_name}"
-        else:
-            trained_model_path = classifiers_dir / "train" / f"chips-{dataset_name}"
+        trained_model_path = classifiers_dir / "train" / f"{clf_name}-{dataset_name}"
 
         # Model size
         model_size = trained_model_path.stat().st_size

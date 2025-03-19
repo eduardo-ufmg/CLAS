@@ -7,7 +7,7 @@
     "program": "${workspaceFolder}/bin/rchip-label",
     "args": [
       "../data/spiral/test",
-      "./train/chips-spiral"
+      "./train/rchip-spiral"
     ],
     "stopAtEntry": false,
     "cwd": "${workspaceFolder}/bin/",
@@ -31,7 +31,7 @@
     "name": "debug rchip-train",
     "type": "cppdbg",
     "request": "launch",
-    "program": "${workspaceFolder}/bin/chips-train",
+    "program": "${workspaceFolder}/bin/rchip-train",
     "args": [
       "../data/spiral/spiral"
     ],

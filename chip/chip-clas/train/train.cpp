@@ -36,7 +36,7 @@ int main(int argc, char** argv)
 
   const chipIDbimap chipidbimap = getchipIDmap(vertices, experts);
 
-  const string output_file_path = "./train/chips-" + filenameFromPath(dataset_file_path);
+  const string output_file_path = "./train/chip-" + filenameFromPath(dataset_file_path);
   const string chipidmap_file_path = "./train/chipidbimap-" + filenameFromPath(dataset_file_path);
 
   if (writeExperts(experts, output_file_path) != 0) {

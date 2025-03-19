@@ -33,7 +33,7 @@ if __name__ == "__main__":
   data = {
     "dataset": (data_path / args.setname / args.setname, TrainingDataset),
     "sv": (trained_path / f"{args.classifier}-{args.setname}", SupportVertices),
-    "expt": (trained_path / f"rchips-{args.setname}", Experts),
+    "expt": (trained_path / f"{args.classifier}-{args.setname}", Experts),
     "test": (data_path / args.setname / "test", VerticesToLabel),
     "labeled": (labeled_path / f"{args.classifier}-{args.setname}", LabeledVertices),
     "chipidbimap": (trained_path / f"chipidbimap-{args.setname}", chipIDmap)
