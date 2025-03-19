@@ -5,17 +5,17 @@ from synthetic_2d import generate_2d_synthetic_data
 from synthetic_3d import generate_3d_synthetic_data
 from synthetic_nd import generate_multidim_blob
 
-def write_datasets(type, dataset, tolabel_dataset):
+def write_datasets(type, dataset, test_dataset):
   dataset_path = pathlib.Path(f"../data/{type}/{type}")
-  tolabel_path = pathlib.Path(f"../data/{type}/test")
+  test_path = pathlib.Path(f"../data/{type}/test")
 
   dataset_path.parent.mkdir(parents=True, exist_ok=True)
 
   with open(dataset_path, "wb") as f:
     f.write(dataset.SerializeToString())
 
-  with open(tolabel_path, "wb") as f:
-    f.write(tolabel_dataset.SerializeToString())
+  with open(test_path, "wb") as f:
+    f.write(test_dataset.SerializeToString())
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description="Generate synthetic datasets for graph-based classifier.")
@@ -28,10 +28,10 @@ if __name__ == "__main__":
   args = parser.parse_args()
 
   if args.dim == 2:
-    synthetic_dataset, tolabel_dataset = generate_2d_synthetic_data(args.type, args.idtype, args.noise, args.vertcount, args.grid_res)
+    synthetic_dataset, test_dataset = generate_2d_synthetic_data(args.type, args.idtype, args.noise, args.vertcount, args.grid_res)
   elif args.dim == 3:
-    synthetic_dataset, tolabel_dataset = generate_3d_synthetic_data(args.type, args.idtype, args.noise, args.vertcount, args.grid_res)
+    synthetic_dataset, test_dataset = generate_3d_synthetic_data(args.type, args.idtype, args.noise, args.vertcount, args.grid_res)
   else:
-    synthetic_dataset, tolabel_dataset = generate_multidim_blob(args.noise, args.idtype, args.vertcount, args.dim)
+    synthetic_dataset, test_dataset = generate_multidim_blob(args.noise, args.idtype, args.vertcount, args.dim)
 
-  write_datasets(args.type, synthetic_dataset, tolabel_dataset)
+  write_datasets(args.type, synthetic_dataset, test_dataset)
