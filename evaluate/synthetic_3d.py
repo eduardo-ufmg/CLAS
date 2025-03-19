@@ -1,4 +1,3 @@
-import random
 import sklearn.datasets
 import numpy as np
 from classifier_pb2 import TrainingDataset, VerticesToLabel
@@ -70,6 +69,28 @@ def generate_3d_xor(noise, vertcount):
 
   return features, labels
 
+def generate_3d_spiral(noise, vertcount):
+  features = []
+  labels = []
+
+  for i in range(vertcount):
+    r = i / vertcount * 5
+    theta = i / vertcount * 4 * np.pi
+    phi = i / vertcount * 2 * np.pi
+
+    x = r * np.cos(theta) * np.sin(phi)
+    y = r * np.sin(theta) * np.sin(phi)
+    z = r * np.cos(phi)
+
+    x += np.random.uniform(-noise, noise)
+    y += np.random.uniform(-noise, noise)
+    z += np.random.uniform(-noise, noise)
+
+    features.append([x, y, z])
+    labels.append(0)
+
+  return features, labels
+
 def generate_3d_synthetic_data(type, idtype, noise, vertcount, grid_res):
   dataset = TrainingDataset()
   test_grid = VerticesToLabel()
@@ -85,6 +106,9 @@ def generate_3d_synthetic_data(type, idtype, noise, vertcount, grid_res):
 
   elif type == "xor":
     features, labels = generate_3d_xor(noise, vertcount)
+
+  elif type == "spiral":
+    features, labels = generate_3d_spiral(noise, vertcount)
 
   else:
     raise ValueError("Invalid synthetic dataset type")
@@ -110,15 +134,15 @@ def generate_3d_synthetic_data(type, idtype, noise, vertcount, grid_res):
   grid_y = np.linspace(grid_y_min, grid_y_max, grid_res)
   grid_z = np.linspace(grid_z_min, grid_z_max, grid_res)
 
-  for x in grid_x:
-    for y in grid_y:
-      for z in grid_z:
-        entry = test_grid.entries.add()
-        entry.vertex_id = -1
-        entry.features.extend([x, y, z])
-        if idtype == "int":
-          entry.expected_cluster_id.cluster_id_int = 0
-        elif idtype == "str":
-          entry.expected_cluster_id.cluster_id_str = '\0'
+  grid_x, grid_y, grid_z = np.meshgrid(grid_x, grid_y, grid_z)
+
+  for x, y, z in zip(grid_x.flatten(), grid_y.flatten(), grid_z.flatten()):
+    entry = test_grid.entries.add()
+    entry.vertex_id = -1
+    entry.features.extend([x, y, z])
+    if idtype == "int":
+      entry.expected_cluster_id.cluster_id_int = 0
+    elif idtype == "str":
+      entry.expected_cluster_id.cluster_id_str = '\0'
 
   return dataset, test_grid

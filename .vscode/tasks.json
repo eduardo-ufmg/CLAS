@@ -4,7 +4,20 @@
     {
       "label": "build",
       "type": "shell",
-      "command": "cmake --build .",
+      "command": "cmake -DCMAKE_BUILD_TYPE=Release .. && cmake --build .",
+      "options": {
+        "cwd": "${workspaceFolder}/build"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "debug",
+      "type": "shell",
+      "command": "cmake -DCMAKE_BUILD_TYPE=Debug .. && cmake --build .",
       "options": {
         "cwd": "${workspaceFolder}/build"
       },

@@ -18,7 +18,7 @@ def print_dataset(file_path, messageType):
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description="Print data from protobuf files")
-  parser.add_argument("--data", choices=["dataset", "sv", "expt", "tolabel", "labeled", "chipidbimap"], help="data to print")
+  parser.add_argument("--data", choices=["dataset", "sv", "expt", "test", "labeled", "chipidbimap"], help="data to print")
   parser.add_argument("--classifier", choices=["chip", "rchip", "nn"], help="classifier type")
   parser.add_argument("--setname", help="dataset name")
   args = parser.parse_args()
@@ -34,7 +34,7 @@ if __name__ == "__main__":
     "dataset": (data_path / args.setname / args.setname, TrainingDataset),
     "sv": (trained_path / f"{args.classifier}-{args.setname}", SupportVertices),
     "expt": (trained_path / f"rchips-{args.setname}", Experts),
-    "tolabel": (data_path / args.setname / "tolabel", VerticesToLabel),
+    "test": (data_path / args.setname / "test", VerticesToLabel),
     "labeled": (labeled_path / f"{args.classifier}-{args.setname}", LabeledVertices),
     "chipidbimap": (trained_path / f"chipidbimap-{args.setname}", chipIDmap)
   }

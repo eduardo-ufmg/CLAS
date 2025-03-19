@@ -6,8 +6,8 @@
     "request": "launch",
     "program": "${workspaceFolder}/bin/rchip-label",
     "args": [
-      "../data/circle/tolabel",
-      "./train/chips-circle"
+      "../data/spiral/test",
+      "./train/chips-spiral"
     ],
     "stopAtEntry": false,
     "cwd": "${workspaceFolder}/bin/",
@@ -33,7 +33,60 @@
     "request": "launch",
     "program": "${workspaceFolder}/bin/chips-train",
     "args": [
-      "../data/circle/circle"
+      "../data/spiral/spiral"
+    ],
+    "stopAtEntry": false,
+    "cwd": "${workspaceFolder}/bin/",
+    "environment": [],
+    "externalConsole": false,
+    "MIMode": "gdb",
+    "setupCommands": [
+        {
+            "description": "Enable pretty-printing for gdb",
+            "text": "-enable-pretty-printing",
+            "ignoreFailures": true
+        },
+        {
+            "description": "Set Disassembly Flavor to Intel",
+            "text": "-gdb-set disassembly-flavor intel",
+            "ignoreFailures": true
+        }
+    ]
+  },
+  {
+    "name": "debug nn-label",
+    "type": "cppdbg",
+    "request": "launch",
+    "program": "${workspaceFolder}/bin/nn-label",
+    "args": [
+      "../data/spiral/test",
+      "./train/nn-spiral"
+    ],
+    "stopAtEntry": false,
+    "cwd": "${workspaceFolder}/bin/",
+    "environment": [],
+    "externalConsole": false,
+    "MIMode": "gdb",
+    "setupCommands": [
+        {
+            "description": "Enable pretty-printing for gdb",
+            "text": "-enable-pretty-printing",
+            "ignoreFailures": true
+        },
+        {
+            "description": "Set Disassembly Flavor to Intel",
+            "text": "-gdb-set disassembly-flavor intel",
+            "ignoreFailures": true
+        }
+    ]
+  },
+  {
+    "name": "debug nn-train",
+    "type": "cppdbg",
+    "request": "launch",
+    "program": "${workspaceFolder}/bin/nn-train",
+    "args": [
+      "../data/spiral/spiral"
     ],
     "stopAtEntry": false,
     "cwd": "${workspaceFolder}/bin/",
