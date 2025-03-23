@@ -47,7 +47,7 @@ const Expert& getClosestExpert(const Coordinates& point, const Experts& experts)
 double computeHyperplaneSeparation(const Coordinates& point, const Expert& expert)
 {
   return inner_product(point.begin(), point.end(),
-                       expert.differences.begin(), -expert.bias);
+                       expert.normal.begin(), -expert.bias);
 }
 
 ClusterID labelVertex(const double separation, const chipIDbimap& chipidbimap)

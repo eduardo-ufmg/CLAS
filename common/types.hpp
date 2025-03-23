@@ -63,25 +63,25 @@ using Clusters = std::map<ClusterID, std::shared_ptr<Cluster>>;
 
 using Edge = std::pair<const Vertex * const, const Vertex * const>;
 using ExpertID = int;
-using ExpertDifferences = std::vector<float>;
+using NormalVector = std::vector<float>;
 
 class Expert
 {
 private:
   const Coordinates computeMidpoint(const Edge& edge);
-  const ExpertDifferences computeDifferences(const Edge& edge);
-  float computeBias(const Coordinates& midpoint, const ExpertDifferences& differences);
+  const NormalVector computeNormal(const Edge& edge);
+  float computeBias(const Coordinates& midpoint, const NormalVector& normal);
 
 public:
   const ExpertID id;
   const Edge edge;
 
   const Coordinates midpoint;
-  const ExpertDifferences differences;
+  const NormalVector normal;
   const float bias;
 
   Expert(const ExpertID id, const Edge edge);
-  Expert(const ExpertID id, const Coordinates midpoint, const ExpertDifferences differences, const float bias);
+  Expert(const ExpertID id, const Coordinates midpoint, const NormalVector normal, const float bias);
 };
 
 using Experts = std::vector<Expert>;

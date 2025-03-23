@@ -127,7 +127,7 @@ double computeDecisionSum(const Coordinates& point, const Experts& experts, cons
             decisions.begin(),
             [&point](const Expert& expert, const double weight) {
               const double dotProduct = inner_product(point.begin(), point.end(),
-                                                      expert.differences.begin(), 0.0);
+                                                      expert.normal.begin(), 0.0);
 
               return weight * (dotProduct - expert.bias);
             });

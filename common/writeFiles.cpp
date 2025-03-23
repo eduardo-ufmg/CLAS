@@ -62,8 +62,8 @@ int writeExperts(const Experts& experts, const std::string& filename)
       pb_expert->add_midpoint_coordinates(coord);
     }
 
-    for (const float diff : expert.differences) {
-      pb_expert->add_differences(diff);
+    for (const float diff : expert.normal) {
+      pb_expert->add_normal(diff);
     }
 
     pb_expert->set_bias(expert.bias);

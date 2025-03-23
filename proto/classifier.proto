@@ -31,7 +31,7 @@ message SupportVertices {
 message ExpertEntry {
   int32 expert_id = 1;
   repeated float midpoint_coordinates = 2;
-  repeated float differences = 3;
+  repeated float normal = 3;
   float bias = 4;
 }
 

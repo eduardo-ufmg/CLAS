@@ -93,7 +93,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR ExpertEntry::ExpertEntry(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.midpoint_coordinates_)*/{}
-  , /*decltype(_impl_.differences_)*/{}
+  , /*decltype(_impl_.normal_)*/{}
   , /*decltype(_impl_.expert_id_)*/0
   , /*decltype(_impl_.bias_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
@@ -256,7 +256,7 @@ const uint32_t TableStruct_classifier_2eproto::offsets[] PROTOBUF_SECTION_VARIAB
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::classifierpb::ExpertEntry, _impl_.expert_id_),
   PROTOBUF_FIELD_OFFSET(::classifierpb::ExpertEntry, _impl_.midpoint_coordinates_),
-  PROTOBUF_FIELD_OFFSET(::classifierpb::ExpertEntry, _impl_.differences_),
+  PROTOBUF_FIELD_OFFSET(::classifierpb::ExpertEntry, _impl_.normal_),
   PROTOBUF_FIELD_OFFSET(::classifierpb::ExpertEntry, _impl_.bias_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::classifierpb::Experts, _internal_metadata_),
@@ -357,27 +357,27 @@ const char descriptor_table_protodef_classifier_2eproto[] PROTOBUF_SECTION_VARIA
   "res\030\002 \003(\002\022+\n\ncluster_id\030\003 \001(\0132\027.classifi"
   "erpb.ClusterID\"D\n\017SupportVertices\0221\n\007ent"
   "ries\030\001 \003(\0132 .classifierpb.SupportVertexE"
-  "ntry\"a\n\013ExpertEntry\022\021\n\texpert_id\030\001 \001(\005\022\034"
-  "\n\024midpoint_coordinates\030\002 \003(\002\022\023\n\013differen"
-  "ces\030\003 \003(\002\022\014\n\004bias\030\004 \001(\002\"5\n\007Experts\022*\n\007en"
-  "tries\030\001 \003(\0132\031.classifierpb.ExpertEntry\"o"
-  "\n\022VertexToLabelEntry\022\021\n\tvertex_id\030\001 \001(\005\022"
-  "\020\n\010features\030\002 \003(\002\0224\n\023expected_cluster_id"
-  "\030\003 \001(\0132\027.classifierpb.ClusterID\"D\n\017Verti"
-  "cesToLabel\0221\n\007entries\030\001 \003(\0132 .classifier"
-  "pb.VertexToLabelEntry\"f\n\022LabeledVertexEn"
-  "try\022\021\n\tvertex_id\030\001 \001(\005\022\020\n\010features\030\002 \003(\002"
-  "\022+\n\ncluster_id\030\003 \001(\0132\027.classifierpb.Clus"
-  "terID\"D\n\017LabeledVertices\0221\n\007entries\030\001 \003("
-  "\0132 .classifierpb.LabeledVertexEntry\"K\n\nc"
-  "hipIDpair\022\020\n\010chip_int\030\001 \001(\005\022+\n\ncluster_i"
-  "d\030\002 \001(\0132\027.classifierpb.ClusterID\"6\n\tchip"
-  "IDmap\022)\n\007entries\030\001 \003(\0132\030.classifierpb.ch"
-  "ipIDpairb\006proto3"
+  "ntry\"\\\n\013ExpertEntry\022\021\n\texpert_id\030\001 \001(\005\022\034"
+  "\n\024midpoint_coordinates\030\002 \003(\002\022\016\n\006normal\030\003"
+  " \003(\002\022\014\n\004bias\030\004 \001(\002\"5\n\007Experts\022*\n\007entries"
+  "\030\001 \003(\0132\031.classifierpb.ExpertEntry\"o\n\022Ver"
+  "texToLabelEntry\022\021\n\tvertex_id\030\001 \001(\005\022\020\n\010fe"
+  "atures\030\002 \003(\002\0224\n\023expected_cluster_id\030\003 \001("
+  "\0132\027.classifierpb.ClusterID\"D\n\017VerticesTo"
+  "Label\0221\n\007entries\030\001 \003(\0132 .classifierpb.Ve"
+  "rtexToLabelEntry\"f\n\022LabeledVertexEntry\022\021"
+  "\n\tvertex_id\030\001 \001(\005\022\020\n\010features\030\002 \003(\002\022+\n\nc"
+  "luster_id\030\003 \001(\0132\027.classifierpb.ClusterID"
+  "\"D\n\017LabeledVertices\0221\n\007entries\030\001 \003(\0132 .c"
+  "lassifierpb.LabeledVertexEntry\"K\n\nchipID"
+  "pair\022\020\n\010chip_int\030\001 \001(\005\022+\n\ncluster_id\030\002 \001"
+  "(\0132\027.classifierpb.ClusterID\"6\n\tchipIDmap"
+  "\022)\n\007entries\030\001 \003(\0132\030.classifierpb.chipIDp"
+  "airb\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_classifier_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_classifier_2eproto = {
-    false, false, 1096, descriptor_table_protodef_classifier_2eproto,
+    false, false, 1091, descriptor_table_protodef_classifier_2eproto,
     "classifier.proto",
     &descriptor_table_classifier_2eproto_once, nullptr, 0, 13,
     schemas, file_default_instances, TableStruct_classifier_2eproto::offsets,
@@ -1521,7 +1521,7 @@ ExpertEntry::ExpertEntry(const ExpertEntry& from)
   ExpertEntry* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.midpoint_coordinates_){from._impl_.midpoint_coordinates_}
-    , decltype(_impl_.differences_){from._impl_.differences_}
+    , decltype(_impl_.normal_){from._impl_.normal_}
     , decltype(_impl_.expert_id_){}
     , decltype(_impl_.bias_){}
     , /*decltype(_impl_._cached_size_)*/{}};
@@ -1539,7 +1539,7 @@ inline void ExpertEntry::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.midpoint_coordinates_){arena}
-    , decltype(_impl_.differences_){arena}
+    , decltype(_impl_.normal_){arena}
     , decltype(_impl_.expert_id_){0}
     , decltype(_impl_.bias_){0}
     , /*decltype(_impl_._cached_size_)*/{}
@@ -1558,7 +1558,7 @@ ExpertEntry::~ExpertEntry() {
 inline void ExpertEntry::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.midpoint_coordinates_.~RepeatedField();
-  _impl_.differences_.~RepeatedField();
+  _impl_.normal_.~RepeatedField();
 }
 
 void ExpertEntry::SetCachedSize(int size) const {
@@ -1572,7 +1572,7 @@ void ExpertEntry::Clear() {
   (void) cached_has_bits;
 
   _impl_.midpoint_coordinates_.Clear();
-  _impl_.differences_.Clear();
+  _impl_.normal_.Clear();
   ::memset(&_impl_.expert_id_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.bias_) -
       reinterpret_cast<char*>(&_impl_.expert_id_)) + sizeof(_impl_.bias_));
@@ -1604,13 +1604,13 @@ const char* ExpertEntry::_InternalParse(const char* ptr, ::_pbi::ParseContext* c
         } else
           goto handle_unusual;
         continue;
-      // repeated float differences = 3;
+      // repeated float normal = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedFloatParser(_internal_mutable_differences(), ptr, ctx);
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedFloatParser(_internal_mutable_normal(), ptr, ctx);
           CHK_(ptr);
         } else if (static_cast<uint8_t>(tag) == 29) {
-          _internal_add_differences(::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr));
+          _internal_add_normal(::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr));
           ptr += sizeof(float);
         } else
           goto handle_unusual;
@@ -1663,9 +1663,9 @@ uint8_t* ExpertEntry::_InternalSerialize(
     target = stream->WriteFixedPacked(2, _internal_midpoint_coordinates(), target);
   }
 
-  // repeated float differences = 3;
-  if (this->_internal_differences_size() > 0) {
-    target = stream->WriteFixedPacked(3, _internal_differences(), target);
+  // repeated float normal = 3;
+  if (this->_internal_normal_size() > 0) {
+    target = stream->WriteFixedPacked(3, _internal_normal(), target);
   }
 
   // float bias = 4;
@@ -1705,9 +1705,9 @@ size_t ExpertEntry::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // repeated float differences = 3;
+  // repeated float normal = 3;
   {
-    unsigned int count = static_cast<unsigned int>(this->_internal_differences_size());
+    unsigned int count = static_cast<unsigned int>(this->_internal_normal_size());
     size_t data_size = 4UL * count;
     if (data_size > 0) {
       total_size += 1 +
@@ -1749,7 +1749,7 @@ void ExpertEntry::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PR
   (void) cached_has_bits;
 
   _this->_impl_.midpoint_coordinates_.MergeFrom(from._impl_.midpoint_coordinates_);
-  _this->_impl_.differences_.MergeFrom(from._impl_.differences_);
+  _this->_impl_.normal_.MergeFrom(from._impl_.normal_);
   if (from._internal_expert_id() != 0) {
     _this->_internal_set_expert_id(from._internal_expert_id());
   }
@@ -1778,7 +1778,7 @@ void ExpertEntry::InternalSwap(ExpertEntry* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   _impl_.midpoint_coordinates_.InternalSwap(&other->_impl_.midpoint_coordinates_);
-  _impl_.differences_.InternalSwap(&other->_impl_.differences_);
+  _impl_.normal_.InternalSwap(&other->_impl_.normal_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(ExpertEntry, _impl_.bias_)
       + sizeof(ExpertEntry::_impl_.bias_)

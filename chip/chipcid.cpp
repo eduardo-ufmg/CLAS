@@ -196,7 +196,7 @@ const LabeledVertices auxrchip(const VerticesToLabel& vertices, const Experts& e
                                                 });
 
     const double separation = inner_product(vertex.coordinates.begin(), vertex.coordinates.end(),
-                                            closestExpert.differences.begin(), -closestExpert.bias);
+                                            closestExpert.normal.begin(), -closestExpert.bias);
 
     const ClusterID clusterid = (separation > 0) - (separation < 0);
 

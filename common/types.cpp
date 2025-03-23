@@ -69,38 +69,38 @@ const Coordinates Expert::computeMidpoint(const Edge& edge)
   return midpoint;
 }
 
-const ExpertDifferences Expert::computeDifferences(const Edge& edge)
+const NormalVector Expert::computeNormal(const Edge& edge)
 {
   const auto& [v1, v2] = edge;
   const auto& c1 = v1->coordinates;
   const auto& c2 = v2->coordinates;
 
-  ExpertDifferences differences(midpoint.size());
+  NormalVector normal(midpoint.size());
 
   transform(c1.begin(), c1.end(),
             c2.begin(),
-            differences.begin(),
+            normal.begin(),
             minus<float>());
 
-  return differences;
+  return normal;
 }
 
-float Expert::computeBias(const Coordinates& midpoint, const ExpertDifferences& differences)
+float Expert::computeBias(const Coordinates& midpoint, const NormalVector& normal)
 {
   return inner_product(midpoint.begin(), midpoint.end(),
-                       differences.begin(),
+                       normal.begin(),
                        0.0f);
 }
 
 Expert::Expert(const ExpertID id, const Edge edge)
   : id(id), edge(edge),
   midpoint(computeMidpoint(edge)),
-  differences(computeDifferences(edge)),
-  bias(computeBias(midpoint, differences))
+  normal(computeNormal(edge)),
+  bias(computeBias(midpoint, normal))
 {}
 
-Expert::Expert(const ExpertID id, const Coordinates midpoint, const ExpertDifferences differences, const float bias)
-  : id(id), edge({nullptr, nullptr}), midpoint(midpoint), differences(differences), bias(bias)
+Expert::Expert(const ExpertID id, const Coordinates midpoint, const NormalVector normal, const float bias)
+  : id(id), edge({nullptr, nullptr}), midpoint(midpoint), normal(normal), bias(bias)
 {}
 
 SupportVertex::SupportVertex(const VertexID id, const Coordinates coordinates, const ClusterID clusterid)

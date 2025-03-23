@@ -1104,7 +1104,7 @@ class ExpertEntry final :
 
   enum : int {
     kMidpointCoordinatesFieldNumber = 2,
-    kDifferencesFieldNumber = 3,
+    kNormalFieldNumber = 3,
     kExpertIdFieldNumber = 1,
     kBiasFieldNumber = 4,
   };
@@ -1130,27 +1130,27 @@ class ExpertEntry final :
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
       mutable_midpoint_coordinates();
 
-  // repeated float differences = 3;
-  int differences_size() const;
+  // repeated float normal = 3;
+  int normal_size() const;
   private:
-  int _internal_differences_size() const;
+  int _internal_normal_size() const;
   public:
-  void clear_differences();
+  void clear_normal();
   private:
-  float _internal_differences(int index) const;
+  float _internal_normal(int index) const;
   const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
-      _internal_differences() const;
-  void _internal_add_differences(float value);
+      _internal_normal() const;
+  void _internal_add_normal(float value);
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
-      _internal_mutable_differences();
+      _internal_mutable_normal();
   public:
-  float differences(int index) const;
-  void set_differences(int index, float value);
-  void add_differences(float value);
+  float normal(int index) const;
+  void set_normal(int index, float value);
+  void add_normal(float value);
   const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
-      differences() const;
+      normal() const;
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
-      mutable_differences();
+      mutable_normal();
 
   // int32 expert_id = 1;
   void clear_expert_id();
@@ -1179,7 +1179,7 @@ class ExpertEntry final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > midpoint_coordinates_;
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > differences_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > normal_;
     int32_t expert_id_;
     float bias_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -2963,51 +2963,51 @@ ExpertEntry::mutable_midpoint_coordinates() {
   return _internal_mutable_midpoint_coordinates();
 }
 
-// repeated float differences = 3;
-inline int ExpertEntry::_internal_differences_size() const {
-  return _impl_.differences_.size();
+// repeated float normal = 3;
+inline int ExpertEntry::_internal_normal_size() const {
+  return _impl_.normal_.size();
 }
-inline int ExpertEntry::differences_size() const {
-  return _internal_differences_size();
+inline int ExpertEntry::normal_size() const {
+  return _internal_normal_size();
 }
-inline void ExpertEntry::clear_differences() {
-  _impl_.differences_.Clear();
+inline void ExpertEntry::clear_normal() {
+  _impl_.normal_.Clear();
 }
-inline float ExpertEntry::_internal_differences(int index) const {
-  return _impl_.differences_.Get(index);
+inline float ExpertEntry::_internal_normal(int index) const {
+  return _impl_.normal_.Get(index);
 }
-inline float ExpertEntry::differences(int index) const {
-  // @@protoc_insertion_point(field_get:classifierpb.ExpertEntry.differences)
-  return _internal_differences(index);
+inline float ExpertEntry::normal(int index) const {
+  // @@protoc_insertion_point(field_get:classifierpb.ExpertEntry.normal)
+  return _internal_normal(index);
 }
-inline void ExpertEntry::set_differences(int index, float value) {
-  _impl_.differences_.Set(index, value);
-  // @@protoc_insertion_point(field_set:classifierpb.ExpertEntry.differences)
+inline void ExpertEntry::set_normal(int index, float value) {
+  _impl_.normal_.Set(index, value);
+  // @@protoc_insertion_point(field_set:classifierpb.ExpertEntry.normal)
 }
-inline void ExpertEntry::_internal_add_differences(float value) {
-  _impl_.differences_.Add(value);
+inline void ExpertEntry::_internal_add_normal(float value) {
+  _impl_.normal_.Add(value);
 }
-inline void ExpertEntry::add_differences(float value) {
-  _internal_add_differences(value);
-  // @@protoc_insertion_point(field_add:classifierpb.ExpertEntry.differences)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
-ExpertEntry::_internal_differences() const {
-  return _impl_.differences_;
+inline void ExpertEntry::add_normal(float value) {
+  _internal_add_normal(value);
+  // @@protoc_insertion_point(field_add:classifierpb.ExpertEntry.normal)
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
-ExpertEntry::differences() const {
-  // @@protoc_insertion_point(field_list:classifierpb.ExpertEntry.differences)
-  return _internal_differences();
+ExpertEntry::_internal_normal() const {
+  return _impl_.normal_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+ExpertEntry::normal() const {
+  // @@protoc_insertion_point(field_list:classifierpb.ExpertEntry.normal)
+  return _internal_normal();
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
-ExpertEntry::_internal_mutable_differences() {
-  return &_impl_.differences_;
+ExpertEntry::_internal_mutable_normal() {
+  return &_impl_.normal_;
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
-ExpertEntry::mutable_differences() {
-  // @@protoc_insertion_point(field_mutable_list:classifierpb.ExpertEntry.differences)
-  return _internal_mutable_differences();
+ExpertEntry::mutable_normal() {
+  // @@protoc_insertion_point(field_mutable_list:classifierpb.ExpertEntry.normal)
+  return _internal_mutable_normal();
 }
 
 // float bias = 4;

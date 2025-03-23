@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10\x63lassifier.proto\x12\x0c\x63lassifierpb\"M\n\tClusterID\x12\x18\n\x0e\x63luster_id_int\x18\x01 \x01(\x05H\x00\x12\x18\n\x0e\x63luster_id_str\x18\x02 \x01(\tH\x00\x42\x0c\n\ncluster_id\"U\n\x14TrainingDatasetEntry\x12\x10\n\x08\x66\x65\x61tures\x18\x01 \x03(\x02\x12+\n\ncluster_id\x18\x02 \x01(\x0b\x32\x17.classifierpb.ClusterID\"F\n\x0fTrainingDataset\x12\x33\n\x07\x65ntries\x18\x01 \x03(\x0b\x32\".classifierpb.TrainingDatasetEntry\"f\n\x12SupportVertexEntry\x12\x11\n\tvertex_id\x18\x01 \x01(\x05\x12\x10\n\x08\x66\x65\x61tures\x18\x02 \x03(\x02\x12+\n\ncluster_id\x18\x03 \x01(\x0b\x32\x17.classifierpb.ClusterID\"D\n\x0fSupportVertices\x12\x31\n\x07\x65ntries\x18\x01 \x03(\x0b\x32 .classifierpb.SupportVertexEntry\"a\n\x0b\x45xpertEntry\x12\x11\n\texpert_id\x18\x01 \x01(\x05\x12\x1c\n\x14midpoint_coordinates\x18\x02 \x03(\x02\x12\x13\n\x0b\x64ifferences\x18\x03 \x03(\x02\x12\x0c\n\x04\x62ias\x18\x04 \x01(\x02\"5\n\x07\x45xperts\x12*\n\x07\x65ntries\x18\x01 \x03(\x0b\x32\x19.classifierpb.ExpertEntry\"o\n\x12VertexToLabelEntry\x12\x11\n\tvertex_id\x18\x01 \x01(\x05\x12\x10\n\x08\x66\x65\x61tures\x18\x02 \x03(\x02\x12\x34\n\x13\x65xpected_cluster_id\x18\x03 \x01(\x0b\x32\x17.classifierpb.ClusterID\"D\n\x0fVerticesToLabel\x12\x31\n\x07\x65ntries\x18\x01 \x03(\x0b\x32 .classifierpb.VertexToLabelEntry\"f\n\x12LabeledVertexEntry\x12\x11\n\tvertex_id\x18\x01 \x01(\x05\x12\x10\n\x08\x66\x65\x61tures\x18\x02 \x03(\x02\x12+\n\ncluster_id\x18\x03 \x01(\x0b\x32\x17.classifierpb.ClusterID\"D\n\x0fLabeledVertices\x12\x31\n\x07\x65ntries\x18\x01 \x03(\x0b\x32 .classifierpb.LabeledVertexEntry\"K\n\nchipIDpair\x12\x10\n\x08\x63hip_int\x18\x01 \x01(\x05\x12+\n\ncluster_id\x18\x02 \x01(\x0b\x32\x17.classifierpb.ClusterID\"6\n\tchipIDmap\x12)\n\x07\x65ntries\x18\x01 \x03(\x0b\x32\x18.classifierpb.chipIDpairb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10\x63lassifier.proto\x12\x0c\x63lassifierpb\"M\n\tClusterID\x12\x18\n\x0e\x63luster_id_int\x18\x01 \x01(\x05H\x00\x12\x18\n\x0e\x63luster_id_str\x18\x02 \x01(\tH\x00\x42\x0c\n\ncluster_id\"U\n\x14TrainingDatasetEntry\x12\x10\n\x08\x66\x65\x61tures\x18\x01 \x03(\x02\x12+\n\ncluster_id\x18\x02 \x01(\x0b\x32\x17.classifierpb.ClusterID\"F\n\x0fTrainingDataset\x12\x33\n\x07\x65ntries\x18\x01 \x03(\x0b\x32\".classifierpb.TrainingDatasetEntry\"f\n\x12SupportVertexEntry\x12\x11\n\tvertex_id\x18\x01 \x01(\x05\x12\x10\n\x08\x66\x65\x61tures\x18\x02 \x03(\x02\x12+\n\ncluster_id\x18\x03 \x01(\x0b\x32\x17.classifierpb.ClusterID\"D\n\x0fSupportVertices\x12\x31\n\x07\x65ntries\x18\x01 \x03(\x0b\x32 .classifierpb.SupportVertexEntry\"\\\n\x0b\x45xpertEntry\x12\x11\n\texpert_id\x18\x01 \x01(\x05\x12\x1c\n\x14midpoint_coordinates\x18\x02 \x03(\x02\x12\x0e\n\x06normal\x18\x03 \x03(\x02\x12\x0c\n\x04\x62ias\x18\x04 \x01(\x02\"5\n\x07\x45xperts\x12*\n\x07\x65ntries\x18\x01 \x03(\x0b\x32\x19.classifierpb.ExpertEntry\"o\n\x12VertexToLabelEntry\x12\x11\n\tvertex_id\x18\x01 \x01(\x05\x12\x10\n\x08\x66\x65\x61tures\x18\x02 \x03(\x02\x12\x34\n\x13\x65xpected_cluster_id\x18\x03 \x01(\x0b\x32\x17.classifierpb.ClusterID\"D\n\x0fVerticesToLabel\x12\x31\n\x07\x65ntries\x18\x01 \x03(\x0b\x32 .classifierpb.VertexToLabelEntry\"f\n\x12LabeledVertexEntry\x12\x11\n\tvertex_id\x18\x01 \x01(\x05\x12\x10\n\x08\x66\x65\x61tures\x18\x02 \x03(\x02\x12+\n\ncluster_id\x18\x03 \x01(\x0b\x32\x17.classifierpb.ClusterID\"D\n\x0fLabeledVertices\x12\x31\n\x07\x65ntries\x18\x01 \x03(\x0b\x32 .classifierpb.LabeledVertexEntry\"K\n\nchipIDpair\x12\x10\n\x08\x63hip_int\x18\x01 \x01(\x05\x12+\n\ncluster_id\x18\x02 \x01(\x0b\x32\x17.classifierpb.ClusterID\"6\n\tchipIDmap\x12)\n\x07\x65ntries\x18\x01 \x03(\x0b\x32\x18.classifierpb.chipIDpairb\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'classifier_pb2', globals())
@@ -31,19 +31,19 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _SUPPORTVERTICES._serialized_start=376
   _SUPPORTVERTICES._serialized_end=444
   _EXPERTENTRY._serialized_start=446
-  _EXPERTENTRY._serialized_end=543
-  _EXPERTS._serialized_start=545
-  _EXPERTS._serialized_end=598
-  _VERTEXTOLABELENTRY._serialized_start=600
-  _VERTEXTOLABELENTRY._serialized_end=711
-  _VERTICESTOLABEL._serialized_start=713
-  _VERTICESTOLABEL._serialized_end=781
-  _LABELEDVERTEXENTRY._serialized_start=783
-  _LABELEDVERTEXENTRY._serialized_end=885
-  _LABELEDVERTICES._serialized_start=887
-  _LABELEDVERTICES._serialized_end=955
-  _CHIPIDPAIR._serialized_start=957
-  _CHIPIDPAIR._serialized_end=1032
-  _CHIPIDMAP._serialized_start=1034
-  _CHIPIDMAP._serialized_end=1088
+  _EXPERTENTRY._serialized_end=538
+  _EXPERTS._serialized_start=540
+  _EXPERTS._serialized_end=593
+  _VERTEXTOLABELENTRY._serialized_start=595
+  _VERTEXTOLABELENTRY._serialized_end=706
+  _VERTICESTOLABEL._serialized_start=708
+  _VERTICESTOLABEL._serialized_end=776
+  _LABELEDVERTEXENTRY._serialized_start=778
+  _LABELEDVERTEXENTRY._serialized_end=880
+  _LABELEDVERTICES._serialized_start=882
+  _LABELEDVERTICES._serialized_end=950
+  _CHIPIDPAIR._serialized_start=952
+  _CHIPIDPAIR._serialized_end=1027
+  _CHIPIDMAP._serialized_start=1029
+  _CHIPIDMAP._serialized_end=1083
 # @@protoc_insertion_point(module_scope)
