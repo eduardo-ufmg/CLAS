@@ -20,10 +20,10 @@ def write_datasets(type, dataset, test_dataset):
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description="Generate synthetic datasets for graph-based classifier.")
   parser.add_argument("--dim", type=int, default=2, help="Dimension of synthetic dataset")
-  parser.add_argument("--type", type=str, choices=["blob", "circle", "moons", "xor", "spiral"], help="Type of synthetic dataset to generate")
+  parser.add_argument("--type", type=str, choices=["blob", "circle", "moons", "xor", "spiral"], required=True, help="Type of synthetic dataset to generate")
   parser.add_argument("--idtype", type=str, choices=["int", "str"], default="int", help="Type of cluster ID to use")
-  parser.add_argument("--noise", type=float, help="Spread for synthetic dataset features")
-  parser.add_argument("--vertcount", type=int, help="Number of vertices")
+  parser.add_argument("--noise", type=float, default=0.01, help="Spread for synthetic dataset features")
+  parser.add_argument("--vertcount", type=int, default=100, help="Number of vertices")
   parser.add_argument("--grid_res", type=int, default=100, help="Resolution of grid for 2D and 3D datasets")
   args = parser.parse_args()
 
