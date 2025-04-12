@@ -27,7 +27,7 @@ class Vertex : public BaseVertex
 {
 public:
   std::shared_ptr<Cluster> cluster;
-  
+
   AdjacencyList adjacencyList;
   float quality;
 
@@ -58,7 +58,7 @@ public:
 class ExpertCHIP : public BaseExpert {
 public:
   ExpertCHIP(const ExpertID id, const Edge& edge);
-    
+
 private:
   ExpertCHIP(const ExpertID id, const Edge& edge, const Coordinates& midpoint, const NormalVector& normal);
 
@@ -69,7 +69,7 @@ private:
 class ExpertRCHIP : public BaseExpert {
 public:
   ExpertRCHIP(const ExpertID id, const Edge& edge);
-    
+
 private:
   ExpertRCHIP(const ExpertID id, const Edge& edge, const Coordinates& midpoint, const NormalVector& normal);
 
@@ -81,7 +81,7 @@ class ExpertPred : public BaseExpert {
 public:
   ExpertPred(const ExpertID id, const Coordinates& midpoint, const NormalVector& normal, const float bias);
 };
-  
+
 using Experts = std::vector<std::unique_ptr<BaseExpert>>;
 
 #endif // TYPES_HPP
