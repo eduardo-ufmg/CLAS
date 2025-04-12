@@ -70,6 +70,16 @@ float ExpertCHIP::computeBias(const Edge& edge, const Coordinates& midpoint, con
                         0.0f);
 }
 
+// ExpertCHIP constructor
+ExpertCHIP::ExpertCHIP(const ExpertID id, const Edge& edge)
+  : ExpertCHIP(id, edge, BaseExpert::computeMidpoint(edge), ExpertCHIP::computeNormal(edge))
+{}
+
+
+ExpertCHIP::ExpertCHIP(const ExpertID id, const Edge& edge, const Coordinates& midpoint, const NormalVector& normal)
+  : BaseExpert(id, midpoint, normal, ExpertCHIP::computeBias(edge, midpoint, normal))
+{}
+
 // ExpertRCHIP implementations
 const NormalVector ExpertRCHIP::computeNormal(const Edge& edge)
 {
@@ -93,3 +103,17 @@ float ExpertRCHIP::computeBias(const Edge& edge, const Coordinates& midpoint, co
                         normal.begin(),
                         0.0f);
 }
+
+// ExpertRCHIP constructor
+ExpertRCHIP::ExpertRCHIP(const ExpertID id, const Edge& edge)
+  : ExpertRCHIP(id, edge, BaseExpert::computeMidpoint(edge), ExpertRCHIP::computeNormal(edge))
+{}
+
+ExpertRCHIP::ExpertRCHIP(const ExpertID id, const Edge& edge, const Coordinates& midpoint, const NormalVector& normal)
+  : BaseExpert(id, midpoint, normal, ExpertRCHIP::computeBias(edge, midpoint, normal))
+{}
+
+// ExpertPred constructor
+ExpertPred::ExpertPred(const ExpertID id, const Coordinates& midpoint, const NormalVector& normal, const float bias)
+  : BaseExpert(id, midpoint, normal, bias)
+{}

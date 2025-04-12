@@ -60,6 +60,8 @@ public:
   ExpertCHIP(const ExpertID id, const Edge& edge);
     
 private:
+  ExpertCHIP(const ExpertID id, const Edge& edge, const Coordinates& midpoint, const NormalVector& normal);
+
   static const NormalVector computeNormal(const Edge& edge);
   static float computeBias(const Edge& edge, const Coordinates& midpoint, const NormalVector& normal);
 };
@@ -69,6 +71,8 @@ public:
   ExpertRCHIP(const ExpertID id, const Edge& edge);
     
 private:
+  ExpertRCHIP(const ExpertID id, const Edge& edge, const Coordinates& midpoint, const NormalVector& normal);
+
   static const NormalVector computeNormal(const Edge& edge);
   static float computeBias(const Edge& edge, const Coordinates& midpoint, const NormalVector& normal);
 };
