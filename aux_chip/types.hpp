@@ -20,7 +20,7 @@ public:
   VertexID id;
   Coordinates coordinates;
 
-  BaseVertex(const VertexID id, const Coordinates coordinates);  
+  BaseVertex(const VertexID id, const Coordinates& coordinates);  
 };
 
 class Vertex : public BaseVertex
@@ -31,7 +31,7 @@ public:
   AdjacencyList adjacencyList;
   float quality;
 
-  Vertex(const VertexID id, const Coordinates coordinates, std::shared_ptr<Cluster> cluster = nullptr);
+  Vertex(const VertexID id, const Coordinates& coordinates, std::shared_ptr<Cluster> cluster = nullptr);
 };
 
 using Vertices = std::vector<Vertex>;
@@ -40,56 +40,44 @@ using Edge = std::pair<const Vertex * const, const Vertex * const>;
 using ExpertID = int;
 using NormalVector = std::vector<float>;
 
-class BaseExpert
-{
-protected:
-  virtual const NormalVector computeNormal(const Edge& edge);
-  virtual float computeBias(const Coordinates& midpoint, const NormalVector& normal);
-
-  static const Coordinates computeMidpoint(const Edge& edge);
-
+class BaseExpert {
 public:
   const ExpertID id;
-  const Edge edge;
-
   const Coordinates midpoint;
   const NormalVector normal;
   const float bias;
 
-  BaseExpert(const ExpertID id, const Edge edge);
-  BaseExpert(const ExpertID id, const Coordinates midpoint, const NormalVector normal, const float bias);
-
-  template<typename ExpertType>
-  static std::unique_ptr<ExpertType> create(const ExpertID id, const Edge edge);
+  BaseExpert(const ExpertID id, const Coordinates& midpoint, const NormalVector& normal, const float bias);
 
   virtual ~BaseExpert() = default;
+
+  // helper for midpoint (common to all experts)
+  static const Coordinates computeMidpoint(const Edge& edge);
 };
 
-class ExpertCHIP : public BaseExpert
-{
+class ExpertCHIP : public BaseExpert {
 public:
-  using BaseExpert::BaseExpert;
-
-  const NormalVector computeNormal(const Edge& edge) override;
-  float computeBias(const Coordinates& midpoint, const NormalVector& normal) override;
+  ExpertCHIP(const ExpertID id, const Edge& edge);
+    
+private:
+  static const NormalVector computeNormal(const Edge& edge);
+  static float computeBias(const Edge& edge, const Coordinates& midpoint, const NormalVector& normal);
 };
 
-class ExpertRCHIP : public BaseExpert
-{
+class ExpertRCHIP : public BaseExpert {
 public:
-  using BaseExpert::BaseExpert;
-
-  const NormalVector computeNormal(const Edge& edge) override;
-  float computeBias(const Coordinates& midpoint, const NormalVector& normal) override;
+  ExpertRCHIP(const ExpertID id, const Edge& edge);
+    
+private:
+  static const NormalVector computeNormal(const Edge& edge);
+  static float computeBias(const Edge& edge, const Coordinates& midpoint, const NormalVector& normal);
 };
 
-class ExpertPred : public BaseExpert
-{
+class ExpertPred : public BaseExpert {
 public:
-  ExpertPred(const ExpertID id, const Coordinates& midpoint, const NormalVector& normal, const float bias)
-    : BaseExpert(id, midpoint, normal, bias) {}
+  ExpertPred(const ExpertID id, const Coordinates& midpoint, const NormalVector& normal, const float bias);
 };
-
+  
 using Experts = std::vector<std::unique_ptr<BaseExpert>>;
 
 #endif // TYPES_HPP
