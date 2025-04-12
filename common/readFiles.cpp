@@ -144,7 +144,7 @@ Experts readExperts(const string& filename)
     const NormalVector normal(expert.normal().begin(), expert.normal().end());
     const float bias = expert.bias();
 
-    experts.emplace_back(std::make_unique<ExpertPred>(id, midpoint, normal, bias));
+    experts.emplace_back(make_unique<ExpertPred>(id, midpoint, normal, bias));
   }
 
   return experts;

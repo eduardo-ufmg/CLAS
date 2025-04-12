@@ -39,7 +39,7 @@ int sign(const double num)
 const ExpertRCHIP& getClosestExpert(const Coordinates& point, const Experts& experts)
 {
   return static_cast<const ExpertRCHIP&>(*min_element(experts.begin(), experts.end(),
-                      [&point](const std::unique_ptr<BaseExpert>& expert1, const std::unique_ptr<BaseExpert>& expert2) {
+                      [&point](const unique_ptr<BaseExpert>& expert1, const unique_ptr<BaseExpert>& expert2) {
                         return squaredDistance(point, static_cast<const ExpertRCHIP&>(*expert1).midpoint) <
                                squaredDistance(point, static_cast<const ExpertRCHIP&>(*expert2).midpoint);
                       })->get());

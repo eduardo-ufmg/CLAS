@@ -41,7 +41,7 @@ const Experts computeExperts(const Vertices& vertices)
 
 bool emplace_unique(Experts& experts, const ExpertID id, const Vertex& lowerVertex, const Vertex& higherVertex)
 {
-  auto it = find_if(experts.begin(), experts.end(), [&lowerVertex, &higherVertex](const std::unique_ptr<BaseExpert>& expert) {
+  auto it = find_if(experts.begin(), experts.end(), [&lowerVertex, &higherVertex](const unique_ptr<BaseExpert>& expert) {
     const auto* expertRCHIP = dynamic_cast<const ExpertRCHIP*>(expert.get());
     return expertRCHIP && expertRCHIP->edge.first->id == lowerVertex.id && expertRCHIP->edge.second->id == higherVertex.id;
   });
@@ -51,7 +51,7 @@ bool emplace_unique(Experts& experts, const ExpertID id, const Vertex& lowerVert
   }
 
   const Edge edge = make_pair(&lowerVertex, &higherVertex);
-  experts.emplace_back(std::make_unique<ExpertRCHIP>(id, edge));
+  experts.emplace_back(make_unique<ExpertRCHIP>(id, edge));
 
   return true;
 }

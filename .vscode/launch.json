@@ -1,6 +1,59 @@
 {
   "configurations": [
   {
+    "name": "debug chip-label",
+    "type": "cppdbg",
+    "request": "launch",
+    "program": "${workspaceFolder}/bin/chip-label",
+    "args": [
+      "../data/spiral/test",
+      "./train/chip-spiral"
+    ],
+    "stopAtEntry": true,
+    "cwd": "${workspaceFolder}/bin/",
+    "environment": [],
+    "externalConsole": false,
+    "MIMode": "gdb",
+    "setupCommands": [
+        {
+            "description": "Enable pretty-printing for gdb",
+            "text": "-enable-pretty-printing",
+            "ignoreFailures": true
+        },
+        {
+            "description": "Set Disassembly Flavor to Intel",
+            "text": "-gdb-set disassembly-flavor intel",
+            "ignoreFailures": true
+        }
+    ]
+  },
+  {
+    "name": "debug chip-train",
+    "type": "cppdbg",
+    "request": "launch",
+    "program": "${workspaceFolder}/bin/chip-train",
+    "args": [
+      "../data/spiral/spiral"
+    ],
+    "stopAtEntry": true,
+    "cwd": "${workspaceFolder}/bin/",
+    "environment": [],
+    "externalConsole": false,
+    "MIMode": "gdb",
+    "setupCommands": [
+        {
+            "description": "Enable pretty-printing for gdb",
+            "text": "-enable-pretty-printing",
+            "ignoreFailures": true
+        },
+        {
+            "description": "Set Disassembly Flavor to Intel",
+            "text": "-gdb-set disassembly-flavor intel",
+            "ignoreFailures": true
+        }
+    ]
+  },
+  {
     "name": "debug rchip-label",
     "type": "cppdbg",
     "request": "launch",
@@ -9,7 +62,7 @@
       "../data/spiral/test",
       "./train/rchip-spiral"
     ],
-    "stopAtEntry": false,
+    "stopAtEntry": true,
     "cwd": "${workspaceFolder}/bin/",
     "environment": [],
     "externalConsole": false,
@@ -35,7 +88,7 @@
     "args": [
       "../data/spiral/spiral"
     ],
-    "stopAtEntry": false,
+    "stopAtEntry": true,
     "cwd": "${workspaceFolder}/bin/",
     "environment": [],
     "externalConsole": false,
@@ -62,7 +115,7 @@
       "../data/spiral/test",
       "./train/nn-spiral"
     ],
-    "stopAtEntry": false,
+    "stopAtEntry": true,
     "cwd": "${workspaceFolder}/bin/",
     "environment": [],
     "externalConsole": false,
@@ -88,7 +141,7 @@
     "args": [
       "../data/spiral/spiral"
     ],
-    "stopAtEntry": false,
+    "stopAtEntry": true,
     "cwd": "${workspaceFolder}/bin/",
     "environment": [],
     "externalConsole": false,

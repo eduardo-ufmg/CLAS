@@ -10,7 +10,7 @@ BaseVertex::BaseVertex(const VertexID id, const Coordinates& coordinates)
   : id(id), coordinates(coordinates)
 {}
 
-Vertex::Vertex(const VertexID id, const Coordinates& coordinates, std::shared_ptr<Cluster> cluster)
+Vertex::Vertex(const VertexID id, const Coordinates& coordinates, shared_ptr<Cluster> cluster)
   : BaseVertex(id, coordinates), cluster(cluster), quality(0.0f)
 {}
 
@@ -58,7 +58,7 @@ const Coordinates BaseExpert::computeMidpoint(const Edge& edge) {
 
   Coordinates midpoint(c1.size());
   
-  std::transform(c1.begin(), c1.end(),
+  transform(c1.begin(), c1.end(),
                   c2.begin(),
                   midpoint.begin(),
                   [](const float x, const float y) {

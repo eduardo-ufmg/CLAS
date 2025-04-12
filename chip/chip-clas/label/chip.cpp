@@ -3,6 +3,7 @@
 #include <cmath>
 #include <algorithm>
 #include <numeric>
+#include <stdexcept>
 
 using namespace std;
 
@@ -122,11 +123,28 @@ double computeDecisionSum(const Coordinates& point, const Experts& experts, cons
 {
   vector<ExpertDecision> decisions(experts.size());
 
+  for (size_t i = 0; i < experts.size(); ++i) {
+    if (!experts[i]) {
+      throw runtime_error("Null pointer at index " + to_string(i));
+    }
+  }
+
   transform(experts.begin(), experts.end(),
             weights.begin(),
             decisions.begin(),
-            [&point](const std::unique_ptr<BaseExpert>& expertPtr, const double weight) {
-              const auto* expert = dynamic_cast<const ExpertCHIP*>(expertPtr.get());
+            [&point](const unique_ptr<BaseExpert>& expertPtr, const double weight) {
+              const auto* expert = dynamic_cast<const ExpertPred*>(expertPtr.get());
+              
+              if (!expert) {
+                throw runtime_error("Invalid expert type");
+              }
+
+              if (point.size() != expert->normal.size()) {
+                throw runtime_error("Point and expert normal size mismatch: " +
+                                   to_string(point.size()) + " vs " +
+                                   to_string(expert->normal.size()));
+              }
+              
               const double dotProduct = inner_product(point.begin(), point.end(),
                                                       expert->normal.begin(), 0.0);
 

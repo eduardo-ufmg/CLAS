@@ -15,7 +15,7 @@ template<class... Ts> overloaded(Ts...) -> overloaded<Ts...>;
 
 ofstream openFileWrite(const string& filename);
 
-int writeSVs(const SupportVertices& supportVertices, const std::string& filename)
+int writeSVs(const SupportVertices& supportVertices, const string& filename)
 {
   classifierpb::SupportVertices pb_supportVertices;
 
@@ -49,7 +49,7 @@ int writeSVs(const SupportVertices& supportVertices, const std::string& filename
   return 0;
 }
 
-int writeExperts(const Experts& experts, const std::string& filename)
+int writeExperts(const Experts& experts, const string& filename)
 {
   classifierpb::Experts pb_experts;
 
@@ -79,7 +79,7 @@ int writeExperts(const Experts& experts, const std::string& filename)
   return 0;
 }
 
-int writeLabeledVertices(const LabeledVertices& labeledVertices, const std::string& filename)
+int writeLabeledVertices(const LabeledVertices& labeledVertices, const string& filename)
 {
   classifierpb::LabeledVertices pb_labeledVertices;
 
@@ -112,7 +112,7 @@ int writeLabeledVertices(const LabeledVertices& labeledVertices, const std::stri
   return 0;
 }
 
-int writechipIDmap(const chipIDbimap& chipidmap, const std::string& filename)
+int writechipIDmap(const chipIDbimap& chipidmap, const string& filename)
 {
   classifierpb::chipIDmap pb_chipidmap;
 
