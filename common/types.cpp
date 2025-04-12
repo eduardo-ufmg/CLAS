@@ -68,8 +68,8 @@ const Coordinates BaseExpert::computeMidpoint(const Edge& edge) {
   return midpoint;
 }
 
-BaseExpert::BaseExpert(const ExpertID id, const Coordinates& midpoint, const NormalVector& normal, const float bias)
-  : id(id), midpoint(midpoint), normal(normal), bias(bias)
+BaseExpert::BaseExpert(const ExpertID id, const Edge& edge, const Coordinates& midpoint, const NormalVector& normal, const float bias)
+  : id(id), edge(edge), midpoint(midpoint), normal(normal), bias(bias)
 {}
 
 // ExpertCHIP implementations
@@ -113,7 +113,7 @@ ExpertCHIP::ExpertCHIP(const ExpertID id, const Edge& edge)
 {}
 
 ExpertCHIP::ExpertCHIP(const ExpertID id, const Edge& edge, const Coordinates& midpoint, const NormalVector& normal)
-  : BaseExpert(id, midpoint, normal, ExpertCHIP::computeBias(edge, midpoint, normal))
+  : BaseExpert(id, edge, midpoint, normal, ExpertCHIP::computeBias(edge, midpoint, normal))
 {}
 
 // ExpertRCHIP implementations
@@ -146,19 +146,19 @@ ExpertRCHIP::ExpertRCHIP(const ExpertID id, const Edge& edge)
 {}
 
 ExpertRCHIP::ExpertRCHIP(const ExpertID id, const Edge& edge, const Coordinates& midpoint, const NormalVector& normal)
-  : BaseExpert(id, midpoint, normal, ExpertRCHIP::computeBias(edge, midpoint, normal))
+  : BaseExpert(id, edge, midpoint, normal, ExpertRCHIP::computeBias(edge, midpoint, normal))
 {}
 
 // ExpertPred constructor
 ExpertPred::ExpertPred(const ExpertID id, const Coordinates& midpoint, const NormalVector& normal, const float bias)
-  : BaseExpert(id, midpoint, normal, bias)
+  : BaseExpert(id, edge, midpoint, normal, bias)
 {}
 
-SupportVertex::SupportVertex(const VertexID id, const Coordinates coordinates, const ClusterID clusterid)
+SupportVertex::SupportVertex(const VertexID id, const Coordinates& coordinates, const ClusterID clusterid)
   : BaseVertex(id, coordinates), clusterid(clusterid)
 {}
 
-VertexToLabel::VertexToLabel(const VertexID id, const Coordinates coordinates, const ClusterID expectedclusterid)
+VertexToLabel::VertexToLabel(const VertexID id, const Coordinates& coordinates, const ClusterID expectedclusterid)
   : BaseVertex(id, coordinates), expectedclusterid(expectedclusterid)
 {}
 

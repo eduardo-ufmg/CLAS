@@ -58,7 +58,7 @@ const DistancePair computeDistances(const Coordinates& point, const Experts& exp
   for (const auto& expert : experts) {
 
     const double sqDistance = inner_product(point.begin(), point.end(),
-                                            expert.midpoint.begin(),
+                                            expert->midpoint.begin(),
                                             0.0, plus<double>(),
                                             [](const double a, const double b) {
                                               return (a - b) * (a - b);
@@ -125,11 +125,12 @@ double computeDecisionSum(const Coordinates& point, const Experts& experts, cons
   transform(experts.begin(), experts.end(),
             weights.begin(),
             decisions.begin(),
-            [&point](const Expert& expert, const double weight) {
+            [&point](const std::unique_ptr<BaseExpert>& expertPtr, const double weight) {
+              const auto* expert = dynamic_cast<const ExpertCHIP*>(expertPtr.get());
               const double dotProduct = inner_product(point.begin(), point.end(),
-                                                      expert.normal.begin(), 0.0);
+                                                      expert->normal.begin(), 0.0);
 
-              return weight * (dotProduct - expert.bias);
+              return weight * (dotProduct - expert->bias);
             });
 
   return accumulate(decisions.begin(), decisions.end(), 0.0);

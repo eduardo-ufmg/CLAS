@@ -189,11 +189,12 @@ const LabeledVertices auxrchip(const VerticesToLabel& vertices, const Experts& e
 
   for (const auto& vertex : vertices) {
 
-    const Expert& closestExpert = *min_element(experts.begin(), experts.end(),
-                                                [&vertex](const Expert& expert1, const Expert& expert2) {
-                                                  return squaredDistance(vertex.coordinates, expert1.midpoint)
-                                                          < squaredDistance(vertex.coordinates, expert2.midpoint);
-                                                });
+    const ExpertRCHIP& closestExpert = *static_cast<const ExpertRCHIP*>(
+        min_element(experts.begin(), experts.end(),
+                    [&vertex](const unique_ptr<BaseExpert>& expert1, const unique_ptr<BaseExpert>& expert2) {
+                      return squaredDistance(vertex.coordinates, static_cast<const ExpertRCHIP&>(*expert1).midpoint)
+                              < squaredDistance(vertex.coordinates, static_cast<const ExpertRCHIP&>(*expert2).midpoint);
+                    })->get());
 
     const double separation = inner_product(vertex.coordinates.begin(), vertex.coordinates.end(),
                                             closestExpert.normal.begin(), -closestExpert.bias);

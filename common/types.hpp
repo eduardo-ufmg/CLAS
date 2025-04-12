@@ -68,11 +68,12 @@ using NormalVector = std::vector<float>;
 class BaseExpert {
 public:
   const ExpertID id;
+  const Edge edge;
   const Coordinates midpoint;
   const NormalVector normal;
   const float bias;
 
-  BaseExpert(const ExpertID id, const Coordinates& midpoint, const NormalVector& normal, const float bias);
+  BaseExpert(const ExpertID id, const Edge& edge, const Coordinates& midpoint, const NormalVector& normal, const float bias);
 
   virtual ~BaseExpert() = default;
 
@@ -114,7 +115,7 @@ class SupportVertex : public BaseVertex
 public:
   const ClusterID clusterid;
 
-  SupportVertex(const VertexID id, const Coordinates coordinates, const ClusterID cluster_id);
+  SupportVertex(const VertexID id, const Coordinates& coordinates, const ClusterID cluster_id);
 };
 
 using SupportVertices = std::vector<SupportVertex>;
@@ -124,7 +125,7 @@ class VertexToLabel : public BaseVertex
 public:
   const ClusterID expectedclusterid;
 
-  VertexToLabel(const VertexID id, const Coordinates coordinates, const ClusterID expected_cluster_id);
+  VertexToLabel(const VertexID id, const Coordinates& coordinates, const ClusterID expected_cluster_id);
 };
 
 using VerticesToLabel = std::vector<VertexToLabel>;

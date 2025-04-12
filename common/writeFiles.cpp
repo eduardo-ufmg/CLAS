@@ -53,20 +53,20 @@ int writeExperts(const Experts& experts, const std::string& filename)
 {
   classifierpb::Experts pb_experts;
 
-  for (const Expert& expert : experts) {
+  for (const unique_ptr<BaseExpert>& expert : experts) {
     classifierpb::ExpertEntry *pb_expert = pb_experts.add_entries();
     
-    pb_expert->set_expert_id(expert.id);
+    pb_expert->set_expert_id(expert->id);
 
-    for (const float coord : expert.midpoint) {
+    for (const float coord : expert->midpoint) {
       pb_expert->add_midpoint_coordinates(coord);
     }
 
-    for (const float diff : expert.normal) {
+    for (const float diff : expert->normal) {
       pb_expert->add_normal(diff);
     }
 
-    pb_expert->set_bias(expert.bias);
+    pb_expert->set_bias(expert->bias);
   }
 
   ofstream file = openFileWrite(filename);

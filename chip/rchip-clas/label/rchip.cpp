@@ -9,8 +9,8 @@
 using namespace std;
 
 int sign(const double num);
-const Expert& getClosestExpert(const Coordinates& point, const Experts& experts);
-double computeHyperplaneSeparation(const Coordinates& point, const Expert& expert);
+const ExpertRCHIP& getClosestExpert(const Coordinates& point, const Experts& experts);
+double computeHyperplaneSeparation(const Coordinates& point, const ExpertRCHIP& expert);
 ClusterID labelVertex(const double separation, const chipIDbimap& chipidbimap);
 
 const LabeledVertices rchip(const VerticesToLabel& vertices, const Experts& experts, const chipIDbimap& chipidbimap)
@@ -21,7 +21,7 @@ const LabeledVertices rchip(const VerticesToLabel& vertices, const Experts& expe
 
   for (const auto& vertex : vertices) {
 
-    const Expert& closestExpert = getClosestExpert(vertex.coordinates, experts);
+    const ExpertRCHIP& closestExpert = getClosestExpert(vertex.coordinates, experts);
     const double separation = computeHyperplaneSeparation(vertex.coordinates, closestExpert);
     const ClusterID clusterid = labelVertex(separation, chipidbimap);
 
@@ -36,15 +36,16 @@ int sign(const double num)
   return (num > 0) - (num < 0);
 }
 
-const Expert& getClosestExpert(const Coordinates& point, const Experts& experts)
+const ExpertRCHIP& getClosestExpert(const Coordinates& point, const Experts& experts)
 {
-  return *min_element(experts.begin(), experts.end(),
-                      [&point](const Expert& expert1, const Expert& expert2) {
-                        return squaredDistance(point, expert1.midpoint) < squaredDistance(point, expert2.midpoint);
-                      });
+  return static_cast<const ExpertRCHIP&>(*min_element(experts.begin(), experts.end(),
+                      [&point](const std::unique_ptr<BaseExpert>& expert1, const std::unique_ptr<BaseExpert>& expert2) {
+                        return squaredDistance(point, static_cast<const ExpertRCHIP&>(*expert1).midpoint) <
+                               squaredDistance(point, static_cast<const ExpertRCHIP&>(*expert2).midpoint);
+                      })->get());
 }
 
-double computeHyperplaneSeparation(const Coordinates& point, const Expert& expert)
+double computeHyperplaneSeparation(const Coordinates& point, const ExpertRCHIP& expert)
 {
   return inner_product(point.begin(), point.end(),
                        expert.normal.begin(), -expert.bias);
