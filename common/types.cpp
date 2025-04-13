@@ -75,13 +75,12 @@ BaseExpert::BaseExpert(const ExpertID id, const Edge& edge, const Coordinates& m
 // ExpertCHIP implementations
 const NormalVector ExpertCHIP::computeNormal(const Edge& edge)
 {
+  const auto& c1 = edge.first->coordinates;
   const auto& c2 = edge.second->coordinates;
 
-  const Coordinates cmp = computeMidpoint(edge);
+  NormalVector normal(c1.size());
 
-  NormalVector normal(cmp.size());
-
-  transform(cmp.begin(), cmp.end(),
+  transform(c1.begin(), c1.end(),
             c2.begin(),
             normal.begin(),
             minus<float>());
@@ -91,18 +90,7 @@ const NormalVector ExpertCHIP::computeNormal(const Edge& edge)
 
 float ExpertCHIP::computeBias(const Edge& edge, const Coordinates& midpoint, const NormalVector& normal)
 {
-  const auto& c2 = edge.second->coordinates;
-  
-  Coordinates adjustedMidpoint(midpoint.size());
-
-  transform(midpoint.begin(), midpoint.end(),
-            c2.begin(),
-            adjustedMidpoint.begin(),
-            [](const float m, const float c) {
-              return (m + c) / 2.0f;
-            });
-
-  return inner_product(adjustedMidpoint.begin(), adjustedMidpoint.end(),
+  return inner_product(midpoint.begin(), midpoint.end(),
                         normal.begin(),
                         0.0f);
 }
@@ -119,16 +107,15 @@ ExpertCHIP::ExpertCHIP(const ExpertID id, const Edge& edge, const Coordinates& m
 // ExpertRCHIP implementations
 const NormalVector ExpertRCHIP::computeNormal(const Edge& edge)
 {
-  const auto& [v1, v2] = edge;
-  const auto& c1 = v1->coordinates;
-  const auto& c2 = v2->coordinates;
+  const auto& c1 = edge.first->coordinates;
+  const auto& c2 = edge.second->coordinates;
 
   NormalVector normal(c1.size());
 
   transform(c1.begin(), c1.end(),
             c2.begin(),
             normal.begin(),
-            plus<float>());
+            minus<float>());
 
   return normal;
 }
