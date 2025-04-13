@@ -49,29 +49,29 @@ int writeSVs(const SupportVertices& supportVertices, const string& filename)
   return 0;
 }
 
-int writeExperts(const Experts& experts, const string& filename)
+int writeHyperplanes(const Hyperplanes& hyperplanes, const string& filename)
 {
-  classifierpb::Experts pb_experts;
+  classifierpb::Hyperplanes pb_hyperplanes;
 
-  for (const unique_ptr<BaseExpert>& expert : experts) {
-    classifierpb::ExpertEntry *pb_expert = pb_experts.add_entries();
+  for (const Hyperplane& hyperplane : hyperplanes) {
+    classifierpb::HyperplaneEntry *pb_hyperplane = pb_hyperplanes.add_entries();
     
-    pb_expert->set_expert_id(expert->id);
+    pb_hyperplane->set_hyperplane_id(hyperplane.id);
 
-    for (const float coord : expert->midpoint) {
-      pb_expert->add_midpoint_coordinates(coord);
+    for (const float coord : hyperplane.edgeMidpoint) {
+      pb_hyperplane->add_edge_midpoint_coordinates(coord);
     }
 
-    for (const float diff : expert->normal) {
-      pb_expert->add_normal(diff);
+    for (const float diff : hyperplane.normal) {
+      pb_hyperplane->add_normal(diff);
     }
 
-    pb_expert->set_bias(expert->bias);
+    pb_hyperplane->set_bias(hyperplane.bias);
   }
 
   ofstream file = openFileWrite(filename);
-  if (!pb_experts.SerializeToOstream(&file)) {
-    cerr << "Error: could not write experts to file" << filename << endl;
+  if (!pb_hyperplanes.SerializeToOstream(&file)) {
+    cerr << "Error: could not write hyperplanes to file" << filename << endl;
     return 1;
   }
   file.close();

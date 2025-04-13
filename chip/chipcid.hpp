@@ -5,6 +5,6 @@
 
 #include <map>
 
-const chipIDbimap getchipIDmap(const Vertices& vertices, const Experts& experts);
+const chipIDbimap getchipIDmap(const Vertices& vertices, const Hyperplanes& hyperplanes);
 
 #endif // CHIPCID_HPP

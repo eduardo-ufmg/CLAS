@@ -3,6 +3,6 @@
 
 #include "types.hpp"
 
-const Experts computeExperts(const Vertices& vertices);
+const Hyperplanes computeHyperplanes(const Vertices& vertices);
 
 #endif // COMPUTEEXPERTS_HPP

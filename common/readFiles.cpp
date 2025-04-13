@@ -124,30 +124,30 @@ SupportVertices readSVs(const string& filename)
   return vertices;
 }
 
-Experts readExperts(const string& filename)
+Hyperplanes readHyperplanes(const string& filename)
 {
-  classifierpb::Experts pb_experts;
+  classifierpb::Hyperplanes pb_hyperplanes;
 
   ifstream file = openFileRead(filename);
 
-  if (!pb_experts.ParseFromIstream(&file)) {
-    throw runtime_error("Error: could not parse experts");
+  if (!pb_hyperplanes.ParseFromIstream(&file)) {
+    throw runtime_error("Error: could not parse hyperplanes");
   }
 
   file.close();
 
-  Experts experts;
+  Hyperplanes hyperplanes;
 
-  for (const auto& expert : pb_experts.entries()) {
-    const ExpertID id = expert.expert_id();
-    const Coordinates midpoint(expert.midpoint_coordinates().begin(), expert.midpoint_coordinates().end());
-    const NormalVector normal(expert.normal().begin(), expert.normal().end());
-    const float bias = expert.bias();
+  for (const auto& hyperplane : pb_hyperplanes.entries()) {
+    const HyperplaneID id = hyperplane.hyperplane_id();
+    const Coordinates midpoint(hyperplane.edge_midpoint_coordinates().begin(), hyperplane.edge_midpoint_coordinates().end());
+    const NormalVector normal(hyperplane.normal().begin(), hyperplane.normal().end());
+    const float bias = hyperplane.bias();
 
-    experts.emplace_back(make_unique<ExpertPred>(id, midpoint, normal, bias));
+    hyperplanes.emplace_back(id, midpoint, normal, bias);
   }
 
-  return experts;
+  return hyperplanes;
 }
 
 chipIDbimap readchipIDmap(const string& filename)

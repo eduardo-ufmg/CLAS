@@ -13,17 +13,17 @@ using DistancePair = pair<const Distances, const MaxDistance>;
 
 using Weights = vector<double>;
 
-using ExpertDecision = double;
+using HyperplaneDecision = double;
 
 int sign(const double num);
-const DistancePair computeDistances(const Coordinates& point, const Experts& experts);
+const DistancePair computeDistances(const Coordinates& point, const Hyperplanes& hyperplanes);
 Weights computeWeights(const DistancePair& distpair);
 void normalizeWeights(Weights& weights);
 const Weights computeNormalizedWeights(const DistancePair& distpair);
-double computeDecisionSum(const Coordinates& point, const Experts& experts, const Weights& weights);
+double computeDecisionSum(const Coordinates& point, const Hyperplanes& hyperplanes, const Weights& weights);
 ClusterID labelVertex(const double decision_sum, const chipIDbimap& chipidbimap);
 
-const LabeledVertices chip(const VerticesToLabel& vertices, const Experts& experts, const chipIDbimap& chipidbimap)
+const LabeledVertices chip(const VerticesToLabel& vertices, const Hyperplanes& hyperplanes, const chipIDbimap& chipidbimap)
 {
   LabeledVertices labeledVertices;
 
@@ -31,9 +31,9 @@ const LabeledVertices chip(const VerticesToLabel& vertices, const Experts& exper
 
   for (const auto& vertex : vertices) {
 
-    const DistancePair distpair = computeDistances(vertex.coordinates, experts);
+    const DistancePair distpair = computeDistances(vertex.coordinates, hyperplanes);
     const Weights weights = computeNormalizedWeights(distpair);
-    const double decision_sum = computeDecisionSum(vertex.coordinates, experts, weights);
+    const double decision_sum = computeDecisionSum(vertex.coordinates, hyperplanes, weights);
     const ClusterID clusterid = labelVertex(decision_sum, chipidbimap);
 
     labeledVertices.emplace_back(vertex.id, vertex.coordinates, clusterid);
@@ -48,18 +48,18 @@ int sign(const double num)
   return (num > 0) - (num < 0);
 }
 
-const DistancePair computeDistances(const Coordinates& point, const Experts& experts)
+const DistancePair computeDistances(const Coordinates& point, const Hyperplanes& hyperplanes)
 {
   Distances distances;
 
-  distances.reserve(experts.size());
+  distances.reserve(hyperplanes.size());
 
   double maxDistance = 0.0;
 
-  for (const auto& expert : experts) {
+  for (const auto& hyperplane : hyperplanes) {
 
     const double sqDistance = inner_product(point.begin(), point.end(),
-                                            expert->midpoint.begin(),
+                                            hyperplane.edgeMidpoint.begin(),
                                             0.0, plus<double>(),
                                             [](const double a, const double b) {
                                               return (a - b) * (a - b);
@@ -119,20 +119,19 @@ const Weights computeNormalizedWeights(const DistancePair& distpair)
   return weights;
 }
 
-double computeDecisionSum(const Coordinates& point, const Experts& experts, const Weights& weights)
+double computeDecisionSum(const Coordinates& point, const Hyperplanes& hyperplanes, const Weights& weights)
 {
-  vector<ExpertDecision> decisions(experts.size());
+  vector<HyperplaneDecision> decisions(hyperplanes.size());
 
-  transform(experts.begin(), experts.end(),
+  transform(hyperplanes.begin(), hyperplanes.end(),
             weights.begin(),
             decisions.begin(),
-            [&point](const unique_ptr<BaseExpert>& expertPtr, const double weight) {
-              const auto* expert = dynamic_cast<const ExpertPred*>(expertPtr.get());
+            [&point](const auto& hyperplane, const double weight) {
 
               const double dotProduct = inner_product(point.begin(), point.end(),
-                                                      expert->normal.begin(), 0.0);
+                                                      hyperplane.normal.begin(), 0.0);
 
-              return weight * (dotProduct - expert->bias);
+              return weight * (dotProduct - hyperplane.bias);
             });
 
   return accumulate(decisions.begin(), decisions.end(), 0.0);

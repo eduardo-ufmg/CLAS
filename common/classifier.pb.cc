@@ -90,35 +90,35 @@ struct SupportVerticesDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SupportVerticesDefaultTypeInternal _SupportVertices_default_instance_;
-PROTOBUF_CONSTEXPR ExpertEntry::ExpertEntry(
+PROTOBUF_CONSTEXPR HyperplaneEntry::HyperplaneEntry(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.midpoint_coordinates_)*/{}
+    /*decltype(_impl_.edge_midpoint_coordinates_)*/{}
   , /*decltype(_impl_.normal_)*/{}
-  , /*decltype(_impl_.expert_id_)*/0
+  , /*decltype(_impl_.hyperplane_id_)*/0
   , /*decltype(_impl_.bias_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
-struct ExpertEntryDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ExpertEntryDefaultTypeInternal()
+struct HyperplaneEntryDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR HyperplaneEntryDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ExpertEntryDefaultTypeInternal() {}
+  ~HyperplaneEntryDefaultTypeInternal() {}
   union {
-    ExpertEntry _instance;
+    HyperplaneEntry _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ExpertEntryDefaultTypeInternal _ExpertEntry_default_instance_;
-PROTOBUF_CONSTEXPR Experts::Experts(
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 HyperplaneEntryDefaultTypeInternal _HyperplaneEntry_default_instance_;
+PROTOBUF_CONSTEXPR Hyperplanes::Hyperplanes(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.entries_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}} {}
-struct ExpertsDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR ExpertsDefaultTypeInternal()
+struct HyperplanesDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR HyperplanesDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
-  ~ExpertsDefaultTypeInternal() {}
+  ~HyperplanesDefaultTypeInternal() {}
   union {
-    Experts _instance;
+    Hyperplanes _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ExpertsDefaultTypeInternal _Experts_default_instance_;
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 HyperplanesDefaultTypeInternal _Hyperplanes_default_instance_;
 PROTOBUF_CONSTEXPR VertexToLabelEntry::VertexToLabelEntry(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.features_)*/{}
@@ -249,22 +249,22 @@ const uint32_t TableStruct_classifier_2eproto::offsets[] PROTOBUF_SECTION_VARIAB
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::classifierpb::SupportVertices, _impl_.entries_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::classifierpb::ExpertEntry, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::classifierpb::HyperplaneEntry, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::classifierpb::ExpertEntry, _impl_.expert_id_),
-  PROTOBUF_FIELD_OFFSET(::classifierpb::ExpertEntry, _impl_.midpoint_coordinates_),
-  PROTOBUF_FIELD_OFFSET(::classifierpb::ExpertEntry, _impl_.normal_),
-  PROTOBUF_FIELD_OFFSET(::classifierpb::ExpertEntry, _impl_.bias_),
+  PROTOBUF_FIELD_OFFSET(::classifierpb::HyperplaneEntry, _impl_.hyperplane_id_),
+  PROTOBUF_FIELD_OFFSET(::classifierpb::HyperplaneEntry, _impl_.edge_midpoint_coordinates_),
+  PROTOBUF_FIELD_OFFSET(::classifierpb::HyperplaneEntry, _impl_.normal_),
+  PROTOBUF_FIELD_OFFSET(::classifierpb::HyperplaneEntry, _impl_.bias_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::classifierpb::Experts, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::classifierpb::Hyperplanes, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::classifierpb::Experts, _impl_.entries_),
+  PROTOBUF_FIELD_OFFSET(::classifierpb::Hyperplanes, _impl_.entries_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::classifierpb::VertexToLabelEntry, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -319,8 +319,8 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 17, -1, -1, sizeof(::classifierpb::TrainingDataset)},
   { 24, -1, -1, sizeof(::classifierpb::SupportVertexEntry)},
   { 33, -1, -1, sizeof(::classifierpb::SupportVertices)},
-  { 40, -1, -1, sizeof(::classifierpb::ExpertEntry)},
-  { 50, -1, -1, sizeof(::classifierpb::Experts)},
+  { 40, -1, -1, sizeof(::classifierpb::HyperplaneEntry)},
+  { 50, -1, -1, sizeof(::classifierpb::Hyperplanes)},
   { 57, -1, -1, sizeof(::classifierpb::VertexToLabelEntry)},
   { 66, -1, -1, sizeof(::classifierpb::VerticesToLabel)},
   { 73, -1, -1, sizeof(::classifierpb::LabeledVertexEntry)},
@@ -335,8 +335,8 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::classifierpb::_TrainingDataset_default_instance_._instance,
   &::classifierpb::_SupportVertexEntry_default_instance_._instance,
   &::classifierpb::_SupportVertices_default_instance_._instance,
-  &::classifierpb::_ExpertEntry_default_instance_._instance,
-  &::classifierpb::_Experts_default_instance_._instance,
+  &::classifierpb::_HyperplaneEntry_default_instance_._instance,
+  &::classifierpb::_Hyperplanes_default_instance_._instance,
   &::classifierpb::_VertexToLabelEntry_default_instance_._instance,
   &::classifierpb::_VerticesToLabel_default_instance_._instance,
   &::classifierpb::_LabeledVertexEntry_default_instance_._instance,
@@ -357,27 +357,27 @@ const char descriptor_table_protodef_classifier_2eproto[] PROTOBUF_SECTION_VARIA
   "res\030\002 \003(\002\022+\n\ncluster_id\030\003 \001(\0132\027.classifi"
   "erpb.ClusterID\"D\n\017SupportVertices\0221\n\007ent"
   "ries\030\001 \003(\0132 .classifierpb.SupportVertexE"
-  "ntry\"\\\n\013ExpertEntry\022\021\n\texpert_id\030\001 \001(\005\022\034"
-  "\n\024midpoint_coordinates\030\002 \003(\002\022\016\n\006normal\030\003"
-  " \003(\002\022\014\n\004bias\030\004 \001(\002\"5\n\007Experts\022*\n\007entries"
-  "\030\001 \003(\0132\031.classifierpb.ExpertEntry\"o\n\022Ver"
-  "texToLabelEntry\022\021\n\tvertex_id\030\001 \001(\005\022\020\n\010fe"
-  "atures\030\002 \003(\002\0224\n\023expected_cluster_id\030\003 \001("
-  "\0132\027.classifierpb.ClusterID\"D\n\017VerticesTo"
-  "Label\0221\n\007entries\030\001 \003(\0132 .classifierpb.Ve"
-  "rtexToLabelEntry\"f\n\022LabeledVertexEntry\022\021"
-  "\n\tvertex_id\030\001 \001(\005\022\020\n\010features\030\002 \003(\002\022+\n\nc"
-  "luster_id\030\003 \001(\0132\027.classifierpb.ClusterID"
-  "\"D\n\017LabeledVertices\0221\n\007entries\030\001 \003(\0132 .c"
-  "lassifierpb.LabeledVertexEntry\"K\n\nchipID"
-  "pair\022\020\n\010chip_int\030\001 \001(\005\022+\n\ncluster_id\030\002 \001"
-  "(\0132\027.classifierpb.ClusterID\"6\n\tchipIDmap"
-  "\022)\n\007entries\030\001 \003(\0132\030.classifierpb.chipIDp"
-  "airb\006proto3"
+  "ntry\"i\n\017HyperplaneEntry\022\025\n\rhyperplane_id"
+  "\030\001 \001(\005\022!\n\031edge_midpoint_coordinates\030\002 \003("
+  "\002\022\016\n\006normal\030\003 \003(\002\022\014\n\004bias\030\004 \001(\002\"=\n\013Hyper"
+  "planes\022.\n\007entries\030\001 \003(\0132\035.classifierpb.H"
+  "yperplaneEntry\"o\n\022VertexToLabelEntry\022\021\n\t"
+  "vertex_id\030\001 \001(\005\022\020\n\010features\030\002 \003(\002\0224\n\023exp"
+  "ected_cluster_id\030\003 \001(\0132\027.classifierpb.Cl"
+  "usterID\"D\n\017VerticesToLabel\0221\n\007entries\030\001 "
+  "\003(\0132 .classifierpb.VertexToLabelEntry\"f\n"
+  "\022LabeledVertexEntry\022\021\n\tvertex_id\030\001 \001(\005\022\020"
+  "\n\010features\030\002 \003(\002\022+\n\ncluster_id\030\003 \001(\0132\027.c"
+  "lassifierpb.ClusterID\"D\n\017LabeledVertices"
+  "\0221\n\007entries\030\001 \003(\0132 .classifierpb.Labeled"
+  "VertexEntry\"K\n\nchipIDpair\022\020\n\010chip_int\030\001 "
+  "\001(\005\022+\n\ncluster_id\030\002 \001(\0132\027.classifierpb.C"
+  "lusterID\"6\n\tchipIDmap\022)\n\007entries\030\001 \003(\0132\030"
+  ".classifierpb.chipIDpairb\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_classifier_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_classifier_2eproto = {
-    false, false, 1091, descriptor_table_protodef_classifier_2eproto,
+    false, false, 1112, descriptor_table_protodef_classifier_2eproto,
     "classifier.proto",
     &descriptor_table_classifier_2eproto_once, nullptr, 0, 13,
     schemas, file_default_instances, TableStruct_classifier_2eproto::offsets,
@@ -1506,48 +1506,48 @@ void SupportVertices::InternalSwap(SupportVertices* other) {
 
 // ===================================================================
 
-class ExpertEntry::_Internal {
+class HyperplaneEntry::_Internal {
  public:
 };
 
-ExpertEntry::ExpertEntry(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+HyperplaneEntry::HyperplaneEntry(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:classifierpb.ExpertEntry)
+  // @@protoc_insertion_point(arena_constructor:classifierpb.HyperplaneEntry)
 }
-ExpertEntry::ExpertEntry(const ExpertEntry& from)
+HyperplaneEntry::HyperplaneEntry(const HyperplaneEntry& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
-  ExpertEntry* const _this = this; (void)_this;
+  HyperplaneEntry* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.midpoint_coordinates_){from._impl_.midpoint_coordinates_}
+      decltype(_impl_.edge_midpoint_coordinates_){from._impl_.edge_midpoint_coordinates_}
     , decltype(_impl_.normal_){from._impl_.normal_}
-    , decltype(_impl_.expert_id_){}
+    , decltype(_impl_.hyperplane_id_){}
     , decltype(_impl_.bias_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&_impl_.expert_id_, &from._impl_.expert_id_,
+  ::memcpy(&_impl_.hyperplane_id_, &from._impl_.hyperplane_id_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.bias_) -
-    reinterpret_cast<char*>(&_impl_.expert_id_)) + sizeof(_impl_.bias_));
-  // @@protoc_insertion_point(copy_constructor:classifierpb.ExpertEntry)
+    reinterpret_cast<char*>(&_impl_.hyperplane_id_)) + sizeof(_impl_.bias_));
+  // @@protoc_insertion_point(copy_constructor:classifierpb.HyperplaneEntry)
 }
 
-inline void ExpertEntry::SharedCtor(
+inline void HyperplaneEntry::SharedCtor(
     ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.midpoint_coordinates_){arena}
+      decltype(_impl_.edge_midpoint_coordinates_){arena}
     , decltype(_impl_.normal_){arena}
-    , decltype(_impl_.expert_id_){0}
+    , decltype(_impl_.hyperplane_id_){0}
     , decltype(_impl_.bias_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
 
-ExpertEntry::~ExpertEntry() {
-  // @@protoc_insertion_point(destructor:classifierpb.ExpertEntry)
+HyperplaneEntry::~HyperplaneEntry() {
+  // @@protoc_insertion_point(destructor:classifierpb.HyperplaneEntry)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -1555,51 +1555,51 @@ ExpertEntry::~ExpertEntry() {
   SharedDtor();
 }
 
-inline void ExpertEntry::SharedDtor() {
+inline void HyperplaneEntry::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.midpoint_coordinates_.~RepeatedField();
+  _impl_.edge_midpoint_coordinates_.~RepeatedField();
   _impl_.normal_.~RepeatedField();
 }
 
-void ExpertEntry::SetCachedSize(int size) const {
+void HyperplaneEntry::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
 
-void ExpertEntry::Clear() {
-// @@protoc_insertion_point(message_clear_start:classifierpb.ExpertEntry)
+void HyperplaneEntry::Clear() {
+// @@protoc_insertion_point(message_clear_start:classifierpb.HyperplaneEntry)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.midpoint_coordinates_.Clear();
+  _impl_.edge_midpoint_coordinates_.Clear();
   _impl_.normal_.Clear();
-  ::memset(&_impl_.expert_id_, 0, static_cast<size_t>(
+  ::memset(&_impl_.hyperplane_id_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.bias_) -
-      reinterpret_cast<char*>(&_impl_.expert_id_)) + sizeof(_impl_.bias_));
+      reinterpret_cast<char*>(&_impl_.hyperplane_id_)) + sizeof(_impl_.bias_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* ExpertEntry::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* HyperplaneEntry::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // int32 expert_id = 1;
+      // int32 hyperplane_id = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.expert_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          _impl_.hyperplane_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
-      // repeated float midpoint_coordinates = 2;
+      // repeated float edge_midpoint_coordinates = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedFloatParser(_internal_mutable_midpoint_coordinates(), ptr, ctx);
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedFloatParser(_internal_mutable_edge_midpoint_coordinates(), ptr, ctx);
           CHK_(ptr);
         } else if (static_cast<uint8_t>(tag) == 21) {
-          _internal_add_midpoint_coordinates(::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr));
+          _internal_add_edge_midpoint_coordinates(::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr));
           ptr += sizeof(float);
         } else
           goto handle_unusual;
@@ -1646,21 +1646,21 @@ failure:
 #undef CHK_
 }
 
-uint8_t* ExpertEntry::_InternalSerialize(
+uint8_t* HyperplaneEntry::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:classifierpb.ExpertEntry)
+  // @@protoc_insertion_point(serialize_to_array_start:classifierpb.HyperplaneEntry)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 expert_id = 1;
-  if (this->_internal_expert_id() != 0) {
+  // int32 hyperplane_id = 1;
+  if (this->_internal_hyperplane_id() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_expert_id(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_hyperplane_id(), target);
   }
 
-  // repeated float midpoint_coordinates = 2;
-  if (this->_internal_midpoint_coordinates_size() > 0) {
-    target = stream->WriteFixedPacked(2, _internal_midpoint_coordinates(), target);
+  // repeated float edge_midpoint_coordinates = 2;
+  if (this->_internal_edge_midpoint_coordinates_size() > 0) {
+    target = stream->WriteFixedPacked(2, _internal_edge_midpoint_coordinates(), target);
   }
 
   // repeated float normal = 3;
@@ -1682,21 +1682,21 @@ uint8_t* ExpertEntry::_InternalSerialize(
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:classifierpb.ExpertEntry)
+  // @@protoc_insertion_point(serialize_to_array_end:classifierpb.HyperplaneEntry)
   return target;
 }
 
-size_t ExpertEntry::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:classifierpb.ExpertEntry)
+size_t HyperplaneEntry::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:classifierpb.HyperplaneEntry)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated float midpoint_coordinates = 2;
+  // repeated float edge_midpoint_coordinates = 2;
   {
-    unsigned int count = static_cast<unsigned int>(this->_internal_midpoint_coordinates_size());
+    unsigned int count = static_cast<unsigned int>(this->_internal_edge_midpoint_coordinates_size());
     size_t data_size = 4UL * count;
     if (data_size > 0) {
       total_size += 1 +
@@ -1716,9 +1716,9 @@ size_t ExpertEntry::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // int32 expert_id = 1;
-  if (this->_internal_expert_id() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_expert_id());
+  // int32 hyperplane_id = 1;
+  if (this->_internal_hyperplane_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_hyperplane_id());
   }
 
   // float bias = 4;
@@ -1733,25 +1733,25 @@ size_t ExpertEntry::ByteSizeLong() const {
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData ExpertEntry::_class_data_ = {
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData HyperplaneEntry::_class_data_ = {
     ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    ExpertEntry::MergeImpl
+    HyperplaneEntry::MergeImpl
 };
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*ExpertEntry::GetClassData() const { return &_class_data_; }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*HyperplaneEntry::GetClassData() const { return &_class_data_; }
 
 
-void ExpertEntry::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<ExpertEntry*>(&to_msg);
-  auto& from = static_cast<const ExpertEntry&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:classifierpb.ExpertEntry)
+void HyperplaneEntry::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<HyperplaneEntry*>(&to_msg);
+  auto& from = static_cast<const HyperplaneEntry&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:classifierpb.HyperplaneEntry)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  _this->_impl_.midpoint_coordinates_.MergeFrom(from._impl_.midpoint_coordinates_);
+  _this->_impl_.edge_midpoint_coordinates_.MergeFrom(from._impl_.edge_midpoint_coordinates_);
   _this->_impl_.normal_.MergeFrom(from._impl_.normal_);
-  if (from._internal_expert_id() != 0) {
-    _this->_internal_set_expert_id(from._internal_expert_id());
+  if (from._internal_hyperplane_id() != 0) {
+    _this->_internal_set_hyperplane_id(from._internal_hyperplane_id());
   }
   static_assert(sizeof(uint32_t) == sizeof(float), "Code assumes uint32_t and float are the same size.");
   float tmp_bias = from._internal_bias();
@@ -1763,31 +1763,31 @@ void ExpertEntry::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PR
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void ExpertEntry::CopyFrom(const ExpertEntry& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:classifierpb.ExpertEntry)
+void HyperplaneEntry::CopyFrom(const HyperplaneEntry& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:classifierpb.HyperplaneEntry)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool ExpertEntry::IsInitialized() const {
+bool HyperplaneEntry::IsInitialized() const {
   return true;
 }
 
-void ExpertEntry::InternalSwap(ExpertEntry* other) {
+void HyperplaneEntry::InternalSwap(HyperplaneEntry* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  _impl_.midpoint_coordinates_.InternalSwap(&other->_impl_.midpoint_coordinates_);
+  _impl_.edge_midpoint_coordinates_.InternalSwap(&other->_impl_.edge_midpoint_coordinates_);
   _impl_.normal_.InternalSwap(&other->_impl_.normal_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(ExpertEntry, _impl_.bias_)
-      + sizeof(ExpertEntry::_impl_.bias_)
-      - PROTOBUF_FIELD_OFFSET(ExpertEntry, _impl_.expert_id_)>(
-          reinterpret_cast<char*>(&_impl_.expert_id_),
-          reinterpret_cast<char*>(&other->_impl_.expert_id_));
+      PROTOBUF_FIELD_OFFSET(HyperplaneEntry, _impl_.bias_)
+      + sizeof(HyperplaneEntry::_impl_.bias_)
+      - PROTOBUF_FIELD_OFFSET(HyperplaneEntry, _impl_.hyperplane_id_)>(
+          reinterpret_cast<char*>(&_impl_.hyperplane_id_),
+          reinterpret_cast<char*>(&other->_impl_.hyperplane_id_));
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata ExpertEntry::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata HyperplaneEntry::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_classifier_2eproto_getter, &descriptor_table_classifier_2eproto_once,
       file_level_metadata_classifier_2eproto[5]);
@@ -1795,28 +1795,28 @@ void ExpertEntry::InternalSwap(ExpertEntry* other) {
 
 // ===================================================================
 
-class Experts::_Internal {
+class Hyperplanes::_Internal {
  public:
 };
 
-Experts::Experts(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+Hyperplanes::Hyperplanes(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:classifierpb.Experts)
+  // @@protoc_insertion_point(arena_constructor:classifierpb.Hyperplanes)
 }
-Experts::Experts(const Experts& from)
+Hyperplanes::Hyperplanes(const Hyperplanes& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
-  Experts* const _this = this; (void)_this;
+  Hyperplanes* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.entries_){from._impl_.entries_}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  // @@protoc_insertion_point(copy_constructor:classifierpb.Experts)
+  // @@protoc_insertion_point(copy_constructor:classifierpb.Hyperplanes)
 }
 
-inline void Experts::SharedCtor(
+inline void Hyperplanes::SharedCtor(
     ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
   (void)is_message_owned;
@@ -1826,8 +1826,8 @@ inline void Experts::SharedCtor(
   };
 }
 
-Experts::~Experts() {
-  // @@protoc_insertion_point(destructor:classifierpb.Experts)
+Hyperplanes::~Hyperplanes() {
+  // @@protoc_insertion_point(destructor:classifierpb.Hyperplanes)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -1835,17 +1835,17 @@ Experts::~Experts() {
   SharedDtor();
 }
 
-inline void Experts::SharedDtor() {
+inline void Hyperplanes::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.entries_.~RepeatedPtrField();
 }
 
-void Experts::SetCachedSize(int size) const {
+void Hyperplanes::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
 
-void Experts::Clear() {
-// @@protoc_insertion_point(message_clear_start:classifierpb.Experts)
+void Hyperplanes::Clear() {
+// @@protoc_insertion_point(message_clear_start:classifierpb.Hyperplanes)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -1854,13 +1854,13 @@ void Experts::Clear() {
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* Experts::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* Hyperplanes::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // repeated .classifierpb.ExpertEntry entries = 1;
+      // repeated .classifierpb.HyperplaneEntry entries = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
           ptr -= 1;
@@ -1896,13 +1896,13 @@ failure:
 #undef CHK_
 }
 
-uint8_t* Experts::_InternalSerialize(
+uint8_t* Hyperplanes::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:classifierpb.Experts)
+  // @@protoc_insertion_point(serialize_to_array_start:classifierpb.Hyperplanes)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated .classifierpb.ExpertEntry entries = 1;
+  // repeated .classifierpb.HyperplaneEntry entries = 1;
   for (unsigned i = 0,
       n = static_cast<unsigned>(this->_internal_entries_size()); i < n; i++) {
     const auto& repfield = this->_internal_entries(i);
@@ -1914,19 +1914,19 @@ uint8_t* Experts::_InternalSerialize(
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:classifierpb.Experts)
+  // @@protoc_insertion_point(serialize_to_array_end:classifierpb.Hyperplanes)
   return target;
 }
 
-size_t Experts::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:classifierpb.Experts)
+size_t Hyperplanes::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:classifierpb.Hyperplanes)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .classifierpb.ExpertEntry entries = 1;
+  // repeated .classifierpb.HyperplaneEntry entries = 1;
   total_size += 1UL * this->_internal_entries_size();
   for (const auto& msg : this->_impl_.entries_) {
     total_size +=
@@ -1936,17 +1936,17 @@ size_t Experts::ByteSizeLong() const {
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData Experts::_class_data_ = {
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData Hyperplanes::_class_data_ = {
     ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    Experts::MergeImpl
+    Hyperplanes::MergeImpl
 };
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Experts::GetClassData() const { return &_class_data_; }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Hyperplanes::GetClassData() const { return &_class_data_; }
 
 
-void Experts::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<Experts*>(&to_msg);
-  auto& from = static_cast<const Experts&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:classifierpb.Experts)
+void Hyperplanes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<Hyperplanes*>(&to_msg);
+  auto& from = static_cast<const Hyperplanes&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:classifierpb.Hyperplanes)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1955,24 +1955,24 @@ void Experts::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOB
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void Experts::CopyFrom(const Experts& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:classifierpb.Experts)
+void Hyperplanes::CopyFrom(const Hyperplanes& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:classifierpb.Hyperplanes)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool Experts::IsInitialized() const {
+bool Hyperplanes::IsInitialized() const {
   return true;
 }
 
-void Experts::InternalSwap(Experts* other) {
+void Hyperplanes::InternalSwap(Hyperplanes* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   _impl_.entries_.InternalSwap(&other->_impl_.entries_);
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata Experts::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata Hyperplanes::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_classifier_2eproto_getter, &descriptor_table_classifier_2eproto_once,
       file_level_metadata_classifier_2eproto[6]);
@@ -3294,13 +3294,13 @@ template<> PROTOBUF_NOINLINE ::classifierpb::SupportVertices*
 Arena::CreateMaybeMessage< ::classifierpb::SupportVertices >(Arena* arena) {
   return Arena::CreateMessageInternal< ::classifierpb::SupportVertices >(arena);
 }
-template<> PROTOBUF_NOINLINE ::classifierpb::ExpertEntry*
-Arena::CreateMaybeMessage< ::classifierpb::ExpertEntry >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::classifierpb::ExpertEntry >(arena);
+template<> PROTOBUF_NOINLINE ::classifierpb::HyperplaneEntry*
+Arena::CreateMaybeMessage< ::classifierpb::HyperplaneEntry >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::classifierpb::HyperplaneEntry >(arena);
 }
-template<> PROTOBUF_NOINLINE ::classifierpb::Experts*
-Arena::CreateMaybeMessage< ::classifierpb::Experts >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::classifierpb::Experts >(arena);
+template<> PROTOBUF_NOINLINE ::classifierpb::Hyperplanes*
+Arena::CreateMaybeMessage< ::classifierpb::Hyperplanes >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::classifierpb::Hyperplanes >(arena);
 }
 template<> PROTOBUF_NOINLINE ::classifierpb::VertexToLabelEntry*
 Arena::CreateMaybeMessage< ::classifierpb::VertexToLabelEntry >(Arena* arena) {

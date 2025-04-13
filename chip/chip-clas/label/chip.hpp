@@ -3,6 +3,6 @@
 
 #include "types.hpp"
 
-const LabeledVertices chip(const VerticesToLabel& vertices, const Experts& experts, const chipIDbimap& chipidbimap);
+const LabeledVertices chip(const VerticesToLabel& vertices, const Hyperplanes& hyperplanes, const chipIDbimap& chipidbimap);
 
 #endif // CHIP_HPP

@@ -51,7 +51,7 @@ void Cluster::computeTreshold(const float tolerance)
   treshold = online_avgq - tolerance * online_stdq;
 }
 
-const Coordinates BaseExpert::computeMidpoint(const Edge& edge) {
+const Coordinates Hyperplane::computeMidpoint(const Edge& edge) {
   const auto& [v1, v2] = edge;
   const auto& c1 = v1->coordinates;
   const auto& c2 = v2->coordinates;
@@ -68,12 +68,7 @@ const Coordinates BaseExpert::computeMidpoint(const Edge& edge) {
   return midpoint;
 }
 
-BaseExpert::BaseExpert(const ExpertID id, const Edge& edge, const Coordinates& midpoint, const NormalVector& normal, const float bias)
-  : id(id), edge(edge), midpoint(midpoint), normal(normal), bias(bias)
-{}
-
-// ExpertCHIP implementations
-const NormalVector ExpertCHIP::computeNormal(const Edge& edge)
+const NormalVector Hyperplane::computeNormal(const Edge& edge)
 {
   const auto& c1 = edge.first->coordinates;
   const auto& c2 = edge.second->coordinates;
@@ -88,57 +83,19 @@ const NormalVector ExpertCHIP::computeNormal(const Edge& edge)
   return normal;
 }
 
-float ExpertCHIP::computeBias(const Edge& edge, const Coordinates& midpoint, const NormalVector& normal)
+float Hyperplane::computeBias(const Coordinates& midpoint, const NormalVector& normal)
 {
   return inner_product(midpoint.begin(), midpoint.end(),
                         normal.begin(),
                         0.0f);
 }
 
-// ExpertCHIP constructor
-ExpertCHIP::ExpertCHIP(const ExpertID id, const Edge& edge)
-  : ExpertCHIP(id, edge, BaseExpert::computeMidpoint(edge), ExpertCHIP::computeNormal(edge))
+Hyperplane::Hyperplane(const HyperplaneID id, const Coordinates& edgeMidpoint, const NormalVector& normal, const float bias)
+  : id(id), edgeMidpoint(edgeMidpoint), normal(normal), bias(bias)
 {}
 
-ExpertCHIP::ExpertCHIP(const ExpertID id, const Edge& edge, const Coordinates& midpoint, const NormalVector& normal)
-  : BaseExpert(id, edge, midpoint, normal, ExpertCHIP::computeBias(edge, midpoint, normal))
-{}
-
-// ExpertRCHIP implementations
-const NormalVector ExpertRCHIP::computeNormal(const Edge& edge)
-{
-  const auto& c1 = edge.first->coordinates;
-  const auto& c2 = edge.second->coordinates;
-
-  NormalVector normal(c1.size());
-
-  transform(c1.begin(), c1.end(),
-            c2.begin(),
-            normal.begin(),
-            minus<float>());
-
-  return normal;
-}
-
-float ExpertRCHIP::computeBias(const Edge& edge, const Coordinates& midpoint, const NormalVector& normal)
-{
-  return inner_product(midpoint.begin(), midpoint.end(),
-                        normal.begin(),
-                        0.0f);
-}
-
-// ExpertRCHIP constructor
-ExpertRCHIP::ExpertRCHIP(const ExpertID id, const Edge& edge)
-  : ExpertRCHIP(id, edge, BaseExpert::computeMidpoint(edge), ExpertRCHIP::computeNormal(edge))
-{}
-
-ExpertRCHIP::ExpertRCHIP(const ExpertID id, const Edge& edge, const Coordinates& midpoint, const NormalVector& normal)
-  : BaseExpert(id, edge, midpoint, normal, ExpertRCHIP::computeBias(edge, midpoint, normal))
-{}
-
-// ExpertPred constructor
-ExpertPred::ExpertPred(const ExpertID id, const Coordinates& midpoint, const NormalVector& normal, const float bias)
-  : BaseExpert(id, edge, midpoint, normal, bias)
+Hyperplane::Hyperplane(const HyperplaneID id, const Edge& edge)
+  : id(id), edge(edge), edgeMidpoint(computeMidpoint(edge)), normal(computeNormal(edge)), bias(computeBias(edgeMidpoint, normal))
 {}
 
 SupportVertex::SupportVertex(const VertexID id, const Coordinates& coordinates, const ClusterID clusterid)

@@ -6,7 +6,7 @@
 #include "chipcid.hpp"
 #include "gabrielGraph.hpp"
 #include "filter.hpp"
-#include "computeExperts.hpp"
+#include "computeHyperplanes.hpp"
 #include "writeFiles.hpp"
 
 using namespace std;
@@ -32,15 +32,15 @@ int main(int argc, char** argv)
 
   filter(vertices, tolerance);
 
-  const Experts experts = computeExperts(vertices);
+  const Hyperplanes hyperplanes = computeHyperplanes(vertices);
 
-  const chipIDbimap chipidbimap = getchipIDmap(vertices, experts);
+  const chipIDbimap chipidbimap = getchipIDmap(vertices, hyperplanes);
 
   const string output_file_path = "./train/chip-" + filenameFromPath(dataset_file_path);
   const string chipidmap_file_path = "./train/chipidbimap-" + filenameFromPath(dataset_file_path);
 
-  if (writeExperts(experts, output_file_path) != 0) {
-    cerr << "Error: could not write experts to file" << output_file_path << endl;
+  if (writeHyperplanes(hyperplanes, output_file_path) != 0) {
+    cerr << "Error: could not write hyperplanes to file" << output_file_path << endl;
     return 1;
   }
 

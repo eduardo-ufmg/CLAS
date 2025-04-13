@@ -16,7 +16,7 @@ endif()
 if(BUILD_CHIP_TRAIN)
   add_executable(chip-train
     train/train.cpp
-    train/computeExperts.cpp
+    train/computeHyperplanes.cpp
   )
   target_link_libraries(chip-train common chip_common)
   target_include_directories(chip-train PRIVATE

@@ -1,5 +1,5 @@
 from google.protobuf.message import DecodeError
-from classifier_pb2 import TrainingDataset, SupportVertices, Experts, VerticesToLabel, LabeledVertices, chipIDmap
+from classifier_pb2 import TrainingDataset, SupportVertices, Hyperplanes, VerticesToLabel, LabeledVertices, chipIDmap
 import argparse
 import pathlib
 
@@ -33,7 +33,7 @@ if __name__ == "__main__":
   data = {
     "dataset": (data_path / args.setname / args.setname, TrainingDataset),
     "sv": (trained_path / f"{args.classifier}-{args.setname}", SupportVertices),
-    "expt": (trained_path / f"{args.classifier}-{args.setname}", Experts),
+    "expt": (trained_path / f"{args.classifier}-{args.setname}", Hyperplanes),
     "test": (data_path / args.setname / "test", VerticesToLabel),
     "labeled": (labeled_path / f"{args.classifier}-{args.setname}", LabeledVertices),
     "chipidbimap": (trained_path / f"chipidbimap-{args.setname}", chipIDmap)

@@ -48,12 +48,12 @@ namespace classifierpb {
 class ClusterID;
 struct ClusterIDDefaultTypeInternal;
 extern ClusterIDDefaultTypeInternal _ClusterID_default_instance_;
-class ExpertEntry;
-struct ExpertEntryDefaultTypeInternal;
-extern ExpertEntryDefaultTypeInternal _ExpertEntry_default_instance_;
-class Experts;
-struct ExpertsDefaultTypeInternal;
-extern ExpertsDefaultTypeInternal _Experts_default_instance_;
+class HyperplaneEntry;
+struct HyperplaneEntryDefaultTypeInternal;
+extern HyperplaneEntryDefaultTypeInternal _HyperplaneEntry_default_instance_;
+class Hyperplanes;
+struct HyperplanesDefaultTypeInternal;
+extern HyperplanesDefaultTypeInternal _Hyperplanes_default_instance_;
 class LabeledVertexEntry;
 struct LabeledVertexEntryDefaultTypeInternal;
 extern LabeledVertexEntryDefaultTypeInternal _LabeledVertexEntry_default_instance_;
@@ -87,8 +87,8 @@ extern chipIDpairDefaultTypeInternal _chipIDpair_default_instance_;
 }  // namespace classifierpb
 PROTOBUF_NAMESPACE_OPEN
 template<> ::classifierpb::ClusterID* Arena::CreateMaybeMessage<::classifierpb::ClusterID>(Arena*);
-template<> ::classifierpb::ExpertEntry* Arena::CreateMaybeMessage<::classifierpb::ExpertEntry>(Arena*);
-template<> ::classifierpb::Experts* Arena::CreateMaybeMessage<::classifierpb::Experts>(Arena*);
+template<> ::classifierpb::HyperplaneEntry* Arena::CreateMaybeMessage<::classifierpb::HyperplaneEntry>(Arena*);
+template<> ::classifierpb::Hyperplanes* Arena::CreateMaybeMessage<::classifierpb::Hyperplanes>(Arena*);
 template<> ::classifierpb::LabeledVertexEntry* Arena::CreateMaybeMessage<::classifierpb::LabeledVertexEntry>(Arena*);
 template<> ::classifierpb::LabeledVertices* Arena::CreateMaybeMessage<::classifierpb::LabeledVertices>(Arena*);
 template<> ::classifierpb::SupportVertexEntry* Arena::CreateMaybeMessage<::classifierpb::SupportVertexEntry>(Arena*);
@@ -982,24 +982,24 @@ class SupportVertices final :
 };
 // -------------------------------------------------------------------
 
-class ExpertEntry final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:classifierpb.ExpertEntry) */ {
+class HyperplaneEntry final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:classifierpb.HyperplaneEntry) */ {
  public:
-  inline ExpertEntry() : ExpertEntry(nullptr) {}
-  ~ExpertEntry() override;
-  explicit PROTOBUF_CONSTEXPR ExpertEntry(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline HyperplaneEntry() : HyperplaneEntry(nullptr) {}
+  ~HyperplaneEntry() override;
+  explicit PROTOBUF_CONSTEXPR HyperplaneEntry(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  ExpertEntry(const ExpertEntry& from);
-  ExpertEntry(ExpertEntry&& from) noexcept
-    : ExpertEntry() {
+  HyperplaneEntry(const HyperplaneEntry& from);
+  HyperplaneEntry(HyperplaneEntry&& from) noexcept
+    : HyperplaneEntry() {
     *this = ::std::move(from);
   }
 
-  inline ExpertEntry& operator=(const ExpertEntry& from) {
+  inline HyperplaneEntry& operator=(const HyperplaneEntry& from) {
     CopyFrom(from);
     return *this;
   }
-  inline ExpertEntry& operator=(ExpertEntry&& from) noexcept {
+  inline HyperplaneEntry& operator=(HyperplaneEntry&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -1022,20 +1022,20 @@ class ExpertEntry final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const ExpertEntry& default_instance() {
+  static const HyperplaneEntry& default_instance() {
     return *internal_default_instance();
   }
-  static inline const ExpertEntry* internal_default_instance() {
-    return reinterpret_cast<const ExpertEntry*>(
-               &_ExpertEntry_default_instance_);
+  static inline const HyperplaneEntry* internal_default_instance() {
+    return reinterpret_cast<const HyperplaneEntry*>(
+               &_HyperplaneEntry_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     5;
 
-  friend void swap(ExpertEntry& a, ExpertEntry& b) {
+  friend void swap(HyperplaneEntry& a, HyperplaneEntry& b) {
     a.Swap(&b);
   }
-  inline void Swap(ExpertEntry* other) {
+  inline void Swap(HyperplaneEntry* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -1048,7 +1048,7 @@ class ExpertEntry final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(ExpertEntry* other) {
+  void UnsafeArenaSwap(HyperplaneEntry* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -1056,14 +1056,14 @@ class ExpertEntry final :
 
   // implements Message ----------------------------------------------
 
-  ExpertEntry* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<ExpertEntry>(arena);
+  HyperplaneEntry* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<HyperplaneEntry>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const ExpertEntry& from);
+  void CopyFrom(const HyperplaneEntry& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const ExpertEntry& from) {
-    ExpertEntry::MergeImpl(*this, from);
+  void MergeFrom( const HyperplaneEntry& from) {
+    HyperplaneEntry::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -1081,15 +1081,15 @@ class ExpertEntry final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(ExpertEntry* other);
+  void InternalSwap(HyperplaneEntry* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "classifierpb.ExpertEntry";
+    return "classifierpb.HyperplaneEntry";
   }
   protected:
-  explicit ExpertEntry(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit HyperplaneEntry(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -1103,32 +1103,32 @@ class ExpertEntry final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kMidpointCoordinatesFieldNumber = 2,
+    kEdgeMidpointCoordinatesFieldNumber = 2,
     kNormalFieldNumber = 3,
-    kExpertIdFieldNumber = 1,
+    kHyperplaneIdFieldNumber = 1,
     kBiasFieldNumber = 4,
   };
-  // repeated float midpoint_coordinates = 2;
-  int midpoint_coordinates_size() const;
+  // repeated float edge_midpoint_coordinates = 2;
+  int edge_midpoint_coordinates_size() const;
   private:
-  int _internal_midpoint_coordinates_size() const;
+  int _internal_edge_midpoint_coordinates_size() const;
   public:
-  void clear_midpoint_coordinates();
+  void clear_edge_midpoint_coordinates();
   private:
-  float _internal_midpoint_coordinates(int index) const;
+  float _internal_edge_midpoint_coordinates(int index) const;
   const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
-      _internal_midpoint_coordinates() const;
-  void _internal_add_midpoint_coordinates(float value);
+      _internal_edge_midpoint_coordinates() const;
+  void _internal_add_edge_midpoint_coordinates(float value);
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
-      _internal_mutable_midpoint_coordinates();
+      _internal_mutable_edge_midpoint_coordinates();
   public:
-  float midpoint_coordinates(int index) const;
-  void set_midpoint_coordinates(int index, float value);
-  void add_midpoint_coordinates(float value);
+  float edge_midpoint_coordinates(int index) const;
+  void set_edge_midpoint_coordinates(int index, float value);
+  void add_edge_midpoint_coordinates(float value);
   const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
-      midpoint_coordinates() const;
+      edge_midpoint_coordinates() const;
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
-      mutable_midpoint_coordinates();
+      mutable_edge_midpoint_coordinates();
 
   // repeated float normal = 3;
   int normal_size() const;
@@ -1152,13 +1152,13 @@ class ExpertEntry final :
   ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
       mutable_normal();
 
-  // int32 expert_id = 1;
-  void clear_expert_id();
-  int32_t expert_id() const;
-  void set_expert_id(int32_t value);
+  // int32 hyperplane_id = 1;
+  void clear_hyperplane_id();
+  int32_t hyperplane_id() const;
+  void set_hyperplane_id(int32_t value);
   private:
-  int32_t _internal_expert_id() const;
-  void _internal_set_expert_id(int32_t value);
+  int32_t _internal_hyperplane_id() const;
+  void _internal_set_hyperplane_id(int32_t value);
   public:
 
   // float bias = 4;
@@ -1170,7 +1170,7 @@ class ExpertEntry final :
   void _internal_set_bias(float value);
   public:
 
-  // @@protoc_insertion_point(class_scope:classifierpb.ExpertEntry)
+  // @@protoc_insertion_point(class_scope:classifierpb.HyperplaneEntry)
  private:
   class _Internal;
 
@@ -1178,9 +1178,9 @@ class ExpertEntry final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > midpoint_coordinates_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > edge_midpoint_coordinates_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedField< float > normal_;
-    int32_t expert_id_;
+    int32_t hyperplane_id_;
     float bias_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -1189,24 +1189,24 @@ class ExpertEntry final :
 };
 // -------------------------------------------------------------------
 
-class Experts final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:classifierpb.Experts) */ {
+class Hyperplanes final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:classifierpb.Hyperplanes) */ {
  public:
-  inline Experts() : Experts(nullptr) {}
-  ~Experts() override;
-  explicit PROTOBUF_CONSTEXPR Experts(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline Hyperplanes() : Hyperplanes(nullptr) {}
+  ~Hyperplanes() override;
+  explicit PROTOBUF_CONSTEXPR Hyperplanes(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  Experts(const Experts& from);
-  Experts(Experts&& from) noexcept
-    : Experts() {
+  Hyperplanes(const Hyperplanes& from);
+  Hyperplanes(Hyperplanes&& from) noexcept
+    : Hyperplanes() {
     *this = ::std::move(from);
   }
 
-  inline Experts& operator=(const Experts& from) {
+  inline Hyperplanes& operator=(const Hyperplanes& from) {
     CopyFrom(from);
     return *this;
   }
-  inline Experts& operator=(Experts&& from) noexcept {
+  inline Hyperplanes& operator=(Hyperplanes&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -1229,20 +1229,20 @@ class Experts final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const Experts& default_instance() {
+  static const Hyperplanes& default_instance() {
     return *internal_default_instance();
   }
-  static inline const Experts* internal_default_instance() {
-    return reinterpret_cast<const Experts*>(
-               &_Experts_default_instance_);
+  static inline const Hyperplanes* internal_default_instance() {
+    return reinterpret_cast<const Hyperplanes*>(
+               &_Hyperplanes_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     6;
 
-  friend void swap(Experts& a, Experts& b) {
+  friend void swap(Hyperplanes& a, Hyperplanes& b) {
     a.Swap(&b);
   }
-  inline void Swap(Experts* other) {
+  inline void Swap(Hyperplanes* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -1255,7 +1255,7 @@ class Experts final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(Experts* other) {
+  void UnsafeArenaSwap(Hyperplanes* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -1263,14 +1263,14 @@ class Experts final :
 
   // implements Message ----------------------------------------------
 
-  Experts* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<Experts>(arena);
+  Hyperplanes* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<Hyperplanes>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const Experts& from);
+  void CopyFrom(const Hyperplanes& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const Experts& from) {
-    Experts::MergeImpl(*this, from);
+  void MergeFrom( const Hyperplanes& from) {
+    Hyperplanes::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -1288,15 +1288,15 @@ class Experts final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(Experts* other);
+  void InternalSwap(Hyperplanes* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "classifierpb.Experts";
+    return "classifierpb.Hyperplanes";
   }
   protected:
-  explicit Experts(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit Hyperplanes(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -1312,25 +1312,25 @@ class Experts final :
   enum : int {
     kEntriesFieldNumber = 1,
   };
-  // repeated .classifierpb.ExpertEntry entries = 1;
+  // repeated .classifierpb.HyperplaneEntry entries = 1;
   int entries_size() const;
   private:
   int _internal_entries_size() const;
   public:
   void clear_entries();
-  ::classifierpb::ExpertEntry* mutable_entries(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::classifierpb::ExpertEntry >*
+  ::classifierpb::HyperplaneEntry* mutable_entries(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::classifierpb::HyperplaneEntry >*
       mutable_entries();
   private:
-  const ::classifierpb::ExpertEntry& _internal_entries(int index) const;
-  ::classifierpb::ExpertEntry* _internal_add_entries();
+  const ::classifierpb::HyperplaneEntry& _internal_entries(int index) const;
+  ::classifierpb::HyperplaneEntry* _internal_add_entries();
   public:
-  const ::classifierpb::ExpertEntry& entries(int index) const;
-  ::classifierpb::ExpertEntry* add_entries();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::classifierpb::ExpertEntry >&
+  const ::classifierpb::HyperplaneEntry& entries(int index) const;
+  ::classifierpb::HyperplaneEntry* add_entries();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::classifierpb::HyperplaneEntry >&
       entries() const;
 
-  // @@protoc_insertion_point(class_scope:classifierpb.Experts)
+  // @@protoc_insertion_point(class_scope:classifierpb.Hyperplanes)
  private:
   class _Internal;
 
@@ -1338,7 +1338,7 @@ class Experts final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::classifierpb::ExpertEntry > entries_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::classifierpb::HyperplaneEntry > entries_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2894,183 +2894,183 @@ SupportVertices::entries() const {
 
 // -------------------------------------------------------------------
 
-// ExpertEntry
+// HyperplaneEntry
 
-// int32 expert_id = 1;
-inline void ExpertEntry::clear_expert_id() {
-  _impl_.expert_id_ = 0;
+// int32 hyperplane_id = 1;
+inline void HyperplaneEntry::clear_hyperplane_id() {
+  _impl_.hyperplane_id_ = 0;
 }
-inline int32_t ExpertEntry::_internal_expert_id() const {
-  return _impl_.expert_id_;
+inline int32_t HyperplaneEntry::_internal_hyperplane_id() const {
+  return _impl_.hyperplane_id_;
 }
-inline int32_t ExpertEntry::expert_id() const {
-  // @@protoc_insertion_point(field_get:classifierpb.ExpertEntry.expert_id)
-  return _internal_expert_id();
+inline int32_t HyperplaneEntry::hyperplane_id() const {
+  // @@protoc_insertion_point(field_get:classifierpb.HyperplaneEntry.hyperplane_id)
+  return _internal_hyperplane_id();
 }
-inline void ExpertEntry::_internal_set_expert_id(int32_t value) {
+inline void HyperplaneEntry::_internal_set_hyperplane_id(int32_t value) {
   
-  _impl_.expert_id_ = value;
+  _impl_.hyperplane_id_ = value;
 }
-inline void ExpertEntry::set_expert_id(int32_t value) {
-  _internal_set_expert_id(value);
-  // @@protoc_insertion_point(field_set:classifierpb.ExpertEntry.expert_id)
+inline void HyperplaneEntry::set_hyperplane_id(int32_t value) {
+  _internal_set_hyperplane_id(value);
+  // @@protoc_insertion_point(field_set:classifierpb.HyperplaneEntry.hyperplane_id)
 }
 
-// repeated float midpoint_coordinates = 2;
-inline int ExpertEntry::_internal_midpoint_coordinates_size() const {
-  return _impl_.midpoint_coordinates_.size();
+// repeated float edge_midpoint_coordinates = 2;
+inline int HyperplaneEntry::_internal_edge_midpoint_coordinates_size() const {
+  return _impl_.edge_midpoint_coordinates_.size();
 }
-inline int ExpertEntry::midpoint_coordinates_size() const {
-  return _internal_midpoint_coordinates_size();
+inline int HyperplaneEntry::edge_midpoint_coordinates_size() const {
+  return _internal_edge_midpoint_coordinates_size();
 }
-inline void ExpertEntry::clear_midpoint_coordinates() {
-  _impl_.midpoint_coordinates_.Clear();
+inline void HyperplaneEntry::clear_edge_midpoint_coordinates() {
+  _impl_.edge_midpoint_coordinates_.Clear();
 }
-inline float ExpertEntry::_internal_midpoint_coordinates(int index) const {
-  return _impl_.midpoint_coordinates_.Get(index);
+inline float HyperplaneEntry::_internal_edge_midpoint_coordinates(int index) const {
+  return _impl_.edge_midpoint_coordinates_.Get(index);
 }
-inline float ExpertEntry::midpoint_coordinates(int index) const {
-  // @@protoc_insertion_point(field_get:classifierpb.ExpertEntry.midpoint_coordinates)
-  return _internal_midpoint_coordinates(index);
+inline float HyperplaneEntry::edge_midpoint_coordinates(int index) const {
+  // @@protoc_insertion_point(field_get:classifierpb.HyperplaneEntry.edge_midpoint_coordinates)
+  return _internal_edge_midpoint_coordinates(index);
 }
-inline void ExpertEntry::set_midpoint_coordinates(int index, float value) {
-  _impl_.midpoint_coordinates_.Set(index, value);
-  // @@protoc_insertion_point(field_set:classifierpb.ExpertEntry.midpoint_coordinates)
+inline void HyperplaneEntry::set_edge_midpoint_coordinates(int index, float value) {
+  _impl_.edge_midpoint_coordinates_.Set(index, value);
+  // @@protoc_insertion_point(field_set:classifierpb.HyperplaneEntry.edge_midpoint_coordinates)
 }
-inline void ExpertEntry::_internal_add_midpoint_coordinates(float value) {
-  _impl_.midpoint_coordinates_.Add(value);
+inline void HyperplaneEntry::_internal_add_edge_midpoint_coordinates(float value) {
+  _impl_.edge_midpoint_coordinates_.Add(value);
 }
-inline void ExpertEntry::add_midpoint_coordinates(float value) {
-  _internal_add_midpoint_coordinates(value);
-  // @@protoc_insertion_point(field_add:classifierpb.ExpertEntry.midpoint_coordinates)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
-ExpertEntry::_internal_midpoint_coordinates() const {
-  return _impl_.midpoint_coordinates_;
+inline void HyperplaneEntry::add_edge_midpoint_coordinates(float value) {
+  _internal_add_edge_midpoint_coordinates(value);
+  // @@protoc_insertion_point(field_add:classifierpb.HyperplaneEntry.edge_midpoint_coordinates)
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
-ExpertEntry::midpoint_coordinates() const {
-  // @@protoc_insertion_point(field_list:classifierpb.ExpertEntry.midpoint_coordinates)
-  return _internal_midpoint_coordinates();
+HyperplaneEntry::_internal_edge_midpoint_coordinates() const {
+  return _impl_.edge_midpoint_coordinates_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
+HyperplaneEntry::edge_midpoint_coordinates() const {
+  // @@protoc_insertion_point(field_list:classifierpb.HyperplaneEntry.edge_midpoint_coordinates)
+  return _internal_edge_midpoint_coordinates();
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
-ExpertEntry::_internal_mutable_midpoint_coordinates() {
-  return &_impl_.midpoint_coordinates_;
+HyperplaneEntry::_internal_mutable_edge_midpoint_coordinates() {
+  return &_impl_.edge_midpoint_coordinates_;
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
-ExpertEntry::mutable_midpoint_coordinates() {
-  // @@protoc_insertion_point(field_mutable_list:classifierpb.ExpertEntry.midpoint_coordinates)
-  return _internal_mutable_midpoint_coordinates();
+HyperplaneEntry::mutable_edge_midpoint_coordinates() {
+  // @@protoc_insertion_point(field_mutable_list:classifierpb.HyperplaneEntry.edge_midpoint_coordinates)
+  return _internal_mutable_edge_midpoint_coordinates();
 }
 
 // repeated float normal = 3;
-inline int ExpertEntry::_internal_normal_size() const {
+inline int HyperplaneEntry::_internal_normal_size() const {
   return _impl_.normal_.size();
 }
-inline int ExpertEntry::normal_size() const {
+inline int HyperplaneEntry::normal_size() const {
   return _internal_normal_size();
 }
-inline void ExpertEntry::clear_normal() {
+inline void HyperplaneEntry::clear_normal() {
   _impl_.normal_.Clear();
 }
-inline float ExpertEntry::_internal_normal(int index) const {
+inline float HyperplaneEntry::_internal_normal(int index) const {
   return _impl_.normal_.Get(index);
 }
-inline float ExpertEntry::normal(int index) const {
-  // @@protoc_insertion_point(field_get:classifierpb.ExpertEntry.normal)
+inline float HyperplaneEntry::normal(int index) const {
+  // @@protoc_insertion_point(field_get:classifierpb.HyperplaneEntry.normal)
   return _internal_normal(index);
 }
-inline void ExpertEntry::set_normal(int index, float value) {
+inline void HyperplaneEntry::set_normal(int index, float value) {
   _impl_.normal_.Set(index, value);
-  // @@protoc_insertion_point(field_set:classifierpb.ExpertEntry.normal)
+  // @@protoc_insertion_point(field_set:classifierpb.HyperplaneEntry.normal)
 }
-inline void ExpertEntry::_internal_add_normal(float value) {
+inline void HyperplaneEntry::_internal_add_normal(float value) {
   _impl_.normal_.Add(value);
 }
-inline void ExpertEntry::add_normal(float value) {
+inline void HyperplaneEntry::add_normal(float value) {
   _internal_add_normal(value);
-  // @@protoc_insertion_point(field_add:classifierpb.ExpertEntry.normal)
+  // @@protoc_insertion_point(field_add:classifierpb.HyperplaneEntry.normal)
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
-ExpertEntry::_internal_normal() const {
+HyperplaneEntry::_internal_normal() const {
   return _impl_.normal_;
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >&
-ExpertEntry::normal() const {
-  // @@protoc_insertion_point(field_list:classifierpb.ExpertEntry.normal)
+HyperplaneEntry::normal() const {
+  // @@protoc_insertion_point(field_list:classifierpb.HyperplaneEntry.normal)
   return _internal_normal();
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
-ExpertEntry::_internal_mutable_normal() {
+HyperplaneEntry::_internal_mutable_normal() {
   return &_impl_.normal_;
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< float >*
-ExpertEntry::mutable_normal() {
-  // @@protoc_insertion_point(field_mutable_list:classifierpb.ExpertEntry.normal)
+HyperplaneEntry::mutable_normal() {
+  // @@protoc_insertion_point(field_mutable_list:classifierpb.HyperplaneEntry.normal)
   return _internal_mutable_normal();
 }
 
 // float bias = 4;
-inline void ExpertEntry::clear_bias() {
+inline void HyperplaneEntry::clear_bias() {
   _impl_.bias_ = 0;
 }
-inline float ExpertEntry::_internal_bias() const {
+inline float HyperplaneEntry::_internal_bias() const {
   return _impl_.bias_;
 }
-inline float ExpertEntry::bias() const {
-  // @@protoc_insertion_point(field_get:classifierpb.ExpertEntry.bias)
+inline float HyperplaneEntry::bias() const {
+  // @@protoc_insertion_point(field_get:classifierpb.HyperplaneEntry.bias)
   return _internal_bias();
 }
-inline void ExpertEntry::_internal_set_bias(float value) {
+inline void HyperplaneEntry::_internal_set_bias(float value) {
   
   _impl_.bias_ = value;
 }
-inline void ExpertEntry::set_bias(float value) {
+inline void HyperplaneEntry::set_bias(float value) {
   _internal_set_bias(value);
-  // @@protoc_insertion_point(field_set:classifierpb.ExpertEntry.bias)
+  // @@protoc_insertion_point(field_set:classifierpb.HyperplaneEntry.bias)
 }
 
 // -------------------------------------------------------------------
 
-// Experts
+// Hyperplanes
 
-// repeated .classifierpb.ExpertEntry entries = 1;
-inline int Experts::_internal_entries_size() const {
+// repeated .classifierpb.HyperplaneEntry entries = 1;
+inline int Hyperplanes::_internal_entries_size() const {
   return _impl_.entries_.size();
 }
-inline int Experts::entries_size() const {
+inline int Hyperplanes::entries_size() const {
   return _internal_entries_size();
 }
-inline void Experts::clear_entries() {
+inline void Hyperplanes::clear_entries() {
   _impl_.entries_.Clear();
 }
-inline ::classifierpb::ExpertEntry* Experts::mutable_entries(int index) {
-  // @@protoc_insertion_point(field_mutable:classifierpb.Experts.entries)
+inline ::classifierpb::HyperplaneEntry* Hyperplanes::mutable_entries(int index) {
+  // @@protoc_insertion_point(field_mutable:classifierpb.Hyperplanes.entries)
   return _impl_.entries_.Mutable(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::classifierpb::ExpertEntry >*
-Experts::mutable_entries() {
-  // @@protoc_insertion_point(field_mutable_list:classifierpb.Experts.entries)
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::classifierpb::HyperplaneEntry >*
+Hyperplanes::mutable_entries() {
+  // @@protoc_insertion_point(field_mutable_list:classifierpb.Hyperplanes.entries)
   return &_impl_.entries_;
 }
-inline const ::classifierpb::ExpertEntry& Experts::_internal_entries(int index) const {
+inline const ::classifierpb::HyperplaneEntry& Hyperplanes::_internal_entries(int index) const {
   return _impl_.entries_.Get(index);
 }
-inline const ::classifierpb::ExpertEntry& Experts::entries(int index) const {
-  // @@protoc_insertion_point(field_get:classifierpb.Experts.entries)
+inline const ::classifierpb::HyperplaneEntry& Hyperplanes::entries(int index) const {
+  // @@protoc_insertion_point(field_get:classifierpb.Hyperplanes.entries)
   return _internal_entries(index);
 }
-inline ::classifierpb::ExpertEntry* Experts::_internal_add_entries() {
+inline ::classifierpb::HyperplaneEntry* Hyperplanes::_internal_add_entries() {
   return _impl_.entries_.Add();
 }
-inline ::classifierpb::ExpertEntry* Experts::add_entries() {
-  ::classifierpb::ExpertEntry* _add = _internal_add_entries();
-  // @@protoc_insertion_point(field_add:classifierpb.Experts.entries)
+inline ::classifierpb::HyperplaneEntry* Hyperplanes::add_entries() {
+  ::classifierpb::HyperplaneEntry* _add = _internal_add_entries();
+  // @@protoc_insertion_point(field_add:classifierpb.Hyperplanes.entries)
   return _add;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::classifierpb::ExpertEntry >&
-Experts::entries() const {
-  // @@protoc_insertion_point(field_list:classifierpb.Experts.entries)
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::classifierpb::HyperplaneEntry >&
+Hyperplanes::entries() const {
+  // @@protoc_insertion_point(field_list:classifierpb.Hyperplanes.entries)
   return _impl_.entries_;
 }
 

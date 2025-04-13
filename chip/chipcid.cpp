@@ -12,9 +12,9 @@ using namespace std;
 template <typename VT>
 const VT getuptoNVerticesforeachLabel(const VT& vertices, const size_t n);
 const VerticesToLabel vtlfromVertices(const Vertices& vertices);
-const LabeledVertices auxrchip(const VerticesToLabel& vertices, const Experts& experts);
+const LabeledVertices auxrchip(const VerticesToLabel& vertices, const Hyperplanes& hyperplanes);
 
-const chipIDbimap getchipIDmap(const Vertices& vertices, const Experts& experts)
+const chipIDbimap getchipIDmap(const Vertices& vertices, const Hyperplanes& hyperplanes)
 {
 #define HACKY_GETCHIPIDMAP
 
@@ -27,7 +27,7 @@ const chipIDbimap getchipIDmap(const Vertices& vertices, const Experts& experts)
   using RefLbdCounter = map<RefClusterID, IDCounter>;
 
   const VerticesToLabel refVertices = vtlfromVertices(getuptoNVerticesforeachLabel(vertices, 16));
-  const LabeledVertices lbdVertices = auxrchip(refVertices, experts);
+  const LabeledVertices lbdVertices = auxrchip(refVertices, hyperplanes);
 
   RefvsLbdVector refVSlbd;
   refVSlbd.reserve(refVertices.size());
@@ -129,7 +129,7 @@ const chipIDbimap getchipIDmap(const Vertices& vertices, const Experts& experts)
 #else
 
   const VerticesToLabel refVertices = vtlfromVertices(getaVertexforeachLabel(vertices));
-  const LabeledVertices lbdVertices = auxrchip(refVertices, experts);
+  const LabeledVertices lbdVertices = auxrchip(refVertices, hyperplanes);
 
   chipIDbimap chipidmap;
 
@@ -181,7 +181,7 @@ const VerticesToLabel vtlfromVertices(const Vertices& vertices)
   return result;
 }
 
-const LabeledVertices auxrchip(const VerticesToLabel& vertices, const Experts& experts)
+const LabeledVertices auxrchip(const VerticesToLabel& vertices, const Hyperplanes& hyperplanes)
 {
   LabeledVertices labeledVertices;
 
@@ -189,15 +189,14 @@ const LabeledVertices auxrchip(const VerticesToLabel& vertices, const Experts& e
 
   for (const auto& vertex : vertices) {
 
-    const ExpertRCHIP& closestExpert = *static_cast<const ExpertRCHIP*>(
-        min_element(experts.begin(), experts.end(),
-                    [&vertex](const unique_ptr<BaseExpert>& expert1, const unique_ptr<BaseExpert>& expert2) {
-                      return squaredDistance(vertex.coordinates, static_cast<const ExpertRCHIP&>(*expert1).midpoint)
-                              < squaredDistance(vertex.coordinates, static_cast<const ExpertRCHIP&>(*expert2).midpoint);
-                    })->get());
+    const auto closestHyperplane = *min_element(hyperplanes.begin(), hyperplanes.end(),
+                                               [&vertex](const Hyperplane& h1, const Hyperplane& h2) {
+                                                 return squaredDistance(vertex.coordinates, h1.edgeMidpoint) <
+                                                        squaredDistance(vertex.coordinates, h2.edgeMidpoint);
+                                               });
 
     const double separation = inner_product(vertex.coordinates.begin(), vertex.coordinates.end(),
-                                            closestExpert.normal.begin(), -closestExpert.bias);
+                                            closestHyperplane.normal.begin(), -closestHyperplane.bias);
 
     const ClusterID clusterid = (separation > 0) - (separation < 0);
 

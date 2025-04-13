@@ -11,23 +11,23 @@ using namespace std;
 int main(int argc, char **argv)
 {
   if (argc < 3) {
-    cerr << "Usage: " << argv[0] << " <tolabel> <experts>" << endl;
+    cerr << "Usage: " << argv[0] << " <tolabel> <hyperplanes>" << endl;
     return 1;
   }
 
   const string tolabel_path = argv[1];
-  const string experts_path = argv[2];
+  const string hyperplanes_path = argv[2];
 
-  const string experts_name = filenameFromPath(experts_path);
-  const string chipidbimap_path = parentFolder(experts_path) + "/chipidbimap-" + datasetFromFilename(experts_name);
+  const string hyperplanes_name = filenameFromPath(hyperplanes_path);
+  const string chipidbimap_path = parentFolder(hyperplanes_path) + "/chipidbimap-" + datasetFromFilename(hyperplanes_name);
 
   const VerticesToLabel verticestl = readToLabel(tolabel_path);
-  const Experts experts = readExperts(experts_path);
+  const Hyperplanes hyperplanes = readHyperplanes(hyperplanes_path);
   const chipIDbimap chipidbimap = readchipIDmap(chipidbimap_path);
 
-  const LabeledVertices labeledVertices = chip(verticestl, experts, chipidbimap);
+  const LabeledVertices labeledVertices = chip(verticestl, hyperplanes, chipidbimap);
 
-  const string dataset_name = experts_name.substr(experts_name.find("-") + 1);
+  const string dataset_name = hyperplanes_name.substr(hyperplanes_name.find("-") + 1);
   const string labeled_vertices_path = "./label/chip-" + dataset_name;
 
   if (writeLabeledVertices(labeledVertices, labeled_vertices_path) != 0) {

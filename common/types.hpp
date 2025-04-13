@@ -62,53 +62,28 @@ public:
 using Clusters = std::map<ClusterID, std::shared_ptr<Cluster>>;
 
 using Edge = std::pair<const Vertex * const, const Vertex * const>;
-using ExpertID = int;
+using HyperplaneID = int;
 using NormalVector = std::vector<float>;
 
-class BaseExpert {
+class Hyperplane {
+private:
+  const Coordinates computeMidpoint(const Edge& edge);
+  const NormalVector computeNormal(const Edge& edge);
+  float computeBias(const Coordinates& midpoint, const NormalVector& normal);
+
+
 public:
-  const ExpertID id;
+  const HyperplaneID id;
   const Edge edge;
-  const Coordinates midpoint;
+  const Coordinates edgeMidpoint;
   const NormalVector normal;
   const float bias;
 
-  BaseExpert(const ExpertID id, const Edge& edge, const Coordinates& midpoint, const NormalVector& normal, const float bias);
-
-  virtual ~BaseExpert() = default;
-
-  // helper for midpoint (common to all experts)
-  static const Coordinates computeMidpoint(const Edge& edge);
-};
-  
-class ExpertCHIP : public BaseExpert {
-public:
-  ExpertCHIP(const ExpertID id, const Edge& edge);
-
-private:
-  ExpertCHIP(const ExpertID id, const Edge& edge, const Coordinates& midpoint, const NormalVector& normal);
-
-  static const NormalVector computeNormal(const Edge& edge);
-  static float computeBias(const Edge& edge, const Coordinates& midpoint, const NormalVector& normal);
-};
-  
-class ExpertRCHIP : public BaseExpert {
-public:
-  ExpertRCHIP(const ExpertID id, const Edge& edge);
-
-private:
-  ExpertRCHIP(const ExpertID id, const Edge& edge, const Coordinates& midpoint, const NormalVector& normal);
-
-  static const NormalVector computeNormal(const Edge& edge);
-  static float computeBias(const Edge& edge, const Coordinates& midpoint, const NormalVector& normal);
-};
-  
-class ExpertPred : public BaseExpert {
-public:
-  ExpertPred(const ExpertID id, const Coordinates& midpoint, const NormalVector& normal, const float bias);
+  Hyperplane(const HyperplaneID id, const Coordinates& edgeMidpoint, const NormalVector& normal, const float bias);
+  Hyperplane(const HyperplaneID id, const Edge& edge);
 };
 
-using Experts = std::vector<std::unique_ptr<BaseExpert>>;
+using Hyperplanes = std::vector<Hyperplane>;
 
 class SupportVertex : public BaseVertex
 {

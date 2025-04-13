@@ -3,17 +3,18 @@
 #include <cmath>
 #include <algorithm>
 #include <numeric>
+#include <stdexcept>
 
 #include "squaredDistance.hpp"
 
 using namespace std;
 
 int sign(const double num);
-const ExpertRCHIP& getClosestExpert(const Coordinates& point, const Experts& experts);
-double computeHyperplaneSeparation(const Coordinates& point, const ExpertRCHIP& expert);
+const Hyperplane& getClosestHyperplane(const Coordinates& point, const Hyperplanes& hyperplanes);
+double computeHyperplaneSeparation(const Coordinates& point, const Hyperplane& hyperplane);
 ClusterID labelVertex(const double separation, const chipIDbimap& chipidbimap);
 
-const LabeledVertices rchip(const VerticesToLabel& vertices, const Experts& experts, const chipIDbimap& chipidbimap)
+const LabeledVertices rchip(const VerticesToLabel& vertices, const Hyperplanes& hyperplanes, const chipIDbimap& chipidbimap)
 {
   LabeledVertices labeledVertices;
 
@@ -21,8 +22,8 @@ const LabeledVertices rchip(const VerticesToLabel& vertices, const Experts& expe
 
   for (const auto& vertex : vertices) {
 
-    const ExpertRCHIP& closestExpert = getClosestExpert(vertex.coordinates, experts);
-    const double separation = computeHyperplaneSeparation(vertex.coordinates, closestExpert);
+    const Hyperplane& closestHyperplane = getClosestHyperplane(vertex.coordinates, hyperplanes);
+    const double separation = computeHyperplaneSeparation(vertex.coordinates, closestHyperplane);
     const ClusterID clusterid = labelVertex(separation, chipidbimap);
 
     labeledVertices.emplace_back(vertex.id, vertex.coordinates, clusterid);
@@ -36,19 +37,24 @@ int sign(const double num)
   return (num > 0) - (num < 0);
 }
 
-const ExpertRCHIP& getClosestExpert(const Coordinates& point, const Experts& experts)
+const Hyperplane& getClosestHyperplane(const Coordinates& point, const Hyperplanes& hyperplanes)
 {
-  return static_cast<const ExpertRCHIP&>(*min_element(experts.begin(), experts.end(),
-                      [&point](const unique_ptr<BaseExpert>& expert1, const unique_ptr<BaseExpert>& expert2) {
-                        return squaredDistance(point, static_cast<const ExpertRCHIP&>(*expert1).midpoint) <
-                               squaredDistance(point, static_cast<const ExpertRCHIP&>(*expert2).midpoint);
-                      })->get());
+  auto it = min_element(hyperplanes.begin(), hyperplanes.end(),
+                        [&point](const Hyperplane& a, const Hyperplane& b) {
+                          return squaredDistance(point, a.normal) < squaredDistance(point, b.normal);
+                        });
+
+  if (it == hyperplanes.end()) {
+    throw runtime_error("No hyperplanes found");
+  }
+
+  return *it;
 }
 
-double computeHyperplaneSeparation(const Coordinates& point, const ExpertRCHIP& expert)
+double computeHyperplaneSeparation(const Coordinates& point, const Hyperplane& hyperplane)
 {
   return inner_product(point.begin(), point.end(),
-                       expert.normal.begin(), -expert.bias);
+                       hyperplane.normal.begin(), -hyperplane.bias);
 }
 
 ClusterID labelVertex(const double separation, const chipIDbimap& chipidbimap)

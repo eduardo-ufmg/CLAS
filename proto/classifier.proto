@@ -28,15 +28,15 @@ message SupportVertices {
   repeated SupportVertexEntry entries = 1;
 }
 
-message ExpertEntry {
-  int32 expert_id = 1;
-  repeated float midpoint_coordinates = 2;
+message HyperplaneEntry {
+  int32 hyperplane_id = 1;
+  repeated float edge_midpoint_coordinates = 2;
   repeated float normal = 3;
   float bias = 4;
 }
 
-message Experts {
-  repeated ExpertEntry entries = 1;
+message Hyperplanes {
+  repeated HyperplaneEntry entries = 1;
 }
 
 message VertexToLabelEntry {
