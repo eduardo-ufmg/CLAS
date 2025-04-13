@@ -50,13 +50,13 @@ public:
   float online_avgq;
   float sumDeltaSq;
   float online_stdq;
-  float treshold;
+  float threshold;
 
   Cluster(const ClusterID id);
 
   void reset();
   void accumQ_updateStats(const float q);
-  void computeTreshold(const float tolerance);
+  void computeThreshold(const float tolerance);
 };
 
 using Clusters = std::map<ClusterID, std::shared_ptr<Cluster>>;

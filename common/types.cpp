@@ -15,7 +15,7 @@ Vertex::Vertex(const VertexID id, const Coordinates& coordinates, shared_ptr<Clu
 {}
 
 Cluster::Cluster(const ClusterID id)
-  : id(id), sumq(0.0f), magq(0), online_avgq(0.0f), sumDeltaSq(0.0f), online_stdq(0.0f), treshold(0.0f)
+  : id(id), sumq(0.0f), magq(0), online_avgq(0.0f), sumDeltaSq(0.0f), online_stdq(0.0f), threshold(0.0f)
 {}
 
 void Cluster::reset()
@@ -25,7 +25,7 @@ void Cluster::reset()
   online_avgq = 0.0f;
   sumDeltaSq = 0.0f;
   online_stdq = 0.0f;
-  treshold = 0.0f;
+  threshold = 0.0f;
 }
 
 void Cluster::accumQ_updateStats(const float q)
@@ -46,9 +46,9 @@ void Cluster::accumQ_updateStats(const float q)
   }
 }
 
-void Cluster::computeTreshold(const float tolerance)
+void Cluster::computeThreshold(const float tolerance)
 {
-  treshold = online_avgq - tolerance * online_stdq;
+  threshold = online_avgq - tolerance * online_stdq;
 }
 
 const Coordinates Hyperplane::computeMidpoint(const Edge& edge) {

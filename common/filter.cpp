@@ -26,12 +26,12 @@ void filter(Vertices& vertices, const float tolerance)
   }
 
   for (auto& [_, cluster] : clusters) { (void)_;
-    cluster->computeTreshold(tolerance);
+    cluster->computeThreshold(tolerance);
   }
 
   vertices.erase(remove_if(vertices.begin(), vertices.end(),
                            [](const Vertex& vertex) {
-                             return vertex.quality < vertex.cluster->treshold;
+                             return vertex.quality < vertex.cluster->threshold;
                            }),
                  vertices.end());
 
