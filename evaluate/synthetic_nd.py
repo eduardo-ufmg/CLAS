@@ -3,16 +3,16 @@ import numpy as np
 from classifier_pb2 import TrainingDataset, VerticesToLabel
 from correct_labels import correct_labels
 
-def generate_multidim_blob(noise, idtype, vertcount, dim):
+def generate_multidim_blob(noise, idtype, samples, dim):
   tlnoise = noise * 2
 
   centers = [np.random.uniform(-1, 1, dim) for _ in range(2)]
 
-  features, labels = sklearn.datasets.make_blobs(n_samples=vertcount,
+  features, labels = sklearn.datasets.make_blobs(n_samples=samples,
                                                   centers=centers,
                                                   cluster_std=noise)
   
-  test_features, expected_labels = sklearn.datasets.make_blobs(n_samples=vertcount,
+  test_features, expected_labels = sklearn.datasets.make_blobs(n_samples=samples,
                                                                   centers=centers,
                                                                   cluster_std=tlnoise)
   
@@ -22,7 +22,7 @@ def generate_multidim_blob(noise, idtype, vertcount, dim):
   labels = correct_labels(labels, idtype)
   expected_labels = correct_labels(expected_labels, idtype)
 
-  for i in range(vertcount):
+  for i in range(samples):
     entry = dataset.entries.add()
     entry.features.extend(features[i])
     if idtype == "int":
@@ -30,7 +30,7 @@ def generate_multidim_blob(noise, idtype, vertcount, dim):
     elif idtype == "str":
       entry.cluster_id.cluster_id_str = labels[i]
 
-  for i in range(vertcount):
+  for i in range(samples):
     entry = test_dataset.entries.add()
     entry.vertex_id = -i - 1
     entry.features.extend(test_features[i])

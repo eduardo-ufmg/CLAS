@@ -3,10 +3,10 @@ import numpy as np
 from classifier_pb2 import TrainingDataset, VerticesToLabel
 from correct_labels import correct_labels
 
-def generate_3d_blob(noise, vertcount):
+def generate_3d_blob(noise, samples):
   centers = [(np.random.uniform(-1, 1), np.random.uniform(-1, 1), np.random.uniform(-1, 1)) for _ in range(2)]
 
-  features, labels = sklearn.datasets.make_blobs(n_samples=vertcount,
+  features, labels = sklearn.datasets.make_blobs(n_samples=samples,
                                                   centers=centers,
                                                   cluster_std=noise)
   
@@ -31,8 +31,8 @@ def generate_hemisphere(radius, points, noise):
 
   return features
 
-def generate_hemispheres(noise, vertcount):
-  half = vertcount // 2
+def generate_hemispheres(noise, samples):
+  half = samples // 2
   outer_radius = np.random.uniform(1, 2)
   inner_radius = np.random.uniform(0, 1)
 
@@ -44,10 +44,10 @@ def generate_hemispheres(noise, vertcount):
 
   return features, labels
 
-def generate_3d_moons(noise, vertcount):
+def generate_3d_moons(noise, samples):
   radius = np.random.uniform(1, 2)
 
-  features, labels = sklearn.datasets.make_moons(n_samples=vertcount, noise=noise)
+  features, labels = sklearn.datasets.make_moons(n_samples=samples, noise=noise)
 
   phi = np.random.uniform(0, 2 * np.pi, features.shape[0])
 
@@ -58,10 +58,10 @@ def generate_3d_moons(noise, vertcount):
 
   return features3d, labels
 
-def generate_3d_xor(noise, vertcount):
+def generate_3d_xor(noise, samples):
   centers = [(1, 1, 1), (-1, 1, 1), (-1, -1, 1), (1, -1, 1), (1, 1, -1), (-1, 1, -1), (-1, -1, -1), (1, -1, -1)]
   
-  features, labels = sklearn.datasets.make_blobs(n_samples=vertcount,
+  features, labels = sklearn.datasets.make_blobs(n_samples=samples,
                                             centers=centers,
                                             cluster_std=noise)
   
@@ -69,14 +69,14 @@ def generate_3d_xor(noise, vertcount):
 
   return features, labels
 
-def generate_3d_spiral(noise, vertcount):
+def generate_3d_spiral(noise, samples):
   features = []
   labels = []
 
-  for i in range(vertcount):
-    r = i / vertcount * 5
-    theta = i / vertcount * 4 * np.pi
-    phi = i / vertcount * 2 * np.pi
+  for i in range(samples):
+    r = i / samples * 5
+    theta = i / samples * 4 * np.pi
+    phi = i / samples * 2 * np.pi
 
     x = r * np.cos(theta) * np.sin(phi)
     y = r * np.sin(theta) * np.sin(phi)
@@ -91,31 +91,31 @@ def generate_3d_spiral(noise, vertcount):
 
   return features, labels
 
-def generate_3d_synthetic_data(type, idtype, noise, vertcount, grid_res):
+def generate_3d_synthetic_data(type, idtype, noise, samples, grid_res):
   dataset = TrainingDataset()
   test_grid = VerticesToLabel()
 
   if type == "blob":
-    features, labels = generate_3d_blob(noise, vertcount)
+    features, labels = generate_3d_blob(noise, samples)
 
   elif type == "circle":
-    features, labels = generate_hemispheres(noise, vertcount)
+    features, labels = generate_hemispheres(noise, samples)
 
   elif type == "moons":
-    features, labels = generate_3d_moons(noise, vertcount)
+    features, labels = generate_3d_moons(noise, samples)
 
   elif type == "xor":
-    features, labels = generate_3d_xor(noise, vertcount)
+    features, labels = generate_3d_xor(noise, samples)
 
   elif type == "spiral":
-    features, labels = generate_3d_spiral(noise, vertcount)
+    features, labels = generate_3d_spiral(noise, samples)
 
   else:
     raise ValueError("Invalid synthetic dataset type")
   
   labels = correct_labels(labels, idtype)
 
-  for i in range(vertcount):
+  for i in range(samples):
     entry = dataset.entries.add()
     entry.features.extend(features[i])
     if idtype == "int":

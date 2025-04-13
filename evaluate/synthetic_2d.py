@@ -3,31 +3,31 @@ import numpy as np
 from classifier_pb2 import TrainingDataset, VerticesToLabel
 from correct_labels import correct_labels
 
-def generate_blob(noise, vertcount):
+def generate_blob(noise, samples):
   centers = [(np.random.uniform(-1, 1), np.random.uniform(-1, 1)) for _ in range(2)]
 
-  features, labels = sklearn.datasets.make_blobs(n_samples=vertcount,
+  features, labels = sklearn.datasets.make_blobs(n_samples=samples,
                                                   centers=centers,
                                                   cluster_std=noise)
   
   return (features, labels)
 
-def generate_circle(noise, vertcount):
+def generate_circle(noise, samples):
   factor = np.random.uniform(0, 1)
 
-  features, labels = sklearn.datasets.make_circles(n_samples=vertcount, noise=noise, factor=factor)
+  features, labels = sklearn.datasets.make_circles(n_samples=samples, noise=noise, factor=factor)
 
   return (features, labels)
 
-def generate_moons(noise, vertcount):
-  features, labels = sklearn.datasets.make_moons(n_samples=vertcount, noise=noise)
+def generate_moons(noise, samples):
+  features, labels = sklearn.datasets.make_moons(n_samples=samples, noise=noise)
 
   return (features, labels)
 
-def generate_xor(noise, vertcount):
+def generate_xor(noise, samples):
   centers = [(1, 1), (-1, 1), (-1, -1), (1, -1)]
   
-  features, labels = sklearn.datasets.make_blobs(n_samples=vertcount,
+  features, labels = sklearn.datasets.make_blobs(n_samples=samples,
                                             centers=centers,
                                             cluster_std=noise)
   
@@ -35,8 +35,8 @@ def generate_xor(noise, vertcount):
 
   return (features, labels)
 
-def generate_spirals(noise, vertcount):
-  n = vertcount // 2
+def generate_spirals(noise, samples):
+  n = samples // 2
 
   theta1 = np.linspace(0, 4 * np.pi, n)
   r1 = theta1
@@ -53,31 +53,31 @@ def generate_spirals(noise, vertcount):
 
   return (features, labels)
 
-def generate_2d_synthetic_data(type, idtype, noise, vertcount, grid_res):
+def generate_2d_synthetic_data(type, idtype, noise, samples, grid_res):
   dataset = TrainingDataset()
   test_grid = VerticesToLabel()
 
   if type == "blob":
-    (features, labels) = generate_blob(noise, vertcount)
+    (features, labels) = generate_blob(noise, samples)
 
   elif type == "circle":
-    (features, labels) = generate_circle(noise, vertcount)
+    (features, labels) = generate_circle(noise, samples)
 
   elif type == "moons":
-    (features, labels) = generate_moons(noise, vertcount)
+    (features, labels) = generate_moons(noise, samples)
 
   elif type == "xor":
-    (features, labels) = generate_xor(noise, vertcount)
+    (features, labels) = generate_xor(noise, samples)
 
   elif type == "spiral":
-    (features, labels) = generate_spirals(noise, vertcount)
+    (features, labels) = generate_spirals(noise, samples)
     
   else:
     raise ValueError("Invalid synthetic dataset type")
   
   labels = correct_labels(labels, idtype)
 
-  for i in range(vertcount):
+  for i in range(samples):
     entry = dataset.entries.add()
     entry.features.extend(features[i])
     if idtype == "int":

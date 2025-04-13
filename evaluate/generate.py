@@ -23,15 +23,15 @@ if __name__ == "__main__":
   parser.add_argument("--type", type=str, choices=["blob", "circle", "moons", "xor", "spiral"], required=True, help="Type of synthetic dataset to generate")
   parser.add_argument("--idtype", type=str, choices=["int", "str"], default="int", help="Type of cluster ID to use")
   parser.add_argument("--noise", type=float, default=0.01, help="Spread for synthetic dataset features")
-  parser.add_argument("--vertcount", type=int, default=100, help="Number of vertices")
+  parser.add_argument("--samples", type=int, default=100, help="Number of vertices")
   parser.add_argument("--grid_res", type=int, default=100, help="Resolution of grid for 2D and 3D datasets")
   args = parser.parse_args()
 
   if args.dim == 2:
-    synthetic_dataset, test_dataset = generate_2d_synthetic_data(args.type, args.idtype, args.noise, args.vertcount, args.grid_res)
+    synthetic_dataset, test_dataset = generate_2d_synthetic_data(args.type, args.idtype, args.noise, args.samples, args.grid_res)
   elif args.dim == 3:
-    synthetic_dataset, test_dataset = generate_3d_synthetic_data(args.type, args.idtype, args.noise, args.vertcount, args.grid_res)
+    synthetic_dataset, test_dataset = generate_3d_synthetic_data(args.type, args.idtype, args.noise, args.samples, args.grid_res)
   else:
-    synthetic_dataset, test_dataset = generate_multidim_blob(args.noise, args.idtype, args.vertcount, args.dim)
+    synthetic_dataset, test_dataset = generate_multidim_blob(args.noise, args.idtype, args.samples, args.dim)
 
   write_datasets(args.type, synthetic_dataset, test_dataset)

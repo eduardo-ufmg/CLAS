@@ -30,7 +30,7 @@ cmake --build .
 - generate data with `evaluate/generate.py`
 ```bash
 cd evaluate
-python3 generate.py --dim <number of features> --type <dataset type, [blob, circle, moons, xor]> --idtype <type of the labels, [int, str]> --noise <noise level of the dataset> --vertcount <total number of vertices>
+python3 generate.py --dim <number of features> --type <dataset type, [blob, circle, moons, xor]> --idtype <type of the labels, [int, str]> --noise <noise level of the dataset> --samples <total number of vertices>
 ```
 - evaluate the execution of all algorithms with `evaluate/evaluate.py`
 ```bash
